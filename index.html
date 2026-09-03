@@ -2,461 +2,99 @@
 <html lang="es">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Cap 01 · La intro</title>
-<meta name="description" content="Clases de DJ con NAYA. Capítulo 01 para Galgo: rekordbox, la DDJ-400, el recorrido de la señal y la primera mezcla.">
+<title>Clases de DJ · NAYA</title>
+<meta name="description" content="Clases de DJ con NAYA. Un recorrido modular, de la primera vez frente a una controladora hasta tocar afuera.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;1,9..144,300;1,9..144,450&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
-  /* ============================================================
-     CLASES DE DJ — NAYA. Capítulo 01, material del alumno.
-     Mismo mundo que el dossier: negro, amarillo de escena y
-     terracota, Anton de afiche sobre Fraunces e IBM Plex.
-     Dark-committed: es material de cabina.
-     ============================================================ */
-
   :root{
-    --bg: #0b0a0a;
-    --bg-raised: #15120f;
-    --bg-feature: #1a1108;
-    --line: #2e2620;
-    --line-soft: #241e19;
-    --text: #f2ede4;
-    --text-muted: #a89d8e;
-    --text-faint: #6f665c;
-    --gold: #e8b04a;
-    --gold-soft: #8a6c2f;
-    --terra: #e0653a;
-    --terra-deep: #b23f1c;
-    --sand: #cbb389;
-    --max: 860px;
+    --bg: #0b0a0a; --bg-raised: #15120f; --line: #2e2620; --line-soft: #241e19;
+    --text: #f2ede4; --text-muted: #a89d8e; --text-faint: #6f665c;
+    --gold: #e8b04a; --gold-soft: #8a6c2f; --terra: #e0653a; --sand: #cbb389;
     --font-display: "Fraunces", ui-serif, Georgia, serif;
     --font-poster: "Anton", ui-sans-serif, sans-serif;
     --font-body: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
     --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", monospace;
   }
-
   *,*::before,*::after{ box-sizing: border-box; }
-  @media (prefers-reduced-motion: reduce){ *{ animation-duration:.001ms !important; transition-duration:.001ms !important; } }
-
+  @media (prefers-reduced-motion: reduce){ *{ transition-duration:.001ms !important; } }
   body{
-    margin: 0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--font-body);
-    font-size: 16px;
-    line-height: 1.6;
+    margin:0; background: var(--bg); color: var(--text);
+    font-family: var(--font-body); font-size:16px; line-height:1.6;
     -webkit-font-smoothing: antialiased;
   }
-  a{ color: var(--gold); text-underline-offset: 3px; text-decoration-thickness: 1px; }
-  a:focus-visible{ outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
-
-  .wrap{ max-width: var(--max); margin: 0 auto; padding: 3rem 1.4rem 4.5rem; }
-
-  /* ---------- cabecera ---------- */
+  .wrap{ max-width: 760px; margin: 0 auto; padding: 3.5rem 1.4rem 5rem; }
   .brand{
-    display: flex; align-items: baseline; gap: .75rem; flex-wrap: wrap;
-    font-family: var(--font-mono); font-size: .7rem;
-    letter-spacing: .18em; text-transform: uppercase;
-    color: var(--text-faint);
-    border-bottom: 1px solid var(--line); padding-bottom: .85rem; margin-bottom: 2.4rem;
+    font-family: var(--font-mono); font-size:.7rem; letter-spacing:.2em;
+    text-transform:uppercase; color: var(--text-faint);
+    border-bottom:1px solid var(--line); padding-bottom:.85rem; margin-bottom:2.6rem;
   }
-  .brand .n{ color: var(--gold); font-weight: 600; letter-spacing: .22em; }
-
-  .kicker{
-    font-family: var(--font-mono); font-size: .78rem; font-weight: 600;
-    letter-spacing: .3em; text-transform: uppercase; color: var(--terra);
-    margin: 0 0 .5rem;
-  }
+  .brand .n{ color: var(--gold); font-weight:600; letter-spacing:.24em; }
   h1{
-    font-family: var(--font-poster); font-weight: 400;
-    font-size: clamp(3.4rem, 15vw, 7.5rem);
-    line-height: .84; letter-spacing: .01em; text-transform: uppercase;
-    margin: 0 0 1rem;
+    font-family: var(--font-poster); font-weight:400;
+    font-size: clamp(3.2rem, 13vw, 6rem); line-height:.86;
+    text-transform:uppercase; margin:0 0 1.1rem;
   }
   .bajada{
-    font-family: var(--font-display); font-weight: 300;
-    font-size: clamp(1.1rem, 2.6vw, 1.45rem);
-    line-height: 1.45; color: var(--sand);
-    max-width: 34ch; margin: 0 0 2rem;
+    font-family: var(--font-display); font-weight:300;
+    font-size: clamp(1.1rem, 2.6vw, 1.4rem); line-height:1.45;
+    color: var(--sand); max-width:40ch; margin:0 0 2.6rem;
   }
-
-  .meta{
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-    gap: 1rem 1.2rem;
-    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
-    padding: 1.1rem 0; margin-bottom: 3rem;
-  }
-  .meta dt{
-    font-family: var(--font-mono); font-size: .6rem; letter-spacing: .16em;
-    text-transform: uppercase; color: var(--text-faint); margin-bottom: .25rem;
-  }
-  .meta dd{ margin: 0; font-weight: 600; font-size: .95rem; }
-  .meta dd.hi{ color: var(--gold); }
-
-  /* ---------- secciones ---------- */
-  section{ margin-bottom: 3.2rem; }
   h2{
-    font-family: var(--font-poster); font-weight: 400;
-    font-size: clamp(1.5rem, 4.5vw, 2.2rem);
-    line-height: 1; text-transform: uppercase;
-    margin: 0 0 .35rem;
+    font-family: var(--font-poster); font-weight:400; font-size:1.5rem;
+    text-transform:uppercase; margin:0 0 .3rem;
   }
-  .sec-nota{
-    font-family: var(--font-mono); font-size: .73rem; letter-spacing: .05em;
-    color: var(--text-faint); margin: 0 0 1.4rem;
+  .nota{ font-family: var(--font-mono); font-size:.73rem; color: var(--text-faint); margin:0 0 1.3rem; }
+  section{ margin-bottom:3rem; }
+  .mods{ display:grid; gap:.5rem; }
+  .mod{
+    display:grid; grid-template-columns:3.6rem 1fr; gap:1rem; align-items:baseline;
+    background: var(--bg-raised); border:1px solid var(--line-soft);
+    border-left:2px solid var(--gold-soft); border-radius:3px; padding:.9rem 1.1rem;
   }
-
-  /* ---------- antes de venir ---------- */
-  .previo{
-    background: var(--bg-feature);
-    border: 1px solid var(--terra-deep);
-    border-radius: 3px;
-    padding: 1.4rem 1.5rem;
+  .mod .m{ font-family: var(--font-mono); font-size:.7rem; letter-spacing:.1em; color: var(--gold); text-transform:uppercase; }
+  .mod .t{ font-weight:600; font-size:.98rem; }
+  .mod .t span{ display:block; font-weight:400; color: var(--text-muted); font-size:.89rem; margin-top:.15rem; }
+  .como{
+    border-left:2px solid var(--terra); padding:.1rem 0 .1rem 1.2rem;
+    color: var(--text-muted); font-size:.95rem; max-width:58ch;
   }
-  .previo ul{ list-style: none; margin: 0; padding: 0; display: grid; gap: .9rem; }
-  .previo li{ display: grid; grid-template-columns: 1.6rem 1fr; gap: .6rem; align-items: start; }
-  .previo .box{
-    width: 15px; height: 15px; margin-top: .32rem;
-    border: 1px solid var(--terra); border-radius: 2px;
-  }
-  .previo b{ font-weight: 600; }
-  .previo small{ display: block; color: var(--text-muted); font-size: .87rem; line-height: 1.45; }
-
-  /* ---------- recorrido de la clase ---------- */
-  .bloques{ display: grid; gap: .55rem; }
-  .bloque{
-    display: grid; grid-template-columns: 3.4rem 1fr; gap: 1.1rem;
-    background: var(--bg-raised); border: 1px solid var(--line-soft);
-    border-radius: 3px; padding: .95rem 1.1rem;
-  }
-  .marca{ display: flex; flex-direction: column; gap: .1rem; align-items: flex-start; }
-  .marca .letra{
-    font-family: var(--font-poster); font-size: 1.85rem; line-height: .85; color: var(--gold);
-  }
-  .marca .dur{
-    font-family: var(--font-mono); font-size: .63rem; letter-spacing: .07em;
-    color: var(--text-muted); font-variant-numeric: tabular-nums; white-space: nowrap;
-  }
-  .marca .rango{
-    font-family: var(--font-mono); font-size: .56rem; letter-spacing: .06em;
-    color: var(--text-faint); font-variant-numeric: tabular-nums; white-space: nowrap;
-  }
-  .bloque .n{ display: block; font-weight: 600; font-size: .98rem; margin-bottom: .25rem; }
-  .bloque .d{ margin: 0; color: var(--text-muted); font-size: .89rem; line-height: 1.5; }
-
-  /* ---------- diagrama ---------- */
-  figure{ margin: 0; }
-  .fig-scroll{ overflow-x: auto; border: 1px solid var(--line-soft); border-radius: 3px; background: var(--bg-raised); padding: 1.1rem .9rem .6rem; }
-  .fig-scroll svg{ display: block; width: 100%; min-width: 660px; max-width: 980px; height: auto; margin: 0 auto; }
-  figcaption{
-    color: var(--text-muted); font-size: .88rem; line-height: 1.5;
-    margin-top: .9rem; max-width: 62ch;
-  }
-  figcaption b{ color: var(--text); font-weight: 600; }
-
-  /* ---------- conceptos ---------- */
-  .conceptos{ display: grid; gap: .9rem; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
-  .concepto{
-    border-top: 2px solid var(--gold-soft);
-    padding-top: .8rem;
-  }
-  .concepto h3{
-    font-family: var(--font-display); font-weight: 600; font-size: 1.02rem;
-    margin: 0 0 .3rem; line-height: 1.25;
-  }
-  .concepto p{ margin: 0; color: var(--text-muted); font-size: .9rem; line-height: 1.5; }
-
-  /* ---------- tareas ---------- */
-  .tareas{ display: grid; gap: 1rem; counter-reset: t; }
-  .tarea{
-    display: grid; grid-template-columns: auto 1fr; gap: 1rem;
-    background: var(--bg-raised); border: 1px solid var(--line);
-    border-left: 2px solid var(--gold);
-    border-radius: 3px; padding: 1.1rem 1.2rem;
-  }
-  .tarea::before{
-    counter-increment: t; content: counter(t, decimal-leading-zero);
-    font-family: var(--font-poster); font-size: 1.7rem; line-height: 1;
-    color: var(--gold-soft); font-variant-numeric: tabular-nums;
-  }
-  .tarea h3{ font-family: var(--font-body); font-size: 1rem; font-weight: 600; margin: 0 0 .3rem; }
-  .tarea p{ margin: 0; color: var(--text-muted); font-size: .91rem; line-height: 1.55; }
-  .tarea em{ color: var(--sand); font-style: normal; }
-
-  /* ---------- links ---------- */
-  .links{ list-style: none; margin: 0; padding: 0; display: grid; gap: .7rem; }
-  .links li{ border-bottom: 1px solid var(--line-soft); padding-bottom: .7rem; }
-  .links a{ font-weight: 600; font-size: .95rem; }
-  .links small{ display: block; color: var(--text-faint); font-size: .82rem; margin-top: .15rem; }
-
-  /* ---------- cierre ---------- */
-  .proximo{
-    background: var(--bg-feature); border: 1px solid var(--line);
-    border-radius: 3px; padding: 1.3rem 1.4rem; margin-bottom: 2.4rem;
-  }
-  .proximo .lbl{
-    font-family: var(--font-mono); font-size: .62rem; letter-spacing: .16em;
-    text-transform: uppercase; color: var(--terra); display: block; margin-bottom: .4rem;
-  }
-  .proximo h3{ font-family: var(--font-poster); font-weight: 400; text-transform: uppercase; font-size: 1.4rem; margin: 0 0 .3rem; }
-  .proximo p{ margin: 0; color: var(--text-muted); font-size: .92rem; }
-
+  .como b{ color: var(--text); font-weight:600; }
   footer{
-    border-top: 1px solid var(--line); padding-top: 1.2rem;
-    font-family: var(--font-mono); font-size: .66rem;
-    letter-spacing: .1em; text-transform: uppercase; color: var(--text-faint);
-    display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
-  }
-
-  @media (max-width: 520px){
-    .bloque{ grid-template-columns: 2.8rem 1fr; gap: .8rem; }
-    .marca .letra{ font-size: 1.5rem; }
+    border-top:1px solid var(--line); padding-top:1.2rem;
+    font-family: var(--font-mono); font-size:.66rem; letter-spacing:.1em;
+    text-transform:uppercase; color: var(--text-faint);
   }
 </style>
 
 <div class="wrap">
 
-  <div class="brand"><span class="n">NAYA</span> <span>Clases de DJ</span> <span>Módulo 01 — Equipo y material</span></div>
+  <div class="brand"><span class="n">NAYA</span> · Clases de DJ</div>
 
-  <p class="kicker">Capítulo 01</p>
-  <h1>La intro</h1>
-  <p class="bajada">rekordbox y la DDJ-400: saber qué es cada cosa antes de tocar cualquier cosa.</p>
-
-  <dl class="meta">
-    <div><dt>Para</dt><dd class="hi">Galgo</dd></div>
-    <div><dt>Fecha</dt><dd>Jue 03.09.2026</dd></div>
-    <div><dt>Duración</dt><dd>90 — 120 min</dd></div>
-    <div><dt>Equipo</dt><dd>DDJ-400 + rekordbox</dd></div>
-  </dl>
+  <h1>Clases<br>de DJ</h1>
+  <p class="bajada">De la primera vez frente a una controladora hasta tocar afuera. Un recorrido armado a medida de cada uno.</p>
 
   <section>
-    <h2>Antes de venir</h2>
-    <p class="sec-nota">Elementos preparados para el Capítulo 01</p>
-    <div class="previo">
-      <ul>
-        <li><span class="box"></span><span><b>Instalar rekordbox</b><small>Bajarlo de la web oficial. El plan <b>Free</b> alcanza: la DDJ-400 desbloquea el modo Performance por hardware, no hay que pagar suscripción.</small></span></li>
-        <li><span class="box"></span><span><b>No instalar ningún driver</b><small>Mac y Windows reconocen la controladora solos al conectarla por USB. Si algo no anda, lo vemos juntos.</small></span></li>
-        <li><span class="box"></span><span><b>Traer la compu, el cable USB y auriculares</b><small>Los auriculares son parte del instrumento, no un accesorio: sin ellos no se puede preparar nada.</small></span></li>
-        <li><span class="box"></span><span><b>Traer música seleccionada</b><small>Con 10 temas alcanza. Archivos en una carpeta, que te gusten y que conozcas. Si no llegás, lo trabajamos la próxima clase — pero es importante aprender con archivos propios.</small></span></li>
-      </ul>
+    <h2>Cómo está armado</h2>
+    <p class="nota">Cinco módulos, dieciséis capítulos</p>
+    <div class="mods">
+      <div class="mod"><span class="m">Mód 01</span><span class="t">Equipo y material<span>El software, la controladora, y la música con la que vas a trabajar.</span></span></div>
+      <div class="mod"><span class="m">Mód 02</span><span class="t">La mezcla<span>Tempo y beatmatching, ganancia y volumen, EQ y filtros, transiciones.</span></span></div>
+      <div class="mod"><span class="m">Mód 03</span><span class="t">El discurso<span>Energía y recorrido del set, tonalidad, curaduría e identidad propia.</span></span></div>
+      <div class="mod"><span class="m">Mód 04</span><span class="t">Performance<span>Loops y efectos, grabarte y escucharte, la cabina real con CDJs.</span></span></div>
+      <div class="mod"><span class="m">Mód 05</span><span class="t">Del DJ al productor<span>Edits, intros extendidos, mashups y producir lo tuyo. Opcional.</span></span></div>
     </div>
   </section>
 
   <section>
-    <h2>Qué vamos a ver</h2>
-    <p class="sec-nota">90 a 120 minutos aproximadamente, seis bloques</p>
-    <div class="bloques">
-      <article class="bloque">
-        <div class="marca"><span class="letra">A</span><span class="dur">10 min</span><span class="rango">0 a 10</span></div>
-        <div>
-          <span class="n">Quién hace qué</span>
-          <p class="d">El software es tu biblioteca y tu cabeza; la controladora son tus manos. rekordbox tiene dos modos: <b>Export</b>, para preparar un pendrive y tocar en los CDJs de un club, y <b>Performance</b>, para tocar desde la compu. Hoy y todo el curso: Performance. Al Export lo vemos en detalle más adelante.</p>
-        </div>
-      </article>
-      <article class="bloque">
-        <div class="marca"><span class="letra">B</span><span class="dur">20 min</span><span class="rango">10 a 30</span></div>
-        <div>
-          <span class="n">rekordbox por dentro, y configurado a tu gusto</span>
-          <p class="d">Las zonas de la pantalla y todo lo que se puede acomodar: el layout, los colores de cada deck, el tipo y el tamaño de las waveforms, dónde vive tu biblioteca. Parecen boludeces y son las que hacen que veas rápido lo que necesitás ver. Y antes que nada, la salida de audio — master a los parlantes, cue a los auriculares. Sin eso configurado no suena nada.</p>
-        </div>
-      </article>
-      <article class="bloque">
-        <div class="marca"><span class="letra">C</span><span class="dur">20 min</span><span class="rango">30 a 50</span></div>
-        <div>
-          <span class="n">La controladora, sección por sección</span>
-          <p class="d">Buscar y cargar un tema, los jogs, play y cue, el pitch, los pads. Todavía no hace falta saber usarlos todos: hace falta el vocabulario, que cuando alguien diga “subí el fader del canal 2” sepamos qué nos está diciendo.</p>
-        </div>
-      </article>
-      <article class="bloque">
-        <div class="marca"><span class="letra">D</span><span class="dur">20 min</span><span class="rango">50 a 70</span></div>
-        <div>
-          <span class="n">El canal y la escucha</span>
-          <p class="d">La tira vertical: trim, EQ, filtro, fader. El crossfader. Y master contra cue: por qué podés escuchar y preparar un tema con el fader abajo. Lo probamos sobre un tema mío ya cargado y analizado, para ver la señal moverse sin esperar nada.</p>
-        </div>
-      </article>
-      <article class="bloque">
-        <div class="marca"><span class="letra">E</span><span class="dur">10 min</span><span class="rango">70 a 80</span></div>
-        <div>
-          <span class="n">Tu música adentro</span>
-          <p class="d">Importamos tu carpeta y la mandamos a analizar: corre sola mientras seguimos hablando. Después armamos tu primera playlist, <b>BASE 01</b>. Si hoy no llegaste con música, esto pasa a la próxima.</p>
-        </div>
-      </article>
-      <article class="bloque">
-        <div class="marca"><span class="letra">F</span><span class="dur">20—40 min</span><span class="rango">80 a 120</span></div>
-        <div>
-          <span class="n">Empecemos a mezclar <span style="color:var(--terra)">(práctica)</span></span>
-          <p class="d">Dos temas que elijo yo porque sé que pegan. Largo el primero, vos preparás el segundo en el cue y hacés la entrada. Yo te voy marcando el <em>cuándo</em> — ese “cuándo” es exactamente lo que vas a aprender a ver solo en el próximo capítulo.</p>
-        </div>
-      </article>
-    </div>
+    <h2>Cómo funciona</h2>
+    <p class="nota">Clases individuales, presenciales</p>
+    <p class="como">No hay un programa único: el recorrido se arma según de dónde venís y a dónde querés llegar. <b>Cada alumno tiene su propia página</b> con los capítulos que fue dando, el material de cada uno y las tareas pendientes. Un capítulo puede ocupar una clase, media o dos: eso se define sobre la marcha, no antes.</p>
   </section>
 
-  <section>
-    <h2>Por dónde pasa el sonido</h2>
-    <p class="sec-nota">Bloque D — el mapa mental de toda la clase</p>
-    <figure>
-      <div class="fig-scroll">
-        <svg viewBox="0 0 980 250" role="img" aria-label="Recorrido de la señal en un canal: del tema pasa por trim, EQ, filtro, fader, crossfader y sale por el master a los parlantes; antes del fader se desprende el cue hacia los auriculares.">
-          <defs>
-            <marker id="fA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-              <polygon points="0,1 10,5 0,9" fill="#e8b04a"></polygon>
-            </marker>
-            <marker id="fB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-              <polygon points="0,1 10,5 0,9" fill="#e0653a"></polygon>
-            </marker>
-          </defs>
-
-          <!-- llave del canal -->
-          <path d="M154 30 L154 22 L678 22 L678 30" fill="none" stroke="#6f665c" stroke-width="1"></path>
-          <text x="416" y="14" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="#a89d8e">un canal = una tira vertical de la controladora</text>
-
-          <!-- cadena -->
-          <g font-family="IBM Plex Sans, sans-serif">
-            <g>
-              <rect x="16" y="44" width="110" height="52" rx="2" fill="#15120f" stroke="#e8b04a" stroke-width="1"></rect>
-              <text x="71" y="68" text-anchor="middle" font-size="15" font-weight="600" fill="#f2ede4">TEMA</text>
-              <text x="71" y="85" text-anchor="middle" font-size="11.5" fill="#a89d8e">el archivo</text>
-            </g>
-            <g>
-              <rect x="154" y="44" width="110" height="52" rx="2" fill="#15120f" stroke="#2e2620" stroke-width="1"></rect>
-              <text x="209" y="68" text-anchor="middle" font-size="15" font-weight="600" fill="#f2ede4">TRIM</text>
-              <text x="209" y="85" text-anchor="middle" font-size="11.5" fill="#a89d8e">cuánto entra</text>
-            </g>
-            <g>
-              <rect x="292" y="44" width="110" height="52" rx="2" fill="#15120f" stroke="#2e2620" stroke-width="1"></rect>
-              <text x="347" y="68" text-anchor="middle" font-size="15" font-weight="600" fill="#f2ede4">EQ</text>
-              <text x="347" y="85" text-anchor="middle" font-size="11.5" fill="#a89d8e">graves · medios · agudos</text>
-            </g>
-            <g>
-              <rect x="430" y="44" width="110" height="52" rx="2" fill="#15120f" stroke="#2e2620" stroke-width="1"></rect>
-              <text x="485" y="68" text-anchor="middle" font-size="15" font-weight="600" fill="#f2ede4">FILTRO</text>
-              <text x="485" y="85" text-anchor="middle" font-size="11.5" fill="#a89d8e">color</text>
-            </g>
-            <g>
-              <rect x="568" y="44" width="110" height="52" rx="2" fill="#15120f" stroke="#2e2620" stroke-width="1"></rect>
-              <text x="623" y="68" text-anchor="middle" font-size="15" font-weight="600" fill="#f2ede4">FADER</text>
-              <text x="623" y="85" text-anchor="middle" font-size="11.5" fill="#a89d8e">cuánto sale</text>
-            </g>
-            <g>
-              <rect x="706" y="44" width="110" height="52" rx="2" fill="#15120f" stroke="#2e2620" stroke-width="1"></rect>
-              <text x="761" y="68" text-anchor="middle" font-size="15" font-weight="600" fill="#f2ede4">CROSSFADER</text>
-              <text x="761" y="85" text-anchor="middle" font-size="11.5" fill="#a89d8e">qué canal manda</text>
-            </g>
-            <g>
-              <rect x="844" y="44" width="120" height="52" rx="2" fill="#1a1108" stroke="#e8b04a" stroke-width="1.4"></rect>
-              <text x="904" y="68" text-anchor="middle" font-size="15" font-weight="600" fill="#e8b04a">MASTER</text>
-              <text x="904" y="85" text-anchor="middle" font-size="11.5" fill="#a89d8e">a los parlantes</text>
-            </g>
-
-            <!-- cue -->
-            <g>
-              <rect x="470" y="158" width="170" height="52" rx="2" fill="#1a1108" stroke="#e0653a" stroke-width="1.4"></rect>
-              <text x="555" y="182" text-anchor="middle" font-size="15" font-weight="600" fill="#e0653a">AURICULARES</text>
-              <text x="555" y="199" text-anchor="middle" font-size="11.5" fill="#a89d8e">lo que escuchás vos</text>
-            </g>
-          </g>
-
-          <!-- flechas de la cadena -->
-          <g stroke="#e8b04a" stroke-width="1.4" marker-end="url(#fA)">
-            <line x1="126" y1="70" x2="150" y2="70"></line>
-            <line x1="264" y1="70" x2="288" y2="70"></line>
-            <line x1="402" y1="70" x2="426" y2="70"></line>
-            <line x1="540" y1="70" x2="564" y2="70"></line>
-            <line x1="678" y1="70" x2="702" y2="70"></line>
-            <line x1="816" y1="70" x2="840" y2="70"></line>
-          </g>
-
-          <!-- derivación del cue, antes del fader -->
-          <path d="M554 70 L554 154" fill="none" stroke="#e0653a" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#fB)"></path>
-          <circle cx="554" cy="70" r="3.5" fill="#e0653a"></circle>
-          <text x="568" y="112" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="#e0653a">el cue sale ANTES del fader</text>
-          <text x="568" y="130" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="#a89d8e">por eso lo escuchás con el fader abajo</text>
-          <text x="964" y="118" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="#e8b04a">lo que escucha la pista</text>
-        </svg>
-      </div>
-      <figcaption><b>Un canal es una sola señal bajando.</b> El tema entra, se ajusta cuánto entra (trim), se le da forma (EQ y filtro), se decide cuánto sale (fader) y por dónde sale (crossfader). El cue de auriculares se desprende antes del fader: por eso podés escuchar y preparar un tema que la pista todavía no está escuchando.</figcaption>
-    </figure>
-  </section>
-
-  <section>
-    <h2>Para tener claro</h2>
-    <p class="sec-nota">Cinco cosas que conviene no confundir desde el día uno</p>
-    <div class="conceptos">
-      <div class="concepto">
-        <h3>Trim y fader no son lo mismo</h3>
-        <p>El trim ajusta cuánto entra la señal; el fader, cuánto sale. Si el trim está mal puesto, todo lo que hagas después arranca torcido.</p>
-      </div>
-      <div class="concepto">
-        <h3>Cue no es master</h3>
-        <p>El master es lo que escucha la gente. El cue es tu cabina privada: ahí preparás lo que todavía nadie escuchó.</p>
-      </div>
-      <div class="concepto">
-        <h3>El BPM de la pantalla es una lectura</h3>
-        <p>No es una verdad revelada. El software se equivoca, sobre todo con música con groove o grabada en vivo. El oído manda.</p>
-      </div>
-      <div class="concepto">
-        <h3>Hoy usamos sync, a propósito</h3>
-        <p>Es una muleta puesta al servicio de otra cosa: que puedas concentrarte en escuchar y en el volumen sin pelearte con el tempo. En el capítulo 04 te la saco y aprendés a hacerlo a mano.</p>
-      </div>
-      <div class="concepto">
-        <h3>Archivos propios, no streaming</h3>
-        <p>rekordbox se conecta con Beatport, TIDAL, Apple Music y Spotify, pero cada uno pide su suscripción, depende de internet y no lo podés exportar a un USB para tocar en CDJs. mp3 320 kbps de piso, wav o aiff si conseguís: la calidad del archivo es el techo de todo lo demás.</p>
-      </div>
-      <div class="concepto">
-        <h3>Analizar antes de tocar</h3>
-        <p>Un tema sin analizar no tiene grilla ni tonalidad cargada. Se analiza en casa, tranquilo, no cinco minutos antes de tocar. Qué hacer con esa tonalidad lo vemos más adelante, en el capítulo 09.</p>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <h2>Tareas</h2>
-    <p class="sec-nota">Para llegar con material al Capítulo 02</p>
-    <div class="tareas">
-      <article class="tarea">
-        <div>
-          <h3>Armá <em>BASE 01</em></h3>
-          <p>Una playlist en rekordbox con 20 a 30 temas importados y analizados. No hace falta que sean del mismo género; sí que te gusten en serio. Es la biblioteca con la que vamos a trabajar de acá en adelante.</p>
-        </div>
-      </article>
-      <article class="tarea">
-        <div>
-          <h3>Tres temas, una escucha atenta</h3>
-          <p>Elegí 3 temas de esa playlist y escuchalos enteros con auriculares, anotando los minutos donde <em>cambia algo</em>: entra un elemento, se va la batería, vuelve todo de golpe. Sin nombres técnicos — con “2:14 se va todo” alcanza. Esa lista es la materia prima del próximo capítulo.</p>
-        </div>
-      </article>
-      <article class="tarea">
-        <div>
-          <h3>Diez minutos por día</h3>
-          <p>Abrí rekordbox, cargá un tema, tocá todas las perillas y mirá qué pasa. No se rompe nada. La familiaridad con el equipo no se enseña: se gasta.</p>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <section>
-    <h2>Links</h2>
-    <p class="sec-nota">Lo mínimo, no una biblioteca</p>
-    <ul class="links">
-      <li><a href="https://rekordbox.com/es/download/">Descargar rekordbox</a><small>Web oficial. Plan Free, última versión.</small></li>
-      <li><a href="https://rekordbox.com/en/support/hardware-unlock/">Hardware unlock</a><small>La tabla oficial donde figura que la DDJ-400 habilita el modo Performance sin suscripción.</small></li>
-      <li><a href="https://media.djmania.net/manuales/pdf/Manual_Pioneer_DDJ-400.pdf">Manual de la DDJ-400 (PDF, español)</a><small>Para tener a mano. No hay que leerlo entero, pero el mapa de la unidad sirve.</small></li>
-      <li><a href="https://support.alphatheta.com/en-US/articles/4405094293785?product=4416577146009">Soporte AlphaTheta — driver de audio</a><small>Confirma que no hace falta instalar driver: lo resuelve el sistema operativo.</small></li>
-    </ul>
-  </section>
-
-  <div class="proximo">
-    <span class="lbl">Próximo</span>
-    <h3>Capítulo 02 — Anatomía de un tema</h3>
-    <p>Le vamos a poner nombre a eso que anotaste: intro, break, subida, drop, salida. Contar de a 8, 16 y 32. Y recién ahí, hot cues donde de verdad sirven.</p>
-  </div>
-
-  <footer>
-    <span>NAYA · Clases de DJ</span>
-    <span>Capítulo 01 · para Galgo · 03.09.2026</span>
-  </footer>
+  <footer>NAYA · Clases de DJ · Buenos Aires</footer>
 
 </div>
 

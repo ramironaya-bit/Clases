@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Recorrido de Galgo</title>
+<meta name="description" content="Clases de DJ con NAYA. Los capítulos de Galgo, sus materiales y sus tareas, en un solo lugar.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================================
+     RECORRIDO DEL ALUMNO — material que ve el alumno, así que
+     manda el AMARILLO (las notas internas de NAYA van en
+     terracota). Mismo mundo que el dossier y que los capítulos.
+     Pensada para abrirse en el celu y guardarse en favoritos.
+     ============================================================ */
+
+  :root{
+    --bg: #0b0a0a;
+    --bg-raised: #15120f;
+    --bg-feature: #1a1108;
+    --line: #2e2620;
+    --line-soft: #241e19;
+    --text: #f2ede4;
+    --text-muted: #a89d8e;
+    --text-faint: #6f665c;
+    --gold: #e8b04a;
+    --gold-soft: #8a6c2f;
+    --terra: #e0653a;
+    --terra-deep: #b23f1c;
+    --sand: #cbb389;
+    --max: 780px;
+    --font-display: "Fraunces", ui-serif, Georgia, serif;
+    --font-poster: "Anton", ui-sans-serif, sans-serif;
+    --font-body: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+  }
+
+  *,*::before,*::after{ box-sizing: border-box; }
+  @media (prefers-reduced-motion: reduce){ *{ animation-duration:.001ms !important; transition-duration:.001ms !important; } }
+
+  body{
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: var(--font-body); font-size: 16px; line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a{ color: var(--gold); text-underline-offset: 3px; }
+  a:focus-visible{ outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
+
+  .wrap{ max-width: var(--max); margin: 0 auto; padding: 3rem 1.4rem 4.5rem; }
+
+  .brand{
+    display: flex; align-items: baseline; gap: .75rem; flex-wrap: wrap;
+    font-family: var(--font-mono); font-size: .7rem;
+    letter-spacing: .18em; text-transform: uppercase; color: var(--text-faint);
+    border-bottom: 1px solid var(--line); padding-bottom: .85rem; margin-bottom: 2.4rem;
+  }
+  .brand .n{ color: var(--gold); font-weight: 600; letter-spacing: .22em; }
+
+  .kicker{
+    font-family: var(--font-mono); font-size: .76rem; font-weight: 600;
+    letter-spacing: .28em; text-transform: uppercase; color: var(--terra); margin: 0 0 .5rem;
+  }
+  h1{
+    font-family: var(--font-poster); font-weight: 400;
+    font-size: clamp(3.6rem, 16vw, 7rem);
+    line-height: .84; text-transform: uppercase; margin: 0 0 1rem;
+  }
+  .bajada{
+    font-family: var(--font-display); font-weight: 300;
+    font-size: clamp(1.05rem, 2.6vw, 1.35rem); line-height: 1.45;
+    color: var(--sand); max-width: 40ch; margin: 0 0 2rem;
+  }
+
+  .meta{
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem 1.2rem;
+    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    padding: 1.1rem 0; margin-bottom: 3rem;
+  }
+  .meta dt{
+    font-family: var(--font-mono); font-size: .6rem; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--text-faint); margin-bottom: .25rem;
+  }
+  .meta dd{ margin: 0; font-weight: 600; font-size: .95rem; }
+  .meta dd.hi{ color: var(--gold); }
+
+  section{ margin-bottom: 3rem; }
+  h2{
+    font-family: var(--font-poster); font-weight: 400;
+    font-size: clamp(1.5rem, 4.5vw, 2.1rem);
+    line-height: 1; text-transform: uppercase; margin: 0 0 .35rem;
+  }
+  .sec-nota{
+    font-family: var(--font-mono); font-size: .73rem; color: var(--text-faint);
+    margin: 0 0 1.3rem; letter-spacing: .04em;
+  }
+
+  /* capítulos */
+  .caps{ display: grid; gap: .7rem; }
+  .cap{
+    background: var(--bg-raised); border: 1px solid var(--line-soft);
+    border-left: 2px solid var(--line); border-radius: 3px;
+    padding: 1.1rem 1.2rem;
+  }
+  .cap.dado{ border-left-color: var(--gold); }
+  .cap.proximo{ border-left-color: var(--terra); }
+
+  .cap-top{
+    display: flex; align-items: baseline; gap: .7rem; flex-wrap: wrap; margin-bottom: .4rem;
+  }
+  .cap-num{
+    font-family: var(--font-mono); font-size: .78rem; font-weight: 600;
+    color: var(--text-faint); font-variant-numeric: tabular-nums;
+  }
+  .cap.dado .cap-num{ color: var(--gold); }
+  .cap.proximo .cap-num{ color: var(--terra); }
+  .cap-nombre{
+    font-family: var(--font-poster); font-weight: 400; text-transform: uppercase;
+    font-size: 1.3rem; line-height: 1;
+  }
+  .estado{
+    font-family: var(--font-mono); font-size: .6rem; letter-spacing: .12em;
+    text-transform: uppercase; padding: .2rem .5rem; border-radius: 2px;
+    border: 1px solid var(--line); color: var(--text-faint); white-space: nowrap;
+  }
+  .estado.ok{ background: var(--gold); border-color: var(--gold); color: var(--bg); font-weight: 600; }
+  .estado.next{ border-color: var(--terra); color: var(--terra); }
+  .cap p{ margin: 0; color: var(--text-muted); font-size: .92rem; line-height: 1.5; }
+  .cap .abrir{
+    display: inline-block; margin-top: .8rem;
+    font-family: var(--font-mono); font-size: .72rem; letter-spacing: .12em;
+    text-transform: uppercase; font-weight: 600;
+  }
+
+  /* tareas */
+  .tareas{
+    background: var(--bg-feature); border: 1px solid var(--gold-soft);
+    border-radius: 3px; padding: 1.3rem 1.4rem;
+  }
+  .tareas ul{ list-style: none; margin: 0; padding: 0; display: grid; gap: .95rem; }
+  .tareas li{ display: grid; grid-template-columns: 1.5rem 1fr; gap: .6rem; align-items: start; }
+  .tareas .box{
+    width: 15px; height: 15px; margin-top: .3rem;
+    border: 1px solid var(--gold); border-radius: 2px;
+  }
+  .tareas b{ font-weight: 600; }
+  .tareas small{ display: block; color: var(--text-muted); font-size: .87rem; line-height: 1.45; }
+
+  /* lo que viene */
+  .futuro{ display: grid; gap: .5rem; }
+  .fut{
+    display: grid; grid-template-columns: 3.6rem 1fr; gap: .9rem;
+    align-items: baseline; padding: .7rem 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .fut:last-child{ border-bottom: none; }
+  .fut .m{
+    font-family: var(--font-mono); font-size: .7rem; letter-spacing: .1em;
+    color: var(--text-faint); text-transform: uppercase;
+  }
+  .fut .t{ font-weight: 600; font-size: .95rem; }
+  .fut .t span{ display: block; font-weight: 400; color: var(--text-muted); font-size: .88rem; }
+
+  .comofunciona{
+    border-left: 2px solid var(--gold); padding: .2rem 0 .2rem 1.2rem;
+    color: var(--text-muted); font-size: .95rem; max-width: 58ch; margin-bottom: 2.6rem;
+  }
+  .comofunciona b{ color: var(--text); font-weight: 600; }
+
+  footer{
+    border-top: 1px solid var(--line); padding-top: 1.2rem;
+    font-family: var(--font-mono); font-size: .66rem; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--text-faint);
+    display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+  }
+</style>
+
+<div class="wrap">
+
+  <div class="brand"><span class="n">NAYA</span> <span>Clases de DJ</span> <span>Recorrido del alumno</span></div>
+
+  <p class="kicker">Recorrido de</p>
+  <h1>Galgo</h1>
+  <p class="bajada">Acá van apareciendo tus capítulos, con el material de cada uno y las tareas que quedan. Guardá este link: es siempre el mismo.</p>
+
+  <dl class="meta">
+    <div><dt>Arranque</dt><dd>03.09.2026</dd></div>
+    <div><dt>Equipo</dt><dd>DDJ-400 + rekordbox</dd></div>
+    <div><dt>Módulo actual</dt><dd class="hi">01 · Equipo y material</dd></div>
+    <div><dt>Capítulo actual</dt><dd class="hi">01 · La intro</dd></div>
+  </dl>
+
+  <p class="comofunciona"><b>Cómo funciona esto:</b> cada capítulo tiene su propia página con lo que vimos y lo que queda de tarea. Cuando demos uno nuevo, aparece acá solo — no hace falta que te mande nada, entrá siempre por este link.</p>
+
+  <section>
+    <h2>Tus capítulos</h2>
+    <p class="sec-nota">Módulo 01 — Equipo y material</p>
+    <div class="caps">
+
+      <article class="cap dado">
+        <div class="cap-top">
+          <span class="cap-num">01</span>
+          <span class="cap-nombre">La intro</span>
+          <span class="estado ok">Dado · 03.09</span>
+        </div>
+        <p>rekordbox y la DDJ-400: qué hace cada cosa, cómo configurarlo, por dónde pasa el sonido, tu primera playlist y la primera mezcla.</p>
+        <a class="abrir" href="../cap-01/">Abrir el capítulo →</a>
+      </article>
+
+      <article class="cap proximo">
+        <div class="cap-top">
+          <span class="cap-num">02</span>
+          <span class="cap-nombre">Anatomía de un tema</span>
+          <span class="estado next">Próximo</span>
+        </div>
+        <p>Intro, break, subida, drop, salida. Contar de a 8, 16 y 32. Y recién ahí, hot cues donde de verdad sirven. Vamos a trabajar sobre los tres temas que escuchaste de tarea.</p>
+      </article>
+
+      <article class="cap">
+        <div class="cap-top">
+          <span class="cap-num">03</span>
+          <span class="cap-nombre">La biblioteca</span>
+          <span class="estado">Por venir</span>
+        </div>
+        <p>Dónde conseguir música, qué calidad de archivo sirve, y un orden que te sobreviva los próximos diez años.</p>
+      </article>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>Tus tareas ahora</h2>
+    <p class="sec-nota">Del Capítulo 01 — el detalle está en su página</p>
+    <div class="tareas">
+      <ul>
+        <li><span class="box"></span><span><b>Armar BASE 01</b><small>Una playlist con 20 a 30 temas importados y analizados en rekordbox. Que te gusten en serio: es la biblioteca con la que vamos a trabajar de acá en adelante.</small></span></li>
+        <li><span class="box"></span><span><b>Tres temas, una escucha atenta</b><small>Elegí 3 de esa playlist, escuchalos enteros con auriculares y anotá los minutos donde cambia algo. Sin nombres técnicos: con “2:14 se va todo” alcanza.</small></span></li>
+        <li><span class="box"></span><span><b>Diez minutos por día</b><small>Abrí rekordbox, cargá un tema, tocá todo y mirá qué pasa. No se rompe nada.</small></span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Lo que viene después</h2>
+    <p class="sec-nota">Para que veas el horizonte, no para preocuparte ahora</p>
+    <div class="futuro">
+      <div class="fut"><span class="m">Mód 02</span><span class="t">La mezcla<span>Tempo y beatmatching, ganancia y volumen, EQ y filtros, transiciones.</span></span></div>
+      <div class="fut"><span class="m">Mód 03</span><span class="t">El discurso<span>Energía y recorrido del set, tonalidad, curaduría e identidad propia.</span></span></div>
+      <div class="fut"><span class="m">Mód 04</span><span class="t">Performance<span>Loops y efectos, grabarte y escucharte, la cabina real con CDJs.</span></span></div>
+      <div class="fut"><span class="m">Mód 05</span><span class="t">Del DJ al productor<span>Edits, intros extendidos, mashups y producir lo tuyo. Opcional.</span></span></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>NAYA · Clases de DJ</span>
+    <span>Recorrido de Galgo · desde 03.09.2026</span>
+  </footer>
+
+</div>
+
+</html>
