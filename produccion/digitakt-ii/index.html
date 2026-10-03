@@ -1,0 +1,957 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Digitakt II · Clases de Producción</title>
+<meta name="description" content="Guía para aprender el Elektron Digitakt II y componer un track con él. Clases de producción con NAYA.">
+<meta name="theme-color" content="#0b0a0a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================================
+     GUÍA DIGITAKT II — mismo mundo que las clases de DJ.
+     Oro = lo importante / lo que se aprieta. Terracota = ojo.
+     Fuente de todo lo técnico: manual oficial, OS 1.17.
+     ============================================================ */
+  :root{
+    --bg: #0b0a0a; --bg-raised: #15120f; --bg-feature: #1a1108;
+    --line: #2e2620; --line-soft: #241e19;
+    --text: #f2ede4; --text-muted: #a89d8e; --text-faint: #6f665c;
+    --gold: #e8b04a; --gold-soft: #8a6c2f; --terra: #e0653a; --sand: #cbb389;
+    --panel: #1c1b1a; --panel-key: #2a2826; --panel-line: #3a3633;
+    --max: 820px;
+    --font-display: "Fraunces", ui-serif, Georgia, serif;
+    --font-poster: "Anton", ui-sans-serif, sans-serif;
+    --font-body: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+  }
+  *,*::before,*::after{ box-sizing: border-box; }
+  @media (prefers-reduced-motion: reduce){ *{ transition-duration:.001ms !important; scroll-behavior:auto !important; } }
+  html{ scroll-behavior: smooth; scroll-padding-top: 4rem; }
+  body{
+    margin:0; background: var(--bg); color: var(--text);
+    font-family: var(--font-body); font-size:16px; line-height:1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  a{ color: var(--gold); text-underline-offset: 3px; }
+  a:focus-visible, button:focus-visible, input:focus-visible{ outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
+  .wrap{ max-width: var(--max); margin: 0 auto; padding: 3rem 1.4rem 5rem; }
+
+  /* cabecera */
+  .brand{
+    display:flex; justify-content:space-between; gap:.75rem; flex-wrap:wrap;
+    font-family: var(--font-mono); font-size:.7rem; letter-spacing:.18em; text-transform:uppercase; color: var(--text-faint);
+    border-bottom:1px solid var(--line); padding-bottom:.85rem; margin-bottom:2.4rem;
+  }
+  .brand .n{ color: var(--gold); font-weight:600; letter-spacing:.22em; }
+  .brand a{ color: var(--text-faint); text-decoration:none; }
+  .brand a:hover{ color: var(--gold); }
+  .kicker{ font-family: var(--font-mono); font-size:.76rem; font-weight:600; letter-spacing:.28em; text-transform:uppercase; color: var(--terra); margin:0 0 .5rem; }
+  h1{ font-family: var(--font-poster); font-weight:400; font-size: clamp(3.6rem, 16vw, 7.2rem); line-height:.84; text-transform:uppercase; margin:0 0 1rem; }
+  .bajada{ font-family: var(--font-display); font-weight:300; font-size: clamp(1.05rem, 2.6vw, 1.35rem); line-height:1.45; color: var(--sand); max-width:42ch; margin:0 0 2rem; }
+  .meta{
+    display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem 1.2rem;
+    border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:1.1rem 0; margin:0 0 2.6rem;
+  }
+  .meta dt{ font-family: var(--font-mono); font-size:.6rem; letter-spacing:.16em; text-transform:uppercase; color: var(--text-faint); margin-bottom:.25rem; }
+  .meta dd{ margin:0; font-weight:600; font-size:.95rem; }
+  .meta dd.hi{ color: var(--gold); }
+
+  /* índice pegajoso */
+  .toc{
+    position: sticky; top:0; z-index:5; background: rgba(11,10,10,.94); backdrop-filter: blur(6px);
+    border-bottom:1px solid var(--line); margin: 0 -1.4rem 2.6rem; padding:.55rem 1.4rem;
+    display:flex; gap:.4rem; overflow-x:auto; scrollbar-width:none;
+  }
+  .toc::-webkit-scrollbar{ display:none; }
+  .toc a{
+    flex:0 0 auto; text-decoration:none; color: var(--text-muted);
+    font-family: var(--font-mono); font-size:.68rem; letter-spacing:.08em; text-transform:uppercase;
+    border:1px solid var(--line); border-radius:2px; padding:.3rem .55rem; white-space:nowrap;
+  }
+  .toc a:hover{ color: var(--gold); border-color: var(--gold-soft); }
+  .toc a.done{ color: var(--bg); background: var(--gold-soft); border-color: var(--gold-soft); }
+
+  /* progreso */
+  .progreso{ display:flex; align-items:center; gap:1rem; margin: -1.2rem 0 2.6rem; font-family: var(--font-mono); font-size:.72rem; color: var(--text-faint); }
+  .barra{ flex:1; height:4px; background: var(--line); border-radius:2px; overflow:hidden; }
+  .barra i{ display:block; height:100%; width:0; background: var(--gold); transition: width .3s; }
+
+  /* módulos */
+  section.mod{ margin-bottom: 4rem; }
+  .mod-head{ display:flex; align-items:baseline; gap:.8rem; flex-wrap:wrap; margin-bottom:.4rem; }
+  .mod-num{ font-family: var(--font-mono); font-size:.8rem; font-weight:600; color: var(--gold); }
+  h2{ font-family: var(--font-poster); font-weight:400; font-size: clamp(1.7rem, 5vw, 2.4rem); line-height:1; text-transform:uppercase; margin:0; }
+  .sec-nota{ font-family: var(--font-mono); font-size:.73rem; color: var(--text-faint); margin:0 0 1.4rem; letter-spacing:.04em; }
+  h3{ font-family: var(--font-body); font-weight:600; font-size:1.05rem; margin: 2rem 0 .5rem; color: var(--text); }
+  p{ margin: 0 0 1rem; color: var(--text-muted); }
+  p b, li b{ color: var(--text); font-weight:600; }
+  ul, ol{ color: var(--text-muted); padding-left: 1.3rem; margin: 0 0 1rem; }
+  li{ margin-bottom: .35rem; }
+
+  /* teclas tal como están serigrafiadas */
+  kbd{
+    display:inline-block; font-family: var(--font-mono); font-size:.72em; font-weight:600; letter-spacing:.04em;
+    color: var(--text); background: var(--panel-key); border:1px solid var(--panel-line); border-bottom-width:2px;
+    border-radius:3px; padding:.05em .4em; line-height:1.5; white-space:nowrap; vertical-align: .08em;
+  }
+  kbd.f{ color: var(--gold); border-color: var(--gold-soft); }
+  .k{ font-family: var(--font-mono); font-size:.85em; color: var(--sand); }
+
+  /* cajas */
+  .idea{ border-left:2px solid var(--gold); padding:.2rem 0 .2rem 1.1rem; margin: 1.4rem 0; }
+  .idea p:last-child{ margin-bottom:0; }
+  .ojo{ border-left:2px solid var(--terra); padding:.2rem 0 .2rem 1.1rem; margin: 1.4rem 0; }
+  .ojo .t, .idea .t{ font-family: var(--font-mono); font-size:.65rem; letter-spacing:.18em; text-transform:uppercase; display:block; margin-bottom:.3rem; }
+  .ojo .t{ color: var(--terra); } .idea .t{ color: var(--gold); }
+  .ojo p:last-child{ margin-bottom:0; }
+
+  .hacelo{ background: var(--bg-feature); border:1px solid var(--gold-soft); border-radius:3px; padding:1.2rem 1.3rem; margin: 1.6rem 0 0; }
+  .hacelo .t{ font-family: var(--font-poster); text-transform:uppercase; font-size:1.15rem; letter-spacing:.02em; color: var(--gold); margin-bottom:.6rem; display:block; }
+  .hacelo ol{ margin-bottom:.9rem; }
+  .hecho{ display:inline-flex; align-items:center; gap:.55rem; cursor:pointer; font-family: var(--font-mono); font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color: var(--text-muted); user-select:none; }
+  .hecho input{ appearance:none; width:16px; height:16px; border:1px solid var(--gold-soft); border-radius:2px; margin:0; display:grid; place-content:center; cursor:pointer; }
+  .hecho input:checked{ background: var(--gold); border-color: var(--gold); }
+  .hecho input:checked::after{ content:""; width:8px; height:4px; border-left:2px solid var(--bg); border-bottom:2px solid var(--bg); transform: rotate(-45deg) translate(1px,-1px); }
+  .hecho:has(input:checked){ color: var(--gold); }
+
+  /* tablas */
+  .tabla{ width:100%; border-collapse: collapse; font-size:.9rem; margin: .4rem 0 1.2rem; }
+  .tabla th{ text-align:left; font-family: var(--font-mono); font-size:.62rem; letter-spacing:.14em; text-transform:uppercase; color: var(--text-faint); font-weight:500; border-bottom:1px solid var(--line); padding:.5rem .6rem .5rem 0; }
+  .tabla td{ border-bottom:1px solid var(--line-soft); padding:.6rem .6rem .6rem 0; vertical-align:top; color: var(--text-muted); }
+  .tabla td:first-child{ color: var(--text); font-weight:600; white-space:nowrap; }
+  .scroll-x{ overflow-x:auto; }
+
+  /* jerarquía de datos */
+  .capas{ display:grid; gap:.4rem; margin: 1rem 0 1.4rem; }
+  .capa{ background: var(--bg-raised); border:1px solid var(--line-soft); border-radius:3px; padding:.75rem 1rem; display:grid; grid-template-columns: 7.5rem 1fr; gap:.8rem; align-items:baseline; }
+  .capa .c{ font-family: var(--font-poster); text-transform:uppercase; font-size:1.05rem; color: var(--gold); }
+  .capa span:last-child{ color: var(--text-muted); font-size:.9rem; }
+  .capa:nth-child(2){ margin-left: .8rem; } .capa:nth-child(3){ margin-left: 1.6rem; } .capa:nth-child(4){ margin-left: 2.4rem; } .capa:nth-child(5){ margin-left: 3.2rem; }
+  @media (max-width: 560px){
+    .capa{ grid-template-columns: 1fr; gap:.1rem; }
+    .capa:nth-child(n){ margin-left:0; }
+  }
+
+  /* ===== panel interactivo ===== */
+  .panel-wrap{ margin: 1.2rem 0 0; }
+  .panel{
+    background: var(--panel); border:1px solid var(--panel-line); border-radius:8px; padding: 14px;
+    display:grid; gap:10px;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-areas:
+      "vol pre set sam tem scr scr scr kn kn kn kn"
+      "lev no  yes .   .   scr scr scr kn kn kn kn"
+      "lev .   .   .   .   scr scr scr par par par par"
+      "fn  kb  rec ply stp trk ptn sng ar ar ar pg"
+      "tr  tr  tr  tr  tr  tr  tr  tr  tr tr tr tr";
+  }
+  .pk{
+    font: inherit; font-family: var(--font-mono); font-size:.6rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase;
+    color: #d9d3ca; background: var(--panel-key); border:1px solid var(--panel-line); border-radius:4px;
+    padding:.45rem .2rem; cursor:pointer; line-height:1.15; min-height:2.3rem; text-align:center;
+    transition: border-color .12s, color .12s, background .12s;
+  }
+  .pk small{ display:block; font-size:.85em; font-weight:500; color:#c98a3a; letter-spacing:.02em; margin-top:.15rem; text-transform:none; }
+  .pk:hover{ border-color: var(--gold-soft); }
+  .pk[aria-pressed="true"]{ border-color: var(--gold); color: var(--gold); background:#2c2416; }
+  .pk.knob{ border-radius:50%; aspect-ratio:1; min-height:0; padding:0; display:grid; place-content:center; }
+  .g-vol{ grid-area: vol; } .g-pre{ grid-area: pre; } .g-set{ grid-area: set; } .g-sam{ grid-area: sam; } .g-tem{ grid-area: tem; }
+  .g-lev{ grid-area: lev; align-self:center; } .g-no{ grid-area: no; } .g-yes{ grid-area: yes; }
+  .scr{ grid-area: scr; background:#0e1210; border:1px solid #2b302c; border-radius:4px; display:grid; place-content:center; text-align:center; font-family: var(--font-mono); font-size:.62rem; color:#7f9a86; letter-spacing:.1em; padding:.6rem; cursor:pointer; }
+  .scr[aria-pressed="true"]{ border-color: var(--gold); color: var(--gold); }
+  .kn{ grid-area: kn; display:grid; grid-template-columns: repeat(4,1fr); gap:8px; }
+  .par{ grid-area: par; display:grid; grid-template-columns: repeat(6,1fr); gap:5px; }
+  .par .pk{ font-size:.52rem; padding:.4rem .1rem; }
+  .g-fn{ grid-area: fn; } .g-kb{ grid-area: kb; } .g-rec{ grid-area: rec; } .g-ply{ grid-area: ply; } .g-stp{ grid-area: stp; }
+  .g-trk{ grid-area: trk; } .g-ptn{ grid-area: ptn; } .g-sng{ grid-area: sng; }
+  .ar{ grid-area: ar; display:grid; grid-template-columns: repeat(3,1fr); grid-template-rows: 1fr 1fr; gap:4px; }
+  .ar .pk{ min-height:0; padding:.2rem; font-size:.7rem; }
+  .ar .u{ grid-column:2; grid-row:1; } .ar .l{ grid-column:1; grid-row:2; } .ar .d{ grid-column:2; grid-row:2; } .ar .r{ grid-column:3; grid-row:2; }
+  .g-pg{ grid-area: pg; }
+  .tr{ grid-area: tr; display:grid; grid-template-columns: repeat(16,1fr); gap:5px; border-top:1px solid var(--panel-line); padding-top:10px; }
+  .tr .pk{ min-height:2rem; padding:.3rem 0; font-size:.58rem; }
+  .pk.rec{ color:#e98a7a; } .pk.fn{ color:#e9b46a; }
+
+  .info{
+    margin-top:.8rem; background: var(--bg-raised); border:1px solid var(--line); border-left:2px solid var(--gold);
+    border-radius:3px; padding:1rem 1.15rem; min-height:7.5rem;
+  }
+  .info .nom{ font-family: var(--font-poster); text-transform:uppercase; font-size:1.25rem; line-height:1; color: var(--text); margin-bottom:.55rem; }
+  .info dl{ margin:0; display:grid; grid-template-columns: 6.2rem 1fr; gap:.35rem .8rem; }
+  .info dt{ font-family: var(--font-mono); font-size:.62rem; letter-spacing:.14em; text-transform:uppercase; color: var(--text-faint); padding-top:.2rem; }
+  .info dd{ margin:0; color: var(--text-muted); font-size:.92rem; }
+  .info dd.fn{ color: var(--sand); }
+  .panel-nota{ font-family: var(--font-mono); font-size:.68rem; color: var(--text-faint); margin:.6rem 0 0; }
+
+  @media (max-width: 640px){
+    .panel{
+      grid-template-columns: repeat(6, 1fr); padding:10px; gap:7px;
+      grid-template-areas:
+        "scr scr scr scr scr scr"
+        "vol pre set sam tem lev"
+        "no  yes .   .   .   ."
+        "kn  kn  kn  kn  kn  kn"
+        "par par par par par par"
+        "ar  ar  ar  .   pg  pg"
+        "fn  kb  rec ply stp ."
+        "trk ptn sng .   .   ."
+        "tr  tr  tr  tr  tr  tr";
+    }
+    .scr{ min-height:3.4rem; }
+    .kn{ grid-template-columns: repeat(8,1fr); gap:5px; }
+    .pk{ font-size:.55rem; }
+    .pk small{ display:none; }
+    .tr{ grid-template-columns: repeat(8,1fr); }
+    .ar{ max-width: 8.5rem; }
+    .info dl{ grid-template-columns: 1fr; gap:.1rem; }
+    .info dt{ padding-top:.5rem; }
+  }
+
+  /* atajos */
+  .buscar{ display:flex; gap:.6rem; margin: .4rem 0 1rem; }
+  .buscar input{
+    flex:1; font: inherit; font-family: var(--font-mono); font-size:.9rem; color: var(--text);
+    background: var(--bg-raised); border:1px solid var(--line); padding:.7rem .9rem; border-radius:0;
+  }
+  .buscar input:focus{ outline:none; border-color: var(--gold-soft); }
+  .atajos .grupo{ font-family: var(--font-mono); font-size:.62rem; letter-spacing:.16em; text-transform:uppercase; color: var(--terra); padding-top:1.1rem; border-bottom:1px solid var(--line); }
+  .atajos td:first-child{ white-space:normal; min-width: 11rem; font-weight:400; }
+  .sin{ font-family: var(--font-mono); font-size:.8rem; color: var(--text-faint); display:none; }
+
+  /* pasos del proyecto */
+  .pasos{ counter-reset: paso; display:grid; gap:.7rem; margin: 1rem 0; }
+  .paso{ background: var(--bg-raised); border:1px solid var(--line-soft); border-left:2px solid var(--line); border-radius:3px; padding:1rem 1.15rem; }
+  .paso:has(input:checked){ border-left-color: var(--gold); }
+  .paso-top{ display:flex; align-items:baseline; gap:.7rem; flex-wrap:wrap; margin-bottom:.45rem; }
+  .paso-top::before{ counter-increment: paso; content: counter(paso, decimal-leading-zero); font-family: var(--font-mono); font-size:.78rem; font-weight:600; color: var(--gold); }
+  .paso-nom{ font-family: var(--font-poster); text-transform:uppercase; font-size:1.2rem; line-height:1; }
+  .paso p, .paso ul{ font-size:.93rem; }
+  .paso .hecho{ margin-top:.2rem; }
+
+  footer{ border-top:1px solid var(--line); padding-top:1.2rem; margin-top:3rem; font-family: var(--font-mono); font-size:.66rem; letter-spacing:.1em; text-transform:uppercase; color: var(--text-faint); display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+  footer a{ color: var(--text-faint); }
+</style>
+
+<div class="wrap">
+
+  <div class="brand"><span><span class="n">NAYA</span> · Clases de Producción</span><a href="../">← Producción</a></div>
+
+  <p class="kicker">Máquina 02 · Elektron</p>
+  <h1>Digitakt II</h1>
+  <p class="bajada">Caja de ritmos, sampler y secuenciador en un solo aparato. Primero volver a entenderlo; después, componer un track con él de punta a punta.</p>
+
+  <dl class="meta">
+    <div><dt>Pistas</dt><dd class="hi">16 · audio o MIDI</dd></div>
+    <div><dt>Secuenciador</dt><dd>128 pasos por patrón</dd></div>
+    <div><dt>Memoria</dt><dd>400 MB RAM · 20 GB +Drive</dd></div>
+    <div><dt>Sistema</dt><dd>OS 1.17</dd></div>
+  </dl>
+
+  <nav class="toc" aria-label="Módulos">
+    <a href="#m1">1 · Panel</a>
+    <a href="#m2">2 · Cómo piensa</a>
+    <a href="#m3">3 · Primer contacto</a>
+    <a href="#m4">4 · Secuenciar</a>
+    <a href="#m5">5 · El sonido</a>
+    <a href="#m6">6 · Locks y condiciones</a>
+    <a href="#m7">7 · Samplear</a>
+    <a href="#m8">8 · Arreglo y vivo</a>
+    <a href="#m9">9 · Con Ableton</a>
+    <a href="#m10">10 · Tu track</a>
+    <a href="#atajos">Atajos</a>
+  </nav>
+
+  <div class="progreso"><span id="prog-txt">0 de 10 módulos</span><div class="barra"><i id="prog-bar"></i></div></div>
+
+  <!-- ============ 1 ============ -->
+  <section class="mod" id="m1">
+    <div class="mod-head"><span class="mod-num">01</span><h2>El panel</h2></div>
+    <p class="sec-nota">Tocá cualquier tecla del esquema para ver qué hace</p>
+
+    <p>Casi todas las teclas tienen <b>dos funciones</b>. La principal está escrita en blanco; la segunda, en naranja, y se usa <b>manteniendo <kbd class="f">FUNC</kbd> y tocando la otra tecla</b>. Con esa sola regla ya se entiende la mitad del aparato.</p>
+
+    <div class="panel-wrap">
+      <div class="panel" id="panel" role="group" aria-label="Esquema del panel del Digitakt II">
+        <button class="pk knob g-vol" data-k="vol">Vol</button>
+        <button class="pk g-pre" data-k="preset">Preset/<br>Kit<small>Perform</small></button>
+        <button class="pk g-set" data-k="settings">Settings<small>Guardar</small></button>
+        <button class="pk g-sam" data-k="sampling">Sampling<small>Samples</small></button>
+        <button class="pk g-tem" data-k="tempo">Tempo<small>Tap</small></button>
+        <button class="pk knob g-lev" data-k="level">Level<br>Data</button>
+        <button class="pk g-no" data-k="no">No<small>Reload</small></button>
+        <button class="pk g-yes" data-k="yes">Yes<small>Save</small></button>
+        <div class="scr" data-k="screen" role="button" tabindex="0">PANTALLA</div>
+        <div class="kn">
+          <button class="pk knob" data-k="knob">A</button><button class="pk knob" data-k="knob">B</button><button class="pk knob" data-k="knob">C</button><button class="pk knob" data-k="knob">D</button>
+          <button class="pk knob" data-k="knob">E</button><button class="pk knob" data-k="knob">F</button><button class="pk knob" data-k="knob">G</button><button class="pk knob" data-k="knob">H</button>
+        </div>
+        <div class="par">
+          <button class="pk" data-k="trigp">Trig<small>Quant</small></button>
+          <button class="pk" data-k="src">Src<small>Machine</small></button>
+          <button class="pk" data-k="fltr">Fltr<small>Setup</small></button>
+          <button class="pk" data-k="amp">Amp<small>Seq</small></button>
+          <button class="pk" data-k="fx">Fx<small>Send FX</small></button>
+          <button class="pk" data-k="mod">Mod<small>Mixer</small></button>
+        </div>
+        <button class="pk fn g-fn" data-k="func">Func</button>
+        <button class="pk g-kb" data-k="keyboard">Keyb<small>Setup</small></button>
+        <button class="pk rec g-rec" data-k="record">Rec<small>Copy</small></button>
+        <button class="pk g-ply" data-k="play">Play<small>Clear</small></button>
+        <button class="pk g-stp" data-k="stop">Stop<small>Paste</small></button>
+        <button class="pk g-trk" data-k="trk">Trk<small>Mute</small></button>
+        <button class="pk g-ptn" data-k="ptn">Ptn<small>Bank</small></button>
+        <button class="pk g-sng" data-k="song">Song<small>Edit</small></button>
+        <div class="ar">
+          <button class="pk u" data-k="arrows" aria-label="Arriba">▲</button>
+          <button class="pk l" data-k="arrows" aria-label="Izquierda">◀</button>
+          <button class="pk d" data-k="arrows" aria-label="Abajo">▼</button>
+          <button class="pk r" data-k="arrows" aria-label="Derecha">▶</button>
+        </div>
+        <button class="pk g-pg" data-k="page">Page<small>Setup</small></button>
+        <div class="tr" id="trigs"></div>
+      </div>
+      <div class="info" id="info" aria-live="polite">
+        <div class="nom">Tocá una tecla</div>
+        <p style="margin:0">Arriba, la función principal. Abajo, lo que hace con <kbd class="f">FUNC</kbd>.</p>
+      </div>
+      <p class="panel-nota">Esquema simplificado, no a escala: sirve para ubicar las teclas, no para medirlas.</p>
+    </div>
+
+    <h3>Las seis páginas de parámetros</h3>
+    <p>Cada pista tiene seis páginas. Se abren con las teclas de la fila de abajo de las perillas y se editan con las <b>perillas A–H</b>. Tocar dos veces la misma tecla (o <kbd>▲</kbd><kbd>▼</kbd>) pasa a su segunda página.</p>
+    <div class="scroll-x"><table class="tabla">
+      <tr><th>Página</th><th>Qué hay</th></tr>
+      <tr><td>TRIG</td><td>Nota, velocity, largo, probabilidad, condiciones. La segunda página es la de retrigs y portamento.</td></tr>
+      <tr><td>SRC</td><td>La “máquina” que reproduce el sample: afinación, modo de reproducción, qué sample, inicio, largo, loop.</td></tr>
+      <tr><td>FLTR</td><td>El filtro elegido y su envolvente. En la segunda página, el filtro base-width (pasaaltos + pasabajos en serie).</td></tr>
+      <tr><td>AMP</td><td>Envolvente de volumen (AHD o ADSR), paneo y volumen.</td></tr>
+      <tr><td>FX</td><td>Bit reduction, overdrive, sample rate reduction y cuánto mandás al delay, reverb y chorus.</td></tr>
+      <tr><td>MOD</td><td>Tres LFO por pista (dos en las pistas MIDI).</td></tr>
+    </table></div>
+
+    <div class="idea"><span class="t">Tres gestos que valen oro</span>
+      <p>Mantener una tecla de página muestra <b>todos los valores</b> de esa página. Apretar una perilla mientras la girás mueve el valor <b>de a saltos grandes</b>. Perilla + <kbd>NO</kbd> la devuelve <b>a su valor por defecto</b>.</p>
+    </div>
+
+    <div class="hacelo"><span class="t">Hacelo</span>
+      <ol>
+        <li>Con el aparato prendido, recorré las teclas del esquema y buscá cada una en el tuyo.</li>
+        <li>Mantené <kbd>FLTR</kbd> y mirá la pantalla. Soltá. Hacé lo mismo con <kbd>AMP</kbd>.</li>
+        <li>Decí en voz alta qué hacen <kbd class="f">FUNC</kbd>+<kbd>REC</kbd>, <kbd class="f">FUNC</kbd>+<kbd>STOP</kbd> y <kbd class="f">FUNC</kbd>+<kbd>PLAY</kbd>. (Copiar, pegar, borrar.)</li>
+      </ol>
+      <label class="hecho"><input type="checkbox" data-mod="m1"> Módulo hecho</label>
+    </div>
+  </section>
+
+  <!-- ============ 2 ============ -->
+  <section class="mod" id="m2">
+    <div class="mod-head"><span class="mod-num">02</span><h2>Cómo piensa</h2></div>
+    <p class="sec-nota">La estructura de datos: entender esto evita perder trabajo</p>
+
+    <p>Todo lo que hacés vive en cajas, una adentro de otra. Si sabés en qué caja estás tocando, sabés qué se guarda y qué se pierde.</p>
+    <div class="capas">
+      <div class="capa"><span class="c">Proyecto</span><span>Tu sesión de trabajo. 128 patrones, 16 canciones, los samples cargados (hasta 400 MB) y la configuración.</span></div>
+      <div class="capa"><span class="c">Patrón</span><span>8 bancos (A–H) × 16 = 128. Guarda la secuencia de las 16 pistas, tempo, swing, largo… y un kit.</span></div>
+      <div class="capa"><span class="c">Kit</span><span>Los 16 sonidos del patrón (uno por pista), más niveles, compresor y efectos de envío.</span></div>
+      <div class="capa"><span class="c">Preset</span><span>Un sonido: un sample más todos sus parámetros de SRC, FLTR, AMP, FX y MOD.</span></div>
+      <div class="capa"><span class="c">Sample</span><span>El audio en sí. 16 bit, 48 kHz, mono o estéreo.</span></div>
+    </div>
+
+    <h3>+Drive y pool: el depósito y la mesa</h3>
+    <p>El <b>+Drive</b> es el depósito (20 GB): ahí están todos tus samples, presets, kits y proyectos. Para usar un sample en un proyecto, primero lo <b>cargás a la RAM del proyecto</b> (hasta 1016 samples). El <b>pool</b> es una lista de hasta 128 presets que viven dentro del proyecto: hace falta para cambiar de sonido paso a paso (preset locks, módulo 6).</p>
+
+    <div class="ojo"><span class="t">Ojo: cuando cargás un preset o un kit, se copia</span>
+      <p>Lo que cargás en un patrón pasa a ser <b>una copia</b> que vive en ese patrón. Si la editás, el original en el +Drive no cambia. Si querés conservar un sonido para otros proyectos, guardalo como preset: <kbd>PRESET/KIT</kbd> → PRESET → SAVE.</p>
+    </div>
+
+    <h3>Guardar, de verdad</h3>
+    <div class="scroll-x"><table class="tabla">
+      <tr><th>Qué querés</th><th>Cómo</th></tr>
+      <tr><td>Guardar todo el proyecto</td><td><kbd class="f">FUNC</kbd>+<kbd>SETTINGS</kbd>. Hacelo seguido.</td></tr>
+      <tr><td>Guardar un patrón</td><td><kbd>SETTINGS</kbd> → PATTERN → SAVE TO PROJ → WHOLE PATTERN. (El proyecto tiene que estar guardado al menos una vez.)</td></tr>
+      <tr><td>Un “punto de retorno” mientras tocás</td><td><kbd class="f">FUNC</kbd>+<kbd>YES</kbd> guarda temporal; <kbd class="f">FUNC</kbd>+<kbd>NO</kbd> vuelve a ese punto. No es permanente.</td></tr>
+      <tr><td>Proyecto nuevo, en blanco</td><td><kbd>SETTINGS</kbd> → PROJECT → LOAD PROJECT → CREATE NEW (al final de la lista). Guardá el actual antes.</td></tr>
+      <tr><td>Backup en la compu</td><td>Programa <b>Elektron Transfer</b> (gratis), por USB. Pestaña EXPLORE: arrastrás de un lado al otro.</td></tr>
+    </table></div>
+
+    <div class="hacelo"><span class="t">Hacelo</span>
+      <ol>
+        <li>Creá un proyecto nuevo y ponele tu nombre: <kbd>SETTINGS</kbd> → PROJECT → LOAD PROJECT → CREATE NEW.</li>
+        <li>Guardalo en un slot con <kbd>SETTINGS</kbd> → PROJECT → SAVE PROJECT AS.</li>
+        <li>Desde ahí en más, cada vez que algo te guste: <kbd class="f">FUNC</kbd>+<kbd>SETTINGS</kbd>.</li>
+      </ol>
+      <label class="hecho"><input type="checkbox" data-mod="m2"> Módulo hecho</label>
+    </div>
+  </section>
+
+  <!-- ============ 3 ============ -->
+  <section class="mod" id="m3">
+    <div class="mod-head"><span class="mod-num">03</span><h2>Primer contacto</h2></div>
+    <p class="sec-nota">Diez minutos para que las manos se acuerden</p>
+
+    <h3>Escuchar los patrones de fábrica</h3>
+    <ol>
+      <li><kbd>PTN</kbd>, con <kbd>◀</kbd><kbd>▶</kbd> elegís el banco (A–H), y una tecla <kbd>1</kbd>–<kbd>16</kbd> elige el patrón.</li>
+      <li><kbd>PLAY</kbd> arranca; otro <kbd>PLAY</kbd> pausa; <kbd>STOP</kbd> frena.</li>
+      <li>Con el patrón sonando, <kbd>PTN</kbd> + otra tecla deja el próximo patrón <b>en cola</b>: entra cuando termina el actual.</li>
+    </ol>
+
+    <h3>Elegir pista y tocar</h3>
+    <p><kbd>TRK</kbd> + <kbd>1</kbd>–<kbd>16</kbd> elige la pista activa (la que editás). Sin modo de grabación, las teclas <kbd>1</kbd>–<kbd>16</kbd> disparan las 16 pistas. La perilla <b>LEVEL/DATA</b> es el volumen de la pista activa.</p>
+
+    <h3>Modo teclado</h3>
+    <p><kbd>KEYBOARD</kbd> convierte las 16 teclas en un teclado que toca el sonido de la pista activa en distintas alturas (solo las teclas encendidas suenan). <kbd>KEYBOARD</kbd>+<kbd>▲</kbd><kbd>▼</kbd> cambia de octava. <kbd class="f">FUNC</kbd>+<kbd>KEYBOARD</kbd> abre el setup: elegí una <b>escala</b> y una <b>tónica</b>, y activá <b>KB FOLD</b> para que todas las teclas toquen notas de esa escala. Con una escala puesta, no hay nota “equivocada”.</p>
+
+    <h3>Mutear</h3>
+    <ul>
+      <li><kbd class="f">FUNC</kbd>+<kbd>TRK</kbd>: modo mute <b>global</b> (teclas verdes, afecta todos los patrones).</li>
+      <li><kbd class="f">FUNC</kbd>+ doble <kbd>TRK</kbd>: mute <b>del patrón</b> (teclas magenta, solo este patrón).</li>
+      <li>Atajo rápido sin entrar al modo: mantené <kbd class="f">FUNC</kbd> y tocá las pistas.</li>
+    </ul>
+
+    <h3>Tempo</h3>
+    <p><kbd>TEMPO</kbd> abre el menú: perilla A para el BPM, D para el swing (50–80 %). <kbd class="f">FUNC</kbd> + tocar <kbd>TEMPO</kbd> varias veces = tap tempo. <kbd>TEMPO</kbd>+<kbd>YES</kbd> prende y apaga el metrónomo. Con el patrón sonando, mantener <kbd>◀</kbd> o <kbd>▶</kbd> empuja el tempo un 10 % mientras lo tengas apretado: sirve para emparejar a oído con un disco.</p>
+
+    <div class="hacelo"><span class="t">Hacelo</span>
+      <ol>
+        <li>Recorré A01 a A04 de fábrica. Elegí el que más te guste.</li>
+        <li>Con ese sonando, muteá todo menos el bombo y volvé a meter las pistas de a una.</li>
+        <li>Elegí una pista con un sonido tonal, entrá en <kbd>KEYBOARD</kbd>, poné escala menor y tocá algo encima.</li>
+      </ol>
+      <label class="hecho"><input type="checkbox" data-mod="m3"> Módulo hecho</label>
+    </div>
+  </section>
+
+  <!-- ============ 4 ============ -->
+  <section class="mod" id="m4">
+    <div class="mod-head"><span class="mod-num">04</span><h2>Secuenciar</h2></div>
+    <p class="sec-nota">Tres maneras de escribir un ritmo</p>
+
+    <div class="scroll-x"><table class="tabla">
+      <tr><th>Modo</th><th>Cómo entrás</th><th>Para qué</th></tr>
+      <tr><td>Grid</td><td><kbd>REC</kbd></td><td>Prender y apagar pasos con las 16 teclas, como una 909. El modo de todos los días.</td></tr>
+      <tr><td>Live</td><td><kbd>REC</kbd>+<kbd>PLAY</kbd></td><td>Grabar tocando en tiempo real. Las perillas que muevas quedan grabadas. <kbd>REC</kbd>+ doble <kbd>PLAY</kbd> prende/apaga la cuantización.</td></tr>
+      <tr><td>Step</td><td><kbd>REC</kbd>+<kbd>STOP</kbd></td><td>Paso a paso: ponés una nota y avanza solo. Ideal para líneas de bajo y melodías.</td></tr>
+    </table></div>
+
+    <h3>Grid: lo esencial</h3>
+    <ul>
+      <li>Toque corto en un paso encendido = lo borra. Toque un poquito más largo = lo deja seleccionado para editar.</li>
+      <li><kbd class="f">FUNC</kbd> + paso = <b>lock trig</b> (amarillo): un paso que no suena pero cambia parámetros. Los pasos que suenan (rojos) son <b>note trigs</b>.</li>
+      <li>Mantener un paso + <kbd>◀</kbd><kbd>▶</kbd> = <b>micro timing</b>: lo corrés un poquito antes o después del tiempo.</li>
+      <li><kbd class="f">FUNC</kbd>+<kbd>◀</kbd><kbd>▶</kbd> corre toda la pista un paso.</li>
+      <li>Paso + <kbd>YES</kbd> = escuchar ese paso, con sus locks.</li>
+    </ul>
+
+    <h3>Largo, páginas y polirritmia</h3>
+    <p><kbd class="f">FUNC</kbd>+<kbd>PAGE</kbd> abre PAGE SETUP. Un patrón puede tener hasta <b>128 pasos en 8 páginas</b> de 16; las luces de página muestran cuántas hay y cuál suena. <kbd>PAGE</kbd> pasa de página mientras editás.</p>
+    <p>Con <kbd class="f">FUNC</kbd>+<kbd>YES</kbd> dentro de PAGE SETUP cambiás de modo <b>PER PATTERN</b> (todas las pistas igual de largas) a <b>PER TRACK</b>: cada pista con su propio largo y velocidad. Un hi-hat de 12 pasos contra un bombo de 16 empieza a “girar” y el loop deja de sentirse quieto.</p>
+    <p>SPEED cambia la velocidad: con <b>2X</b> cada paso pasa a ser una fusa (resolución de 1/32); <b>3/4X</b> sirve para tresillos.</p>
+
+    <h3>Retrigs</h3>
+    <p>En Grid, tocá <kbd>TRIG</kbd> dos veces (página de retrigs), mantené un paso y prendé <b>RTRG</b>. RATE elige la velocidad (1/16 una por paso, 1/32 dos, 1/12 o 1/24 tresillos) y VFAD hace que se apaguen o crezcan. Redobles, rolls de hat, glitch.</p>
+
+    <h3>Euclídeo</h3>
+    <p><kbd class="f">FUNC</kbd>+<kbd>AMP</kbd> abre el secuenciador euclídeo de la pista: dos generadores (PL1, PL2) reparten golpes lo más parejo posible, con rotaciones y un operador lógico (OR, XOR, AND, SUB) para combinarlos. Al apagarlo con <kbd class="f">FUNC</kbd> apretado, el resultado se convierte en pasos normales.</p>
+
+    <h3>Copiar, pegar, borrar</h3>
+    <p>Siempre los mismos tres: <b>copiar</b> con <kbd>REC</kbd>, <b>pegar</b> con <kbd>STOP</kbd>, <b>borrar</b> con <kbd>PLAY</kbd>. Lo que cambia es la tecla que mantenés:</p>
+    <div class="scroll-x"><table class="tabla">
+      <tr><th>Mantenés</th><th>Afecta a</th></tr>
+      <tr><td><kbd class="f">FUNC</kbd></td><td>Todo el patrón (fuera de Grid) o la pista activa (en Grid).</td></tr>
+      <tr><td>Un paso</td><td>Ese paso con sus locks (en Grid). Podés mantener varios.</td></tr>
+      <tr><td><kbd>PAGE</kbd></td><td>La página de 16 pasos (en Grid).</td></tr>
+      <tr><td><kbd>TRK</kbd></td><td>El sonido (preset) de la pista.</td></tr>
+      <tr><td>Una tecla de página (SRC, FLTR…)</td><td>Esa página de parámetros.</td></tr>
+    </table></div>
+    <p>Repetir la misma combinación <b>deshace</b> el pegado o el borrado.</p>
+
+    <div class="hacelo"><span class="t">Hacelo</span>
+      <ol>
+        <li>En un patrón vacío, con <kbd>REC</kbd>: bombo en 1, 5, 9, 13; clap en 5 y 13; hat cerrado en los pares.</li>
+        <li>Pasá la pista del hat a modo PER TRACK con 12 pasos. Escuchá cómo se desplaza.</li>
+        <li>Corré dos hats con micro timing hacia atrás. Poné un retrig 1/32 en el último paso del clap.</li>
+      </ol>
+      <label class="hecho"><input type="checkbox" data-mod="m4"> Módulo hecho</label>
+    </div>
+  </section>
+
+  <!-- ============ 5 ============ -->
+  <section class="mod" id="m5">
+    <div class="mod-head"><span class="mod-num">05</span><h2>El sonido</h2></div>
+    <p class="sec-nota">Máquinas, filtros, envolventes, LFO y efectos</p>
+
+    <p>Cada pista de audio tiene dos “máquinas” intercambiables: una de <b>fuente</b> (cómo se reproduce el sample) y una de <b>filtro</b>. Se cambian con <kbd class="f">FUNC</kbd>+<kbd>SRC</kbd> (menú MACHINE): <kbd>◀</kbd><kbd>▶</kbd> categoría, <kbd>▲</kbd><kbd>▼</kbd> máquina, <kbd>YES</kbd> confirma.</p>
+
+    <h3>Máquinas de fuente (SRC)</h3>
+    <div class="scroll-x"><table class="tabla">
+      <tr><th>Máquina</th><th>Qué hace</th><th>Usala para</th></tr>
+      <tr><td>Oneshot</td><td>Reproduce el sample tal cual (adelante, al revés o en loop). Es la de fábrica.</td><td>Bombos, cajas, hats, golpes.</td></tr>
+      <tr><td>Werp</td><td>Corta el audio en segmentos y los alinea al tempo.</td><td>Loops que sigan el BPM con carácter rítmico, “cortado”.</td></tr>
+      <tr><td>Stretch</td><td>Estira al tempo con granos pequeños que se funden.</td><td>Loops y texturas que sigan el BPM sin cambiar la altura.</td></tr>
+      <tr><td>Repitch</td><td>Se ajusta al tempo cambiando la velocidad, y con ella la altura.</td><td>El sonido de “disco acelerado”: breaks, samples de vinilo.</td></tr>
+      <tr><td>Slice</td><td>Hasta 64 cortes editables a mano o por transitorios.</td><td>Picar un break o una frase y reordenarla.</td></tr>
+      <tr><td>Grid</td><td>Cortes automáticos del mismo tamaño.</td><td>Picar rápido un loop en partes iguales.</td></tr>
+      <tr><td>MIDI</td><td>La pista deja de sonar y manda MIDI.</td><td>Secuenciar un sinte o Ableton (módulo 9).</td></tr>
+    </table></div>
+    <p>En la página SRC: <b>TUNE</b> (±5 octavas; con <kbd class="f">FUNC</kbd> salta de a octava), <b>PLAY</b> (modo de reproducción), <b>SAMP</b> (qué sample), <b>STRT</b>, <b>LEN</b> y <b>LOOP</b> (qué parte suena). Tocá <kbd>SRC</kbd> dos veces para ver la forma de onda.</p>
+
+    <h3>Máquinas de filtro (FLTR)</h3>
+    <p><b>Multi-mode</b> (pasa de pasabajos a pasabanda a pasaaltos con TYPE), <b>Lowpass 4</b> (24 dB, más gordo), <b>EQ</b> (paramétrico), <b>Comb−</b> y <b>Comb+</b> (metálicos, afinados), <b>Legacy</b> (el filtro del Digitakt original). Todos tienen su envolvente: ATK, DEC, SUS, REL y <b>ENV</b> (cuánto mueve la envolvente al corte, para arriba o para abajo). La segunda página trae el <b>base-width</b>: BASE sube el pasaaltos, WIDTH cierra el pasabajos. Ideal para limpiar graves de lo que no es bombo ni bajo.</p>
+
+    <h3>AMP y FX</h3>
+    <p>AMP es la forma del volumen: <b>AHD</b> (ataque, sostén, caída; lo normal para batería) o <b>ADSR</b> (para sonidos que sostienen mientras dura la nota). Bajá DEC en un hat y lo hacés corto y seco; subilo y se abre. En FX están la <b>degradación</b> (BR, OVER, SRR) y los <b>envíos</b> a delay, reverb y chorus.</p>
+
+    <h3>LFO: lo que mueve solo</h3>
+    <p><kbd>MOD</kbd> tiene tres LFO por pista. Elegís un destino (DEST), una onda (WAVE), velocidad (SPD × MULT) y profundidad (DEP). Para que vaya a tempo: SPD 16 o 32 con MULT en valores de BPM. MODE <b>TRG</b> lo reinicia en cada golpe; <b>ONE</b> lo hace correr una sola vez, como una envolvente extra.</p>
+
+    <h3>Efectos del patrón y mixer</h3>
+    <ul>
+      <li><kbd class="f">FUNC</kbd>+<kbd>FX</kbd>: delay, reverb y chorus. Son <b>compartidos</b> por todo el patrón; cada pista decide cuánto manda.</li>
+      <li><kbd class="f">FUNC</kbd>+<kbd>MOD</kbd>: el mixer. Primera página: <b>compresor master</b>, con <b>sidechain</b>. Poné SCS en la pista del bombo y SCF hacia el lado pasabajos: el resto “bombea” con el bombo. Después vienen los niveles de pista, el mixer de efectos (con el overdrive master) y la entrada externa.</li>
+      <li><kbd class="f">FUNC</kbd>+<kbd>FLTR</kbd> → KIT → COMPRESSOR ROUTING: qué pistas pasan por el compresor. Sacá el bombo para que no se comprima a sí mismo.</li>
+    </ul>
+
+    <div class="idea"><span class="t">Para destrabarte</span>
+      <p>Tecla de página + <kbd>YES</kbd> <b>randomiza</b> esa página (cada vez distinto). Tecla de página + <kbd>NO</kbd> la vuelve a como estaba guardada. Probá sin miedo.</p>
+    </div>
+
+    <div class="hacelo"><span class="t">Hacelo</span>
+      <ol>
+        <li>A un sonido largo (pad, acorde) poné el filtro Multi-mode con ENV positiva y DEC corto: “pluck”.</li>
+        <li>Mandale un LFO al corte del filtro, a tempo, en modo TRG.</li>
+        <li>Armá el sidechain: compresor con SCS en el bombo, bombo fuera del routing.</li>
+      </ol>
+      <label class="hecho"><input type="checkbox" data-mod="m5"> Módulo hecho</label>
+    </div>
+  </section>
+
+  <!-- ============ 6 ============ -->
+  <section class="mod" id="m6">
+    <div class="mod-head"><span class="mod-num">06</span><h2>Locks y condiciones</h2></div>
+    <p class="sec-nota">Lo que hace que un Elektron suene a Elektron</p>
+
+    <h3>Parameter locks</h3>
+    <p>Cada paso puede tener <b>sus propios valores</b> de cualquier parámetro. En Grid: <b>mantenés un paso y girás una perilla</b>. Ese paso queda con ese valor; los demás siguen igual. La tecla parpadea para avisarte que tiene un lock.</p>
+    <ul>
+      <li>Sacar un lock: mantené el paso y <b>apretá</b> la perilla del parámetro.</li>
+      <li>Lock a todos los pasos de la página a la vez: mantené un paso + <kbd>PAGE</kbd> (o <kbd>TRK</kbd>) y girá la perilla.</li>
+      <li>Hasta 80 parámetros distintos lockeados por patrón (un mismo parámetro en todos los pasos cuenta como uno).</li>
+      <li>En Live, todo lo que gires se graba como lock.</li>
+    </ul>
+
+    <h3>Sample locks y preset locks</h3>
+    <p><b>Sample lock</b>: lockeá el parámetro SAMP y ese paso dispara otro sample. Una sola pista puede tocar un kit entero. <b>Preset lock</b>: mantené un paso y girá LEVEL/DATA para elegir otro preset del pool. Cambia el sonido completo, no solo el sample (antes hay que agregar los presets al pool: módulo 2).</p>
+
+    <h3>Probabilidad y condiciones</h3>
+    <p>En la página TRIG, <b>PROB</b> es la chance de que suenen los pasos (se puede lockear por paso). <b>COND</b> (perilla H, manteniendo un paso) pone una regla lógica:</p>
+    <div class="scroll-x"><table class="tabla">
+      <tr><th>Condición</th><th>Suena…</th></tr>
+      <tr><td>A:B</td><td>La vez A de cada B vueltas. <span class="k">1:2</span> una sí, una no; <span class="k">4:4</span> solo en la cuarta vuelta: el remate de cada 4 compases.</td></tr>
+      <tr><td>1ST / LST</td><td>Solo la primera vuelta / solo la última antes de cambiar de patrón. Tachadas, al revés.</td></tr>
+      <tr><td>PRE</td><td>Si la última condición evaluada en esta pista fue verdadera (tachada: si fue falsa). Encadena decisiones.</td></tr>
+      <tr><td>NEI</td><td>Igual, pero mirando la pista de al lado (la anterior en número).</td></tr>
+      <tr><td>FILL</td><td>Parámetro aparte en la página TRIG: el paso suena solo en modo fill (ON) o solo fuera de él (OFF).</td></tr>
+    </table></div>
+
+    <h3>Fill</h3>
+    <p>Con el patrón sonando, <b>mantené <kbd>PAGE</kbd></b>: activás el fill mientras lo tengas apretado. <kbd>YES</kbd>+<kbd>PAGE</kbd> lo activa por una vuelta. Programá un redoble con FILL en ON y queda escondido hasta que lo pidas.</p>
+
+    <div class="idea"><span class="t">La idea de fondo</span>
+      <p>Un patrón de 16 pasos con condiciones y probabilidades puede sonar distinto durante minutos sin que lo toques. Pensalo menos como “un loop” y más como <b>un sistema de reglas</b> que genera variaciones.</p>
+    </div>
+
+    <div class="hacelo"><span class="t">Hacelo</span>
+      <ol>
+        <li>En el hat: lockeá DEC distinto en cada paso par. Después lockeá TUNE en dos pasos.</li>
+        <li>Agregá un clap extra en el paso 16 con condición <span class="k">4:4</span>.</li>
+        <li>Hacé un hat abierto con PROB 50 % y otro paso con PRE tachado: cuando uno no suena, suena el otro.</li>
+        <li>Programá un redoble de caja con FILL ON y disparalo manteniendo <kbd>PAGE</kbd>.</li>
+      </ol>
+      <label class="hecho"><input type="checkbox" data-mod="m6"> Módulo hecho</label>
+    </div>
+  </section>
+
+  <!-- ============ 7 ============ -->
+  <section class="mod" id="m7">
+    <div class="mod-head"><span class="mod-num">07</span><h2>Samplear</h2></div>
+    <p class="sec-nota">De afuera, de adentro y desde la compu</p>
+
+    <p><kbd>SAMPLING</kbd> abre el sampler. Graba en estéreo o mono, hasta <b>66 segundos</b> por toma (siempre disponibles, aunque la RAM del proyecto esté llena).</p>
+    <div class="scroll-x"><table class="tabla">
+      <tr><th>Parámetro</th><th>Qué es</th></tr>
+      <tr><td>SRC</td><td>De dónde: <b>IN</b> (entradas de atrás), <b>MAIN</b> (lo que suena en el Digitakt: resampleo), <b>TRK1–16</b> (una pista sola), <b>USB</b>.</td></tr>
+      <tr><td>CHAN</td><td>Estéreo L R, mono L, mono R o L+R sumado a mono.</td></tr>
+      <tr><td>THRES / ARM</td><td>Armado, empieza a grabar cuando la señal pasa el umbral.</td></tr>
+      <tr><td>R.LEN</td><td>Largo en pasos del secuenciador (1–128) o MAX. Con pasos, cortás loops exactos.</td></tr>
+      <tr><td>R.STRT</td><td>Arrancar con <kbd>PLAY</kbd> o por umbral.</td></tr>
+      <tr><td>RECORD NOW</td><td><kbd>YES</kbd> empieza, <kbd>YES</kbd> corta. Sin vueltas.</td></tr>
+    </table></div>
+
+    <h3>El paso a paso</h3>
+    <ol>
+      <li>Conectá la fuente a IN L/R. <kbd>SAMPLING</kbd>, SRC en IN.</li>
+      <li>Nivel lo más alto posible sin que clipee (mirá el medidor).</li>
+      <li>THRES apenas arriba del ruido de fondo, ARM en ON, y tocá la fuente.</li>
+      <li>Al terminar, el Digitakt normaliza solo. Recortá con TRIM START (E) y TRIM END (H); F hace zoom. <kbd class="f">FUNC</kbd>+<kbd>YES</kbd> escucha.</li>
+      <li><kbd>YES</kbd>, ponele nombre, <kbd>YES</kbd>, y elegí a qué pista va.</li>
+    </ol>
+
+    <div class="idea"><span class="t">Resamplear: el truco más útil</span>
+      <p>Con SRC en <b>MAIN</b> o en una pista, grabás lo que el propio Digitakt está tocando, con efectos y locks incluidos. Un loop de 4 pistas pasa a ser un solo sample, y te liberás 3 pistas. O grabás un acorde con reverb larga y lo usás como un instrumento nuevo.</p>
+    </div>
+
+    <h3>Desde la compu</h3>
+    <p>Abrí <b>Elektron Transfer</b>, conectá por USB, pestaña EXPLORE, “Samples”, y arrastrá carpetas. Transfer convierte todo a 16 bit / 48 kHz. Después, en el aparato: <kbd class="f">FUNC</kbd>+<kbd>SAMPLING</kbd> → +DRIVE, marcás los samples con <kbd>YES</kbd>, <kbd>▶</kbd> y LOAD TO PROJECT. El atajo: en la página SRC girás SAMP y con <kbd class="f">FUNC</kbd>+<kbd>YES</kbd> saltás al +Drive para cargar directo a la pista.</p>
+    <div class="ojo"><span class="t">Ojo</span>
+      <p>Mientras Transfer manda archivos, el secuenciador se detiene. Y si borrás un sample del +Drive, desaparece de todos los presets y patrones que lo usaban.</p>
+    </div>
+
+    <h3>Picar con Slice</h3>
+    <p>Poné la máquina Slice, <kbd>SRC</kbd> y <kbd>YES</kbd>: CREATE SLICE GRID (cantidad de cortes, con o sin detección de transitorios) o EDIT SLICE POINTS para moverlos a mano. Después, con pasos ya puestos, CREATE LINEAR LOCKS asigna un corte a cada paso en orden y CREATE RANDOM LOCKS los reparte al azar. El modo de teclas SLICES (<kbd class="f">FUNC</kbd>+<kbd>▲</kbd><kbd>▼</kbd>) pone un corte en cada tecla para tocarlos en vivo.</p>
+
+    <div class="hacelo"><span class="t">Hacelo</span>
+      <ol>
+        <li>Sampleá algo de afuera: un disco, la voz, un sinte. Recortalo y asignalo a una pista.</li>
+        <li>Pasá un break a la máquina Slice, 16 cortes con transitorios, y reordenalo con RANDOM LOCKS hasta que te guste uno.</li>
+        <li>Resampleá tu patrón entero con SRC MAIN y R.LEN 64. Ponelo en una pista con Repitch y probá otro tempo.</li>
+      </ol>
+      <label class="hecho"><input type="checkbox" data-mod="m7"> Módulo hecho</label>
+    </div>
+  </section>
+
+  <!-- ============ 8 ============ -->
+  <section class="mod" id="m8">
+    <div class="mod-head"><span class="mod-num">08</span><h2>Arreglo y vivo</h2></div>
+    <p class="sec-nota">De un loop a una estructura</p>
+
+    <h3>Cadenas</h3>
+    <p><kbd>PTN</kbd> y después <kbd class="f">FUNC</kbd>+<kbd>YES</kbd> abre el armador de cadenas: tocás patrones en el orden que quieras (hasta 64) y <kbd>YES</kbd>. Se repite en loop. Las cadenas no se guardan: son para tocar.</p>
+
+    <h3>Song mode</h3>
+    <p>Para dejar el tema armado. <kbd>SONG</kbd> + tecla elige canción (16 por proyecto); <kbd class="f">FUNC</kbd>+<kbd>SONG</kbd> abre la edición. Cada fila tiene: patrón, cuántas veces se repite, largo en pasos, tempo y mutes propios. <kbd class="f">FUNC</kbd>+<kbd>▼</kbd> agrega fila, <kbd class="f">FUNC</kbd>+<kbd>▲</kbd> la borra. La fila END decide si al final para o vuelve a empezar. Si arrancás desde una cadena, CREATE ROWS FROM CHAIN te arma las filas.</p>
+    <ul>
+      <li><kbd>SONG</kbd>+<kbd>◀</kbd>: loopear la fila que suena (y otra vez para soltar).</li>
+      <li><kbd>SONG</kbd>+<kbd>▲</kbd><kbd>▼</kbd>: elegir a qué fila saltar.</li>
+      <li>Las canciones se guardan con el proyecto: <kbd class="f">FUNC</kbd>+<kbd>SETTINGS</kbd>.</li>
+    </ul>
+
+    <h3>Para tocar en vivo</h3>
+    <ul>
+      <li><b>Control All</b>: mantené <kbd>TRK</kbd> y girá una perilla: cambia ese parámetro en todas las pistas a la vez. Abrir todos los filtros juntos, bajar todos los decays. <kbd>NO</kbd> antes de soltar <kbd>TRK</kbd> lo deshace.</li>
+      <li><b>Temp save / reload</b>: <kbd class="f">FUNC</kbd>+<kbd>YES</kbd> antes de romper todo; <kbd class="f">FUNC</kbd>+<kbd>NO</kbd> para volver.</li>
+      <li><b>Perform kit</b> (<kbd class="f">FUNC</kbd>+<kbd>PRESET/KIT</kbd>): cambiás de patrón pero te quedás con el sonido que venías tocando. Ideal para que el set evolucione sin saltos.</li>
+      <li><b>Mutes preparados</b>: en modo mute, con <kbd class="f">FUNC</kbd> apretado elegís varias pistas, y al soltar entran o salen todas juntas.</li>
+    </ul>
+
+    <div class="hacelo"><span class="t">Hacelo</span>
+      <ol>
+        <li>Copiá tu patrón a A02, A03 y A04 (<kbd class="f">FUNC</kbd>+<kbd>REC</kbd>, elegís destino, <kbd class="f">FUNC</kbd>+<kbd>STOP</kbd>) y hacé cada uno un poco distinto.</li>
+        <li>Armá una cadena A01 → A02 → A01 → A03 y tocá encima con Control All.</li>
+        <li>Pasala a una canción con CREATE ROWS FROM CHAIN.</li>
+      </ol>
+      <label class="hecho"><input type="checkbox" data-mod="m8"> Módulo hecho</label>
+    </div>
+  </section>
+
+  <!-- ============ 9 ============ -->
+  <section class="mod" id="m9">
+    <div class="mod-head"><span class="mod-num">09</span><h2>Con Ableton Live</h2></div>
+    <p class="sec-nota">Un solo cable USB hace casi todo</p>
+
+    <p>El Digitakt II es <b>class compliant</b>: la compu lo reconoce sin drivers. Por USB puede mandar y recibir audio y MIDI. Qué hace el USB se elige en <kbd>SETTINGS</kbd> → SYSTEM → USB CONFIG (elegir un modo apaga los otros):</p>
+    <div class="scroll-x"><table class="tabla">
+      <tr><th>Modo</th><th>Para qué</th></tr>
+      <tr><td>USB AUDIO/MIDI</td><td>El Digitakt aparece como placa de audio. Grabás su salida estéreo en Ableton y lo sincronizás por MIDI.</td></tr>
+      <tr><td>OVERBRIDGE</td><td>Con el software Overbridge de Elektron: el Digitakt aparece como plugin en Ableton, con audio <b>pista por pista</b> y sus parámetros en pantalla.</td></tr>
+      <tr><td>USB MIDI</td><td>Solo MIDI (sync, notas, CC). El audio va por cable a tu placa.</td></tr>
+    </table></div>
+
+    <h3>Opción A · Ableton manda el tempo</h3>
+    <ol>
+      <li>En el Digitakt: <kbd>SETTINGS</kbd> → MIDI CONFIG → SYNC: <b>CLOCK RECEIVE</b> y <b>TRANSPORT RECEIVE</b> encendidos. En PORT CONFIG, INPUT FROM en <b>USB</b> (o MIDI+USB).</li>
+      <li>En Ableton: Preferencias → Link, Tempo &amp; MIDI. En la salida del Digitakt II, prendé <b>Sync</b>.</li>
+      <li>Play en Ableton: el Digitakt arranca, sigue el tempo y para con él.</li>
+      <li>Si llega corrido, ajustá el <b>MIDI Clock Sync Delay</b> de esa salida en las mismas preferencias, de a poco, hasta que los golpes caigan juntos.</li>
+    </ol>
+
+    <h3>Opción B · El Digitakt manda</h3>
+    <p>Al revés: en el Digitakt, CLOCK SEND y TRANSPORT SEND; en Ableton, <b>Sync</b> en la entrada del Digitakt II y el botón <b>EXT</b> encendido en la barra de arriba. Sirve cuando querés tocar con las manos en el aparato y que Ableton solo grabe.</p>
+
+    <h3>Grabar el audio</h3>
+    <p>Con USB AUDIO/MIDI, elegí el Digitakt II como entrada de audio en Ableton y armá una pista de audio. Si ya usás otra placa de sonido, en Mac creá un <b>dispositivo agregado</b> en Configuración de Audio MIDI que junte las dos, y elegilo en Ableton. Con Overbridge te ahorrás eso y además tenés cada pista por separado para mezclar.</p>
+    <div class="idea"><span class="t">Flujo recomendado para componer</span>
+      <p>Componé y arreglá en el Digitakt (patrones + song mode). Cuando el tema está, grabalo en Ableton <b>pista por pista</b> (Overbridge) o en estéreo, y terminá la mezcla y el master en la compu.</p>
+    </div>
+
+    <h3>El Digitakt secuenciando a Ableton</h3>
+    <p>Cualquier pista puede ser MIDI (<kbd class="f">FUNC</kbd>+<kbd>SRC</kbd> → máquina MIDI). En la página SRC elegís el canal (CHAN). Cada paso puede mandar acordes de hasta 4 notas (NOT2–NOT4 en TRIG) y hasta 16 CC (en FLTR y AMP). En Ableton, armá una pista MIDI con un instrumento, entrada <b>Digitakt II</b> en ese canal y Monitor en <b>In</b>. Todos los locks y condiciones funcionan igual: tu secuenciador Elektron toca los sintes de Ableton.</p>
+
+    <div class="hacelo"><span class="t">Hacelo</span>
+      <ol>
+        <li>Sincronizá con Ableton como maestro y comprobá que arrancan y paran juntos.</li>
+        <li>Grabá 16 compases del Digitakt en una pista de audio.</li>
+        <li>Convertí la pista 16 en MIDI y hacé que toque un bajo de Ableton con parameter locks de nota.</li>
+      </ol>
+      <label class="hecho"><input type="checkbox" data-mod="m9"> Módulo hecho</label>
+    </div>
+  </section>
+
+  <!-- ============ 10 ============ -->
+  <section class="mod" id="m10">
+    <div class="mod-head"><span class="mod-num">10</span><h2>Tu track</h2></div>
+    <p class="sec-nota">Proyecto final: componer un tema entero con el Digitakt II</p>
+
+    <p>Un tema de pista, entre 120 y 130 BPM, armado en <b>cuatro patrones</b> y una canción. Cada paso tiene su casilla: marcalas a medida que avanzás. Se guardan en este navegador.</p>
+
+    <div class="pasos">
+      <div class="paso">
+        <div class="paso-top"><span class="paso-nom">Proyecto y tempo</span></div>
+        <p>Proyecto nuevo con nombre. <kbd>TEMPO</kbd>: elegí BPM y un poco de swing (52–56 %). Guardá.</p>
+        <label class="hecho"><input type="checkbox" data-paso="p1"> Hecho</label>
+      </div>
+      <div class="paso">
+        <div class="paso-top"><span class="paso-nom">Elegir los sonidos</span></div>
+        <p>Armá el kit en A01: pista 1 bombo, 2 clap/caja, 3 hat cerrado, 4 hat abierto, 5 percusión, 6 bajo, 7 acorde o stab, 8 textura o voz sampleada. Dejá 9–16 libres por ahora.</p>
+        <label class="hecho"><input type="checkbox" data-paso="p2"> Hecho</label>
+      </div>
+      <div class="paso">
+        <div class="paso-top"><span class="paso-nom">El groove (A01)</span></div>
+        <p>Batería en Grid. Micro timing en los hats, un hat de 12 pasos en PER TRACK, sidechain al bombo. Tiene que funcionar <b>solo</b>, aunque sea aburrido.</p>
+        <label class="hecho"><input type="checkbox" data-paso="p3"> Hecho</label>
+      </div>
+      <div class="paso">
+        <div class="paso-top"><span class="paso-nom">Bajo y armonía</span></div>
+        <p>Escala y tónica en el setup del teclado. Bajo en Step (<kbd>REC</kbd>+<kbd>STOP</kbd>), acorde en Live. Locks de filtro y decay para que respiren.</p>
+        <label class="hecho"><input type="checkbox" data-paso="p4"> Hecho</label>
+      </div>
+      <div class="paso">
+        <div class="paso-top"><span class="paso-nom">Que viva solo</span></div>
+        <p>Condiciones (<span class="k">1:2</span>, <span class="k">4:4</span>, PRE), probabilidades y un LFO lento en algo. Dejalo sonar cinco minutos: si no te aburre, seguí.</p>
+        <label class="hecho"><input type="checkbox" data-paso="p5"> Hecho</label>
+      </div>
+      <div class="paso">
+        <div class="paso-top"><span class="paso-nom">Los otros patrones</span></div>
+        <p>Copiá A01 a A02, A03 y A04. <b>A02 intro</b>: solo bombo, hats y textura. <b>A03 break</b>: sin bombo, acorde abierto con reverb. <b>A04 pico</b>: todo, más un sample resampleado y un fill.</p>
+        <label class="hecho"><input type="checkbox" data-paso="p6"> Hecho</label>
+      </div>
+      <div class="paso">
+        <div class="paso-top"><span class="paso-nom">Canción</span></div>
+        <p>Song mode: intro → groove → pico → break → pico → groove → final. Ajustá repeticiones de cada fila y mutes por fila para que cada parte entre de a poco.</p>
+        <label class="hecho"><input type="checkbox" data-paso="p7"> Hecho</label>
+      </div>
+      <div class="paso">
+        <div class="paso-top"><span class="paso-nom">Grabar y escuchar</span></div>
+        <p>Grabalo en Ableton (módulo 9), tocando Control All y mutes en vivo arriba de la canción. Escuchalo al otro día, con oídos frescos, y anotá tres cosas para cambiar.</p>
+        <label class="hecho"><input type="checkbox" data-paso="p8"> Hecho</label>
+      </div>
+    </div>
+
+    <div class="hacelo"><span class="t">Cierre</span>
+      <p style="margin-bottom:.9rem">Cuando lo tengas grabado, guardá el proyecto y hacé backup con Transfer. Ese archivo es tu punto de partida para el próximo.</p>
+      <label class="hecho"><input type="checkbox" data-mod="m10"> Módulo hecho</label>
+    </div>
+  </section>
+
+  <!-- ============ atajos ============ -->
+  <section class="mod" id="atajos">
+    <div class="mod-head"><span class="mod-num">★</span><h2>Atajos</h2></div>
+    <p class="sec-nota">La chuleta para tener abierta al lado del aparato</p>
+
+    <div class="buscar"><input id="q" type="search" placeholder="buscar: mute, copiar, tempo, fill…" aria-label="Buscar atajo"></div>
+    <div class="scroll-x">
+      <table class="tabla atajos" id="tabla-atajos"><tbody></tbody></table>
+    </div>
+    <p class="sin" id="sin">Nada con eso. Probá otra palabra.</p>
+  </section>
+
+  <footer>
+    <span>NAYA · Clases de Producción</span>
+    <span>Datos técnicos: <a href="https://www.elektron.se/en/support-downloads/digitakt-ii" rel="noopener">manual oficial de Elektron, OS 1.17</a></span>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  /* ---------- panel ---------- */
+  var KEYS = {
+    vol:      ["Main volume", "Volumen general de la salida y de los auriculares.", null],
+    preset:   ["Preset / Kit", "Menú para cargar, guardar y administrar presets (sonidos) y kits (16 sonidos).", "PERFORM KIT: cambiás de patrón sin que se recargue el kit. Para sets en vivo."],
+    settings: ["Settings", "Proyectos, canción, patrón, MIDI, ruteo de audio, USB y sistema.", "Guarda el proyecto activo. Usalo seguido."],
+    sampling: ["Sampling", "El sampler: de dónde grabar, umbral, largo, armar.", "SAMPLES: el explorador del +Drive y de la RAM del proyecto."],
+    tempo:    ["Tempo", "BPM, swing y metrónomo. TEMPO + YES prende y apaga el metrónomo.", "Tap tempo: mantené FUNC y tocá TEMPO al ritmo."],
+    level:    ["Level / Data", "Volumen de la pista activa. En menús, recorre listas rápido. Manteniendo un paso, elige un preset lock.", "Girar con FUNC: navegador de presets."],
+    no:       ["No", "Salir, volver atrás, cancelar. Perilla + NO = valor por defecto.", "Recarga el patrón desde el último guardado temporal (o el permanente)."],
+    yes:      ["Yes", "Entrar, elegir, confirmar.", "Guardado temporal del patrón: un punto de retorno."],
+    screen:   ["Pantalla", "Arriba: banco y patrón, nombre, modo de teclas y tempo. Al medio: los 8 parámetros de las perillas A–H en el mismo orden que en el panel. Abajo a la derecha: pista activa y si es audio (SMP) o MIDI (MID).", null],
+    knob:     ["Perillas A–H", "Editan los 8 parámetros que muestra la pantalla. Apretar y girar = saltos grandes. Mantener un paso y girar = parameter lock. Mantener TRK y girar = Control All.", "Con FUNC, algunos parámetros saltan a valores útiles: notas de a octava, delay a tempo."],
+    trigp:    ["Trig parameters", "Nota, velocity, largo, probabilidad, trig de LFO y de filtro, fill y condición. Segunda página: retrigs y portamento.", "QUANTIZE: cuantiza lo grabado en vivo, por pista o patrón entero."],
+    src:      ["Src", "La máquina de fuente: afinación, modo, sample, inicio, largo, loop. Dos veces: con forma de onda.", "MACHINE: cambiar la máquina de fuente o de filtro de la pista."],
+    fltr:     ["Fltr", "El filtro elegido y su envolvente. Segunda página: base-width y delay de envolvente.", "SETUP: control all, ruteo del compresor, intercambio de pistas, legato, portamento, velocity y key tracking."],
+    amp:      ["Amp", "Envolvente de volumen (AHD o ADSR), paneo y volumen de la pista.", "SEQUENCER: el secuenciador euclídeo de la pista."],
+    fx:       ["Fx", "Bit reduction, overdrive, sample rate reduction y envíos a delay, reverb y chorus.", "SEND FX: los parámetros del delay, reverb y chorus del patrón."],
+    mod:      ["Mod", "Los tres LFO de la pista (dos en MIDI).", "MIXER: compresor master con sidechain, niveles de pista, mixer de efectos, entrada externa."],
+    func:     ["Func", "La tecla de las segundas funciones (las escritas en naranja). Se mantiene y se toca la otra tecla.", "FUNC + paso en Grid: lock trig. FUNC + pistas: mute rápido."],
+    keyboard: ["Keyboard", "Las 16 teclas pasan a ser un teclado para la pista activa. KEYBOARD + ▲▼: octava.", "KEYBOARD SETUP: escala, tónica y KB FOLD."],
+    record:   ["Record", "Grid recording. REC + PLAY: live recording. REC + STOP: step recording.", "Copiar (patrón, pista, paso… según el contexto)."],
+    play:     ["Play", "Arranca. Otra vez: pausa.", "Borrar (patrón, pista, paso… según el contexto)."],
+    stop:     ["Stop", "Frena. Dos veces seguido: corta también las colas de los efectos.", "Pegar."],
+    trk:      ["Trk", "TRK + tecla 1–16 elige la pista activa. Mantener TRK y girar: Control All.", "MUTE: modo mute global. Doble toque: mute del patrón."],
+    ptn:      ["Ptn", "PTN + ◀▶ elige banco, + tecla 1–16 elige patrón. Con PTN: FUNC + YES abre el armador de cadenas.", "Selección de banco al estilo de los Elektron viejos (teclas 9–16)."],
+    song:     ["Song", "SONG + tecla 1–16 elige canción y entra a song mode. En song mode: SONG + ◀ loopea la fila.", "SONG EDIT: editar las filas de la canción."],
+    arrows:   ["Flechas", "Navegar menús. Con el patrón sonando, ◀▶ empujan el tempo un 10 % mientras las mantenés. Paso + ◀▶: micro timing.", "FUNC + ◀▶ en Grid: corre la pista un paso. FUNC + ▲▼: cambia el modo de las teclas (pistas, velocities, retrigs, slices, pool)."],
+    page:     ["Page", "Cambia la página del patrón (hasta 8 de 16 pasos). Mantenida con el patrón sonando: FILL.", "PAGE SETUP: largo y velocidad, por patrón o por pista."],
+    trig:     ["Teclas 1–16", "Poner y sacar pasos, elegir pistas, patrones y canciones (con TRK, PTN, SONG), y tocar en modo teclado. Rojo = nota; amarillo = lock trig; parpadeo = tiene locks.", "Mute rápido de esa pista."]
+  };
+  var tr = document.getElementById("trigs");
+  for(var i=1;i<=16;i++){
+    var b = document.createElement("button");
+    b.className = "pk"; b.setAttribute("data-k","trig"); b.textContent = i;
+    tr.appendChild(b);
+  }
+  var info = document.getElementById("info");
+  var activo = null;
+  function esc(s){ return String(s).replace(/[&<>]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c]; }); }
+  function mostrar(el){
+    var d = KEYS[el.getAttribute("data-k")]; if(!d) return;
+    if(activo) activo.setAttribute("aria-pressed","false");
+    activo = el; el.setAttribute("aria-pressed","true");
+    var html = '<div class="nom">'+esc(d[0])+'</div><dl><dt>Sola</dt><dd>'+esc(d[1])+'</dd>';
+    if(d[2]) html += '<dt>Con Func</dt><dd class="fn">'+esc(d[2])+'</dd>';
+    info.innerHTML = html + '</dl>';
+  }
+  var panel = document.getElementById("panel");
+  panel.addEventListener("click", function(e){
+    var el = e.target.closest("[data-k]"); if(el) mostrar(el);
+  });
+  panel.querySelector(".scr").addEventListener("keydown", function(e){
+    if(e.key === "Enter" || e.key === " "){ e.preventDefault(); mostrar(this); }
+  });
+
+  /* ---------- atajos ---------- */
+  var F = '<kbd class="f">FUNC</kbd>';
+  function K(t){ return '<kbd>'+t+'</kbd>'; }
+  var ATAJOS = [
+    ["Básico", [
+      [F+" + "+K("SETTINGS"), "Guardar el proyecto", "guardar save proyecto"],
+      [F+" + "+K("YES")+" / "+F+" + "+K("NO"), "Guardado temporal del patrón / volver a él", "guardar recargar reload temporal deshacer"],
+      [K("TRK")+" + "+K("1–16"), "Elegir pista", "pista track elegir"],
+      [K("PTN")+" + "+K("◀ ▶")+" + "+K("1–16"), "Elegir banco y patrón", "patron banco pattern"],
+      ["Perilla + "+K("NO"), "Parámetro a su valor por defecto", "reset default"],
+      ["Página + "+K("YES")+" / "+K("NO")+" / "+K("PLAY"), "Randomizar / recargar / poner en default esa página", "random azar recargar reset"],
+      [K("TRK")+" + "+K("1–16")+" + "+K("NO"), "Recargar el preset de esa pista", "preset recargar"],
+    ]],
+    ["Grabar", [
+      [K("REC"), "Grid recording", "grid grabar pasos"],
+      [K("REC")+" + "+K("PLAY"), "Live recording (doble PLAY: cuantización)", "live vivo grabar cuantizar"],
+      [K("REC")+" + "+K("STOP"), "Step recording (doble STOP: modo jump)", "step paso"],
+      [F+" + paso", "Lock trig (en Grid)", "lock trig amarillo"],
+      ["Paso + perilla", "Parameter lock", "lock plock parametro"],
+      ["Paso + apretar perilla", "Sacar ese lock", "borrar lock"],
+      ["Paso + "+K("◀ ▶"), "Micro timing", "micro timing corrimiento"],
+      ["Paso + "+K("YES"), "Escuchar el paso con sus locks", "preview escuchar"],
+      ["Paso + "+K("PRESET/KIT"), "Guardar el sonido de ese paso como preset", "preset guardar"],
+      [F+" + "+K("◀ ▶"), "Correr toda la pista un paso (en Grid)", "mover shift correr"],
+      [K("NO")+" + pistas (en Live)", "Borrar en tiempo real mientras las mantenés", "borrar live"],
+      [F+" + "+K("TRIG"), "Menú de cuantización", "cuantizar quantize"],
+    ]],
+    ["Copiar, pegar, borrar", [
+      [F+" + "+K("REC")+" / "+K("STOP")+" / "+K("PLAY"), "Patrón (fuera de Grid) o pista (en Grid)", "copiar pegar borrar patron pista"],
+      ["Paso + "+K("REC")+" / "+K("STOP")+" / "+K("PLAY"), "Pasos con sus locks", "copiar pegar borrar paso"],
+      [K("PAGE")+" + "+K("REC")+" / "+K("STOP")+" / "+K("PLAY"), "Página de 16 pasos", "copiar pegar borrar pagina"],
+      [K("TRK")+" + "+K("REC")+" / "+K("STOP")+" / "+K("PLAY"), "Preset de la pista", "copiar pegar borrar preset sonido"],
+      ["Página + "+K("REC")+" / "+K("STOP"), "Página de parámetros", "copiar pegar parametros"],
+      ["Repetir la combinación", "Deshacer pegar o borrar", "deshacer undo"],
+    ]],
+    ["Menús", [
+      [F+" + "+K("SRC"), "Máquinas (fuente y filtro)", "machine maquina"],
+      [F+" + "+K("FLTR"), "Setup: kit, compresor, swap, legato, portamento", "setup kit swap"],
+      [F+" + "+K("AMP"), "Secuenciador euclídeo", "euclideo euclid"],
+      [F+" + "+K("FX"), "Delay, reverb, chorus", "efectos delay reverb chorus"],
+      [F+" + "+K("MOD"), "Mixer y compresor", "mixer compresor sidechain"],
+      [F+" + "+K("PAGE"), "Largo y velocidad del patrón o pista", "largo length page setup polirritmia"],
+      [F+" + "+K("KEYBOARD"), "Escala, tónica, fold", "escala teclado"],
+      [F+" + "+K("SAMPLING"), "Samples del +Drive y la RAM", "samples cargar"],
+      [F+" + "+K("▲ ▼"), "Modo de las teclas: pistas, velocities, retrigs, slices, pool", "trig mode modo teclas"],
+    ]],
+    ["Tocar", [
+      [F+" + "+K("TRK"), "Modo mute global (doble TRK: mute del patrón)", "mute silenciar"],
+      [F+" + pistas", "Mute rápido", "mute rapido"],
+      [K("PAGE")+" mantenido", "Fill mientras lo mantenés", "fill"],
+      [K("YES")+" + "+K("PAGE"), "Fill por una vuelta", "fill"],
+      [K("TRK")+" + perilla", "Control All: todas las pistas a la vez", "control all todas"],
+      [F+" + "+K("PRESET/KIT"), "Perform kit mode", "perform kit vivo"],
+      [K("KEYBOARD"), "Modo teclado (con ▲▼: octava)", "teclado keyboard notas"],
+      [F+" + "+K("TEMPO"), "Tap tempo", "tap tempo"],
+      [K("◀")+" / "+K("▶")+" mantenidos", "Empujar el tempo ±10 %", "nudge tempo empujar"],
+      [K("TEMPO")+" + "+K("YES"), "Metrónomo", "metronomo click"],
+      [K("STOP")+" + "+K("STOP"), "Parar cortando las colas de efectos", "stop parar"],
+    ]],
+    ["Arreglo", [
+      [K("PTN")+", después "+F+" + "+K("YES"), "Armar una cadena", "cadena chain"],
+      [K("SONG")+" + "+K("1–16"), "Elegir canción y entrar a song mode", "song cancion"],
+      [F+" + "+K("SONG"), "Editar la canción", "song editar"],
+      [F+" + "+K("▼")+" / "+K("▲"), "Agregar / borrar fila (en song edit)", "fila row song"],
+      [K("SONG")+" + "+K("◀"), "Loopear la fila que suena", "loop fila song"],
+    ]]
+  ];
+  var tbody = document.querySelector("#tabla-atajos tbody");
+  var filas = [];
+  ATAJOS.forEach(function(g){
+    var h = document.createElement("tr"); h.className = "gr";
+    h.innerHTML = '<td colspan="2" class="grupo">'+g[0]+'</td>';
+    tbody.appendChild(h);
+    g[1].forEach(function(a){
+      var r = document.createElement("tr");
+      r.innerHTML = '<td>'+a[0]+'</td><td>'+a[1]+'</td>';
+      r._txt = (r.textContent+" "+a[2]+" "+g[0]).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
+      r._g = h; tbody.appendChild(r); filas.push(r);
+    });
+  });
+  var q = document.getElementById("q"), sin = document.getElementById("sin");
+  q.addEventListener("input", function(){
+    var t = q.value.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").trim();
+    var vis = 0; var grupos = new Set();
+    filas.forEach(function(r){
+      var ok = !t || r._txt.indexOf(t) > -1;
+      r.style.display = ok ? "" : "none";
+      if(ok){ vis++; grupos.add(r._g); }
+    });
+    tbody.querySelectorAll("tr.gr").forEach(function(h){ h.style.display = grupos.has(h) ? "" : "none"; });
+    sin.style.display = vis ? "none" : "block";
+  });
+
+  /* ---------- progreso (se guarda solo en este navegador) ---------- */
+  var KEY = "naya-dt2-progreso";
+  var estado = {};
+  try{ estado = JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){ estado = {}; }
+  var checks = document.querySelectorAll("input[data-mod], input[data-paso]");
+  function id(c){ return c.getAttribute("data-mod") || c.getAttribute("data-paso"); }
+  function pintar(){
+    var mods = document.querySelectorAll("input[data-mod]"), n = 0;
+    mods.forEach(function(c){
+      var link = document.querySelector('.toc a[href="#'+c.getAttribute("data-mod")+'"]');
+      if(link) link.classList.toggle("done", c.checked);
+      if(c.checked) n++;
+    });
+    document.getElementById("prog-txt").textContent = n + " de " + mods.length + " módulos";
+    document.getElementById("prog-bar").style.width = (n / mods.length * 100) + "%";
+  }
+  checks.forEach(function(c){
+    c.checked = !!estado[id(c)];
+    c.addEventListener("change", function(){
+      estado[id(c)] = c.checked;
+      try{ localStorage.setItem(KEY, JSON.stringify(estado)); }catch(e){}
+      pintar();
+    });
+  });
+  pintar();
+})();
+</script>
+
+</html>

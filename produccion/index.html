@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Clases de Producción · NAYA</title>
+<meta name="description" content="Clases de producción con NAYA. Un recorrido por herramienta: Ableton Live, Digitakt II y lo que venga.">
+<meta name="theme-color" content="#0b0a0a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg: #0b0a0a; --bg-raised: #15120f; --line: #2e2620; --line-soft: #241e19;
+    --text: #f2ede4; --text-muted: #a89d8e; --text-faint: #6f665c;
+    --gold: #e8b04a; --gold-soft: #8a6c2f; --terra: #e0653a; --sand: #cbb389;
+    --font-display: "Fraunces", ui-serif, Georgia, serif;
+    --font-poster: "Anton", ui-sans-serif, sans-serif;
+    --font-body: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+  }
+  *,*::before,*::after{ box-sizing: border-box; }
+  @media (prefers-reduced-motion: reduce){ *{ transition-duration:.001ms !important; } }
+  body{
+    margin:0; background: var(--bg); color: var(--text);
+    font-family: var(--font-body); font-size:16px; line-height:1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a{ color: var(--gold); text-underline-offset: 3px; }
+  a:focus-visible{ outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
+  .wrap{ max-width: 760px; margin: 0 auto; padding: 3.5rem 1.4rem 5rem; }
+  .brand{
+    font-family: var(--font-mono); font-size:.7rem; letter-spacing:.2em;
+    text-transform:uppercase; color: var(--text-faint);
+    border-bottom:1px solid var(--line); padding-bottom:.85rem; margin-bottom:2.6rem;
+  }
+  .brand .n{ color: var(--gold); font-weight:600; letter-spacing:.24em; }
+  h1{
+    font-family: var(--font-poster); font-weight:400;
+    font-size: clamp(3.2rem, 13vw, 6rem); line-height:.86;
+    text-transform:uppercase; margin:0 0 1.1rem;
+  }
+  .bajada{
+    font-family: var(--font-display); font-weight:300;
+    font-size: clamp(1.1rem, 2.6vw, 1.4rem); line-height:1.45;
+    color: var(--sand); max-width:40ch; margin:0 0 2.6rem;
+  }
+  h2{
+    font-family: var(--font-poster); font-weight:400; font-size:1.5rem;
+    text-transform:uppercase; margin:0 0 .3rem;
+  }
+  .nota{ font-family: var(--font-mono); font-size:.73rem; color: var(--text-faint); margin:0 0 1.3rem; }
+  section{ margin-bottom:3rem; }
+
+  .herr{ display:grid; gap:.7rem; }
+  .h{
+    display:block; text-decoration:none; color: inherit;
+    background: var(--bg-raised); border:1px solid var(--line-soft);
+    border-left:2px solid var(--line); border-radius:3px; padding:1.15rem 1.25rem;
+    transition: border-color .15s, background .15s;
+  }
+  a.h{ border-left-color: var(--gold); }
+  a.h:hover{ background:#1a1510; border-color: var(--gold-soft); border-left-color: var(--gold); }
+  .h-top{ display:flex; align-items:baseline; gap:.7rem; flex-wrap:wrap; margin-bottom:.35rem; }
+  .h-num{ font-family: var(--font-mono); font-size:.72rem; font-weight:600; color: var(--text-faint); }
+  a.h .h-num{ color: var(--gold); }
+  .h-nombre{ font-family: var(--font-poster); text-transform:uppercase; font-size:1.55rem; line-height:1; }
+  .estado{
+    font-family: var(--font-mono); font-size:.6rem; letter-spacing:.12em; text-transform:uppercase;
+    padding:.2rem .5rem; border-radius:2px; border:1px solid var(--line); color: var(--text-faint); white-space:nowrap;
+  }
+  .estado.ok{ background: var(--gold); border-color: var(--gold); color: var(--bg); font-weight:600; }
+  .h p{ margin:0; color: var(--text-muted); font-size:.93rem; line-height:1.5; }
+  .h .abrir{
+    display:inline-block; margin-top:.8rem; color: var(--gold);
+    font-family: var(--font-mono); font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; font-weight:600;
+  }
+  .como{
+    border-left:2px solid var(--terra); padding:.1rem 0 .1rem 1.2rem;
+    color: var(--text-muted); font-size:.95rem; max-width:58ch;
+  }
+  .como b{ color: var(--text); font-weight:600; }
+  footer{
+    border-top:1px solid var(--line); padding-top:1.2rem;
+    font-family: var(--font-mono); font-size:.66rem; letter-spacing:.1em;
+    text-transform:uppercase; color: var(--text-faint);
+  }
+</style>
+
+<div class="wrap">
+
+  <div class="brand"><span class="n">NAYA</span> · Clases de Producción</div>
+
+  <h1>Clases de<br>producción</h1>
+  <p class="bajada">Hacer música con lo que tengas a mano. Un recorrido por herramienta: primero entenderla, después componer con ella.</p>
+
+  <section>
+    <h2>Herramientas</h2>
+    <p class="nota">Elegí por dónde empezar. Se van sumando más.</p>
+    <div class="herr">
+      <div class="h">
+        <div class="h-top"><span class="h-num">01</span><span class="h-nombre">Ableton Live</span><span class="estado">pronto</span></div>
+        <p>La compu como estudio: sesión y arreglo, clips, MIDI, audio, efectos y mezcla.</p>
+      </div>
+      <a class="h" href="digitakt-ii/">
+        <div class="h-top"><span class="h-num">02</span><span class="h-nombre">Elektron Digitakt II</span><span class="estado ok">abierta</span></div>
+        <p>Caja de ritmos y sampler. Secuenciador de 16 pistas, parameter locks, sampleo y un track terminado al final del recorrido.</p>
+        <span class="abrir">Abrir la guía →</span>
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <h2>Cómo funciona</h2>
+    <p class="nota">Teoría corta, mucha práctica</p>
+    <p class="como">Cada herramienta tiene su guía: <b>qué es cada cosa, cómo se usa y un ejercicio para hacer con las manos</b>. Al final de cada recorrido hay un proyecto: componer un track de punta a punta con esa herramienta. Las herramientas se pueden combinar: el Digitakt II tiene una sección para trabajar junto a Ableton Live.</p>
+  </section>
+
+  <footer>NAYA · Clases de Producción · Buenos Aires</footer>
+
+</div>
+
+</html>
