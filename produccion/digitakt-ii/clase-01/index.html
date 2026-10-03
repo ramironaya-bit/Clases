@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Clase 01 · Tu primera canción · Digitakt II</title>
+<meta name="description" content="Clase interactiva: armar un tema entero en el Digitakt II, paso a paso.">
+<meta name="theme-color" content="#0b0a0a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#0b0a0a; --bg-raised:#15120f; --bg-feature:#1a1108; --line:#2e2620; --line-soft:#241e19;
+    --text:#f2ede4; --text-muted:#a89d8e; --text-faint:#6f665c;
+    --gold:#e8b04a; --gold-soft:#8a6c2f; --terra:#e0653a; --sand:#cbb389;
+    --font-display:"Fraunces", ui-serif, Georgia, serif;
+    --font-poster:"Anton", ui-sans-serif, sans-serif;
+    --font-body:"IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+    --font-mono:"IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+  }
+  *,*::before,*::after{ box-sizing:border-box; }
+  body{ margin:0; background:var(--bg); color:var(--text); font-family:var(--font-body); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+  a{ color:var(--gold); text-underline-offset:3px; }
+  button:focus-visible, a:focus-visible{ outline:2px solid var(--gold); outline-offset:3px; }
+  .wrap{ max-width:1080px; margin:0 auto; padding:1.6rem 1.4rem 4rem; }
+
+  .brand{ display:flex; justify-content:space-between; gap:.75rem; flex-wrap:wrap; font-family:var(--font-mono); font-size:.68rem; letter-spacing:.18em; text-transform:uppercase; color:var(--text-faint); border-bottom:1px solid var(--line); padding-bottom:.8rem; margin-bottom:1.4rem; }
+  .brand .n{ color:var(--gold); font-weight:600; }
+  .brand a{ color:var(--text-faint); text-decoration:none; } .brand a:hover{ color:var(--gold); }
+  .cab{ display:flex; align-items:baseline; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:1rem; }
+  h1{ font-family:var(--font-poster); font-weight:400; text-transform:uppercase; font-size:clamp(1.8rem,5vw,2.8rem); line-height:.95; margin:0; }
+  h1 small{ display:block; font-family:var(--font-mono); font-size:.7rem; letter-spacing:.22em; color:var(--terra); margin-bottom:.4rem; }
+  .meta{ font-family:var(--font-mono); font-size:.72rem; color:var(--text-faint); }
+
+  .bloques{ display:flex; gap:.35rem; overflow-x:auto; scrollbar-width:none; margin:0 0 1.2rem; padding-bottom:.2rem; }
+  .bloques::-webkit-scrollbar{ display:none; }
+  .bloques button{ flex:0 0 auto; font-family:var(--font-mono); font-size:.66rem; letter-spacing:.06em; text-transform:uppercase; color:var(--text-muted); background:transparent; border:1px solid var(--line); border-radius:2px; padding:.35rem .6rem; cursor:pointer; }
+  .bloques button.act{ color:var(--bg); background:var(--gold); border-color:var(--gold); }
+  .bloques button.ok{ border-color:var(--gold-soft); color:var(--gold); }
+  .barra{ height:3px; background:var(--line); margin:-.6rem 0 1.4rem; }
+  .barra i{ display:block; height:100%; width:0; background:var(--gold); transition:width .25s; }
+
+  .escena{ display:grid; grid-template-columns: minmax(0,1fr) minmax(0,1.25fr); gap:1.6rem; align-items:start; }
+  @media (max-width: 860px){ .escena{ grid-template-columns:1fr; } }
+
+  .paso{ background:var(--bg-raised); border:1px solid var(--line-soft); border-left:2px solid var(--gold); border-radius:3px; padding:1.3rem 1.4rem 1.2rem; }
+  .num{ font-family:var(--font-mono); font-size:.7rem; letter-spacing:.16em; text-transform:uppercase; color:var(--gold); margin-bottom:.35rem; }
+  .paso h2{ font-family:var(--font-poster); font-weight:400; text-transform:uppercase; font-size:clamp(1.5rem,4vw,2rem); line-height:1; margin:0 0 .9rem; }
+  .combo{ font-family:var(--font-mono); font-size:.82rem; color:var(--sand); background:#0f0d0b; border:1px solid var(--line); border-radius:3px; padding:.55rem .75rem; margin:0 0 1rem; }
+  .combo:empty{ display:none; }
+  .txt p{ margin:0 0 .8rem; color:var(--text-muted); }
+  .txt ol, .txt ul{ color:var(--text-muted); padding-left:1.2rem; margin:0 0 .8rem; }
+  .txt li{ margin-bottom:.3rem; }
+  .txt b{ color:var(--text); }
+  kbd{ font-family:var(--font-mono); font-size:.78em; font-weight:600; color:var(--text); background:#2a2826; border:1px solid #3a3633; border-bottom-width:2px; border-radius:3px; padding:.02em .38em; white-space:nowrap; }
+  kbd.f{ background:#d9a03a; color:#1a1408; border-color:#b8862e; }
+  .ver{ border-left:2px solid var(--gold-soft); padding:.1rem 0 .1rem .9rem; margin:.4rem 0 .8rem; font-size:.92rem; color:var(--text-muted); }
+  .ver b{ font-family:var(--font-mono); font-size:.62rem; letter-spacing:.16em; text-transform:uppercase; color:var(--gold); display:block; font-weight:500; }
+  details{ margin:.4rem 0 0; border-top:1px solid var(--line); padding-top:.7rem; }
+  summary{ cursor:pointer; font-family:var(--font-mono); font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--terra); }
+  details p{ color:var(--text-muted); font-size:.92rem; margin:.6rem 0 0; }
+
+  .nav{ display:flex; gap:.6rem; margin-top:1.1rem; }
+  .nav button{ font-family:var(--font-mono); font-size:.74rem; letter-spacing:.12em; text-transform:uppercase; padding:.85rem 1.1rem; cursor:pointer; border-radius:2px; }
+  .nav .atras{ background:transparent; color:var(--text-muted); border:1px solid var(--line); }
+  .nav .sig{ flex:1; background:var(--gold); color:var(--bg); border:1px solid var(--gold); font-weight:600; }
+  .nav .sig:hover{ background:#f0bb55; }
+  .nav button:disabled{ opacity:.35; cursor:default; }
+  .tip{ font-family:var(--font-mono); font-size:.64rem; color:var(--text-faint); margin-top:.6rem; }
+
+  .lado{ position:sticky; top:1rem; }
+  @media (max-width: 860px){ .lado{ position:static; order:-1; } .regla{ display:none; } .info{ min-height:0; } }
+  .info{ margin-top:.8rem; font-size:.86rem; color:var(--text-muted); background:var(--bg-raised); border:1px solid var(--line); border-radius:3px; padding:.75rem .9rem; min-height:3.4rem; }
+  .info b{ color:var(--text); font-family:var(--font-poster); font-weight:400; text-transform:uppercase; letter-spacing:.02em; font-size:1rem; display:block; }
+  .info .fn{ color:var(--sand); display:block; margin-top:.25rem; }
+  .regla{ margin-top:.8rem; font-size:.84rem; color:var(--text-faint); border-left:2px solid var(--terra); padding-left:.8rem; }
+  .regla b{ color:var(--terra); font-weight:600; }
+</style>
+
+<div class="wrap">
+  <div class="brand"><span><span class="n">NAYA</span> · Clases de Producción · Digitakt II</span><a href="../">← Guía Digitakt II</a></div>
+
+  <div class="cab">
+    <h1><small>Clase 01 · Interactiva</small>Tu primera canción</h1>
+    <span class="meta" id="meta">126 BPM · 4 patrones · ~3 min</span>
+  </div>
+
+  <div class="bloques" id="bloques"></div>
+  <div class="barra"><i id="barra"></i></div>
+
+  <div class="escena">
+    <div>
+      <article class="paso" aria-live="polite">
+        <div class="num" id="num"></div>
+        <h2 id="titulo"></h2>
+        <div class="combo" id="combo"></div>
+        <div class="txt" id="txt"></div>
+        <div class="ver" id="ver"><b>Tenés que ver</b><span></span></div>
+        <details id="ayuda"><summary>No me sale</summary><p></p></details>
+      </article>
+      <div class="nav">
+        <button class="atras" id="atras">← Atrás</button>
+        <button class="sig" id="sig">Listo, siguiente →</button>
+      </div>
+      <p class="tip">También con las flechas del teclado. Tu avance queda guardado en este navegador.</p>
+    </div>
+    <div class="lado">
+      <div id="panel"></div>
+      <div class="info" id="info">Lo que brilla es lo que tenés que tocar. <span class="fn">Tocá cualquier tecla del dibujo para ver qué hace.</span></div>
+      <p class="regla"><b>La regla de oro:</b> las perillas A–H mueven lo que muestra la pantalla en ese momento. Si girás A y cambia otra cosa, es porque tenés abierta otra página: fijate qué dice la pantalla.</p>
+    </div>
+  </div>
+</div>
+
+<script src="../panel.js"></script>
+<script>
+(function(){
+  var F = '<kbd class="f">FUNC</kbd>';
+  function K(t){ return '<kbd>'+t+'</kbd>'; }
+  var GUARDAR = "Guardá: mantené "+F+" y tocá "+K("⚙ SETTINGS")+" (abajo dice Save Proj). Acostumbrate a hacerlo cada vez que algo te gusta.";
+
+  var BLOQUES = ["Preparar","El kit","La batería","El bajo","El stab","Cuatro patrones","La canción","Tocar y grabar"];
+
+  // b: bloque · k: teclas a iluminar (["x","h"] = mantener) · t: título · p: texto · v: qué ver · a: ayuda
+  var PASOS = [
+    // 0 · Preparar
+    {b:0, t:"Cómo leer esta clase", k:[], p:"<p>Un paso por pantalla. A la derecha está tu Digitakt II dibujado: <b>lo que brilla es lo que tenés que tocar</b>, con el orden numerado. Si dice <b>mantené</b>, lo dejás apretado mientras tocás lo siguiente.</p><p>La tecla amarilla es "+F+". Todo lo que está escrito en naranja abajo de una tecla se usa manteniendo FUNC.</p>", v:"El aparato prendido y con el volumen a un nivel cómodo.", a:"Si en algún momento te perdés dentro de un menú, tocá NO las veces que haga falta: siempre te devuelve a la pantalla principal."},
+    {b:0, t:"Abrir Settings", k:["settings"], p:"<p>Tocá la tecla del engranaje "+K("⚙")+" (la segunda de la fila de íconos). Abajo dice <i>Save Proj</i>, pero eso es con FUNC; sola abre el menú.</p>", v:"Una lista: PROJECT, SONG, PATTERN, MIDI CONFIG…", a:"Si guardaste en vez de abrir el menú, es que tenías FUNC apretada. Soltala y tocá de nuevo."},
+    {b:0, t:"Entrar a Project", k:["down","yes"], p:"<p>Con "+K("▲")+K("▼")+" (o girando LEVEL/DATA) marcá <b>PROJECT</b> y tocá "+K("YES")+".</p>", v:"LOAD PROJECT, SAVE PROJECT AS, MANAGE PROJECTS."},
+    {b:0, t:"Crear el proyecto", k:["yes","level","yes"], p:"<ol><li>Marcá <b>LOAD PROJECT</b> y "+K("YES")+".</li><li>Girá LEVEL/DATA hasta el final de la lista: ahí está <b>CREATE NEW</b>.</li><li>"+K("YES")+" (y otra vez "+K("YES")+" si te pide confirmar).</li></ol>", v:"La pantalla principal con un proyecto vacío: no suena nada al darle PLAY.", a:"Otra vía: SETTINGS → PROJECT → MANAGE PROJECTS, marcá un slot vacío, tocá ▶ y elegí INIT NEW. Si lo hiciste de otra forma, contámelo y corrijo este paso."},
+    {b:0, t:"Ponerle nombre", k:["settings","yes"], p:"<p>"+K("⚙")+" → PROJECT → <b>SAVE PROJECT AS</b> → elegí un slot vacío → "+K("YES")+".</p><ul><li>"+K("◀")+K("▶")+" mueve el cursor; "+K("▲")+K("▼")+" o LEVEL/DATA cambia la letra.</li><li>Si mantenés "+F+" aparece un menú con todas las letras.</li><li>"+F+" + "+K("NO")+" borra.</li></ul><p>"+K("YES")+" para guardar.</p>", v:"Vuelve a la lista de proyectos con tu nombre en el slot."},
+    {b:0, t:"Volver a la pantalla principal", k:["no"], p:"<p>Tocá "+K("NO")+" hasta salir de todos los menús.</p>", v:"La pantalla principal, con el patrón arriba a la izquierda (A01)."},
+    {b:0, t:"Abrir el menú de tempo", k:["tempo"], p:"<p>Este es el paso que te confundió: <b>la perilla A no es el tempo</b>. Es lo que muestre la pantalla. En la página SRC, la A es TUNE; en TRIG, es NOTE. Para que la A sea el BPM, primero tenés que <b>abrir el menú TEMPO</b>: la tecla "+K("◭")+", cuarta de la fila de íconos (abajo dice <i>Tap Tempo</i>).</p>", v:"El menú TEMPO, con el BPM grande.", a:"Si la pantalla no cambió, tocaste otra tecla de íconos. TEMPO es la del triangulito (metrónomo), la que está más a la derecha de las cuatro."},
+    {b:0, t:"126 BPM", k:["knobA"], p:"<p>Con el menú TEMPO abierto, girá la perilla A hasta <b>126</b>. Apretándola mientras girás va de a 4.</p>", v:"126.0 en pantalla."},
+    {b:0, t:"Un poco de swing", k:["knobD","no"], p:"<p>Perilla D: swing en <b>54 %</b>. Le da ese balanceo de house. Después "+K("NO")+" para salir.</p>", v:"De nuevo la pantalla principal."},
+    {b:0, t:"Ir al patrón A03", k:["ptn","t3"], p:"<p>Vamos a armar primero el momento más lleno del tema (el pico) y después copiarlo y sacarle cosas. Restar es mucho más fácil que sumar.</p><p>Tocá "+K("PTN")+" y después la tecla "+K("3")+".</p>", v:"Arriba a la izquierda dice A03.", a:"Si dice B03 o otra letra, con PTN abierto usá ◀ ▶ para volver al banco A antes de tocar el 3."},
+
+    // 1 · Kit
+    {b:1, t:"Elegir la pista 1", k:[["trk","h"],"t1"], p:"<p>Mantené "+K("TRK")+" y tocá "+K("1")+". La pista 1 pasa a ser la <b>pista activa</b>: todo lo que edites ahora le pasa a ella.</p>", v:"La tecla 1 se ilumina mientras mantenés TRK. En la pantalla, abajo a la derecha, figura la pista activa."},
+    {b:1, t:"Abrir los presets", k:["preset","yes"], p:"<p>Tocá "+K("☰")+" (primera tecla de íconos, abajo dice <i>Perform</i>). En la parte de <b>PRESET</b>, marcá <b>LOAD</b> y "+K("YES")+".</p>", v:"Una lista de sonidos (presets)."},
+    {b:1, t:"Buscar un bombo", k:["level","t1","yes"], p:"<ol><li>Girá LEVEL/DATA para recorrer la lista.</li><li>Para escuchar el que está marcado, tocá la tecla de la pista activa: "+K("1")+".</li><li>Cuando encuentres un bombo que pegue, "+K("YES")+" lo carga.</li></ol><p><b>Máximo 2 minutos por sonido.</b> Después se puede cambiar.</p>", v:"Volvés a la pantalla principal y al tocar la tecla 1 suena el bombo.", a:"Para encontrar más rápido: en la lista tocá ◀ y entrá a FILTER, que filtra por etiquetas (bombo, caja, bajo…). NO para volver a la lista."},
+    {b:1, t:"Pistas 2 a 5: batería", k:[["trk","h"],"t2","preset"], p:"<p>Lo mismo para cada pista: "+K("TRK")+" + número → "+K("☰")+" → LOAD → buscar → "+K("YES")+".</p><ul><li><b>2</b>: clap</li><li><b>3</b>: hat cerrado</li><li><b>4</b>: hat abierto</li><li><b>5</b>: percusión (rim, conga, shaker)</li></ul>", v:"Las teclas 1 a 5 disparan los cinco sonidos."},
+    {b:1, t:"Pistas 6 a 8: lo tonal", k:[["trk","h"],"t6","preset"], p:"<ul><li><b>6</b>: un bajo corto</li><li><b>7</b>: un stab o un acorde</li><li><b>8</b>: una voz o textura (opcional)</li></ul>", v:"Las teclas 1 a 8 suenan todas distinto."},
+    {b:1, t:"Guardar", k:[["func","h"],"settings"], p:"<p>"+GUARDAR+"</p>", v:"Un mensaje breve de que se guardó."},
+
+    // 2 · Batería
+    {b:2, t:"Prender la grabación", k:["rec"], p:"<p>Tocá "+K("○")+" (REC). Se pone roja. Desde ahora, las teclas 1–16 son <b>los 16 pasos</b> del compás: tocar una pone o saca un golpe de la pista activa.</p>", v:"REC encendida en rojo.", a:"Con REC prendida, TRK + número sigue eligiendo pista. Sin TRK, las teclas son pasos."},
+    {b:2, t:"Bombo", k:[["trk","h"],"t1","t5","t9","t13","play"], p:"<p>"+K("TRK")+" + "+K("1")+" para elegir el bombo. Después tocá los pasos <b>1, 5, 9 y 13</b>. Dale "+K("▷")+" PLAY.</p>", v:"Las teclas 1, 5, 9 y 13 en rojo, y el bombo en negras.", a:"Un toque corto pone o saca el paso. Si lo mantenés un poquito más, no lo borra: lo deja seleccionado para editar. Si borraste uno sin querer, tocalo de nuevo."},
+    {b:2, t:"Clap", k:[["trk","h"],"t2","t5","t13"], p:"<p>"+K("TRK")+" + "+K("2")+", y pasos <b>5 y 13</b>. Todo esto lo podés hacer con el patrón sonando.</p>", v:"Al cambiar de pista, las teclas muestran solo los pasos de esa pista."},
+    {b:2, t:"Hat cerrado", k:[["trk","h"],"t3","t2","t4","t6","t8","t10","t12","t14","t16"], p:"<p>"+K("TRK")+" + "+K("3")+", y todos los pares: <b>2, 4, 6, 8, 10, 12, 14, 16</b>.</p>"},
+    {b:2, t:"Hat abierto", k:[["trk","h"],"t4","t3","t7","t11","t15"], p:"<p>"+K("TRK")+" + "+K("4")+", pasos <b>3, 7, 11, 15</b>: el contratiempo.</p><p>Si suena muy largo y tapa todo: tocá "+K("AMP")+" y bajá el <b>DEC</b> (mirá en qué lugar de la pantalla está y girá la perilla de ese lugar).</p>"},
+    {b:2, t:"Percusión", k:[["trk","h"],"t5","t4","t10","t15"], p:"<p>"+K("TRK")+" + "+K("5")+", pasos sueltos: <b>4, 10, 15</b>. O donde te guste, en huecos.</p>", v:"Un groove completo de batería."},
+    {b:2, t:"Hat de 12 pasos (1/2)", k:[["trk","h"],"t3",["func","h"],"page"], p:"<p>Elegí el hat cerrado ("+K("TRK")+" + "+K("3")+"). Después "+F+" + "+K("PAGE")+" abre <b>PAGE SETUP</b>.</p>", v:"El menú de largo del patrón: LENGTH y SPEED."},
+    {b:2, t:"Hat de 12 pasos (2/2)", k:[["func","h"],"yes","no"], p:"<p>Dentro de PAGE SETUP, "+F+" + "+K("YES")+" cambia a <b>PER TRACK</b>: aparecen dos columnas, TRACK y PATTERN. En la columna <b>TRACK</b>, poné LENGTH en <b>12</b>. "+K("NO")+" para salir.</p><p>Escuchá: el hat ahora se va corriendo contra el bombo. El loop deja de sentirse quieto.</p>", v:"Al salir, el hat suena desfasado y vuelve a coincidir cada 3 compases.", a:"Si no aparecen dos columnas, no cambió de modo: volvé a mantener FUNC y tocar YES dentro de PAGE SETUP."},
+    {b:2, t:"Hats con dinámica", k:["trigp",["t6","h"],"knobB"], p:"<p>Con el hat cerrado activo, tocá "+K("TRIG")+". En esta página, la perilla B es <b>VEL</b> (velocity).</p><p>Mantené el paso "+K("6")+" y girá B para abajo, a unos 70. Repetí en 10 y 14 con otros valores.</p><p>Eso es un <b>parameter lock</b>: ese paso tiene su propio valor.</p>", v:"Mientras mantenés el paso, el valor aparece resaltado. Al soltar, la tecla parpadea: tiene un lock.", a:"Si se borró el paso en vez de editarse, lo soltaste muy rápido. Mantenelo apretado todo el tiempo que girás."},
+    {b:2, t:"Que bombee (1/2)", k:[["func","h"],"mod"], p:"<p>"+F+" + "+K("MOD")+" (abajo dice <i>Mixer</i>) abre el <b>compresor</b>.</p><ul><li><b>SCS</b>: girá su perilla hasta <b>TRK1</b> (el compresor escucha al bombo).</li><li><b>SCF</b>: llevalo a valores negativos.</li><li><b>THR</b>: bajalo hasta que el resto “respire” con cada bombo.</li></ul><p>Cada parámetro se mueve con la perilla que está <b>en el mismo lugar</b> que él en la pantalla.</p>", v:"La barra de compresión a la izquierda moviéndose con el bombo."},
+    {b:2, t:"Que bombee (2/2)", k:[["func","h"],"fltr","yes"], p:"<p>"+F+" + "+K("FLTR")+" (<i>Setup</i>) → <b>KIT</b> → <b>COMPRESSOR ROUTING</b>. Las teclas encendidas son las pistas que pasan por el compresor: <b>apagá la 1</b>, así el bombo no se comprime a sí mismo. "+K("NO")+" hasta salir.</p>", v:"El bombo vuelve a pegar entero y todo lo demás bombea."},
+    {b:2, t:"Guardar", k:[["func","h"],"settings"], p:"<p>"+GUARDAR+"</p>"},
+
+    // 3 · Bajo
+    {b:3, t:"Elegir una escala", k:[["trk","h"],"t6",["func","h"],"kb"], p:"<p>"+K("TRK")+" + "+K("6")+" (el bajo). Después "+F+" + "+K("♪")+" (la tecla del teclado, a la izquierda; abajo dice <i>KB Setup</i>).</p><ul><li><b>KB SCALE</b>: una escala menor.</li><li><b>ROOT NOTE</b>: A (La).</li><li><b>KB FOLD</b>: ON.</li></ul><p>"+K("NO")+" para salir.</p>", v:"El menú con un teclado dibujado y la escala elegida."},
+    {b:3, t:"Buscar las notas tocando", k:["rec","kb"], p:"<p>Apagá la grabación ("+K("○")+", se apaga la luz roja) y tocá "+K("♪")+" para entrar al modo teclado. Ahora las 16 teclas tocan el bajo en la escala: no hay nota equivocada.</p><p>Con el patrón sonando, buscá <b>3 o 4 notas</b> que te gusten y anotá qué teclas son. "+K("♪")+" otra vez para salir.</p>", v:"Las teclas encendidas tocan notas distintas del bajo.", a:"Con ▲ ▼ (KB Octave) cambiás de octava si suena muy agudo o muy grave."},
+    {b:3, t:"Escribir el bajo", k:["rec",["trk","h"],"t6","t3","t7","t8","t11","t15"], p:"<p>Prendé "+K("○")+" REC, "+K("TRK")+" + "+K("6")+", y pasos <b>3, 7, 8, 11, 15</b>. En tech house el bajo <b>esquiva al bombo</b>.</p>", v:"El bajo sonando siempre la misma nota."},
+    {b:3, t:"Cambiar la nota de un paso", k:["trigp",["t7","h"],"knobA"], p:"<p>Tocá "+K("TRIG")+": acá la perilla A es <b>NOTE</b>. Mantené el paso "+K("7")+" y girá A. Si la apretás mientras girás, salta solo por notas de tu escala.</p><p>Hacelo en 2 o 3 pasos con las notas que encontraste.</p>", v:"Una línea de bajo con movimiento."},
+    {b:3, t:"Bajo corto", k:["amp"], p:"<p>"+K("AMP")+": bajá el <b>DEC</b> (y el HOLD si está alto) hasta que cada nota sea corta. Un bajo corto deja respirar al bombo.</p>"},
+    {b:3, t:"Que el bajo hable", k:["fltr",["t11","h"],"knobE"], p:"<p>"+K("FLTR")+": la perilla E es <b>FREQ</b>, el corte del filtro. Mantené el paso "+K("11")+" y abrilo. Probá en otro paso cerrarlo.</p>", v:"Ese paso suena más brillante que los otros."},
+    {b:3, t:"Guardar", k:[["func","h"],"settings"], p:"<p>"+GUARDAR+"</p>"},
+
+    // 4 · Stab y vida
+    {b:4, t:"El stab", k:[["trk","h"],"t7","t4","t12"], p:"<p>"+K("TRK")+" + "+K("7")+", pasos <b>4 y 12</b> (o donde quede bien, a contratiempo).</p>"},
+    {b:4, t:"Mandarlo al delay", k:["fx",["func","h"],"fx"], p:"<ol><li>"+K("FX")+": subí <b>DEL</b> (el envío al delay) a unos 40.</li><li>"+F+" + "+K("FX")+" (<i>Send FX</i>) abre el delay: poné <b>TIME</b> en <b>24</b> (corchea con puntillo) y FDBK a mitad de camino.</li><li>"+K("NO")+" para salir.</li></ol>", v:"El stab con repeticiones que caen a contratiempo."},
+    {b:4, t:"Un clap cada 4 compases", k:[["trk","h"],"t2","t16","trigp",["t16","h"],"knobH"], p:"<p>"+K("TRK")+" + "+K("2")+", poné un paso nuevo en el <b>16</b>. Después "+K("TRIG")+", mantené el "+K("16")+" y girá H (<b>COND</b>) hasta <b>4:4</b>.</p><p>Ese clap suena solo en la cuarta vuelta: el remate de cada 4 compases.</p>"},
+    {b:4, t:"Una percusión que alterna", k:[["trk","h"],"t5","trigp",["t10","h"],"knobH"], p:"<p>"+K("TRK")+" + "+K("5")+", "+K("TRIG")+", mantené el paso "+K("10")+" y H en <b>1:2</b>: una vuelta sí, una no.</p>"},
+    {b:4, t:"Un hat abierto al azar", k:[["trk","h"],"t4","trigp",["t15","h"],"knobD"], p:"<p>"+K("TRK")+" + "+K("4")+", "+K("TRIG")+", mantené el "+K("15")+" y girá <b>PROB</b> (perilla D) a <b>60 %</b>.</p>"},
+    {b:4, t:"Que el stab se mueva solo", k:[["trk","h"],"t7","mod"], p:"<p>"+K("TRK")+" + "+K("7")+", "+K("MOD")+" (LFO 1):</p><ul><li><b>DEST</b>: girá hasta el corte del filtro (FREQ) y "+K("YES")+".</li><li><b>SPD</b>: 16.</li><li><b>DEP</b>: unos 30.</li></ul>", v:"El stab se abre y se cierra solo.", a:"Si no cambia nada, DEP está en 0 o el destino no quedó confirmado: volvé a DEST y tocá YES."},
+    {b:4, t:"Escuchar 3 minutos", k:[["func","h"],"settings"], p:"<p>Dejalo sonar sin tocar nada. Si te aburre, sumá otra variación con condiciones. Si no te aburre, seguís. Después: "+GUARDAR+"</p>"},
+
+    // 5 · Cuatro patrones
+    {b:5, t:"Parar y salir de REC", k:["stop","rec"], p:"<p>"+K("□")+" STOP y apagá "+K("○")+" REC. Fuera de la grabación, copiar y pegar actúan sobre el <b>patrón entero</b> (con REC prendida, solo sobre la pista).</p>", v:"REC apagada."},
+    {b:5, t:"Copiar A03", k:[["func","h"],"rec"], p:"<p>"+F+" + "+K("○")+" (abajo dice <i>Copy</i>).</p>", v:"Un mensaje de que el patrón se copió."},
+    {b:5, t:"Pegar en A01, A02 y A04", k:["ptn","t1",["func","h"],"stop"], p:"<p>"+K("PTN")+" + "+K("1")+" para ir a A01, y "+F+" + "+K("□")+" (<i>Paste</i>). Repetí con "+K("PTN")+" + "+K("2")+" y "+K("PTN")+" + "+K("4")+".</p><p>Ahora los cuatro patrones son iguales.</p>", v:"Al pasar por A01, A02 y A04, suenan igual que A03.", a:"Si pegaste en el lugar equivocado, repetir FUNC + STOP lo deshace."},
+    {b:5, t:"A01 · intro", k:["ptn","t1","rec",["trk","h"],"t2",["func","h"],"play"], p:"<p>"+K("PTN")+" + "+K("1")+", prendé "+K("○")+" REC. Para vaciar una pista: "+K("TRK")+" + número y después "+F+" + "+K("▷")+" (<i>Clear</i>).</p><p>Vaciá las pistas <b>2, 6, 7 y 8</b>. Queda bombo, hats y percusión.</p>"},
+    {b:5, t:"A02 · groove", k:["ptn","t2",["trk","h"],"t7",["func","h"],"play"], p:"<p>"+K("PTN")+" + "+K("2")+": vaciá las pistas <b>7 y 8</b>. Queda la batería y el bajo.</p>"},
+    {b:5, t:"A04 · break", k:["ptn","t4",["trk","h"],"t1",["func","h"],"play"], p:"<p>"+K("PTN")+" + "+K("4")+": vaciá <b>1 (bombo) y 6 (bajo)</b>. Al stab ("+K("TRK")+" + "+K("7")+") subile <b>REV</b> en la página "+K("FX")+".</p>"},
+    {b:5, t:"El redoble del break", k:[["trk","h"],"t2","trigp","trigp",["t13","h"],"knobA"], p:"<p>En A04, "+K("TRK")+" + "+K("2")+". Tocá "+K("TRIG")+" <b>dos veces</b> (página de retrigs). Mantené el paso "+K("13")+" y prendé <b>RTRG</b> (perilla A); poné <b>RATE</b> en 1/16.</p><p>Volvé a la primera página de "+K("TRIG")+", mantené el "+K("13")+" y poné <b>COND</b> (H) en <b>8:8</b>: suena solo en el último compás del break.</p>", a:"Si el redoble dura poco, subí LEN en la página de retrigs, con el paso apretado."},
+    {b:5, t:"Guardar", k:[["func","h"],"settings"], p:"<p>"+GUARDAR+"</p>"},
+
+    // 6 · Canción
+    {b:6, t:"Abrir una canción", k:["stop","song","t1",["func","h"],"song"], p:"<p>"+K("□")+" STOP. "+K("SONG")+" + "+K("1")+", y "+F+" + "+K("SONG")+" (<i>Song Edit</i>). Elegí <b>INSERT ROW</b> y "+K("YES")+".</p>", v:"Una tabla con una fila y otra que dice END."},
+    {b:6, t:"La primera fila", k:["right","level"], p:"<p>"+K("◀")+K("▶")+" se mueve por columnas, "+K("▲")+K("▼")+" por filas, LEVEL/DATA cambia el valor marcado.</p><p>Fila 1: patrón <b>A01</b>, repeticiones <b>16</b> (16 compases).</p>"},
+    {b:6, t:"Agregar las demás", k:[["func","h"],"down"], p:"<p>"+F+" + "+K("▼")+" agrega una fila (copia de la marcada). Cambiale patrón y repeticiones:</p><ol start='2'><li>A02 · 16</li><li>A03 · 16</li><li>A04 · 8</li><li>A03 · 16</li><li>A02 · 16</li><li>A01 · 8</li></ol>", a:"Si agregaste una de más: marcala y FUNC + ▲ la borra."},
+    {b:6, t:"Mutes por fila", k:["yes"], p:"<p>En la fila 1, andá a la columna del mute y tocá "+K("YES")+": con las teclas apagá <b>3 y 4</b> (los hats), así la intro arranca solo con bombo. "+K("NO")+" para volver. En la fila 7, apagá la <b>1</b> (el bombo) para el final.</p>", v:"Un ícono de mute en las filas 1 y 7."},
+    {b:6, t:"Que termine", k:[["func","h"],"settings"], p:"<p>En la fila <b>END</b>, elegí <b>STOP</b>. Después: "+GUARDAR+"</p>"},
+    {b:6, t:"Escucharla entera", k:["no","stop","stop","play"], p:"<p>"+K("NO")+" para salir de la edición. "+K("□")+" dos veces lleva al principio. "+K("▷")+" PLAY.</p><p>96 compases: unos <b>3 minutos</b>.</p>", v:"Arriba, la fila que suena y una barra de progreso."},
+
+    // 7 · Tocar y grabar
+    {b:7, t:"Tocar encima", k:["fltr",["trk","h"],"knobE"], p:"<p>Mientras suena la canción:</p><ul><li>"+K("FLTR")+", mantené "+K("TRK")+" y girá E: cerrás y abrís el filtro de <b>todas</b> las pistas a la vez (Control All).</li><li>Mantené "+K("PAGE")+" antes de un pico: fill.</li></ul>", a:"Para deshacer un Control All: tocá NO antes de soltar TRK."},
+    {b:7, t:"Grabarla", k:[], p:"<p>Grabala en Ableton (Módulo 9 de la guía) o, para ir rápido, con el celular. Tocando encima, como si fuera en vivo.</p>"},
+    {b:7, t:"Tarea", k:[], p:"<p>Escuchala al otro día, con oídos frescos, y anotá <b>3 cosas para cambiar</b>. Con eso arranca la clase 2.</p><p>Hiciste un tema entero. 🎛️</p>"}
+  ];
+
+  /* ---------- motor ---------- */
+  var KEY = "naya-dt2-clase01";
+  var i = 0, hechos = {};
+  try{ var s = JSON.parse(localStorage.getItem(KEY)) || {}; i = Math.min(s.i||0, PASOS.length-1); hechos = s.h || {}; }catch(e){}
+  function guardar(){ try{ localStorage.setItem(KEY, JSON.stringify({i:i, h:hechos})); }catch(e){} }
+
+  DT2Panel.render(document.getElementById("panel"));
+  var bl = document.getElementById("bloques");
+  BLOQUES.forEach(function(n, b){
+    var btn = document.createElement("button"); btn.textContent = (b)+" · "+n;
+    btn.addEventListener("click", function(){ for(var j=0;j<PASOS.length;j++){ if(PASOS[j].b===b){ ir(j); break; } } });
+    bl.appendChild(btn);
+  });
+
+  function ir(n){
+    i = Math.max(0, Math.min(PASOS.length-1, n));
+    var p = PASOS[i];
+    document.getElementById("num").textContent = "Bloque "+p.b+" · "+BLOQUES[p.b]+" · paso "+(i+1)+" de "+PASOS.length;
+    document.getElementById("titulo").textContent = p.t;
+    document.getElementById("combo").textContent = p.k.length ? DT2Panel.texto(p.k).replace(/^./, function(c){ return c.toUpperCase(); }) : "";
+    document.getElementById("txt").innerHTML = p.p;
+    var v = document.getElementById("ver"); v.style.display = p.v ? "" : "none"; v.querySelector("span").textContent = p.v || "";
+    var a = document.getElementById("ayuda"); a.style.display = p.a ? "" : "none"; a.open = false; a.querySelector("p").textContent = p.a || "";
+    DT2Panel.marcar(p.k);
+    document.getElementById("atras").disabled = i === 0;
+    document.getElementById("sig").textContent = i === PASOS.length-1 ? "Terminé la clase ✓" : "Listo, siguiente →";
+    [].forEach.call(bl.children, function(btn, b){
+      btn.classList.toggle("act", b === p.b);
+      var todos = PASOS.every(function(q, j){ return q.b !== b || hechos[j]; });
+      btn.classList.toggle("ok", todos && b !== p.b);
+    });
+    var n = Object.keys(hechos).length;
+    document.getElementById("barra").style.width = (n / PASOS.length * 100) + "%";
+    guardar();
+  }
+  document.getElementById("sig").addEventListener("click", function(){ hechos[i] = 1; ir(i+1); if(i === PASOS.length-1) guardar(); window.scrollTo({top:0, behavior:"smooth"}); });
+  document.getElementById("atras").addEventListener("click", function(){ ir(i-1); });
+  document.addEventListener("keydown", function(e){
+    if(e.target.closest("input,textarea")) return;
+    if(e.key === "ArrowRight"){ hechos[i] = 1; ir(i+1); }
+    if(e.key === "ArrowLeft") ir(i-1);
+  });
+
+  var info = document.getElementById("info");
+  document.getElementById("panel").addEventListener("click", function(e){
+    var k = e.target.closest("[data-k]"); if(!k) return;
+    var d = DT2Panel.info(k.dataset.k); if(!d) return;
+    info.innerHTML = "<b></b><span class='a'></span>" + (d[2] ? "<span class='fn'></span>" : "");
+    info.querySelector("b").textContent = d[0];
+    info.querySelector(".a").textContent = d[1];
+    if(d[2]) info.querySelector(".fn").textContent = "Con FUNC: " + d[2];
+  });
+
+  ir(i);
+})();
+</script>
+</html>

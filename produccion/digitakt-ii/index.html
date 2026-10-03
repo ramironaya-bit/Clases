@@ -136,46 +136,8 @@
     .capa:nth-child(n){ margin-left:0; }
   }
 
-  /* ===== panel interactivo ===== */
+  /* ===== panel (dibujo en panel.js) ===== */
   .panel-wrap{ margin: 1.2rem 0 0; }
-  .panel{
-    background: var(--panel); border:1px solid var(--panel-line); border-radius:8px; padding: 14px;
-    display:grid; gap:10px;
-    grid-template-columns: repeat(12, 1fr);
-    grid-template-areas:
-      "vol pre set sam tem scr scr scr kn kn kn kn"
-      "lev no  yes .   .   scr scr scr kn kn kn kn"
-      "lev .   .   .   .   scr scr scr par par par par"
-      "fn  kb  rec ply stp trk ptn sng ar ar ar pg"
-      "tr  tr  tr  tr  tr  tr  tr  tr  tr tr tr tr";
-  }
-  .pk{
-    font: inherit; font-family: var(--font-mono); font-size:.6rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase;
-    color: #d9d3ca; background: var(--panel-key); border:1px solid var(--panel-line); border-radius:4px;
-    padding:.45rem .2rem; cursor:pointer; line-height:1.15; min-height:2.3rem; text-align:center;
-    transition: border-color .12s, color .12s, background .12s;
-  }
-  .pk small{ display:block; font-size:.85em; font-weight:500; color:#c98a3a; letter-spacing:.02em; margin-top:.15rem; text-transform:none; }
-  .pk:hover{ border-color: var(--gold-soft); }
-  .pk[aria-pressed="true"]{ border-color: var(--gold); color: var(--gold); background:#2c2416; }
-  .pk.knob{ border-radius:50%; aspect-ratio:1; min-height:0; padding:0; display:grid; place-content:center; }
-  .g-vol{ grid-area: vol; } .g-pre{ grid-area: pre; } .g-set{ grid-area: set; } .g-sam{ grid-area: sam; } .g-tem{ grid-area: tem; }
-  .g-lev{ grid-area: lev; align-self:center; } .g-no{ grid-area: no; } .g-yes{ grid-area: yes; }
-  .scr{ grid-area: scr; background:#0e1210; border:1px solid #2b302c; border-radius:4px; display:grid; place-content:center; text-align:center; font-family: var(--font-mono); font-size:.62rem; color:#7f9a86; letter-spacing:.1em; padding:.6rem; cursor:pointer; }
-  .scr[aria-pressed="true"]{ border-color: var(--gold); color: var(--gold); }
-  .kn{ grid-area: kn; display:grid; grid-template-columns: repeat(4,1fr); gap:8px; }
-  .par{ grid-area: par; display:grid; grid-template-columns: repeat(6,1fr); gap:5px; }
-  .par .pk{ font-size:.52rem; padding:.4rem .1rem; }
-  .g-fn{ grid-area: fn; } .g-kb{ grid-area: kb; } .g-rec{ grid-area: rec; } .g-ply{ grid-area: ply; } .g-stp{ grid-area: stp; }
-  .g-trk{ grid-area: trk; } .g-ptn{ grid-area: ptn; } .g-sng{ grid-area: sng; }
-  .ar{ grid-area: ar; display:grid; grid-template-columns: repeat(3,1fr); grid-template-rows: 1fr 1fr; gap:4px; }
-  .ar .pk{ min-height:0; padding:.2rem; font-size:.7rem; }
-  .ar .u{ grid-column:2; grid-row:1; } .ar .l{ grid-column:1; grid-row:2; } .ar .d{ grid-column:2; grid-row:2; } .ar .r{ grid-column:3; grid-row:2; }
-  .g-pg{ grid-area: pg; }
-  .tr{ grid-area: tr; display:grid; grid-template-columns: repeat(16,1fr); gap:5px; border-top:1px solid var(--panel-line); padding-top:10px; }
-  .tr .pk{ min-height:2rem; padding:.3rem 0; font-size:.58rem; }
-  .pk.rec{ color:#e98a7a; } .pk.fn{ color:#e9b46a; }
-
   .info{
     margin-top:.8rem; background: var(--bg-raised); border:1px solid var(--line); border-left:2px solid var(--gold);
     border-radius:3px; padding:1rem 1.15rem; min-height:7.5rem;
@@ -186,30 +148,11 @@
   .info dd{ margin:0; color: var(--text-muted); font-size:.92rem; }
   .info dd.fn{ color: var(--sand); }
   .panel-nota{ font-family: var(--font-mono); font-size:.68rem; color: var(--text-faint); margin:.6rem 0 0; }
-
-  @media (max-width: 640px){
-    .panel{
-      grid-template-columns: repeat(6, 1fr); padding:10px; gap:7px;
-      grid-template-areas:
-        "scr scr scr scr scr scr"
-        "vol pre set sam tem lev"
-        "no  yes .   .   .   ."
-        "kn  kn  kn  kn  kn  kn"
-        "par par par par par par"
-        "ar  ar  ar  .   pg  pg"
-        "fn  kb  rec ply stp ."
-        "trk ptn sng .   .   ."
-        "tr  tr  tr  tr  tr  tr";
-    }
-    .scr{ min-height:3.4rem; }
-    .kn{ grid-template-columns: repeat(8,1fr); gap:5px; }
-    .pk{ font-size:.55rem; }
-    .pk small{ display:none; }
-    .tr{ grid-template-columns: repeat(8,1fr); }
-    .ar{ max-width: 8.5rem; }
-    .info dl{ grid-template-columns: 1fr; gap:.1rem; }
-    .info dt{ padding-top:.5rem; }
-  }
+  @media (max-width: 640px){ .info dl{ grid-template-columns: 1fr; gap:.1rem; } .info dt{ padding-top:.5rem; } }
+  .clase-cta{ display:block; text-decoration:none; background: var(--bg-feature); border:1px solid var(--gold); border-radius:3px; padding:1.1rem 1.25rem; margin: 0 0 2.6rem; color: var(--text); }
+  .clase-cta:hover{ background:#22170a; }
+  .clase-cta .t{ font-family: var(--font-poster); text-transform:uppercase; font-size:1.4rem; line-height:1; color: var(--gold); display:block; margin-bottom:.3rem; }
+  .clase-cta span{ color: var(--text-muted); font-size:.93rem; }
 
   /* atajos */
   .buscar{ display:flex; gap:.6rem; margin: .4rem 0 1rem; }
@@ -251,6 +194,8 @@
     <div><dt>Sistema</dt><dd>OS 1.17</dd></div>
   </dl>
 
+  <a class="clase-cta" href="clase-01/"><span class="t">Clase 01 · Tu primera canción →</span><span>Interactiva, paso a paso: el panel te marca qué tocar. Un tema de tech house entero en unas 2 horas.</span></a>
+
   <nav class="toc" aria-label="Módulos">
     <a href="#m1">1 · Panel</a>
     <a href="#m2">2 · Cómo piensa</a>
@@ -273,52 +218,15 @@
     <p class="sec-nota">Tocá cualquier tecla del esquema para ver qué hace</p>
 
     <p>Casi todas las teclas tienen <b>dos funciones</b>. La principal está escrita en blanco; la segunda, en naranja, y se usa <b>manteniendo <kbd class="f">FUNC</kbd> y tocando la otra tecla</b>. Con esa sola regla ya se entiende la mitad del aparato.</p>
+    <p>La otra mitad: <b>las perillas A–H mueven lo que muestra la pantalla</b>. Abajo de la pantalla hay 8 parámetros en dos filas de 4; cada uno se mueve con la perilla que está en el mismo lugar. Por eso la A es TUNE en la página SRC, NOTE en TRIG y BPM en el menú TEMPO.</p>
 
     <div class="panel-wrap">
-      <div class="panel" id="panel" role="group" aria-label="Esquema del panel del Digitakt II">
-        <button class="pk knob g-vol" data-k="vol">Vol</button>
-        <button class="pk g-pre" data-k="preset">Preset/<br>Kit<small>Perform</small></button>
-        <button class="pk g-set" data-k="settings">Settings<small>Guardar</small></button>
-        <button class="pk g-sam" data-k="sampling">Sampling<small>Samples</small></button>
-        <button class="pk g-tem" data-k="tempo">Tempo<small>Tap</small></button>
-        <button class="pk knob g-lev" data-k="level">Level<br>Data</button>
-        <button class="pk g-no" data-k="no">No<small>Reload</small></button>
-        <button class="pk g-yes" data-k="yes">Yes<small>Save</small></button>
-        <div class="scr" data-k="screen" role="button" tabindex="0">PANTALLA</div>
-        <div class="kn">
-          <button class="pk knob" data-k="knob">A</button><button class="pk knob" data-k="knob">B</button><button class="pk knob" data-k="knob">C</button><button class="pk knob" data-k="knob">D</button>
-          <button class="pk knob" data-k="knob">E</button><button class="pk knob" data-k="knob">F</button><button class="pk knob" data-k="knob">G</button><button class="pk knob" data-k="knob">H</button>
-        </div>
-        <div class="par">
-          <button class="pk" data-k="trigp">Trig<small>Quant</small></button>
-          <button class="pk" data-k="src">Src<small>Machine</small></button>
-          <button class="pk" data-k="fltr">Fltr<small>Setup</small></button>
-          <button class="pk" data-k="amp">Amp<small>Seq</small></button>
-          <button class="pk" data-k="fx">Fx<small>Send FX</small></button>
-          <button class="pk" data-k="mod">Mod<small>Mixer</small></button>
-        </div>
-        <button class="pk fn g-fn" data-k="func">Func</button>
-        <button class="pk g-kb" data-k="keyboard">Keyb<small>Setup</small></button>
-        <button class="pk rec g-rec" data-k="record">Rec<small>Copy</small></button>
-        <button class="pk g-ply" data-k="play">Play<small>Clear</small></button>
-        <button class="pk g-stp" data-k="stop">Stop<small>Paste</small></button>
-        <button class="pk g-trk" data-k="trk">Trk<small>Mute</small></button>
-        <button class="pk g-ptn" data-k="ptn">Ptn<small>Bank</small></button>
-        <button class="pk g-sng" data-k="song">Song<small>Edit</small></button>
-        <div class="ar">
-          <button class="pk u" data-k="arrows" aria-label="Arriba">▲</button>
-          <button class="pk l" data-k="arrows" aria-label="Izquierda">◀</button>
-          <button class="pk d" data-k="arrows" aria-label="Abajo">▼</button>
-          <button class="pk r" data-k="arrows" aria-label="Derecha">▶</button>
-        </div>
-        <button class="pk g-pg" data-k="page">Page<small>Setup</small></button>
-        <div class="tr" id="trigs"></div>
-      </div>
+      <div id="panel"></div>
       <div class="info" id="info" aria-live="polite">
         <div class="nom">Tocá una tecla</div>
         <p style="margin:0">Arriba, la función principal. Abajo, lo que hace con <kbd class="f">FUNC</kbd>.</p>
       </div>
-      <p class="panel-nota">Esquema simplificado, no a escala: sirve para ubicar las teclas, no para medirlas.</p>
+      <p class="panel-nota">Dibujado con la misma disposición que el aparato. Las teclas de íconos: ☰ preset/kit, ⚙ settings, ▥ sampling, ◭ tempo, ○ rec, ▷ play, □ stop, ♪ teclado.</p>
     </div>
 
     <h3>Las seis páginas de parámetros</h3>
@@ -776,61 +684,22 @@
 
 </div>
 
+<script src="panel.js"></script>
 <script>
 (function(){
   /* ---------- panel ---------- */
-  var KEYS = {
-    vol:      ["Main volume", "Volumen general de la salida y de los auriculares.", null],
-    preset:   ["Preset / Kit", "Menú para cargar, guardar y administrar presets (sonidos) y kits (16 sonidos).", "PERFORM KIT: cambiás de patrón sin que se recargue el kit. Para sets en vivo."],
-    settings: ["Settings", "Proyectos, canción, patrón, MIDI, ruteo de audio, USB y sistema.", "Guarda el proyecto activo. Usalo seguido."],
-    sampling: ["Sampling", "El sampler: de dónde grabar, umbral, largo, armar.", "SAMPLES: el explorador del +Drive y de la RAM del proyecto."],
-    tempo:    ["Tempo", "BPM, swing y metrónomo. TEMPO + YES prende y apaga el metrónomo.", "Tap tempo: mantené FUNC y tocá TEMPO al ritmo."],
-    level:    ["Level / Data", "Volumen de la pista activa. En menús, recorre listas rápido. Manteniendo un paso, elige un preset lock.", "Girar con FUNC: navegador de presets."],
-    no:       ["No", "Salir, volver atrás, cancelar. Perilla + NO = valor por defecto.", "Recarga el patrón desde el último guardado temporal (o el permanente)."],
-    yes:      ["Yes", "Entrar, elegir, confirmar.", "Guardado temporal del patrón: un punto de retorno."],
-    screen:   ["Pantalla", "Arriba: banco y patrón, nombre, modo de teclas y tempo. Al medio: los 8 parámetros de las perillas A–H en el mismo orden que en el panel. Abajo a la derecha: pista activa y si es audio (SMP) o MIDI (MID).", null],
-    knob:     ["Perillas A–H", "Editan los 8 parámetros que muestra la pantalla. Apretar y girar = saltos grandes. Mantener un paso y girar = parameter lock. Mantener TRK y girar = Control All.", "Con FUNC, algunos parámetros saltan a valores útiles: notas de a octava, delay a tempo."],
-    trigp:    ["Trig parameters", "Nota, velocity, largo, probabilidad, trig de LFO y de filtro, fill y condición. Segunda página: retrigs y portamento.", "QUANTIZE: cuantiza lo grabado en vivo, por pista o patrón entero."],
-    src:      ["Src", "La máquina de fuente: afinación, modo, sample, inicio, largo, loop. Dos veces: con forma de onda.", "MACHINE: cambiar la máquina de fuente o de filtro de la pista."],
-    fltr:     ["Fltr", "El filtro elegido y su envolvente. Segunda página: base-width y delay de envolvente.", "SETUP: control all, ruteo del compresor, intercambio de pistas, legato, portamento, velocity y key tracking."],
-    amp:      ["Amp", "Envolvente de volumen (AHD o ADSR), paneo y volumen de la pista.", "SEQUENCER: el secuenciador euclídeo de la pista."],
-    fx:       ["Fx", "Bit reduction, overdrive, sample rate reduction y envíos a delay, reverb y chorus.", "SEND FX: los parámetros del delay, reverb y chorus del patrón."],
-    mod:      ["Mod", "Los tres LFO de la pista (dos en MIDI).", "MIXER: compresor master con sidechain, niveles de pista, mixer de efectos, entrada externa."],
-    func:     ["Func", "La tecla de las segundas funciones (las escritas en naranja). Se mantiene y se toca la otra tecla.", "FUNC + paso en Grid: lock trig. FUNC + pistas: mute rápido."],
-    keyboard: ["Keyboard", "Las 16 teclas pasan a ser un teclado para la pista activa. KEYBOARD + ▲▼: octava.", "KEYBOARD SETUP: escala, tónica y KB FOLD."],
-    record:   ["Record", "Grid recording. REC + PLAY: live recording. REC + STOP: step recording.", "Copiar (patrón, pista, paso… según el contexto)."],
-    play:     ["Play", "Arranca. Otra vez: pausa.", "Borrar (patrón, pista, paso… según el contexto)."],
-    stop:     ["Stop", "Frena. Dos veces seguido: corta también las colas de los efectos.", "Pegar."],
-    trk:      ["Trk", "TRK + tecla 1–16 elige la pista activa. Mantener TRK y girar: Control All.", "MUTE: modo mute global. Doble toque: mute del patrón."],
-    ptn:      ["Ptn", "PTN + ◀▶ elige banco, + tecla 1–16 elige patrón. Con PTN: FUNC + YES abre el armador de cadenas.", "Selección de banco al estilo de los Elektron viejos (teclas 9–16)."],
-    song:     ["Song", "SONG + tecla 1–16 elige canción y entra a song mode. En song mode: SONG + ◀ loopea la fila.", "SONG EDIT: editar las filas de la canción."],
-    arrows:   ["Flechas", "Navegar menús. Con el patrón sonando, ◀▶ empujan el tempo un 10 % mientras las mantenés. Paso + ◀▶: micro timing.", "FUNC + ◀▶ en Grid: corre la pista un paso. FUNC + ▲▼: cambia el modo de las teclas (pistas, velocities, retrigs, slices, pool)."],
-    page:     ["Page", "Cambia la página del patrón (hasta 8 de 16 pasos). Mantenida con el patrón sonando: FILL.", "PAGE SETUP: largo y velocidad, por patrón o por pista."],
-    trig:     ["Teclas 1–16", "Poner y sacar pasos, elegir pistas, patrones y canciones (con TRK, PTN, SONG), y tocar en modo teclado. Rojo = nota; amarillo = lock trig; parpadeo = tiene locks.", "Mute rápido de esa pista."]
-  };
-  var tr = document.getElementById("trigs");
-  for(var i=1;i<=16;i++){
-    var b = document.createElement("button");
-    b.className = "pk"; b.setAttribute("data-k","trig"); b.textContent = i;
-    tr.appendChild(b);
-  }
+  DT2Panel.render(document.getElementById("panel"));
   var info = document.getElementById("info");
+  function esc(t){ return String(t).replace(/[&<>]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c]; }); }
   var activo = null;
-  function esc(s){ return String(s).replace(/[&<>]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c]; }); }
-  function mostrar(el){
-    var d = KEYS[el.getAttribute("data-k")]; if(!d) return;
-    if(activo) activo.setAttribute("aria-pressed","false");
-    activo = el; el.setAttribute("aria-pressed","true");
+  document.getElementById("panel").addEventListener("click", function(e){
+    var el = e.target.closest("[data-k]"); if(!el) return;
+    var d = DT2Panel.info(el.dataset.k); if(!d) return;
+    if(activo) activo.classList.remove("sel");
+    activo = el; el.classList.add("sel");
     var html = '<div class="nom">'+esc(d[0])+'</div><dl><dt>Sola</dt><dd>'+esc(d[1])+'</dd>';
     if(d[2]) html += '<dt>Con Func</dt><dd class="fn">'+esc(d[2])+'</dd>';
     info.innerHTML = html + '</dl>';
-  }
-  var panel = document.getElementById("panel");
-  panel.addEventListener("click", function(e){
-    var el = e.target.closest("[data-k]"); if(el) mostrar(el);
-  });
-  panel.querySelector(".scr").addEventListener("keydown", function(e){
-    if(e.key === "Enter" || e.key === " "){ e.preventDefault(); mostrar(this); }
   });
 
   /* ---------- atajos ---------- */
