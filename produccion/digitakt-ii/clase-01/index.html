@@ -58,6 +58,8 @@
   kbd.f{ background:#d9a03a; color:#1a1408; border-color:#b8862e; }
   .ver{ border-left:2px solid var(--gold-soft); padding:.1rem 0 .1rem .9rem; margin:.4rem 0 .8rem; font-size:.92rem; color:var(--text-muted); }
   .ver b{ font-family:var(--font-mono); font-size:.62rem; letter-spacing:.16em; text-transform:uppercase; color:var(--gold); display:block; font-weight:500; }
+  .antes{ border:1px solid var(--terra); background:#1d0f0a; border-radius:3px; padding:.6rem .8rem; margin:0 0 1rem; font-size:.9rem; color:var(--text-muted); }
+  .antes b{ color:var(--terra); }
   details{ margin:.4rem 0 0; border-top:1px solid var(--line); padding-top:.7rem; }
   summary{ cursor:pointer; font-family:var(--font-mono); font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--terra); }
   details p{ color:var(--text-muted); font-size:.92rem; margin:.6rem 0 0; }
@@ -95,6 +97,7 @@
       <article class="paso" aria-live="polite">
         <div class="num" id="num"></div>
         <h2 id="titulo"></h2>
+        <div class="antes" id="antes"><b>Antes:</b> REC (○) tiene que estar <b>roja</b>. Si está apagada, las teclas son pistas y no pasos: la perilla cambia toda la pista.</div>
         <div class="combo" id="combo"></div>
         <div class="txt" id="txt"></div>
         <div class="ver" id="ver"><b>Tenés que ver</b><span></span></div>
@@ -154,7 +157,7 @@
     {b:2, t:"Percusión", k:[["trk","h"],"t5","t4","t10","t15"], p:"<p>"+K("TRK")+" + "+K("5")+", pasos sueltos: <b>4, 10, 15</b>. O donde te guste, en huecos.</p>", v:"Un groove completo de batería."},
     {b:2, t:"Hat de 12 pasos (1/2)", k:[["trk","h"],"t3",["func","h"],"page"], p:"<p>Elegí el hat cerrado ("+K("TRK")+" + "+K("3")+"). Después "+F+" + "+K("PAGE")+" abre <b>PAGE SETUP</b>.</p>", v:"El menú de largo del patrón: LENGTH y SPEED."},
     {b:2, t:"Hat de 12 pasos (2/2)", k:[["func","h"],"yes","no"], p:"<p>Dentro de PAGE SETUP, "+F+" + "+K("YES")+" cambia a <b>PER TRACK</b>: aparecen dos columnas, TRACK y PATTERN. En la columna <b>TRACK</b>, poné LENGTH en <b>12</b>. "+K("NO")+" para salir.</p><p>Escuchá: el hat ahora se va corriendo contra el bombo. El loop deja de sentirse quieto.</p>", v:"Al salir, el hat suena desfasado y vuelve a coincidir cada 3 compases.", a:"Si no aparecen dos columnas, no cambió de modo: volvé a mantener FUNC y tocar YES dentro de PAGE SETUP."},
-    {b:2, t:"Hats con dinámica", k:["trigp",["t6","h"],"knobB"], p:"<p>Con el hat cerrado activo, tocá "+K("TRIG")+". En esta página, la perilla B es <b>VEL</b> (velocity).</p><p>Mantené el paso "+K("6")+" y girá B para abajo, a unos 70. Repetí en 10 y 14 con otros valores.</p><p>Eso es un <b>parameter lock</b>: ese paso tiene su propio valor.</p>", v:"Mientras mantenés el paso, el valor aparece resaltado. Al soltar, la tecla parpadea: tiene un lock.", a:"Si se borró el paso en vez de editarse, lo soltaste muy rápido. Mantenelo apretado todo el tiempo que girás."},
+    {rec:1, b:2, t:"Hats con dinámica", k:["trigp",["t6","h"],"knobB"], p:"<p>Con el hat cerrado activo, tocá "+K("TRIG")+". En esta página, la perilla B es <b>VEL</b> (velocity).</p><p>Mantené el paso "+K("6")+" y girá B para abajo, a unos 70. Repetí en 10 y 14 con otros valores.</p><p>Eso es un <b>parameter lock</b>: ese paso tiene su propio valor.</p>", v:"Mientras mantenés el paso, el valor aparece resaltado. Al soltar, la tecla parpadea: tiene un lock.", a:"Si cambió el velocity de todo el hat, o al tocar el 10 sonó otro sonido: REC estaba apagada, y las teclas eran pistas en vez de pasos. Prendé REC (○, roja). Para arreglar el hat: sin apretar ningún paso, en la página TRIG apretá la perilla B y tocá NO, que devuelve VEL a su valor normal. Si en cambio se borró el paso, lo soltaste muy rápido: mantenelo apretado todo el tiempo que girás."},
     {b:2, t:"Que bombee (1/2)", k:[["func","h"],"mod"], p:"<p>"+F+" + "+K("MOD")+" (abajo dice <i>Mixer</i>) abre el <b>compresor</b>.</p><ul><li><b>SCS</b>: girá su perilla hasta <b>TRK1</b> (el compresor escucha al bombo).</li><li><b>SCF</b>: llevalo a valores negativos.</li><li><b>THR</b>: bajalo hasta que el resto “respire” con cada bombo.</li></ul><p>Cada parámetro se mueve con la perilla que está <b>en el mismo lugar</b> que él en la pantalla.</p>", v:"La barra de compresión a la izquierda moviéndose con el bombo."},
     {b:2, t:"Que bombee (2/2)", k:[["func","h"],"fltr","yes"], p:"<p>"+F+" + "+K("FLTR")+" (<i>Setup</i>) → <b>KIT</b> → <b>COMPRESSOR ROUTING</b>. Las teclas encendidas son las pistas que pasan por el compresor: <b>apagá la 1</b>, así el bombo no se comprime a sí mismo. "+K("NO")+" hasta salir.</p>", v:"El bombo vuelve a pegar entero y todo lo demás bombea."},
     {b:2, t:"Guardar", k:[["func","h"],"settings"], p:"<p>"+GUARDAR+"</p>"},
@@ -163,17 +166,17 @@
     {b:3, t:"Elegir una escala", k:[["trk","h"],"t6",["func","h"],"kb"], p:"<p>"+K("TRK")+" + "+K("6")+" (el bajo). Después "+F+" + "+K("♪")+" (la tecla del teclado, a la izquierda; abajo dice <i>KB Setup</i>).</p><ul><li><b>KB SCALE</b>: una escala menor.</li><li><b>ROOT NOTE</b>: A (La).</li><li><b>KB FOLD</b>: ON.</li></ul><p>"+K("NO")+" para salir.</p>", v:"El menú con un teclado dibujado y la escala elegida."},
     {b:3, t:"Buscar las notas tocando", k:["rec","kb"], p:"<p>Apagá la grabación ("+K("○")+", se apaga la luz roja) y tocá "+K("♪")+" para entrar al modo teclado. Ahora las 16 teclas tocan el bajo en la escala: no hay nota equivocada.</p><p>Con el patrón sonando, buscá <b>3 o 4 notas</b> que te gusten y anotá qué teclas son. "+K("♪")+" otra vez para salir.</p>", v:"Las teclas encendidas tocan notas distintas del bajo.", a:"Con ▲ ▼ (KB Octave) cambiás de octava si suena muy agudo o muy grave."},
     {b:3, t:"Escribir el bajo", k:["rec",["trk","h"],"t6","t3","t7","t8","t11","t15"], p:"<p>Prendé "+K("○")+" REC, "+K("TRK")+" + "+K("6")+", y pasos <b>3, 7, 8, 11, 15</b>. En tech house el bajo <b>esquiva al bombo</b>.</p>", v:"El bajo sonando siempre la misma nota."},
-    {b:3, t:"Cambiar la nota de un paso", k:["trigp",["t7","h"],"knobA"], p:"<p>Tocá "+K("TRIG")+": acá la perilla A es <b>NOTE</b>. Mantené el paso "+K("7")+" y girá A. Si la apretás mientras girás, salta solo por notas de tu escala.</p><p>Hacelo en 2 o 3 pasos con las notas que encontraste.</p>", v:"Una línea de bajo con movimiento."},
+    {rec:1, b:3, t:"Cambiar la nota de un paso", k:["trigp",["t7","h"],"knobA"], p:"<p>Tocá "+K("TRIG")+": acá la perilla A es <b>NOTE</b>. Mantené el paso "+K("7")+" y girá A. Si la apretás mientras girás, salta solo por notas de tu escala.</p><p>Hacelo en 2 o 3 pasos con las notas que encontraste.</p>", v:"Una línea de bajo con movimiento."},
     {b:3, t:"Bajo corto", k:["amp"], p:"<p>"+K("AMP")+": bajá el <b>DEC</b> (y el HOLD si está alto) hasta que cada nota sea corta. Un bajo corto deja respirar al bombo.</p>"},
-    {b:3, t:"Que el bajo hable", k:["fltr",["t11","h"],"knobE"], p:"<p>"+K("FLTR")+": la perilla E es <b>FREQ</b>, el corte del filtro. Mantené el paso "+K("11")+" y abrilo. Probá en otro paso cerrarlo.</p>", v:"Ese paso suena más brillante que los otros."},
+    {rec:1, b:3, t:"Que el bajo hable", k:["fltr",["t11","h"],"knobE"], p:"<p>"+K("FLTR")+": la perilla E es <b>FREQ</b>, el corte del filtro. Mantené el paso "+K("11")+" y abrilo. Probá en otro paso cerrarlo.</p>", v:"Ese paso suena más brillante que los otros."},
     {b:3, t:"Guardar", k:[["func","h"],"settings"], p:"<p>"+GUARDAR+"</p>"},
 
     // 4 · Stab y vida
     {b:4, t:"El stab", k:[["trk","h"],"t7","t4","t12"], p:"<p>"+K("TRK")+" + "+K("7")+", pasos <b>4 y 12</b> (o donde quede bien, a contratiempo).</p>"},
     {b:4, t:"Mandarlo al delay", k:["fx",["func","h"],"fx"], p:"<ol><li>"+K("FX")+": subí <b>DEL</b> (el envío al delay) a unos 40.</li><li>"+F+" + "+K("FX")+" (<i>Send FX</i>) abre el delay: poné <b>TIME</b> en <b>24</b> (corchea con puntillo) y FDBK a mitad de camino.</li><li>"+K("NO")+" para salir.</li></ol>", v:"El stab con repeticiones que caen a contratiempo."},
-    {b:4, t:"Un clap cada 4 compases", k:[["trk","h"],"t2","t16","trigp",["t16","h"],"knobH"], p:"<p>"+K("TRK")+" + "+K("2")+", poné un paso nuevo en el <b>16</b>. Después "+K("TRIG")+", mantené el "+K("16")+" y girá H (<b>COND</b>) hasta <b>4:4</b>.</p><p>Ese clap suena solo en la cuarta vuelta: el remate de cada 4 compases.</p>"},
-    {b:4, t:"Una percusión que alterna", k:[["trk","h"],"t5","trigp",["t10","h"],"knobH"], p:"<p>"+K("TRK")+" + "+K("5")+", "+K("TRIG")+", mantené el paso "+K("10")+" y H en <b>1:2</b>: una vuelta sí, una no.</p>"},
-    {b:4, t:"Un hat abierto al azar", k:[["trk","h"],"t4","trigp",["t15","h"],"knobD"], p:"<p>"+K("TRK")+" + "+K("4")+", "+K("TRIG")+", mantené el "+K("15")+" y girá <b>PROB</b> (perilla D) a <b>60 %</b>.</p>"},
+    {rec:1, b:4, t:"Un clap cada 4 compases", k:[["trk","h"],"t2","t16","trigp",["t16","h"],"knobH"], p:"<p>"+K("TRK")+" + "+K("2")+", poné un paso nuevo en el <b>16</b>. Después "+K("TRIG")+", mantené el "+K("16")+" y girá H (<b>COND</b>) hasta <b>4:4</b>.</p><p>Ese clap suena solo en la cuarta vuelta: el remate de cada 4 compases.</p>"},
+    {rec:1, b:4, t:"Una percusión que alterna", k:[["trk","h"],"t5","trigp",["t10","h"],"knobH"], p:"<p>"+K("TRK")+" + "+K("5")+", "+K("TRIG")+", mantené el paso "+K("10")+" y H en <b>1:2</b>: una vuelta sí, una no.</p>"},
+    {rec:1, b:4, t:"Un hat abierto al azar", k:[["trk","h"],"t4","trigp",["t15","h"],"knobD"], p:"<p>"+K("TRK")+" + "+K("4")+", "+K("TRIG")+", mantené el "+K("15")+" y girá <b>PROB</b> (perilla D) a <b>60 %</b>.</p>"},
     {b:4, t:"Que el stab se mueva solo", k:[["trk","h"],"t7","mod"], p:"<p>"+K("TRK")+" + "+K("7")+", "+K("MOD")+" (LFO 1):</p><ul><li><b>DEST</b>: girá hasta el corte del filtro (FREQ) y "+K("YES")+".</li><li><b>SPD</b>: 16.</li><li><b>DEP</b>: unos 30.</li></ul>", v:"El stab se abre y se cierra solo.", a:"Si no cambia nada, DEP está en 0 o el destino no quedó confirmado: volvé a DEST y tocá YES."},
     {b:4, t:"Escuchar 3 minutos", k:[["func","h"],"settings"], p:"<p>Dejalo sonar sin tocar nada. Si te aburre, sumá otra variación con condiciones. Si no te aburre, seguís. Después: "+GUARDAR+"</p>"},
 
@@ -184,7 +187,7 @@
     {b:5, t:"A01 · intro", k:["ptn","t1","rec",["trk","h"],"t2",["func","h"],"play"], p:"<p>"+K("PTN")+" + "+K("1")+", prendé "+K("○")+" REC. Para vaciar una pista: "+K("TRK")+" + número y después "+F+" + "+K("▷")+" (<i>Clear</i>).</p><p>Vaciá las pistas <b>2, 6, 7 y 8</b>. Queda bombo, hats y percusión.</p>"},
     {b:5, t:"A02 · groove", k:["ptn","t2",["trk","h"],"t7",["func","h"],"play"], p:"<p>"+K("PTN")+" + "+K("2")+": vaciá las pistas <b>7 y 8</b>. Queda la batería y el bajo.</p>"},
     {b:5, t:"A04 · break", k:["ptn","t4",["trk","h"],"t1",["func","h"],"play"], p:"<p>"+K("PTN")+" + "+K("4")+": vaciá <b>1 (bombo) y 6 (bajo)</b>. Al stab ("+K("TRK")+" + "+K("7")+") subile <b>REV</b> en la página "+K("FX")+".</p>"},
-    {b:5, t:"El redoble del break", k:[["trk","h"],"t2","trigp","trigp",["t13","h"],"knobA"], p:"<p>En A04, "+K("TRK")+" + "+K("2")+". Tocá "+K("TRIG")+" <b>dos veces</b> (página de retrigs). Mantené el paso "+K("13")+" y prendé <b>RTRG</b> (perilla A); poné <b>RATE</b> en 1/16.</p><p>Volvé a la primera página de "+K("TRIG")+", mantené el "+K("13")+" y poné <b>COND</b> (H) en <b>8:8</b>: suena solo en el último compás del break.</p>", a:"Si el redoble dura poco, subí LEN en la página de retrigs, con el paso apretado."},
+    {rec:1, b:5, t:"El redoble del break", k:[["trk","h"],"t2","trigp","trigp",["t13","h"],"knobA"], p:"<p>En A04, "+K("TRK")+" + "+K("2")+". Tocá "+K("TRIG")+" <b>dos veces</b> (página de retrigs). Mantené el paso "+K("13")+" y prendé <b>RTRG</b> (perilla A); poné <b>RATE</b> en 1/16.</p><p>Volvé a la primera página de "+K("TRIG")+", mantené el "+K("13")+" y poné <b>COND</b> (H) en <b>8:8</b>: suena solo en el último compás del break.</p>", a:"Si el redoble dura poco, subí LEN en la página de retrigs, con el paso apretado."},
     {b:5, t:"Guardar", k:[["func","h"],"settings"], p:"<p>"+GUARDAR+"</p>"},
 
     // 6 · Canción
@@ -221,6 +224,7 @@
     document.getElementById("num").textContent = "Bloque "+p.b+" · "+BLOQUES[p.b]+" · paso "+(i+1)+" de "+PASOS.length;
     document.getElementById("titulo").textContent = p.t;
     document.getElementById("combo").textContent = p.k.length ? DT2Panel.texto(p.k).replace(/^./, function(c){ return c.toUpperCase(); }) : "";
+    document.getElementById("antes").style.display = p.rec ? "" : "none";
     document.getElementById("txt").innerHTML = p.p;
     var v = document.getElementById("ver"); v.style.display = p.v ? "" : "none"; v.querySelector("span").textContent = p.v || "";
     var a = document.getElementById("ayuda"); a.style.display = p.a ? "" : "none"; a.open = false; a.querySelector("p").textContent = p.a || "";
