@@ -3,8 +3,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Clase 04 · En vivo y atajos · Digitakt II</title>
-<meta name="description" content="Clase interactiva: tocar el Digitakt II en vivo y llegar a los mismos lugares por otros caminos.">
+<title>Práctica 7 · Tech house groove · Digitakt II</title>
+<meta name="description" content="Practicar tech house en el Digitakt II: percusiones con sample locks, bajo con notas, retrigs en vivo y fills.">
 <meta name="theme-color" content="#0b0a0a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -94,8 +94,8 @@
   <div class="brand"><a class="back" href="../">← Guía Digitakt II</a><span class="ctx"><span class="n">NAYA</span> · Clases de Producción · Digitakt II</span></div>
 
   <div class="cab">
-    <h1><small>Clase 04 · Interactiva</small>En vivo y atajos</h1>
-    <span class="meta" id="meta">Perform · mutes · fills · otros caminos</span>
+    <h1><small>Práctica 7 · por género</small>Tech house groove</h1>
+    <span class="meta" id="meta">126 BPM · banco H (1–8) · groove</span>
   </div>
 
   <div class="bloques" id="bloques"></div>
@@ -133,34 +133,28 @@
   function K(t){ return '<kbd>'+t+'</kbd>'; }
   var GUARDAR = "Guardá: mantené "+F+" y tocá "+K("⚙ SETTINGS")+" (abajo dice Save Proj). Acostumbrate a hacerlo cada vez que algo te gusta.";
 
-  var BLOQUES = ["Preparar el set","Cambiar de patrón","Mutes","Fills","Manos en el sonido","Red de seguridad","Otros caminos"];
+  var BLOQUES = ["Arrancar","El kit","Base","Una pista, muchas percusiones","Bajo con notas","Retrigs en vivo","Gancho y fill"];
   var PASOS = [
-    {b:0, t:"Qué vamos a hacer", k:[], p:"<p>Hasta acá armaste patrones. Ahora, <b>tocarlos</b>: pasar de uno a otro, sacar y meter pistas, fills, filtros, y no perder nada en el camino. Usá la canción de la clase 1 (banco A) o cualquiera de tus prácticas.</p><p>Al final, un bloque de <b>otros caminos</b>: formas distintas de llegar a los mismos lugares.</p>"},
-    {b:0, t:"Perform kit", k:[["func","h"],"preset"], p:"<p>"+F+" + "+K("☰")+" (<i>Perform</i>). Aparece una <b>P</b> parpadeando junto al nombre del patrón.</p><p>Con esto, al cambiar de patrón <b>te quedás con el sonido que venías tocando</b> (filtros, efectos). Y los cambios que hagas no se guardan solos: tocás sin miedo.</p>", v:"La P parpadeando y la tecla ☰ en naranja.", a:"PRESET/KIT + NO recarga el kit del patrón tal como estaba. PRESET/KIT + YES lo guarda si te gustó cómo quedó."},
-    {b:1, t:"Encolar el próximo patrón", k:["play","ptn","t2"], p:"<p>Con A01 sonando: "+K("PTN")+" + "+K("2")+". El cambio <b>no es inmediato</b>: A02 entra cuando A01 termina su vuelta. Arriba a la izquierda, A02 parpadea mientras espera.</p>", v:"A02 parpadeando hasta que el compás termina, y después entra."},
-    {b:1, t:"Elegir banco más rápido", k:[["func","h"],"ptn","t10","t1"], p:"<p>Otro camino: "+F+" + "+K("PTN")+" (<i>Bank</i>), después una tecla de <b>9 a 16</b> elige el banco (9 = A, 10 = B, … 16 = H), y después la tecla del patrón.</p><p>Así saltás de tu canción (A) al dembow (B) sin pasar por ◀ ▶.</p>"},
-    {b:1, t:"Una cadena", k:["ptn",["func","h"],"yes","t1","t2","t1","t3","yes"], p:"<p>"+K("PTN")+", después "+F+" + "+K("YES")+": armador de cadenas. Tocá los patrones en orden: 1, 2, 1, 3. "+K("YES")+". Queda dando vueltas sola.</p>", a:"FUNC + ◀ borra el último de la cadena mientras la armás. La cadena no se guarda: es para tocar. Para salir, elegí un patrón normalmente."},
-    {b:2, t:"Mute rápido", k:[["func","h"],"t3"], p:"<p>Lo más directo: mantené "+F+" y tocá teclas: mutea y desmutea esas pistas al instante.</p>"},
-    {b:2, t:"Modo mute", k:[["func","h"],"trk"], p:"<p>"+F+" + "+K("TRK")+": <b>modo mute global</b> (teclas verdes). Cada tecla prende o apaga su pista, en <b>todos</b> los patrones. Teclas apagadas = pistas muteadas.</p><p>"+F+" + doble "+K("TRK")+": mute <b>del patrón</b> (teclas magenta), solo en el que suena.</p>", v:"Las 16 teclas en verde (o magenta)."},
-    {b:2, t:"Mutes preparados", k:[["func","h"],"t1","t2","t6"], p:"<p>Dentro del modo mute: mantené "+F+", tocá varias pistas (en pantalla aparece <b>+</b> o <b>X</b>), y al <b>soltar</b> "+F+" entran o salen <b>todas juntas</b>. Así sacás bombo y bajo justo en el 1.</p>"},
-    {b:3, t:"Fill mientras lo mantenés", k:[["page","h"]], p:"<p>Con el patrón sonando (y REC apagada), <b>mantené</b> "+K("PAGE")+": suenan los pasos con FILL en ON y se callan los que tienen FILL en OFF, mientras lo tengas apretado.</p>", a:"Si no pasa nada, ese patrón no tiene pasos con condición FILL. Poné un redoble con FILL en ON (página TRIG) como en el dembow."},
-    {b:3, t:"Fill por una vuelta", k:["yes","page"], p:"<p>"+K("YES")+" + "+K("PAGE")+": fill durante <b>una vuelta exacta</b> del patrón. Ideal antes de cambiar de patrón.</p><p>Mantené "+K("PAGE")+" + "+K("YES")+" y soltá PAGE antes que YES: queda <b>enganchado</b> hasta que toques PAGE de nuevo.</p>"},
-    {b:4, t:"Control All", k:["fltr",["trk","h"],"knobE"], p:"<p>"+K("FLTR")+", mantené "+K("TRK")+" y girá <b>E</b>: el filtro de todas las pistas a la vez. Lo mismo sirve con cualquier parámetro: DEC en "+K("AMP")+", REV en "+K("FX")+".</p><p>"+K("NO")+" antes de soltar "+K("TRK")+" deshace el cambio.</p>"},
-    {b:4, t:"Efectos de todo el patrón", k:[["func","h"],"fx"], p:"<p>"+F+" + "+K("FX")+": el delay. Subir <b>FDBK</b> en vivo hace que se realimente y crezca; bajarlo lo corta. En "+F+" + "+K("MOD")+" (mixer), el <b>overdrive master</b> ensucia todo junto.</p>", a:"Con FDBK muy alto el delay puede ponerse muy fuerte. Tené la mano en la perilla."},
-    {b:4, t:"Empujar el tempo", k:[["right","h"]], p:"<p>Con el patrón sonando, mantené "+K("▶")+": el tempo sube un 10 % mientras lo mantenés; "+K("◀")+" lo baja. Sirve para emparejar a oído con un disco o con otro aparato.</p>"},
-    {b:5, t:"Un punto de retorno", k:[["func","h"],"yes"], p:"<p>Antes de romper todo: "+F+" + "+K("YES")+" guarda <b>temporalmente</b> el patrón. Rompé lo que quieras. "+F+" + "+K("NO")+" lo devuelve a ese punto.</p>"},
-    {b:5, t:"Parar limpio", k:["stop","stop"], p:"<p>"+K("□")+" una vez: para, pero el delay y la reverb siguen sonando (queda lindo para terminar). Dos veces seguidas: corta también las colas.</p>"},
-    {b:6, t:"Ver todos los valores", k:[["fltr","h"]], p:"<p>Mantené cualquier tecla de página ("+K("FLTR")+", "+K("AMP")+"…): ves <b>todos</b> los valores de esa página de una.</p>"},
-    {b:6, t:"Volver al valor normal", k:[["knobE","h"],"no"], p:"<p>Perilla + "+K("NO")+": ese parámetro vuelve a su <b>valor por defecto</b>.</p><ul><li>Página + "+K("NO")+": toda la página vuelve a como estaba guardada.</li><li>Página + "+K("▷")+": toda la página a valores por defecto.</li><li>Página + "+K("YES")+": <b>al azar</b>. Cada vez distinto.</li></ul>"},
-    {b:6, t:"Saltos útiles", k:[["func","h"],"knobA"], p:"<p>Mantener "+F+" mientras girás algunas perillas las hace <b>saltar a valores útiles</b>: NOTE y TUNE de a octava, el TIME del delay a valores de tempo. Apretar la perilla mientras girás: pasos grandes.</p>"},
-    {b:6, t:"Copiar una página de sonido", k:["fltr","rec",["trk","h"],"t2","fltr","stop"], p:"<p>Mantené "+K("FLTR")+" + "+K("○")+": copia la página de filtro de esta pista. Elegí otra pista y "+K("FLTR")+" + "+K("□")+": la pega. Sirve con cualquier página (AMP, FX, MOD…).</p>"},
-    {b:6, t:"Intercambiar dos pistas", k:[["func","h"],"fltr"], p:"<p>"+F+" + "+K("FLTR")+" → KIT → <b>TRACK SWAP</b>: mantené las teclas de dos pistas hasta que diga “TRACKS X AND X SWAPPED”. Cambian de lugar con sonido, secuencia y todo.</p>"},
-    {b:6, t:"Presets sin menú", k:[["func","h"],"level"], p:"<p>"+F+" + girar LEVEL/DATA abre la lista de presets directo, sin pasar por "+K("☰")+". Y en la página SRC, girar SAMP + "+F+" + "+K("YES")+" te lleva al +Drive (clase 3).</p>"},
-    {b:6, t:"Tarea", k:[], p:"<p>Armá un set de <b>10 minutos</b> con 4 patrones de distintas clases y prácticas, usando Perform kit, una cadena, mutes preparados y fills. Grabalo en Ableton (clase 2) y escuchalo al otro día.</p>"}
+    {b:0, t:"Tech house con groove", k:[], p:"<p>En la clase 1 armaste un tech house desde cero. Acá el foco es el <b>groove</b>: percusiones que cambian en cada golpe, un bajo con notas, redobles tocados a mano y un gancho de voz.</p><p>Técnicas nuevas: <b>una pista con varios samples</b>, el modo de teclas <b>RETRIGS</b> y <b>fills</b> armados.</p>"},
+    {b:0, t:"Patrón H01, 126 BPM", k:["ptn","right","t1","tempo","knobA","knobD"], p:"<p>"+K("PTN")+", "+K("◀")+K("▶")+" hasta el banco <b>H</b>, "+K("1")+". "+K("◭")+": <b>126</b>, swing <b>54</b>.</p>", a:"Si cambiar el tempo te cambia también el de otros patrones: en el menú TEMPO, mantené FUNC y girá E para pasar a tempo por patrón."},
+    {b:1, t:"Cargar percusiones al proyecto", k:[["func","h"],"sampling","yes","right"], p:"<p>Antes del kit: "+F+" + "+K("▥")+" → +DRIVE → FACTORY, y marcá con "+K("YES")+" <b>5 o 6 percusiones distintas</b> (rim, conga, cowbell, clave, tom). "+K("▶")+" → LOAD TO PROJECT.</p>"},
+    {b:1, t:"El kit", k:[["trk","h"],"t1","preset"], p:"<ul><li><b>1</b>: bombo</li><li><b>2</b>: clap</li><li><b>3</b>: hat cerrado</li><li><b>4</b>: hat abierto</li><li><b>5</b>: una de las percusiones que cargaste</li><li><b>6</b>: bajo</li><li><b>7</b>: voz</li></ul>"},
+    {b:2, t:"Base", k:["rec",["trk","h"],"t1"], p:"<p>Bombo 1, 5, 9, 13 · clap 5, 13 · hat cerrado en los 16 con VEL bajo en los impares · hat abierto 3, 7, 11, 15. Sidechain al bombo.</p>"},
+    {b:3, t:"Los golpes", k:[["trk","h"],"t5","t2","t4","t7","t10","t12","t15"], p:"<p>Pista 5, pasos <b>2, 4, 7, 10, 12, 15</b>.</p>"},
+    {b:3, t:"Cada golpe, otro sample", k:["src",["t4","h"],"knobD"], p:"<p>En "+K("SRC")+", mantené un paso y girá <b>SAMP</b> (D): ese paso toca otra percusión. Hacelo en casi todos. Después sumá locks de <b>TUNE</b> (A).</p><p>Una sola pista suena como cinco percusionistas.</p>", rec:1, v:"Cada golpe de la pista 5 suena distinto."},
+    {b:3, t:"Que no todos peguen igual", k:["trigp",["t7","h"],"knobB"], p:"<p>VEL (B) distinto en cada golpe, y <b>PROB</b> (D) en 70 % en dos de ellos.</p>", rec:1},
+    {b:4, t:"El bajo", k:[["trk","h"],"t6","t3","t7","t8","t11","t15"], p:"<p>Escala menor (KB Setup), y pasos <b>3, 7, 8, 11, 15</b>. Locks de <b>NOTE</b> (A, página TRIG): la mayoría en la tónica y 1 o 2 que suban.</p>"},
+    {b:4, t:"Corto y con ataque", k:["amp","fltr"], p:"<p>"+K("AMP")+": DEC corto. "+K("FLTR")+": ENV positiva y DEC corto en la envolvente del filtro, para que cada nota tenga un “tac” al principio. Locks de <b>LEN</b> (C, en TRIG) más largos en una o dos notas.</p>"},
+    {b:5, t:"Modo RETRIGS", k:[["trk","h"],"t3",["func","h"],"up"], p:"<p>Pista 3 (hat). "+F+" + "+K("▲")+"/"+K("▼")+" hasta el modo <b>RETRIGS</b>. Ahora cada tecla dispara el hat con un redoble a distinta velocidad: la 1 lento, la 16 rapidísimo.</p>"},
+    {b:5, t:"Grabar redobles tocando", k:["rec","play"], p:"<p>Grabación en vivo ("+K("○")+" + "+K("▷")+") y tocá redobles en los finales de compás, probando distintas teclas. "+K("▷")+" para salir. Volvé al modo TRACKS ("+F+" + "+K("▲")+"/"+K("▼")+").</p>", v:"Redobles de hat grabados en lugares que elegiste a mano."},
+    {b:6, t:"El gancho de voz", k:[["trk","h"],"t7",["func","h"],"src"], p:"<p>Pista 7 con máquina <b>SLICE</b> (8 cortes con transitorios, clase 3). Elegí 2 o 3 cortes que funcionen y ponelos en pasos con locks de <b>SLICE</b>. Uno de ellos con <b>COND 1:4</b>.</p>"},
+    {b:6, t:"Armar el fill", k:["rec",["trk","h"],"t2","trigp",["t13","h"],"knobG"], p:"<p>Clap en <b>13, 14, 15, 16</b>. En cada uno, página "+K("TRIG")+", <b>FILL</b> en <b>ON</b> (solo suenan en modo fill). Y en el bombo del 13, FILL en <b>OFF</b> (se calla en el fill).</p>", rec:1, a:"FILL está en la página TRIG; buscá en qué lugar de la pantalla aparece y usá esa perilla."},
+    {b:6, t:"Tocarlo", k:[["page","h"]], p:"<p>Mantené "+K("PAGE")+" en el último compás antes de un cambio: entra el fill. Con eso, más los mutes y Control All de la clase 4, ya lo tocás como un tema entero.</p>"},
+    {b:6, t:"Tarea", k:[["func","h"],"settings"], p:"<p>Copiá H01 a H02 y cambiá <b>solo</b> los samples lockeados de la pista 5 y las notas del bajo. Pasá de uno a otro con un fill. Guardá.</p>"}
   ];
 
   /* ---------- motor ---------- */
-  var KEY = "naya-dt2-clase04-vivo";
+  var KEY = "naya-dt2-practica-tech";
   var i = 0, hechos = {};
   try{ var s = JSON.parse(localStorage.getItem(KEY)) || {}; i = Math.min(s.i||0, PASOS.length-1); hechos = s.h || {}; }catch(e){}
   function guardar(){ try{ localStorage.setItem(KEY, JSON.stringify({i:i, h:hechos})); }catch(e){} }

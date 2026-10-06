@@ -3,8 +3,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Clase 03 · Dembow · Digitakt II</title>
-<meta name="description" content="Clase interactiva: armar un reggaetón con el Digitakt II. Dembow, 808 y redobles.">
+<title>Clase 03 · Samples · Digitakt II</title>
+<meta name="description" content="Clase interactiva: encontrar, ordenar, traer y grabar samples en el Digitakt II.">
 <meta name="theme-color" content="#0b0a0a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -94,8 +94,8 @@
   <div class="brand"><a class="back" href="../">← Guía Digitakt II</a><span class="ctx"><span class="n">NAYA</span> · Clases de Producción · Digitakt II</span></div>
 
   <div class="cab">
-    <h1><small>Clase 03 · Interactiva</small>Dembow</h1>
-    <span class="meta" id="meta">92 BPM · banco B · 3 patrones</span>
+    <h1><small>Clase 03 · Interactiva</small>Samples</h1>
+    <span class="meta" id="meta">Buscar · traer · grabar · picar</span>
   </div>
 
   <div class="bloques" id="bloques"></div>
@@ -133,56 +133,58 @@
   function K(t){ return '<kbd>'+t+'</kbd>'; }
   var GUARDAR = "Guardá: mantené "+F+" y tocá "+K("⚙ SETTINGS")+" (abajo dice Save Proj). Acostumbrate a hacerlo cada vez que algo te gusta.";
 
-  var BLOQUES = ["El dembow","El kit","El esqueleto","Dos compases","Hats y percusión","El 808","Partes y canción"];
+  var BLOQUES = ["Presets y samples","Buscar presets","Explorar samples","Tu biblioteca","Desde la compu","Samplear","Picar","Ordenar"];
 
   var PASOS = [
-    // 0 · Qué es
-    {b:0, t:"Qué es el dembow", k:[], p:"<p>Casi todo el reggaetón, de Daddy Yankee a Bad Bunny, se apoya en un mismo ritmo: el <b>dembow</b>.</p><ul><li><b>Bombo</b> en las cuatro negras, como en el house.</li><li><b>Caja</b> en un patrón de <b>3 + 3 + 2</b>: “boom-ch-boom-<b>chik</b>”. Ese es el gancho.</li><li>Tempo lento: entre <b>88 y 100 BPM</b>.</li></ul><p>Encima va un <b>808</b> (bajo largo que desliza), hats con redobles y percusión. Lo armamos en el <b>banco B</b>, así tu canción de la clase 1 queda intacta en el banco A.</p>"},
-    {b:0, t:"Ir al patrón B01", k:["ptn","right","t1"], p:"<p>Tocá "+K("PTN")+", después "+K("▶")+" para pasar al banco <b>B</b>, y la tecla "+K("1")+".</p>", v:"Arriba a la izquierda dice B01. No suena nada: está vacío.", a:"Si dice C01, te pasaste de banco: con PTN abierto, ◀ vuelve uno."},
-    {b:0, t:"92 BPM, sin swing", k:["tempo","knobA","knobD","no"], p:"<p>"+K("◭")+" TEMPO: perilla A en <b>92</b>, perilla D (swing) en <b>50 %</b>: el dembow va derecho. "+K("NO")+" para salir.</p>", a:"Si el tempo es igual para todos los patrones y no querés cambiar el de la clase 1: dentro del menú TEMPO, mantené FUNC y girá E para pasar de tempo de proyecto a tempo por patrón."},
+    // 0
+    {b:0, t:"Dos cosas distintas", k:[], p:"<p>En la clase 1 elegiste <b>presets</b>. Ahora vamos a los <b>samples</b>.</p><ul><li><b>Sample</b>: el audio pelado. Un golpe, un loop, una voz.</li><li><b>Preset</b>: un sample <b>más</b> todos sus ajustes (filtro, envolvente, efectos, LFO). Un sonido listo.</li></ul><p>Los dos viven en el <b>+Drive</b> (el disco del aparato, 20 GB). Para usar un sample en un proyecto, primero se carga a la <b>RAM del proyecto</b> (hasta 400 MB).</p>"},
 
-    // 1 · Kit
-    {b:1, t:"Cargar los sonidos", k:[["trk","h"],"t1","preset"], p:"<p>Como en la clase 1: "+K("TRK")+" + número → "+K("☰")+" → PRESET → LOAD → buscar → "+K("YES")+". Usá <b>◀ → FILTER</b> para filtrar por etiqueta.</p><ul><li><b>1</b>: bombo seco y corto</li><li><b>2</b>: caja o rim con “chasquido”</li><li><b>3</b>: hat cerrado</li><li><b>4</b>: percusión (timbal, bongó, conga)</li><li><b>5</b>: un 808 o un bajo largo</li><li><b>6</b>: un acorde, pluck o pad</li><li><b>7</b>: una voz o un “hey” (opcional)</li></ul>", v:"Las teclas 1 a 7 suenan, cada una distinta."},
-    {b:1, t:"Guardar", k:[["func","h"],"settings"], p:"<p>Mantené "+F+" y tocá "+K("⚙")+".</p>"},
+    // 1 · Buscar presets
+    {b:1, t:"Abrir la lista de presets", k:["preset","yes"], p:"<p>"+K("☰")+" → PRESET → <b>LOAD</b> → "+K("YES")+". Es la lista de la clase 1.</p>", v:"La lista de presets."},
+    {b:1, t:"El menú para ordenar", k:["left"], p:"<p>Con la lista abierta, tocá "+K("◀")+": se abre el menú de orden. Se ejecuta con "+K("YES")+" y se sale con "+K("NO")+" o "+K("▶")+".</p>", v:"Un menú: ADD TO PRESET POOL, SELECT BANK, SORT, FILTER, SEARCH."},
+    {b:1, t:"Los 8 bancos", k:["left","yes"], p:"<p><b>SELECT BANK</b>: el +Drive guarda presets en 8 bancos, <b>de A a H</b>. La lista muestra uno por vez: por eso viste pocos. Recorré los bancos a ver cuáles tienen sonidos.</p>"},
+    {b:1, t:"Filtrar por etiqueta", k:["left","yes"], p:"<p><b>FILTER</b>: una lista de etiquetas (bombo, caja, bajo, pad…). Marcá una o varias con "+K("YES")+" y "+K("NO")+" para volver: la lista muestra solo esos.</p><p>Es <b>la manera más ordenada</b> de buscar.</p>"},
+    {b:1, t:"Buscar por nombre", k:["left","yes"], p:"<p><b>SEARCH</b>: escribís parte del nombre (como cuando nombraste el proyecto) y "+K("YES")+". Para borrar la búsqueda: "+F+" + "+K("NO")+".</p><p><b>SORT ABC / 123</b> cambia entre orden alfabético y por número.</p>"},
 
-    // 2 · Esqueleto
-    {b:2, t:"Bombo en negras", k:["rec",["trk","h"],"t1","t5","t9","t13"], p:"<p>"+K("○")+" REC (roja), "+K("TRK")+" + "+K("1")+", pasos <b>1, 5, 9, 13</b>. Dale "+K("▷")+" PLAY.</p>", v:"Un bombo parejo, lento."},
-    {b:2, t:"La caja del dembow", k:[["trk","h"],"t2","t4","t7","t12","t15"], p:"<p>"+K("TRK")+" + "+K("2")+", pasos <b>4, 7, 12, 15</b>.</p><p>Contalo: 1-2-3-<b>4</b>, 5-6-<b>7</b>, 8… La caja cae justo antes y después de los bombos de 5 y 13. Ese es el “boom-ch-boom-chik”.</p>", v:"Ya suena a reggaetón. Así de simple es el esqueleto.", a:"Si no suena a reggaetón, revisá que el swing esté en 50 % y que la caja esté en 4, 7, 12 y 15 (no en 5 y 13 como en el house)."},
-    {b:2, t:"Bombo y caja que se lleven bien", k:[["trk","h"],"t1","amp"], p:"<p>El bombo tiene que ser corto para que la caja respire: "+K("TRK")+" + "+K("1")+", "+K("AMP")+", bajá un poco <b>DEC</b>. Si la caja se pierde, subile el volumen con LEVEL/DATA (con la pista 2 activa).</p>"},
+    // 2 · Explorar samples
+    {b:2, t:"Abrir los samples", k:[["func","h"],"sampling"], p:"<p>"+F+" + "+K("▥")+" (abajo dice <i>Samples</i>). Elegí <b>+DRIVE</b> y "+K("YES")+".</p>", v:"Carpetas: FACTORY, INCOMING y, si ya sampleaste, RECORDED."},
+    {b:2, t:"Recorrer FACTORY", k:["yes","no"], p:"<p>Entrá a <b>FACTORY</b>: los samples de fábrica, ordenados en carpetas. "+K("YES")+" entra a una carpeta, "+K("NO")+" vuelve. Mantener "+K("NO")+" te lleva al principio.</p>", a:"INCOMING es donde llegan los samples por algunos métodos de transferencia; RECORDED, lo que grabás vos con el sampler."},
+    {b:2, t:"Escuchar", k:[["func","h"],"yes"], p:"<p>Marcá un sample y mantené "+F+" + "+K("YES")+": suena (unos 10 segundos) con la voz de la pista activa. Asegurate de tener una pista de audio activa.</p>"},
+    {b:2, t:"Elegir varios", k:["yes","right"], p:"<p>Tocá "+K("YES")+" en cada sample que te guste: queda tildado. Cuando tengas varios, "+K("▶")+" abre el menú de acciones: <b>LOAD TO PROJECT</b> → "+K("YES")+".</p>", v:"Los samples elegidos pasan a la RAM del proyecto."},
+    {b:2, t:"Ponerlo en una pista", k:[["trk","h"],"t8","src","knobD"], p:"<p>"+K("TRK")+" + "+K("8")+", "+K("SRC")+", girá la perilla <b>D</b> (SAMP): aparece la lista de samples <b>del proyecto</b>. Tocá la tecla de la pista para escuchar el marcado y "+K("YES")+" para elegirlo.</p>"},
+    {b:2, t:"El atajo", k:["src","knobD",["func","h"],"yes"], p:"<p>Con esa lista de SAMP abierta, "+F+" + "+K("YES")+" salta directo al +Drive. Ahí, marcás un sample y "+K("YES")+": se carga <b>en la pista y en el proyecto</b> a la vez. Es lo más rápido para probar sonidos nuevos.</p>"},
 
-    // 3 · Dos compases
-    {b:3, t:"Pasar a dos compases", k:[["func","h"],"page","no"], p:"<p>"+F+" + "+K("PAGE")+" abre PAGE SETUP. Poné <b>LENGTH</b> en <b>32</b> (girá la perilla que está en el mismo lugar que LENGTH en la pantalla) (dos páginas de 16). "+K("NO")+" para salir.</p><p>Al alargar, el Digitakt <b>copia</b> lo que había en la página 1 a la página 2. No perdés nada.</p>", v:"Las luces de página muestran 2 páginas.", a:"Si ves dos columnas (TRACK y PATTERN), quedó en modo PER TRACK: FUNC + YES vuelve a PER PATTERN y ahí cambiás LENGTH."},
-    {b:3, t:"Editar la página 2", k:["page"], p:"<p>Con REC prendida, "+K("PAGE")+" cambia qué página editás: la luz fija es la que estás viendo, la que parpadea es la que suena.</p><p>Andá a la <b>página 2</b>.</p>"},
-    {b:3, t:"Un hueco antes de la vuelta", k:[["trk","h"],"t1","t13","t15","t16"], p:"<p>En la página 2, con el bombo ("+K("TRK")+" + "+K("1")+"): <b>sacá el paso 13</b> y poné uno en el <b>15</b> y otro en el <b>16</b>.</p><p>Ese tropezón al final de cada dos compases es lo que hace que el loop “vuelva” con fuerza.</p>", v:"Cada dos compases, el bombo cambia antes de volver a empezar."},
-    {b:3, t:"Guardar", k:[["func","h"],"settings"], p:"<p>Mantené "+F+" y tocá "+K("⚙")+".</p>"},
+    // 3 · Tu biblioteca
+    {b:3, t:"Guardar tus sonidos", k:["preset","yes"], p:"<p>Cuando un sonido te quede bien (sample + filtro + envolvente…), guardalo: "+K("☰")+" → PRESET → <b>SAVE</b>.</p><ol><li>◀ → SELECT BANK: elegí un banco tuyo, por ejemplo el <b>B</b>.</li><li>Elegí un lugar vacío y "+K("YES")+".</li><li>Nombre y "+K("YES")+".</li><li><b>Etiquetas</b>: marcá las que correspondan (así lo encontrás con FILTER) y SAVE.</li></ol>", v:"Tu preset en el banco B, con su nombre."},
+    {b:3, t:"Guardar el sonido de un paso", k:["rec",["t5","h"],"preset"], p:"<p>Si un paso tiene locks que suenan geniales, mantené ese paso y tocá "+K("☰")+": guarda ese sonido <b>con los locks incluidos</b> como preset nuevo.</p>", rec:1},
 
-    // 4 · Hats y percusión
-    {b:4, t:"Hats en corcheas", k:["page",["trk","h"],"t3","t1","t3","t5","t7","t9","t11","t13","t15"], p:"<p>Volvé a la página 1 ("+K("PAGE")+"). "+K("TRK")+" + "+K("3")+", pasos impares: <b>1, 3, 5, 7, 9, 11, 13, 15</b>. Repetilo en la página 2.</p>", a:"Un atajo: armá la página 1 y copiala a la 2 con PAGE + ○ (copiar) en la página 1, y PAGE + □ (pegar) en la página 2."},
-    {b:4, t:"El redoble de hat", k:["trigp","trigp",["t15","h"],"knobA"], p:"<p>Con el hat activo, tocá "+K("TRIG")+" <b>dos veces</b> (página de retrigs). En la página 2, mantené el paso "+K("15")+" y prendé <b>RTRG</b>; poné <b>RATE</b> en <b>1/32</b>.</p><p>Es el “trrrr” de hat que tienen casi todos los temas nuevos.</p>", rec:1, v:"Un redoble rápido de hat al final de cada dos compases."},
-    {b:4, t:"Hats con vida", k:["trigp",["t3","h"],"knobB"], p:"<p>Página de "+K("TRIG")+" normal: mantené algunos hats y bajá <b>VEL</b> (perilla B). Que no todos peguen igual.</p>", rec:1},
-    {b:4, t:"Percusión que responde", k:[["trk","h"],"t4","t3","t11","t14"], p:"<p>"+K("TRK")+" + "+K("4")+" (timbal o bongó), pasos <b>3, 11 y 14</b> en la página 1. En "+K("SRC")+", probá distintas afinaciones con locks de <b>TUNE</b> (perilla A) en cada paso.</p>"},
-    {b:4, t:"Un remate cada 4 vueltas", k:["trigp",["t16","h"],"knobH"], p:"<p>Poné un golpe de percusión en el paso <b>16</b> de la página 2 y dale <b>COND</b> (perilla H) <b>2:2</b>. Como el patrón dura 2 compases, suena cada 4.</p>", rec:1},
+    // 4 · Desde la compu
+    {b:4, t:"Elektron Transfer", k:[], ab:"instalar Transfer", p:"<p>Bajá <b>Elektron Transfer</b> (gratis) de elektron.se → Support &amp; Downloads → Digitakt II, e instalalo. Con eso pasás samples, hacés backups y actualizás el sistema.</p>"},
+    {b:4, t:"Conectar", k:[], ab:"Transfer → Connection", p:"<p>Cable USB conectado. Abrí Transfer: en <b>CONNECTION</b>, elegí los puertos MIDI del Digitakt II y tocá <b>CONNECT</b>.</p>", a:"Si no aparece, revisá que en el Digitakt USB CONFIG no esté en un modo raro: USB AUDIO/MIDI u OVERBRIDGE funcionan. Y cerrá Ableton si lo tenías abierto usando el Digitakt."},
+    {b:4, t:"Arrastrar samples", k:[], ab:"Transfer → Explore", p:"<p>Pestaña <b>EXPLORE</b>. Arriba a la derecha elegí <b>Samples</b>; a la izquierda, <b>My Computer</b>. Arrastrá carpetas de tu compu al lado del Digitakt (creá una carpeta tuya, por ejemplo NAYA).</p><p>Transfer convierte todo solo a 16 bit / 48 kHz. Sirven mono y estéreo.</p>", a:"Mientras transfiere, el secuenciador se frena. Pasá carpetas ordenadas por tipo (bombos, voces, loops): después te lo vas a agradecer."},
+    {b:4, t:"Cargarlos al proyecto", k:[["func","h"],"sampling","yes"], p:"<p>En el Digitakt: "+F+" + "+K("▥")+" → +DRIVE → tu carpeta. Elegí con "+K("YES")+", "+K("▶")+" → LOAD TO PROJECT. O usá el atajo de SAMP + "+F+" + "+K("YES")+".</p><p>Ideas: tus acapellas, golpes de discos que pasás, loops de tus propios temas.</p>"},
 
-    // 5 · 808
-    {b:5, t:"El tono del tema", k:[["trk","h"],"t5",["func","h"],"kb"], p:"<p>"+K("TRK")+" + "+K("5")+" (el 808). "+F+" + "+K("♪")+": <b>KB SCALE</b> menor (eólica), <b>ROOT NOTE</b> en <b>F#</b> o la que te guste, <b>KB FOLD</b> en ON. "+K("NO")+".</p><p>Si fijaste NOTE PARAM en SCALE en la clase 1, las notas del 808 van a seguir esta escala solas.</p>"},
-    {b:5, t:"Que dure", k:["amp"], p:"<p>El 808 tiene que sonar largo, hasta la nota siguiente. En "+K("AMP")+" subí <b>DEC</b> (y <b>HOLD</b>) hasta que cada nota llegue a la otra.</p>"},
-    {b:5, t:"Siguiendo al bombo", k:["rec",["trk","h"],"t5","t1","t8","t9"], p:"<p>Con REC, pista 5: pasos <b>1, 8 y 9</b> en las dos páginas. El 808 empuja junto al bombo y adelanta la nota del 9 en el paso 8.</p>"},
-    {b:5, t:"Las notas", k:["trigp",["t9","h"],"knobA"], p:"<p>En "+K("TRIG")+", con locks de <b>NOTE</b> (perilla A): página 1 en la tónica; página 2, los pasos 8 y 9 <b>bajan</b> (probá 2 o 4 notas de la escala abajo). Ya tenés un movimiento de dos acordes.</p>", rec:1, v:"Un bajo que cambia de nota cada dos compases."},
-    {b:5, t:"Que deslice", k:["trigp","trigp"], p:"<p>El deslizamiento entre notas es clave en el 808. "+K("TRIG")+" dos veces: prendé <b>PORT</b> (portamento) y subí <b>PTIM</b> de a poco hasta que la nota “caiga” hacia la siguiente.</p>", a:"Si desliza demasiado y se vuelve molesto, bajá PTIM. Más detalles del portamento en FUNC + FLTR (Setup) → TRACK → PORTAMENTO."},
-    {b:5, t:"Afinar el bombo con el 808", k:[["trk","h"],"t1","src","knobA"], p:"<p>Si el bombo y el 808 chocan, afiná el bombo: "+K("TRK")+" + "+K("1")+", "+K("SRC")+", <b>TUNE</b> (perilla A) hasta que suenen juntos, no peleados. Probá también bajar un poco el volumen del 808.</p>"},
-    {b:5, t:"Guardar", k:[["func","h"],"settings"], p:"<p>Mantené "+F+" y tocá "+K("⚙")+".</p>"},
+    // 5 · Samplear
+    {b:5, t:"Conectar una fuente", k:[], p:"<p>Atrás, <b>IN L/R</b>: entradas de 6,3 mm. Del celular o una compu: cable de auriculares (mini plug) a dos plugs de 6,3 mm. También sirve un sinte, una bandeja o un micrófono con preamp.</p>"},
+    {b:5, t:"Abrir el sampler", k:["sampling","knobA"], p:"<p>"+K("▥")+" SAMPLING. <b>SRC</b> (perilla A): <b>IN</b>. <b>CHAN</b>: estéreo o mono, según la fuente.</p><p>Poné play en la fuente y mirá el medidor: <b>lo más alto posible sin que clipee</b>. El volumen se ajusta en la fuente.</p>", v:"El medidor moviéndose con la música."},
+    {b:5, t:"Grabar ya", k:["yes","yes"], p:"<p>La forma más directa: marcá <b>RECORD NOW</b>, "+K("YES")+" empieza, "+K("YES")+" corta. Hasta 66 segundos.</p>", a:"Para que arranque solo cuando llega el sonido: THRES (perilla D) apenas arriba del ruido de fondo, R.STRT en umbral y ARM en ON. Para cortar un loop exacto: R.LEN en pasos (por ejemplo 16 = un compás) y R.STRT con PLAY."},
+    {b:5, t:"Recortar", k:["knobE","knobH","knobF",["func","h"],"yes"], p:"<p>El Digitakt normaliza solo. Ahora recortá:</p><ul><li><b>E</b>: inicio.</li><li><b>H</b>: final.</li><li><b>F</b>: zoom.</li><li>"+F+" + "+K("YES")+": escuchar.</li></ul>"},
+    {b:5, t:"Guardar y asignar", k:["yes","yes","t8"], p:"<p>"+K("YES")+", nombre, "+K("YES")+", y tocá la tecla de la pista donde lo querés (por ejemplo "+K("8")+"). "+K("NO")+" si no lo querés asignar todavía.</p>", v:"El sample nuevo suena en la pista elegida y queda en la carpeta RECORDED."},
+    {b:5, t:"Resamplear", k:["sampling","knobA"], p:"<p>El truco más útil: <b>SRC</b> en <b>MAIN</b> graba lo que el propio Digitakt está tocando, con efectos y locks. Con <b>TRK1–16</b>, una sola pista.</p><p>Ejemplo: grabá el acorde con mucha reverb y usalo como un instrumento nuevo, o pasá 4 pistas de batería a un solo loop y liberás 3 pistas.</p>"},
 
-    // 6 · Partes y canción
-    {b:6, t:"El acorde", k:[["trk","h"],"t6","t1"], p:"<p>"+K("TRK")+" + "+K("6")+": un golpe en el paso <b>1</b> de cada página, con <b>LEN</b> largo (en TRIG) para que dure. Lockeá <b>NOTE</b> en la página 2 para que acompañe al 808.</p>", a:"Las pistas de audio tocan un sample por vez: un acorde tiene que venir ya grabado en el sample. Si querés acordes armados nota por nota, usá una pista MIDI tocando un sinte de Ableton (clase 2)."},
-    {b:6, t:"Copiar a B02 y B03", k:["stop","rec",["func","h"],"rec","ptn","t2",["func","h"],"stop"], p:"<p>"+K("□")+" STOP, REC apagada, "+F+" + "+K("○")+" (copiar). Pegalo en <b>B02</b> y <b>B03</b> con "+K("PTN")+" + número y "+F+" + "+K("□")+".</p>"},
-    {b:6, t:"B02 · intro", k:["ptn","t2",["trk","h"],"t1",["func","h"],"play"], p:"<p>En B02, con REC: vaciá el <b>bombo</b> (1) y el <b>808</b> (5) con "+K("TRK")+" + número y "+F+" + "+K("▷")+". Queda acorde, hats y percusión: la intro.</p>"},
-    {b:6, t:"B03 · coro", k:["ptn","t3",["trk","h"],"t7"], p:"<p>En B03 sumá la <b>voz</b> (pista 7) en algún contratiempo, y más redobles de hat. Es el momento más lleno.</p>"},
-    {b:6, t:"La canción", k:["song","t2",["func","h"],"song"], p:"<p>"+K("SONG")+" + "+K("2")+" (canción nueva), "+F+" + "+K("SONG")+", INSERT ROW. Como cada patrón dura 2 compases, las repeticiones cuentan de a dos:</p><ol><li>B02 · 4 (8 compases)</li><li>B01 · 8</li><li>B03 · 8</li><li>B02 · 2</li><li>B03 · 8</li><li>B01 · 4</li></ol><p>END en STOP y guardá.</p>"},
-    {b:6, t:"Tarea", k:[], p:"<p>Escuchá un tema de Bad Bunny que te guste y prestá atención a <b>dónde cae la caja</b> y <b>qué hace el 808</b>. Copiá ese movimiento en B01.</p><p>Después, grabalo en Ableton con lo de la clase 2. 🎛️</p>"}
+    // 6 · Picar
+    {b:6, t:"La máquina Slice", k:[["func","h"],"src","yes"], p:"<p>En una pista con un loop o una frase: "+F+" + "+K("SRC")+" (<i>Machine</i>) → categoría de fuente → <b>SLICE</b> → "+K("YES")+".</p>"},
+    {b:6, t:"Cortar", k:["src","yes"], p:"<p>"+K("SRC")+" y "+K("YES")+" abre el menú de cortes: <b>CREATE SLICE GRID</b>. Perilla E: cuántos cortes (16 para empezar); perilla H: detección de transitorios en ON (corta donde hay golpes). "+K("YES")+".</p>", a:"Para mover los cortes a mano: EDIT SLICE POINTS. E mueve el inicio, H el final, ◀ ▶ cambia de corte."},
+    {b:6, t:"Reordenar", k:["rec",["func","h"],"down","src","yes"], p:"<p>Poné pasos en la pista (REC). Después "+K("SRC")+" → "+K("YES")+" → <b>CREATE RANDOM LOCKS</b>: cada paso toca un corte al azar. Repetilo hasta que salga algo que te guste.</p><p>Para tocarlos en vivo: "+F+" + "+K("▼")+" hasta el modo <b>SLICES</b>: cada tecla, un corte.</p>"},
+
+    // 7 · Ordenar
+    {b:7, t:"Cuánta memoria usás", k:["settings","yes"], p:"<p>"+K("⚙")+" → SYSTEM → <b>STORAGE</b>: cuánto de la RAM del proyecto (400 MB) y del +Drive (20 GB) está ocupado.</p>"},
+    {b:7, t:"Limpiar lo que no usás", k:[["func","h"],"sampling","right"], p:"<p>"+F+" + "+K("▥")+" → <b>PROJECT RAM</b> → "+K("▶")+" → <b>SELECT UNUSED</b> → UNLOAD. Saca de la RAM los samples que no usa ningún patrón. <b>No los borra</b> del +Drive.</p>", a:"Cuidado con DELETE en el +Drive: si borrás un sample de ahí, desaparece de todos los presets y patrones que lo usaban."},
+    {b:7, t:"Tarea", k:[], p:"<p>Armá tu carpeta en la compu con <b>20 samples tuyos</b> (golpes, voces, algo de tus sets), pasala con Transfer, y hacé un patrón usando <b>solo</b> esos sonidos. Guardá los 3 mejores como presets en tu banco B.</p>"}
   ];
 
   /* ---------- motor ---------- */
-  var KEY = "naya-dt2-clase03";
+  var KEY = "naya-dt2-clase04";
   var i = 0, hechos = {};
   try{ var s = JSON.parse(localStorage.getItem(KEY)) || {}; i = Math.min(s.i||0, PASOS.length-1); hechos = s.h || {}; }catch(e){}
   function guardar(){ try{ localStorage.setItem(KEY, JSON.stringify({i:i, h:hechos})); }catch(e){} }
@@ -200,7 +202,7 @@
     var p = PASOS[i];
     document.getElementById("num").textContent = "Bloque "+p.b+" · "+BLOQUES[p.b]+" · paso "+(i+1)+" de "+PASOS.length;
     document.getElementById("titulo").textContent = p.t;
-    document.getElementById("combo").textContent = p.ab ? "En Ableton · " + p.ab : p.k.length ? DT2Panel.texto(p.k).replace(/^./, function(c){ return c.toUpperCase(); }) : "";
+    document.getElementById("combo").textContent = p.ab ? "En la compu · " + p.ab : p.k.length ? DT2Panel.texto(p.k).replace(/^./, function(c){ return c.toUpperCase(); }) : "";
     document.getElementById("antes").style.display = p.rec ? "" : "none";
     document.getElementById("txt").innerHTML = p.p;
     var v = document.getElementById("ver"); v.style.display = p.v ? "" : "none"; v.querySelector("span").textContent = p.v || "";
