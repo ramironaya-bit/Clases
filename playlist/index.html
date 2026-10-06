@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Playlist · NAYA</title>
+<meta name="description" content="Análisis de las playlists de SEKI y COLAPSO.">
+<meta name="theme-color" content="#0b0a0a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg: #0b0a0a; --bg-raised: #15120f; --line: #2e2620; --line-soft: #241e19;
+    --text: #f2ede4; --text-muted: #a89d8e; --text-faint: #6f665c;
+    --gold: #e8b04a; --gold-soft: #8a6c2f; --terra: #e0653a; --sand: #cbb389;
+    --font-display: "Fraunces", ui-serif, Georgia, serif;
+    --font-poster: "Anton", ui-sans-serif, sans-serif;
+    --font-body: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+  }
+  *,*::before,*::after{ box-sizing: border-box; }
+  @media (prefers-reduced-motion: reduce){ *{ transition-duration:.001ms !important; } }
+  body{
+    margin:0; background: var(--bg); color: var(--text);
+    font-family: var(--font-body); font-size:16px; line-height:1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a{ color: var(--gold); text-underline-offset: 3px; }
+  a:focus-visible{ outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
+  .wrap{ max-width: 760px; margin: 0 auto; padding: 3.5rem 1.4rem 5rem; }
+  .brand{
+    font-family: var(--font-mono); font-size:.7rem; letter-spacing:.2em;
+    text-transform:uppercase; color: var(--text-faint);
+    border-bottom:1px solid var(--line); padding-bottom:.85rem; margin-bottom:2.6rem;
+  }
+  .brand .n{ color: var(--gold); font-weight:600; letter-spacing:.24em; }
+  h1{
+    font-family: var(--font-poster); font-weight:400;
+    font-size: clamp(3.2rem, 13vw, 6rem); line-height:.86;
+    text-transform:uppercase; margin:0 0 1.1rem;
+  }
+  .bajada{
+    font-family: var(--font-display); font-weight:300;
+    font-size: clamp(1.1rem, 2.6vw, 1.4rem); line-height:1.45;
+    color: var(--sand); max-width:40ch; margin:0 0 2.6rem;
+  }
+  h2{
+    font-family: var(--font-poster); font-weight:400; font-size:1.5rem;
+    text-transform:uppercase; margin:0 0 .3rem;
+  }
+  .nota{ font-family: var(--font-mono); font-size:.73rem; color: var(--text-faint); margin:0 0 1.3rem; }
+  section{ margin-bottom:3rem; }
+
+  .herr{ display:grid; gap:.7rem; }
+  .h{
+    display:block; text-decoration:none; color: inherit;
+    background: var(--bg-raised); border:1px solid var(--line-soft);
+    border-left:2px solid var(--line); border-radius:3px; padding:1.15rem 1.25rem;
+    transition: border-color .15s, background .15s;
+  }
+  a.h{ border-left-color: var(--gold); }
+  a.h:hover{ background:#1a1510; border-color: var(--gold-soft); border-left-color: var(--gold); }
+  .h-top{ display:flex; align-items:baseline; gap:.7rem; flex-wrap:wrap; margin-bottom:.35rem; }
+  .h-num{ font-family: var(--font-mono); font-size:.72rem; font-weight:600; color: var(--text-faint); }
+  a.h .h-num{ color: var(--gold); }
+  .h-nombre{ font-family: var(--font-poster); text-transform:uppercase; font-size:1.55rem; line-height:1; }
+  .estado{
+    font-family: var(--font-mono); font-size:.6rem; letter-spacing:.12em; text-transform:uppercase;
+    padding:.2rem .5rem; border-radius:2px; border:1px solid var(--line); color: var(--text-faint); white-space:nowrap;
+  }
+  .estado.ok{ background: var(--gold); border-color: var(--gold); color: var(--bg); font-weight:600; }
+  .h p{ margin:0; color: var(--text-muted); font-size:.93rem; line-height:1.5; }
+  .h .abrir{
+    display:inline-block; margin-top:.8rem; color: var(--gold);
+    font-family: var(--font-mono); font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; font-weight:600;
+  }
+  .como{
+    border-left:2px solid var(--terra); padding:.1rem 0 .1rem 1.2rem;
+    color: var(--text-muted); font-size:.95rem; max-width:58ch;
+  }
+  .como b{ color: var(--text); font-weight:600; }
+  footer{
+    border-top:1px solid var(--line); padding-top:1.2rem;
+    font-family: var(--font-mono); font-size:.66rem; letter-spacing:.1em;
+    text-transform:uppercase; color: var(--text-faint);
+  }
+
+  /* barra superior fija con botón de volver */
+  .brand{ position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: .9rem; flex-wrap: wrap;
+    background: rgba(11,10,10,.94); backdrop-filter: blur(8px); padding: .7rem 0 .75rem; margin-bottom: 2.2rem; }
+  .brand .ctx{ font-family: var(--font-mono); font-size: .66rem; letter-spacing: .16em; text-transform: uppercase; color: var(--text-faint); text-align: right; }
+  .brand .n{ color: var(--gold); font-weight: 600; letter-spacing: .22em; }
+  .brand a.back{ font-family: var(--font-mono); font-size: .74rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+    color: #0b0a0a; background: var(--gold); padding: .55rem .95rem; border-radius: 3px; text-decoration: none; white-space: nowrap; transition: background .15s; }
+  .brand a.back:hover, .brand a.back:focus-visible{ background: #f4c46a; }
+
+  .sub{ display:flex; flex-wrap:wrap; gap:.5rem 1rem; margin-top:.8rem; }
+  .sub a{ font-family: var(--font-mono); font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; color: var(--gold); text-decoration:none; border-bottom:1px solid var(--gold-soft); }
+  .sub a:hover{ color: var(--text); }
+  .h .estado.wip{ border-color: var(--terra); color: var(--terra); }
+  .tema{ display:grid; grid-template-columns:2.4rem 1fr auto; align-items:center; gap:.2rem 1rem; text-decoration:none; color:inherit;
+    background: var(--bg-raised); border:1px solid var(--line-soft); border-left:2px solid var(--gold); border-radius:3px; padding:1.2rem 1.25rem; transition: background .15s, border-color .15s; }
+  .tema:hover, .tema:focus-visible{ background:#1a1510; border-color: var(--gold-soft); border-left-color: var(--gold); }
+  .tema .num{ font-family: var(--font-mono); font-size:.8rem; font-weight:600; color: var(--gold); }
+  .tema .nombre{ font-family: var(--font-poster); text-transform:uppercase; font-size:1.55rem; line-height:1.05; }
+  .tema .art{ grid-column:2; color: var(--text-muted); font-size:.92rem; }
+  .tema .tono{ font-family: var(--font-mono); font-size:.66rem; letter-spacing:.12em; text-transform:uppercase; color: var(--text-faint); }
+  .tema .ver{ grid-column:3; grid-row:1 / span 2; font-family: var(--font-mono); font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; font-weight:600; color: var(--gold); white-space:nowrap; }
+  @media (max-width:520px){ .tema{ grid-template-columns:2rem 1fr; } .tema .ver{ grid-column:2; grid-row:auto; margin-top:.4rem; } }
+  .ruta{ list-style:none; margin:0 0 1.2rem; padding:0; display:grid; gap:.5rem; }
+  .ruta li{ background: var(--bg-raised); border:1px solid var(--line-soft); border-radius:3px; padding:.8rem 1rem; display:grid; grid-template-columns:2rem 1fr; gap:0 .8rem; }
+  .ruta .o{ font-family: var(--font-mono); font-size:.72rem; color: var(--gold); font-weight:600; padding-top:.15rem; }
+  .ruta b{ font-family: var(--font-poster); font-weight:400; text-transform:uppercase; font-size:1.15rem; }
+  .ruta span.d{ grid-column:2; color: var(--text-muted); font-size:.88rem; }
+</style>
+
+<div class="wrap">
+
+<div class="brand"><a class="back" href="../todas/">← Todas las clases</a><span class="ctx"><span class="n">NAYA</span> · Playlist</span></div>
+
+  <h1>Playlist</h1>
+  <p class="bajada">Análisis de las playlists de SEKI y COLAPSO: cómo se arma una noche, tema por tema.</p>
+
+  <section>
+    <h2>S7</h2>
+    <p class="nota">SEKI 7 · en construcción, se va armando acá</p>
+    <p class="como">Cada playlist se analiza <b>por tramo de la noche</b>: qué sonido abre, dónde sube, cuál es el pico y cómo se cierra. La de S7 es la primera y se va completando de a poco.</p>
+  </section>
+
+  <section>
+    <h2>El recorrido</h2>
+    <p class="nota">Borrador: cuatro listas, de menos a más y de vuelta</p>
+    <ol class="ruta">
+      <li><span class="o">01</span><b>Indie Dance</b><span class="d">Tranqui. Abre la noche, 123–127 BPM.</span></li>
+      <li><span class="o">02</span><b>Indie Tech</b><span class="d">Más arriba, todavía sin tocar el pico.</span></li>
+      <li><span class="o">03</span><b>Tech House</b><span class="d">El pico, 128–132 BPM.</span></li>
+      <li><span class="o">04</span><b>Melodic</b><span class="d">Melodic house y techno oscuro: el cierre.</span></li>
+    </ol>
+  </section>
+
+  <footer>NAYA · Playlist · Buenos Aires</footer>
+
+</div>
+
+</html>
