@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Clase 04 · Samples · Digitakt II</title>
+<meta name="description" content="Clase interactiva: encontrar, ordenar, traer y grabar samples en el Digitakt II.">
+<meta name="theme-color" content="#0b0a0a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#0b0a0a; --bg-raised:#15120f; --bg-feature:#1a1108; --line:#2e2620; --line-soft:#241e19;
+    --text:#f2ede4; --text-muted:#a89d8e; --text-faint:#6f665c;
+    --gold:#e8b04a; --gold-soft:#8a6c2f; --terra:#e0653a; --sand:#cbb389;
+    --font-display:"Fraunces", ui-serif, Georgia, serif;
+    --font-poster:"Anton", ui-sans-serif, sans-serif;
+    --font-body:"IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+    --font-mono:"IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+  }
+  *,*::before,*::after{ box-sizing:border-box; }
+  body{ margin:0; background:var(--bg); color:var(--text); font-family:var(--font-body); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+  a{ color:var(--gold); text-underline-offset:3px; }
+  button:focus-visible, a:focus-visible{ outline:2px solid var(--gold); outline-offset:3px; }
+  .wrap{ max-width:1080px; margin:0 auto; padding:1.6rem 1.4rem 4rem; }
+
+  .brand{ display:flex; justify-content:space-between; gap:.75rem; flex-wrap:wrap; font-family:var(--font-mono); font-size:.68rem; letter-spacing:.18em; text-transform:uppercase; color:var(--text-faint); border-bottom:1px solid var(--line); padding-bottom:.8rem; margin-bottom:1.4rem; }
+  .brand .n{ color:var(--gold); font-weight:600; }
+  .brand a{ color:var(--text-faint); text-decoration:none; } .brand a:hover{ color:var(--gold); }
+  .cab{ display:flex; align-items:baseline; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:1rem; }
+  h1{ font-family:var(--font-poster); font-weight:400; text-transform:uppercase; font-size:clamp(1.8rem,5vw,2.8rem); line-height:.95; margin:0; }
+  h1 small{ display:block; font-family:var(--font-mono); font-size:.7rem; letter-spacing:.22em; color:var(--terra); margin-bottom:.4rem; }
+  .meta{ font-family:var(--font-mono); font-size:.72rem; color:var(--text-faint); }
+
+  .bloques{ display:flex; gap:.35rem; overflow-x:auto; scrollbar-width:none; margin:0 0 1.2rem; padding-bottom:.2rem; }
+  .bloques::-webkit-scrollbar{ display:none; }
+  .bloques button{ flex:0 0 auto; font-family:var(--font-mono); font-size:.66rem; letter-spacing:.06em; text-transform:uppercase; color:var(--text-muted); background:transparent; border:1px solid var(--line); border-radius:2px; padding:.35rem .6rem; cursor:pointer; }
+  .bloques button.act{ color:var(--bg); background:var(--gold); border-color:var(--gold); }
+  .bloques button.ok{ border-color:var(--gold-soft); color:var(--gold); }
+  .barra{ height:3px; background:var(--line); margin:-.6rem 0 1.4rem; }
+  .barra i{ display:block; height:100%; width:0; background:var(--gold); transition:width .25s; }
+
+  .escena{ display:grid; grid-template-columns: minmax(0,1fr) minmax(0,1.25fr); gap:1.6rem; align-items:start; }
+  @media (max-width: 860px){ .escena{ grid-template-columns:1fr; } }
+
+  .paso{ background:var(--bg-raised); border:1px solid var(--line-soft); border-left:2px solid var(--gold); border-radius:3px; padding:1.3rem 1.4rem 1.2rem; }
+  .num{ font-family:var(--font-mono); font-size:.7rem; letter-spacing:.16em; text-transform:uppercase; color:var(--gold); margin-bottom:.35rem; }
+  .paso h2{ font-family:var(--font-poster); font-weight:400; text-transform:uppercase; font-size:clamp(1.5rem,4vw,2rem); line-height:1; margin:0 0 .9rem; }
+  .combo{ font-family:var(--font-mono); font-size:.82rem; color:var(--sand); background:#0f0d0b; border:1px solid var(--line); border-radius:3px; padding:.55rem .75rem; margin:0 0 1rem; }
+  .combo:empty{ display:none; }
+  .txt p{ margin:0 0 .8rem; color:var(--text-muted); }
+  .txt ol, .txt ul{ color:var(--text-muted); padding-left:1.2rem; margin:0 0 .8rem; }
+  .txt li{ margin-bottom:.3rem; }
+  .txt b{ color:var(--text); }
+  kbd{ font-family:var(--font-mono); font-size:.78em; font-weight:600; color:var(--text); background:#2a2826; border:1px solid #3a3633; border-bottom-width:2px; border-radius:3px; padding:.02em .38em; white-space:nowrap; }
+  kbd.f{ background:#d9a03a; color:#1a1408; border-color:#b8862e; }
+  .ver{ border-left:2px solid var(--gold-soft); padding:.1rem 0 .1rem .9rem; margin:.4rem 0 .8rem; font-size:.92rem; color:var(--text-muted); }
+  .ver b{ font-family:var(--font-mono); font-size:.62rem; letter-spacing:.16em; text-transform:uppercase; color:var(--gold); display:block; font-weight:500; }
+  .antes{ border:1px solid var(--terra); background:#1d0f0a; border-radius:3px; padding:.6rem .8rem; margin:0 0 1rem; font-size:.9rem; color:var(--text-muted); }
+  .antes b{ color:var(--terra); }
+  details{ margin:.4rem 0 0; border-top:1px solid var(--line); padding-top:.7rem; }
+  summary{ cursor:pointer; font-family:var(--font-mono); font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--terra); }
+  details p{ color:var(--text-muted); font-size:.92rem; margin:.6rem 0 0; }
+
+  .nav{ display:flex; gap:.6rem; margin-top:1.1rem; }
+  .nav button{ font-family:var(--font-mono); font-size:.74rem; letter-spacing:.12em; text-transform:uppercase; padding:.85rem 1.1rem; cursor:pointer; border-radius:2px; }
+  .nav .atras{ background:transparent; color:var(--text-muted); border:1px solid var(--line); }
+  .nav .sig{ flex:1; background:var(--gold); color:var(--bg); border:1px solid var(--gold); font-weight:600; }
+  .nav .sig:hover{ background:#f0bb55; }
+  .nav button:disabled{ opacity:.35; cursor:default; }
+  .tip{ font-family:var(--font-mono); font-size:.64rem; color:var(--text-faint); margin-top:.6rem; }
+
+  .lado{ position:sticky; top:1rem; }
+  @media (max-width: 860px){ .lado{ position:static; order:-1; } .regla{ display:none; } .info{ min-height:0; } }
+  .info{ margin-top:.8rem; font-size:.86rem; color:var(--text-muted); background:var(--bg-raised); border:1px solid var(--line); border-radius:3px; padding:.75rem .9rem; min-height:3.4rem; }
+  .info b{ color:var(--text); font-family:var(--font-poster); font-weight:400; text-transform:uppercase; letter-spacing:.02em; font-size:1rem; display:block; }
+  .info .fn{ color:var(--sand); display:block; margin-top:.25rem; }
+  .regla{ margin-top:.8rem; font-size:.84rem; color:var(--text-faint); border-left:2px solid var(--terra); padding-left:.8rem; }
+  .regla b{ color:var(--terra); font-weight:600; }
+
+  /* barra superior fija con botón de volver */
+  .brand{ position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: .9rem; flex-wrap: wrap;
+    background: rgba(11,10,10,.94); backdrop-filter: blur(8px); padding: .7rem 0 .75rem; margin-bottom: 2.2rem; }
+  .brand .ctx{ font-family: var(--font-mono); font-size: .66rem; letter-spacing: .16em; text-transform: uppercase; color: var(--text-faint); text-align: right; }
+  .brand .n{ color: var(--gold); font-weight: 600; letter-spacing: .22em; }
+  .brand a.back{ font-family: var(--font-mono); font-size: .74rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+    color: #0b0a0a; background: var(--gold); padding: .55rem .95rem; border-radius: 3px; text-decoration: none; white-space: nowrap; transition: background .15s; }
+  .brand a.back:hover, .brand a.back:focus-visible{ background: #f4c46a; }
+</style>
+
+<div class="wrap">
+  <div class="brand"><a class="back" href="../">← Guía Digitakt II</a><span class="ctx"><span class="n">NAYA</span> · Clases de Producción · Digitakt II</span></div>
+
+  <div class="cab">
+    <h1><small>Clase 04 · Interactiva</small>Samples</h1>
+    <span class="meta" id="meta">Buscar · traer · grabar · picar</span>
+  </div>
+
+  <div class="bloques" id="bloques"></div>
+  <div class="barra"><i id="barra"></i></div>
+
+  <div class="escena">
+    <div>
+      <article class="paso" aria-live="polite">
+        <div class="num" id="num"></div>
+        <h2 id="titulo"></h2>
+        <div class="antes" id="antes"><b>Antes:</b> REC (○) tiene que estar <b>roja</b>. Si está apagada, las teclas son pistas y no pasos: la perilla cambia toda la pista.</div>
+        <div class="combo" id="combo"></div>
+        <div class="txt" id="txt"></div>
+        <div class="ver" id="ver"><b>Tenés que ver</b><span></span></div>
+        <details id="ayuda"><summary>No me sale</summary><p></p></details>
+      </article>
+      <div class="nav">
+        <button class="atras" id="atras">← Atrás</button>
+        <button class="sig" id="sig">Listo, siguiente →</button>
+      </div>
+      <p class="tip">También con las flechas del teclado. Tu avance queda guardado en este navegador.</p>
+    </div>
+    <div class="lado">
+      <div id="panel"></div>
+      <div class="info" id="info">Lo que brilla es lo que tenés que tocar. <span class="fn">Tocá cualquier tecla del dibujo para ver qué hace.</span></div>
+      <p class="regla"><b>La regla de oro:</b> las perillas A–H mueven lo que muestra la pantalla en ese momento. Si girás A y cambia otra cosa, es porque tenés abierta otra página: fijate qué dice la pantalla.</p>
+    </div>
+  </div>
+</div>
+
+<script src="../panel.js"></script>
+<script>
+(function(){
+  var F = '<kbd class="f">FUNC</kbd>';
+  function K(t){ return '<kbd>'+t+'</kbd>'; }
+  var GUARDAR = "Guardá: mantené "+F+" y tocá "+K("⚙ SETTINGS")+" (abajo dice Save Proj). Acostumbrate a hacerlo cada vez que algo te gusta.";
+
+  var BLOQUES = ["Presets y samples","Buscar presets","Explorar samples","Tu biblioteca","Desde la compu","Samplear","Picar","Ordenar"];
+
+  var PASOS = [
+    // 0
+    {b:0, t:"Dos cosas distintas", k:[], p:"<p>En la clase 1 elegiste <b>presets</b>. Ahora vamos a los <b>samples</b>.</p><ul><li><b>Sample</b>: el audio pelado. Un golpe, un loop, una voz.</li><li><b>Preset</b>: un sample <b>más</b> todos sus ajustes (filtro, envolvente, efectos, LFO). Un sonido listo.</li></ul><p>Los dos viven en el <b>+Drive</b> (el disco del aparato, 20 GB). Para usar un sample en un proyecto, primero se carga a la <b>RAM del proyecto</b> (hasta 400 MB).</p>"},
+
+    // 1 · Buscar presets
+    {b:1, t:"Abrir la lista de presets", k:["preset","yes"], p:"<p>"+K("☰")+" → PRESET → <b>LOAD</b> → "+K("YES")+". Es la lista de la clase 1.</p>", v:"La lista de presets."},
+    {b:1, t:"El menú para ordenar", k:["left"], p:"<p>Con la lista abierta, tocá "+K("◀")+": se abre el menú de orden. Se ejecuta con "+K("YES")+" y se sale con "+K("NO")+" o "+K("▶")+".</p>", v:"Un menú: ADD TO PRESET POOL, SELECT BANK, SORT, FILTER, SEARCH."},
+    {b:1, t:"Los 8 bancos", k:["left","yes"], p:"<p><b>SELECT BANK</b>: el +Drive guarda presets en 8 bancos, <b>de A a H</b>. La lista muestra uno por vez: por eso viste pocos. Recorré los bancos a ver cuáles tienen sonidos.</p>"},
+    {b:1, t:"Filtrar por etiqueta", k:["left","yes"], p:"<p><b>FILTER</b>: una lista de etiquetas (bombo, caja, bajo, pad…). Marcá una o varias con "+K("YES")+" y "+K("NO")+" para volver: la lista muestra solo esos.</p><p>Es <b>la manera más ordenada</b> de buscar.</p>"},
+    {b:1, t:"Buscar por nombre", k:["left","yes"], p:"<p><b>SEARCH</b>: escribís parte del nombre (como cuando nombraste el proyecto) y "+K("YES")+". Para borrar la búsqueda: "+F+" + "+K("NO")+".</p><p><b>SORT ABC / 123</b> cambia entre orden alfabético y por número.</p>"},
+
+    // 2 · Explorar samples
+    {b:2, t:"Abrir los samples", k:[["func","h"],"sampling"], p:"<p>"+F+" + "+K("▥")+" (abajo dice <i>Samples</i>). Elegí <b>+DRIVE</b> y "+K("YES")+".</p>", v:"Carpetas: FACTORY, INCOMING y, si ya sampleaste, RECORDED."},
+    {b:2, t:"Recorrer FACTORY", k:["yes","no"], p:"<p>Entrá a <b>FACTORY</b>: los samples de fábrica, ordenados en carpetas. "+K("YES")+" entra a una carpeta, "+K("NO")+" vuelve. Mantener "+K("NO")+" te lleva al principio.</p>", a:"INCOMING es donde llegan los samples por algunos métodos de transferencia; RECORDED, lo que grabás vos con el sampler."},
+    {b:2, t:"Escuchar", k:[["func","h"],"yes"], p:"<p>Marcá un sample y mantené "+F+" + "+K("YES")+": suena (unos 10 segundos) con la voz de la pista activa. Asegurate de tener una pista de audio activa.</p>"},
+    {b:2, t:"Elegir varios", k:["yes","right"], p:"<p>Tocá "+K("YES")+" en cada sample que te guste: queda tildado. Cuando tengas varios, "+K("▶")+" abre el menú de acciones: <b>LOAD TO PROJECT</b> → "+K("YES")+".</p>", v:"Los samples elegidos pasan a la RAM del proyecto."},
+    {b:2, t:"Ponerlo en una pista", k:[["trk","h"],"t8","src","knobD"], p:"<p>"+K("TRK")+" + "+K("8")+", "+K("SRC")+", girá la perilla <b>D</b> (SAMP): aparece la lista de samples <b>del proyecto</b>. Tocá la tecla de la pista para escuchar el marcado y "+K("YES")+" para elegirlo.</p>"},
+    {b:2, t:"El atajo", k:["src","knobD",["func","h"],"yes"], p:"<p>Con esa lista de SAMP abierta, "+F+" + "+K("YES")+" salta directo al +Drive. Ahí, marcás un sample y "+K("YES")+": se carga <b>en la pista y en el proyecto</b> a la vez. Es lo más rápido para probar sonidos nuevos.</p>"},
+
+    // 3 · Tu biblioteca
+    {b:3, t:"Guardar tus sonidos", k:["preset","yes"], p:"<p>Cuando un sonido te quede bien (sample + filtro + envolvente…), guardalo: "+K("☰")+" → PRESET → <b>SAVE</b>.</p><ol><li>◀ → SELECT BANK: elegí un banco tuyo, por ejemplo el <b>B</b>.</li><li>Elegí un lugar vacío y "+K("YES")+".</li><li>Nombre y "+K("YES")+".</li><li><b>Etiquetas</b>: marcá las que correspondan (así lo encontrás con FILTER) y SAVE.</li></ol>", v:"Tu preset en el banco B, con su nombre."},
+    {b:3, t:"Guardar el sonido de un paso", k:["rec",["t5","h"],"preset"], p:"<p>Si un paso tiene locks que suenan geniales, mantené ese paso y tocá "+K("☰")+": guarda ese sonido <b>con los locks incluidos</b> como preset nuevo.</p>", rec:1},
+
+    // 4 · Desde la compu
+    {b:4, t:"Elektron Transfer", k:[], ab:"instalar Transfer", p:"<p>Bajá <b>Elektron Transfer</b> (gratis) de elektron.se → Support &amp; Downloads → Digitakt II, e instalalo. Con eso pasás samples, hacés backups y actualizás el sistema.</p>"},
+    {b:4, t:"Conectar", k:[], ab:"Transfer → Connection", p:"<p>Cable USB conectado. Abrí Transfer: en <b>CONNECTION</b>, elegí los puertos MIDI del Digitakt II y tocá <b>CONNECT</b>.</p>", a:"Si no aparece, revisá que en el Digitakt USB CONFIG no esté en un modo raro: USB AUDIO/MIDI u OVERBRIDGE funcionan. Y cerrá Ableton si lo tenías abierto usando el Digitakt."},
+    {b:4, t:"Arrastrar samples", k:[], ab:"Transfer → Explore", p:"<p>Pestaña <b>EXPLORE</b>. Arriba a la derecha elegí <b>Samples</b>; a la izquierda, <b>My Computer</b>. Arrastrá carpetas de tu compu al lado del Digitakt (creá una carpeta tuya, por ejemplo NAYA).</p><p>Transfer convierte todo solo a 16 bit / 48 kHz. Sirven mono y estéreo.</p>", a:"Mientras transfiere, el secuenciador se frena. Pasá carpetas ordenadas por tipo (bombos, voces, loops): después te lo vas a agradecer."},
+    {b:4, t:"Cargarlos al proyecto", k:[["func","h"],"sampling","yes"], p:"<p>En el Digitakt: "+F+" + "+K("▥")+" → +DRIVE → tu carpeta. Elegí con "+K("YES")+", "+K("▶")+" → LOAD TO PROJECT. O usá el atajo de SAMP + "+F+" + "+K("YES")+".</p><p>Ideas: tus acapellas, golpes de discos que pasás, loops de tus propios temas.</p>"},
+
+    // 5 · Samplear
+    {b:5, t:"Conectar una fuente", k:[], p:"<p>Atrás, <b>IN L/R</b>: entradas de 6,3 mm. Del celular o una compu: cable de auriculares (mini plug) a dos plugs de 6,3 mm. También sirve un sinte, una bandeja o un micrófono con preamp.</p>"},
+    {b:5, t:"Abrir el sampler", k:["sampling","knobA"], p:"<p>"+K("▥")+" SAMPLING. <b>SRC</b> (perilla A): <b>IN</b>. <b>CHAN</b>: estéreo o mono, según la fuente.</p><p>Poné play en la fuente y mirá el medidor: <b>lo más alto posible sin que clipee</b>. El volumen se ajusta en la fuente.</p>", v:"El medidor moviéndose con la música."},
+    {b:5, t:"Grabar ya", k:["yes","yes"], p:"<p>La forma más directa: marcá <b>RECORD NOW</b>, "+K("YES")+" empieza, "+K("YES")+" corta. Hasta 66 segundos.</p>", a:"Para que arranque solo cuando llega el sonido: THRES (perilla D) apenas arriba del ruido de fondo, R.STRT en umbral y ARM en ON. Para cortar un loop exacto: R.LEN en pasos (por ejemplo 16 = un compás) y R.STRT con PLAY."},
+    {b:5, t:"Recortar", k:["knobE","knobH","knobF",["func","h"],"yes"], p:"<p>El Digitakt normaliza solo. Ahora recortá:</p><ul><li><b>E</b>: inicio.</li><li><b>H</b>: final.</li><li><b>F</b>: zoom.</li><li>"+F+" + "+K("YES")+": escuchar.</li></ul>"},
+    {b:5, t:"Guardar y asignar", k:["yes","yes","t8"], p:"<p>"+K("YES")+", nombre, "+K("YES")+", y tocá la tecla de la pista donde lo querés (por ejemplo "+K("8")+"). "+K("NO")+" si no lo querés asignar todavía.</p>", v:"El sample nuevo suena en la pista elegida y queda en la carpeta RECORDED."},
+    {b:5, t:"Resamplear", k:["sampling","knobA"], p:"<p>El truco más útil: <b>SRC</b> en <b>MAIN</b> graba lo que el propio Digitakt está tocando, con efectos y locks. Con <b>TRK1–16</b>, una sola pista.</p><p>Ejemplo: grabá el acorde con mucha reverb y usalo como un instrumento nuevo, o pasá 4 pistas de batería a un solo loop y liberás 3 pistas.</p>"},
+
+    // 6 · Picar
+    {b:6, t:"La máquina Slice", k:[["func","h"],"src","yes"], p:"<p>En una pista con un loop o una frase: "+F+" + "+K("SRC")+" (<i>Machine</i>) → categoría de fuente → <b>SLICE</b> → "+K("YES")+".</p>"},
+    {b:6, t:"Cortar", k:["src","yes"], p:"<p>"+K("SRC")+" y "+K("YES")+" abre el menú de cortes: <b>CREATE SLICE GRID</b>. Perilla E: cuántos cortes (16 para empezar); perilla H: detección de transitorios en ON (corta donde hay golpes). "+K("YES")+".</p>", a:"Para mover los cortes a mano: EDIT SLICE POINTS. E mueve el inicio, H el final, ◀ ▶ cambia de corte."},
+    {b:6, t:"Reordenar", k:["rec",["func","h"],"down","src","yes"], p:"<p>Poné pasos en la pista (REC). Después "+K("SRC")+" → "+K("YES")+" → <b>CREATE RANDOM LOCKS</b>: cada paso toca un corte al azar. Repetilo hasta que salga algo que te guste.</p><p>Para tocarlos en vivo: "+F+" + "+K("▼")+" hasta el modo <b>SLICES</b>: cada tecla, un corte.</p>"},
+
+    // 7 · Ordenar
+    {b:7, t:"Cuánta memoria usás", k:["settings","yes"], p:"<p>"+K("⚙")+" → SYSTEM → <b>STORAGE</b>: cuánto de la RAM del proyecto (400 MB) y del +Drive (20 GB) está ocupado.</p>"},
+    {b:7, t:"Limpiar lo que no usás", k:[["func","h"],"sampling","right"], p:"<p>"+F+" + "+K("▥")+" → <b>PROJECT RAM</b> → "+K("▶")+" → <b>SELECT UNUSED</b> → UNLOAD. Saca de la RAM los samples que no usa ningún patrón. <b>No los borra</b> del +Drive.</p>", a:"Cuidado con DELETE en el +Drive: si borrás un sample de ahí, desaparece de todos los presets y patrones que lo usaban."},
+    {b:7, t:"Tarea", k:[], p:"<p>Armá tu carpeta en la compu con <b>20 samples tuyos</b> (golpes, voces, algo de tus sets), pasala con Transfer, y hacé un patrón usando <b>solo</b> esos sonidos. Guardá los 3 mejores como presets en tu banco B.</p>"}
+  ];
+
+  /* ---------- motor ---------- */
+  var KEY = "naya-dt2-clase04";
+  var i = 0, hechos = {};
+  try{ var s = JSON.parse(localStorage.getItem(KEY)) || {}; i = Math.min(s.i||0, PASOS.length-1); hechos = s.h || {}; }catch(e){}
+  function guardar(){ try{ localStorage.setItem(KEY, JSON.stringify({i:i, h:hechos})); }catch(e){} }
+
+  DT2Panel.render(document.getElementById("panel"));
+  var bl = document.getElementById("bloques");
+  BLOQUES.forEach(function(n, b){
+    var btn = document.createElement("button"); btn.textContent = (b)+" · "+n;
+    btn.addEventListener("click", function(){ for(var j=0;j<PASOS.length;j++){ if(PASOS[j].b===b){ ir(j); break; } } });
+    bl.appendChild(btn);
+  });
+
+  function ir(n){
+    i = Math.max(0, Math.min(PASOS.length-1, n));
+    var p = PASOS[i];
+    document.getElementById("num").textContent = "Bloque "+p.b+" · "+BLOQUES[p.b]+" · paso "+(i+1)+" de "+PASOS.length;
+    document.getElementById("titulo").textContent = p.t;
+    document.getElementById("combo").textContent = p.ab ? "En la compu · " + p.ab : p.k.length ? DT2Panel.texto(p.k).replace(/^./, function(c){ return c.toUpperCase(); }) : "";
+    document.getElementById("antes").style.display = p.rec ? "" : "none";
+    document.getElementById("txt").innerHTML = p.p;
+    var v = document.getElementById("ver"); v.style.display = p.v ? "" : "none"; v.querySelector("span").textContent = p.v || "";
+    var a = document.getElementById("ayuda"); a.style.display = p.a ? "" : "none"; a.open = false; a.querySelector("p").textContent = p.a || "";
+    DT2Panel.marcar(p.k);
+    document.getElementById("atras").disabled = i === 0;
+    document.getElementById("sig").textContent = i === PASOS.length-1 ? "Terminé la clase ✓" : "Listo, siguiente →";
+    [].forEach.call(bl.children, function(btn, b){
+      btn.classList.toggle("act", b === p.b);
+      var todos = PASOS.every(function(q, j){ return q.b !== b || hechos[j]; });
+      btn.classList.toggle("ok", todos && b !== p.b);
+    });
+    var n = Object.keys(hechos).length;
+    document.getElementById("barra").style.width = (n / PASOS.length * 100) + "%";
+    guardar();
+  }
+  document.getElementById("sig").addEventListener("click", function(){ hechos[i] = 1; ir(i+1); if(i === PASOS.length-1) guardar(); window.scrollTo({top:0, behavior:"smooth"}); });
+  document.getElementById("atras").addEventListener("click", function(){ ir(i-1); });
+  document.addEventListener("keydown", function(e){
+    if(e.target.closest("input,textarea")) return;
+    if(e.key === "ArrowRight"){ hechos[i] = 1; ir(i+1); }
+    if(e.key === "ArrowLeft") ir(i-1);
+  });
+
+  var info = document.getElementById("info");
+  document.getElementById("panel").addEventListener("click", function(e){
+    var k = e.target.closest("[data-k]"); if(!k) return;
+    var d = DT2Panel.info(k.dataset.k); if(!d) return;
+    info.innerHTML = "<b></b><span class='a'></span>" + (d[2] ? "<span class='fn'></span>" : "");
+    info.querySelector("b").textContent = d[0];
+    info.querySelector(".a").textContent = d[1];
+    if(d[2]) info.querySelector(".fn").textContent = "Con FUNC: " + d[2];
+  });
+
+  ir(i);
+})();
+</script>
+</html>
