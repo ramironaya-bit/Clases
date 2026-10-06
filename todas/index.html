@@ -114,6 +114,15 @@
   .ruta .o{ font-family: var(--font-mono); font-size:.72rem; color: var(--gold); font-weight:600; padding-top:.15rem; }
   .ruta b{ font-family: var(--font-poster); font-weight:400; text-transform:uppercase; font-size:1.15rem; }
   .ruta span.d{ grid-column:2; color: var(--text-muted); font-size:.88rem; }
+
+  .minis{ display:grid; grid-template-columns:1fr 1fr; gap:.6rem; }
+  @media (max-width:520px){ .minis{ grid-template-columns:1fr; } }
+  .mini{ display:flex; flex-direction:column; gap:.2rem; text-decoration:none; color:inherit; background: var(--bg-raised); border:1px solid var(--line-soft); border-radius:3px; padding:.8rem .95rem; transition: background .15s, border-color .15s; }
+  .mini:hover, .mini:focus-visible{ background:#1a1510; border-color: var(--gold-soft); }
+  .mini .mn{ font-family: var(--font-poster); text-transform:uppercase; font-size:1.1rem; line-height:1.1; }
+  .mini .md{ font-size:.8rem; color: var(--text-muted); line-height:1.35; }
+  .mini .ms{ margin-top:.2rem; font-family: var(--font-mono); font-size:.58rem; letter-spacing:.12em; text-transform:uppercase; color: var(--text-faint); }
+  .mini .ms.wip{ color: var(--terra); }
 </style>
 
 <div class="wrap">
@@ -135,15 +144,22 @@
         <p>Un recorrido por herramienta: Ableton Live, Digitakt II, BeatStep Pro.</p>
         <div class="sub"><a href="../produccion/">Ver el recorrido →</a><a href="../produccion/ableton/">Ableton Live</a><a href="../produccion/digitakt-ii/">Digitakt II</a><a href="../produccion/beatstep-pro/">BeatStep Pro</a></div>
       </div>
-      <a class="h" href="../playlist/">
-        <div class="h-top"><span class="h-num">03</span><span class="h-nombre">Playlist</span><span class="estado wip">en construcción</span></div>
-        <p>Análisis de las playlists de SEKI y COLAPSO. Por ahora, la de S7.</p>
-        <span class="abrir">Abrir →</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>Otras</h2>
+    <p class="nota">Material aparte de los recorridos.</p>
+    <div class="minis">
+      <a class="mini" href="../playlist/">
+        <span class="mn">Playlist</span>
+        <span class="md">Análisis de playlists de SEKI y COLAPSO · S7</span>
+        <span class="ms wip">en construcción</span>
       </a>
-      <a class="h" href="../cancionero/">
-        <div class="h-top"><span class="h-num">04</span><span class="h-nombre">Cancionero</span><span class="estado ok">abierta</span></div>
-        <p>Acceso rápido a los temas que me gusta tocar, con sus acordes.</p>
-        <span class="abrir">Abrir →</span>
+      <a class="mini" href="../cancionero/">
+        <span class="mn">Cancionero</span>
+        <span class="md">Temas para tocar, con acordes</span>
+        <span class="ms">abierto</span>
       </a>
     </div>
   </section>
