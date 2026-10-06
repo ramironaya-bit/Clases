@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Recorrido de Olix</title>
+<meta name="description" content="Clases de DJ con NAYA. El recorrido de Olix: capítulos, material y tareas.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================================
+     RECORRIDO DEL ALUMNO — material que ve el alumno, así que
+     manda el AMARILLO (las notas internas de NAYA van en
+     terracota). Mismo mundo que el dossier y que los capítulos.
+     Pensada para abrirse en el celu y guardarse en favoritos.
+     ============================================================ */
+
+  :root{
+    --bg: #0b0a0a;
+    --bg-raised: #15120f;
+    --bg-feature: #1a1108;
+    --line: #2e2620;
+    --line-soft: #241e19;
+    --text: #f2ede4;
+    --text-muted: #a89d8e;
+    --text-faint: #6f665c;
+    --gold: #e8b04a;
+    --gold-soft: #8a6c2f;
+    --terra: #e0653a;
+    --terra-deep: #b23f1c;
+    --sand: #cbb389;
+    --max: 780px;
+    --font-display: "Fraunces", ui-serif, Georgia, serif;
+    --font-poster: "Anton", ui-sans-serif, sans-serif;
+    --font-body: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+  }
+
+  *,*::before,*::after{ box-sizing: border-box; }
+  @media (prefers-reduced-motion: reduce){ *{ animation-duration:.001ms !important; transition-duration:.001ms !important; } }
+
+  body{
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: var(--font-body); font-size: 16px; line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a{ color: var(--gold); text-underline-offset: 3px; }
+  a:focus-visible{ outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
+
+  .wrap{ max-width: var(--max); margin: 0 auto; padding: 3rem 1.4rem 4.5rem; }
+
+  .brand{
+    display: flex; align-items: baseline; gap: .75rem; flex-wrap: wrap;
+    font-family: var(--font-mono); font-size: .7rem;
+    letter-spacing: .18em; text-transform: uppercase; color: var(--text-faint);
+    border-bottom: 1px solid var(--line); padding-bottom: .85rem; margin-bottom: 2.4rem;
+  }
+  .brand .n{ color: var(--gold); font-weight: 600; letter-spacing: .22em; }
+
+  .kicker{
+    font-family: var(--font-mono); font-size: .76rem; font-weight: 600;
+    letter-spacing: .28em; text-transform: uppercase; color: var(--terra); margin: 0 0 .5rem;
+  }
+  h1{
+    font-family: var(--font-poster); font-weight: 400;
+    font-size: clamp(3.6rem, 16vw, 7rem);
+    line-height: .84; text-transform: uppercase; margin: 0 0 1rem;
+  }
+  .bajada{
+    font-family: var(--font-display); font-weight: 300;
+    font-size: clamp(1.05rem, 2.6vw, 1.35rem); line-height: 1.45;
+    color: var(--sand); max-width: 40ch; margin: 0 0 2rem;
+  }
+
+  .meta{
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem 1.2rem;
+    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    padding: 1.1rem 0; margin-bottom: 3rem;
+  }
+  .meta dt{
+    font-family: var(--font-mono); font-size: .6rem; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--text-faint); margin-bottom: .25rem;
+  }
+  .meta dd{ margin: 0; font-weight: 600; font-size: .95rem; }
+  .meta dd.hi{ color: var(--gold); }
+
+  section{ margin-bottom: 3rem; }
+  h2{
+    font-family: var(--font-poster); font-weight: 400;
+    font-size: clamp(1.5rem, 4.5vw, 2.1rem);
+    line-height: 1; text-transform: uppercase; margin: 0 0 .35rem;
+  }
+  .sec-nota{
+    font-family: var(--font-mono); font-size: .73rem; color: var(--text-faint);
+    margin: 0 0 1.3rem; letter-spacing: .04em;
+  }
+
+  /* capítulos */
+  .caps{ display: grid; gap: .7rem; }
+  .cap{
+    background: var(--bg-raised); border: 1px solid var(--line-soft);
+    border-left: 2px solid var(--line); border-radius: 3px;
+    padding: 1.1rem 1.2rem;
+  }
+  .cap.dado{ border-left-color: var(--gold); }
+  .cap.proximo{ border-left-color: var(--terra); }
+
+  .cap-top{
+    display: flex; align-items: baseline; gap: .7rem; flex-wrap: wrap; margin-bottom: .4rem;
+  }
+  .cap-num{
+    font-family: var(--font-mono); font-size: .78rem; font-weight: 600;
+    color: var(--text-faint); font-variant-numeric: tabular-nums;
+  }
+  .cap.dado .cap-num{ color: var(--gold); }
+  .cap.proximo .cap-num{ color: var(--terra); }
+  .cap-nombre{
+    font-family: var(--font-poster); font-weight: 400; text-transform: uppercase;
+    font-size: 1.3rem; line-height: 1;
+  }
+  .estado{
+    font-family: var(--font-mono); font-size: .6rem; letter-spacing: .12em;
+    text-transform: uppercase; padding: .2rem .5rem; border-radius: 2px;
+    border: 1px solid var(--line); color: var(--text-faint); white-space: nowrap;
+  }
+  .estado.ok{ background: var(--gold); border-color: var(--gold); color: var(--bg); font-weight: 600; }
+  .estado.next{ border-color: var(--terra); color: var(--terra); }
+  .cap p{ margin: 0; color: var(--text-muted); font-size: .92rem; line-height: 1.5; }
+  .cap .abrir{
+    display: inline-block; margin-top: .8rem;
+    font-family: var(--font-mono); font-size: .72rem; letter-spacing: .12em;
+    text-transform: uppercase; font-weight: 600;
+  }
+
+  /* tareas */
+  .tareas{
+    background: var(--bg-feature); border: 1px solid var(--gold-soft);
+    border-radius: 3px; padding: 1.3rem 1.4rem;
+  }
+  .tareas ul{ list-style: none; margin: 0; padding: 0; display: grid; gap: .95rem; }
+  .tareas li{ display: grid; grid-template-columns: 1.5rem 1fr; gap: .6rem; align-items: start; }
+  .tareas .box{
+    width: 15px; height: 15px; margin-top: .3rem;
+    border: 1px solid var(--gold); border-radius: 2px;
+  }
+  .tareas b{ font-weight: 600; }
+  .tareas small{ display: block; color: var(--text-muted); font-size: .87rem; line-height: 1.45; }
+
+  /* lo que viene */
+  .futuro{ display: grid; gap: .5rem; }
+  .fut{
+    display: grid; grid-template-columns: 3.6rem 1fr; gap: .9rem;
+    align-items: baseline; padding: .7rem 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .fut:last-child{ border-bottom: none; }
+  .fut .m{
+    font-family: var(--font-mono); font-size: .7rem; letter-spacing: .1em;
+    color: var(--text-faint); text-transform: uppercase;
+  }
+  .fut .t{ font-weight: 600; font-size: .95rem; }
+  .fut .t span{ display: block; font-weight: 400; color: var(--text-muted); font-size: .88rem; }
+
+  .comofunciona{
+    border-left: 2px solid var(--gold); padding: .2rem 0 .2rem 1.2rem;
+    color: var(--text-muted); font-size: .95rem; max-width: 58ch; margin-bottom: 2.6rem;
+  }
+  .comofunciona b{ color: var(--text); font-weight: 600; }
+
+  footer{
+    border-top: 1px solid var(--line); padding-top: 1.2rem;
+    font-family: var(--font-mono); font-size: .66rem; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--text-faint);
+    display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+  }
+
+  /* barra superior fija con botón de volver */
+  .brand{ position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: .9rem; flex-wrap: wrap;
+    background: rgba(11,10,10,.94); backdrop-filter: blur(8px); padding: .7rem 0 .75rem; margin-bottom: 2.2rem; }
+  .brand .ctx{ font-family: var(--font-mono); font-size: .66rem; letter-spacing: .16em; text-transform: uppercase; color: var(--text-faint); text-align: right; }
+  .brand .n{ color: var(--gold); font-weight: 600; letter-spacing: .22em; }
+  .brand a.back{ font-family: var(--font-mono); font-size: .74rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+    color: #0b0a0a; background: var(--gold); padding: .55rem .95rem; border-radius: 3px; text-decoration: none; white-space: nowrap; transition: background .15s; }
+  .brand a.back:hover, .brand a.back:focus-visible{ background: #f4c46a; }
+
+  .temas{ list-style:none; margin:.55rem 0 0; padding:0; display:flex; flex-wrap:wrap; gap:.35rem .4rem; }
+  .temas li{ font-size:.78rem; color: var(--text-muted); border:1px solid var(--line); background: var(--bg); padding:.15rem .55rem; border-radius:2px; }
+  .mod-h{ margin:2.2rem 0 .8rem; border-top:1px solid var(--line); padding-top:1rem; }
+  .mod-h .mm{ font-family: var(--font-mono); font-size:.68rem; letter-spacing:.16em; text-transform:uppercase; color: var(--gold-soft); }
+  .mod-h .mt{ font-family: var(--font-poster); text-transform:uppercase; font-size:1.6rem; line-height:1.05; margin:.15rem 0 .1rem; }
+  .mod-h .ms{ font-family: var(--font-display); font-style:italic; font-weight:300; color: var(--text-muted); margin:0; font-size:.98rem; }
+  .cap.cerrado{ opacity:.78; }
+  .cap.cerrado .cap-num{ color: var(--text-faint); }
+  .cap.abierto{ border-left-color: var(--gold); }
+  .cap.abierto .cap-num{ color: var(--gold); }
+</style>
+
+<div class="wrap">
+
+  <div class="brand"><a class="back" href="../../creoquenaya/#clases">← Clases</a><span class="ctx"><span class="n">NAYA</span> · Clases de DJ · Recorrido del alumno</span></div>
+
+  <p class="kicker">Recorrido de</p>
+  <h1>Olix</h1>
+  <p class="bajada">Acá van apareciendo tus capítulos, con el material de cada uno. Guardá este link: es siempre el mismo.</p>
+
+  <dl class="meta">
+    <div><dt>Clases habilitadas</dt><dd class="hi">1 a 3</dd></div>
+    <div><dt>Módulo actual</dt><dd class="hi">01 · Equipo y material</dd></div>
+    <div><dt>Próxima clase</dt><dd>A definir</dd></div>
+  </dl>
+
+  <p class="comofunciona"><b>Cómo funciona esto:</b> cada capítulo tiene su propia página con lo que vemos y lo que queda de tarea. Cuando habilitemos uno nuevo, aparece acá solo — no hace falta que te mande nada, entrá siempre por este link.</p>
+
+  <section>
+    <h2>Tu recorrido</h2>
+    <p class="sec-nota">Cinco módulos, dieciséis capítulos. Los tres primeros ya están disponibles.</p>
+
+    <div class="mod-h"><div class="mm">Módulo 01</div><div class="mt">Equipo y material</div><p class="ms">Antes de mezclar nada: dónde estás parado y con qué música.</p></div>
+    <div class="caps">
+      <article class="cap abierto">
+        <div class="cap-top"><span class="cap-num">01</span><span class="cap-nombre">La intro</span><span class="estado ok">Disponible</span></div>
+        <p>rekordbox y la controladora: qué hace el software, qué hacen tus manos, el recorrido de la señal y la primera playlist.</p>
+        <ul class="temas"><li>Qué hace el software</li><li>Qué hacen tus manos</li><li>El recorrido de la señal</li><li>La primera playlist</li></ul>
+        <a class="abrir" href="cap-01/">Abrir el capítulo →</a>
+      </article>
+      <article class="cap abierto">
+        <div class="cap-top"><span class="cap-num">02</span><span class="cap-nombre">Anatomía de un tema</span><span class="estado ok">Disponible</span></div>
+        <p>Las partes de un tema y cómo se llaman. Contar de a 8, 16 y 32. Marcar hot cues donde tienen sentido.</p>
+        <ul class="temas"><li>Intro, break, subida, drop, salida</li><li>Contar de a 8, 16 y 32</li><li>Hot cues con sentido</li></ul>
+        <a class="abrir" href="cap-02/">Abrir el capítulo →</a>
+      </article>
+      <article class="cap abierto">
+        <div class="cap-top"><span class="cap-num">03</span><span class="cap-nombre">La biblioteca</span><span class="estado ok">Disponible</span></div>
+        <p>Dónde conseguir música, calidad de archivo, análisis, tags y un orden que sobreviva a los años.</p>
+        <ul class="temas"><li>Dónde conseguir música</li><li>Calidad de archivo</li><li>Análisis</li><li>Tags</li><li>Un orden que sobreviva</li></ul>
+        <a class="abrir" href="cap-03/">Abrir el capítulo →</a>
+      </article>
+    </div>
+
+    <div class="mod-h"><div class="mm">Módulo 02</div><div class="mt">La mezcla</div><p class="ms">Lo técnico: que dos temas convivan sin que se note la costura.</p></div>
+    <div class="caps">
+      <article class="cap cerrado">
+        <div class="cap-top"><span class="cap-num">04</span><span class="cap-nombre">Tempo, compás y beatmatching</span><span class="estado">Por venir</span></div>
+        <p>Contar antes de tocar. Pitch, jog y oído. Qué hace el sync realmente y por qué igual hay que saber a mano.</p>
+        <ul class="temas"><li>Contar antes de tocar</li><li>Pitch, jog y oído</li><li>Qué hace el sync</li></ul>
+      </article>
+      <article class="cap cerrado">
+        <div class="cap-top"><span class="cap-num">05</span><span class="cap-nombre">Ganancia y volumen</span><span class="estado">Por venir</span></div>
+        <p>Trim, headroom, el rojo del medidor: lo que hace que un set suene bien.</p>
+        <ul class="temas"><li>Trim y headroom</li><li>El rojo del medidor</li></ul>
+      </article>
+      <article class="cap cerrado">
+        <div class="cap-top"><span class="cap-num">06</span><span class="cap-nombre">EQ y filtros</span><span class="estado">Por venir</span></div>
+        <p>Tres bandas, un filtro y la regla de que dos graves nunca conviven.</p>
+        <ul class="temas"><li>Tres bandas y un filtro</li><li>Dos graves nunca conviven</li></ul>
+      </article>
+      <article class="cap cerrado">
+        <div class="cap-top"><span class="cap-num">07</span><span class="cap-nombre">Transiciones</span><span class="estado">Por venir</span></div>
+        <p>Corte, blend largo, echo out, entrar por el break. Cuándo conviene cada una.</p>
+        <ul class="temas"><li>Corte</li><li>Blend largo</li><li>Echo out</li><li>Entrar por el break</li></ul>
+      </article>
+    </div>
+
+    <div class="mod-h"><div class="mm">Módulo 03</div><div class="mt">El discurso</div><p class="ms">Dejar de encadenar temas y empezar a decir algo.</p></div>
+    <div class="caps">
+      <article class="cap cerrado">
+        <div class="cap-top"><span class="cap-num">08</span><span class="cap-nombre">Energía y recorrido</span><span class="estado">Por venir</span></div>
+        <p>Apertura, meseta, pico, cierre. Cómo se administra la intensidad a lo largo de una hora.</p>
+        <ul class="temas"><li>Apertura, meseta, pico, cierre</li><li>Administrar la intensidad</li></ul>
+      </article>
+      <article class="cap cerrado">
+        <div class="cap-top"><span class="cap-num">09</span><span class="cap-nombre">Tonalidad y mezcla armónica</span><span class="estado">Por venir</span></div>
+        <p>Por qué dos temas chocan aunque estén en tempo. Rueda de tonalidades, y cuándo ignorarla.</p>
+        <ul class="temas"><li>Por qué chocan</li><li>Rueda de tonalidades</li><li>Cuándo ignorarla</li></ul>
+      </article>
+      <article class="cap cerrado">
+        <div class="cap-top"><span class="cap-num">10</span><span class="cap-nombre">Curaduría e identidad</span><span class="estado">Por venir</span></div>
+        <p>Qué tocás, qué no, y cómo eso termina siendo un sonido reconocible.</p>
+        <ul class="temas"><li>Qué tocás y qué no</li><li>Un sonido reconocible</li></ul>
+      </article>
+    </div>
+
+    <div class="mod-h"><div class="mm">Módulo 04</div><div class="mt">Performance</div><p class="ms">Del living a una cabina con gente adelante.</p></div>
+    <div class="caps">
+      <article class="cap cerrado">
+        <div class="cap-top"><span class="cap-num">11</span><span class="cap-nombre">Loops, cues y efectos en vivo</span><span class="estado">Por venir</span></div>
+        <p>Recursos para estirar, cortar y sorprender. Y el criterio para no usarlos todos juntos.</p>
+        <ul class="temas"><li>Loops y cues</li><li>Efectos en vivo</li><li>El criterio</li></ul>
+      </article>
+      <article class="cap cerrado">
+        <div class="cap-top"><span class="cap-num">12</span><span class="cap-nombre">Grabar, escucharse, corregir</span><span class="estado">Por venir</span></div>
+        <p>Grabar un set y escucharlo al día siguiente.</p>
+        <ul class="temas"><li>Grabar un set</li><li>Escucharlo al día siguiente</li><li>Corregir</li></ul>
+      </article>
+      <article class="cap cerrado">
+        <div class="cap-top"><span class="cap-num">13</span><span class="cap-nombre">La cabina real</span><span class="estado">Por venir</span></div>
+        <p>CDJs y mixer de club, el USB preparado, leer la pista, y qué hacer cuando algo falla.</p>
+        <ul class="temas"><li>CDJs y mixer de club</li><li>El USB preparado</li><li>Leer la pista</li><li>Cuando algo falla</li></ul>
+      </article>
+    </div>
+
+    <div class="mod-h"><div class="mm">Módulo 05</div><div class="mt">Del DJ al productor</div><p class="ms">Opcional: de tocar la música de otros a tener la tuya.</p></div>
+    <div class="caps">
+      <article class="cap cerrado">
+        <div class="cap-top"><span class="cap-num">14</span><span class="cap-nombre">Edits e intros extendidos</span><span class="estado">Por venir</span></div>
+        <p>Adaptar un tema a tu set en vez de adaptar tu set al tema.</p>
+        <ul class="temas"><li>Edits</li><li>Intros extendidos</li></ul>
+      </article>
+      <article class="cap cerrado">
+        <div class="cap-top"><span class="cap-num">15</span><span class="cap-nombre">Mashups</span><span class="estado">Por venir</span></div>
+        <p>Dos temas, una idea.</p>
+        <ul class="temas"><li>Dos temas, una idea</li></ul>
+      </article>
+      <article class="cap cerrado">
+        <div class="cap-top"><span class="cap-num">16</span><span class="cap-nombre">Producir lo propio</span><span class="estado">Por venir</span></div>
+        <p>Primeros pasos en el DAW.</p>
+        <ul class="temas"><li>Primeros pasos en el DAW</li></ul>
+      </article>
+    </div>
+  </section>
+
+  <footer>
+    <span>NAYA · Clases de DJ</span>
+    <span>Recorrido de Olix</span>
+  </footer>
+
+</div>
+
+</html>

@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cap 02 · Anatomía de un tema</title>
+<meta name="description" content="Clases de DJ con NAYA. Capítulo 02 para Olix: las partes de un tema, contar frases, leer la onda y marcar cues.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;1,9..144,300;1,9..144,450&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================================
+     CLASES DE DJ — NAYA. Capítulo 02, material del alumno.
+     Mismo mundo que el dossier y que el capítulo 01: negro,
+     amarillo de escena, terracota. Dark-committed.
+     ============================================================ */
+
+  :root{
+    --bg: #0b0a0a;
+    --bg-raised: #15120f;
+    --bg-feature: #1a1108;
+    --line: #2e2620;
+    --line-soft: #241e19;
+    --text: #f2ede4;
+    --text-muted: #a89d8e;
+    --text-faint: #6f665c;
+    --gold: #e8b04a;
+    --gold-soft: #8a6c2f;
+    --terra: #e0653a;
+    --terra-deep: #b23f1c;
+    --sand: #cbb389;
+    --max: 860px;
+    --font-display: "Fraunces", ui-serif, Georgia, serif;
+    --font-poster: "Anton", ui-sans-serif, sans-serif;
+    --font-body: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+  }
+
+  *,*::before,*::after{ box-sizing: border-box; }
+  @media (prefers-reduced-motion: reduce){ *{ animation-duration:.001ms !important; transition-duration:.001ms !important; } }
+
+  body{
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a{ color: var(--gold); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+  a:focus-visible{ outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
+
+  .wrap{ max-width: var(--max); margin: 0 auto; padding: 3rem 1.4rem 4.5rem; }
+
+  .brand{
+    display: flex; align-items: baseline; gap: .75rem; flex-wrap: wrap;
+    font-family: var(--font-mono); font-size: .7rem;
+    letter-spacing: .18em; text-transform: uppercase;
+    color: var(--text-faint);
+    border-bottom: 1px solid var(--line); padding-bottom: .85rem; margin-bottom: 2.4rem;
+  }
+  .brand .n{ color: var(--gold); font-weight: 600; letter-spacing: .22em; }
+
+  .kicker{
+    font-family: var(--font-mono); font-size: .78rem; font-weight: 600;
+    letter-spacing: .3em; text-transform: uppercase; color: var(--terra);
+    margin: 0 0 .5rem;
+  }
+  h1{
+    font-family: var(--font-poster); font-weight: 400;
+    font-size: clamp(2.8rem, 11vw, 5.6rem);
+    line-height: .86; letter-spacing: .01em; text-transform: uppercase;
+    margin: 0 0 1rem; text-wrap: balance;
+  }
+  .bajada{
+    font-family: var(--font-display); font-weight: 300;
+    font-size: clamp(1.1rem, 2.6vw, 1.45rem);
+    line-height: 1.45; color: var(--sand);
+    max-width: 34ch; margin: 0 0 2rem;
+  }
+
+  .meta{
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 1rem 1.2rem;
+    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    padding: 1.1rem 0; margin-bottom: 3rem;
+  }
+  .meta dt{
+    font-family: var(--font-mono); font-size: .6rem; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--text-faint); margin-bottom: .25rem;
+  }
+  .meta dd{ margin: 0; font-weight: 600; font-size: .95rem; }
+  .meta dd.hi{ color: var(--gold); }
+
+  section{ margin-bottom: 3.2rem; }
+  h2{
+    font-family: var(--font-poster); font-weight: 400;
+    font-size: clamp(1.5rem, 4.5vw, 2.2rem);
+    line-height: 1; text-transform: uppercase;
+    margin: 0 0 .35rem;
+  }
+  .sec-nota{
+    font-family: var(--font-mono); font-size: .73rem; letter-spacing: .05em;
+    color: var(--text-faint); margin: 0 0 1.4rem;
+  }
+
+  .previo{
+    background: var(--bg-feature);
+    border: 1px solid var(--terra-deep);
+    border-radius: 3px;
+    padding: 1.4rem 1.5rem;
+  }
+  .previo ul{ list-style: none; margin: 0; padding: 0; display: grid; gap: .9rem; }
+  .previo li{ display: grid; grid-template-columns: 1.6rem 1fr; gap: .6rem; align-items: start; }
+  .previo .box{
+    width: 15px; height: 15px; margin-top: .32rem;
+    border: 1px solid var(--terra); border-radius: 2px;
+  }
+  .previo b{ font-weight: 600; }
+  .previo small{ display: block; color: var(--text-muted); font-size: .87rem; line-height: 1.45; }
+
+  .bloques{ display: grid; gap: .55rem; }
+  .bloque{
+    display: grid; grid-template-columns: 3.4rem 1fr; gap: 1.1rem;
+    background: var(--bg-raised); border: 1px solid var(--line-soft);
+    border-radius: 3px; padding: .95rem 1.1rem;
+  }
+  .marca{ display: flex; flex-direction: column; gap: .1rem; align-items: flex-start; }
+  .marca .letra{
+    font-family: var(--font-poster); font-size: 1.85rem; line-height: .85; color: var(--gold);
+  }
+  .marca .dur{
+    font-family: var(--font-mono); font-size: .63rem; letter-spacing: .07em;
+    color: var(--text-muted); font-variant-numeric: tabular-nums; white-space: nowrap;
+  }
+  .marca .rango{
+    font-family: var(--font-mono); font-size: .56rem; letter-spacing: .06em;
+    color: var(--text-faint); font-variant-numeric: tabular-nums; white-space: nowrap;
+  }
+  .bloque .n{ display: block; font-weight: 600; font-size: .98rem; margin-bottom: .25rem; }
+  .bloque .d{ margin: 0; color: var(--text-muted); font-size: .89rem; line-height: 1.5; }
+
+  figure{ margin: 0; }
+  .fig-scroll{ overflow-x: auto; border: 1px solid var(--line-soft); border-radius: 3px; background: var(--bg-raised); padding: 1.1rem .9rem .6rem; }
+  .fig-scroll svg{ display: block; width: 100%; min-width: 660px; max-width: 980px; height: auto; margin: 0 auto; }
+  figcaption{
+    color: var(--text-muted); font-size: .88rem; line-height: 1.5;
+    margin-top: .9rem; max-width: 62ch;
+  }
+  figcaption b{ color: var(--text); font-weight: 600; }
+
+  .conceptos{ display: grid; gap: .9rem; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .concepto{ border-top: 2px solid var(--gold-soft); padding-top: .8rem; }
+  .concepto h3{
+    font-family: var(--font-display); font-weight: 600; font-size: 1.02rem;
+    margin: 0 0 .3rem; line-height: 1.25;
+  }
+  .concepto p{ margin: 0; color: var(--text-muted); font-size: .9rem; line-height: 1.5; }
+
+  .tareas{ display: grid; gap: 1rem; counter-reset: t; }
+  .tarea{
+    display: grid; grid-template-columns: auto 1fr; gap: 1rem;
+    background: var(--bg-raised); border: 1px solid var(--line);
+    border-left: 2px solid var(--gold);
+    border-radius: 3px; padding: 1.1rem 1.2rem;
+  }
+  .tarea::before{
+    counter-increment: t; content: counter(t, decimal-leading-zero);
+    font-family: var(--font-poster); font-size: 1.7rem; line-height: 1;
+    color: var(--gold-soft); font-variant-numeric: tabular-nums;
+  }
+  .tarea h3{ font-family: var(--font-body); font-size: 1rem; font-weight: 600; margin: 0 0 .3rem; }
+  .tarea p{ margin: 0; color: var(--text-muted); font-size: .91rem; line-height: 1.55; }
+  .tarea em{ color: var(--sand); font-style: normal; }
+
+  .links{ list-style: none; margin: 0; padding: 0; display: grid; gap: .7rem; }
+  .links li{ border-bottom: 1px solid var(--line-soft); padding-bottom: .7rem; }
+  .links a{ font-weight: 600; font-size: .95rem; }
+  .links small{ display: block; color: var(--text-faint); font-size: .82rem; margin-top: .15rem; }
+
+  .proximo{
+    background: var(--bg-feature); border: 1px solid var(--line);
+    border-radius: 3px; padding: 1.3rem 1.4rem; margin-bottom: 2.4rem;
+  }
+  .proximo .lbl{
+    font-family: var(--font-mono); font-size: .62rem; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--terra); display: block; margin-bottom: .4rem;
+  }
+  .proximo h3{ font-family: var(--font-poster); font-weight: 400; text-transform: uppercase; font-size: 1.4rem; margin: 0 0 .3rem; }
+  .proximo p{ margin: 0; color: var(--text-muted); font-size: .92rem; }
+
+  footer{
+    border-top: 1px solid var(--line); padding-top: 1.2rem;
+    font-family: var(--font-mono); font-size: .66rem;
+    letter-spacing: .1em; text-transform: uppercase; color: var(--text-faint);
+    display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+  }
+
+  @media (max-width: 520px){
+    .bloque{ grid-template-columns: 2.8rem 1fr; gap: .8rem; }
+    .marca .letra{ font-size: 1.5rem; }
+  }
+
+  /* barra superior fija con botón de volver */
+  .brand{ position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: .9rem; flex-wrap: wrap;
+    background: rgba(11,10,10,.94); backdrop-filter: blur(8px); padding: .7rem 0 .75rem; margin-bottom: 2.2rem; }
+  .brand .ctx{ font-family: var(--font-mono); font-size: .66rem; letter-spacing: .16em; text-transform: uppercase; color: var(--text-faint); text-align: right; }
+  .brand .n{ color: var(--gold); font-weight: 600; letter-spacing: .22em; }
+  .brand a.back{ font-family: var(--font-mono); font-size: .74rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+    color: #0b0a0a; background: var(--gold); padding: .55rem .95rem; border-radius: 3px; text-decoration: none; white-space: nowrap; transition: background .15s; }
+  .brand a.back:hover, .brand a.back:focus-visible{ background: #f4c46a; }
+</style>
+
+<div class="wrap">
+
+  <div class="brand"><a class="back" href="../">← Recorrido</a><span class="ctx"><span class="n">NAYA</span> · Clases de DJ · Módulo 01</span></div>
+
+  <p class="kicker">Capítulo 02</p>
+  <h1>Anatomía<br>de un tema</h1>
+  <p class="bajada">Saber qué va a pasar en el tema, antes de que pase.</p>
+
+  <dl class="meta">
+    <div><dt>Para</dt><dd class="hi">Olix</dd></div>
+    <div><dt>Duración</dt><dd>90 — 120 min</dd></div>
+    <div><dt>Equipo</dt><dd>DDJ-400 + rekordbox</dd></div>
+  </dl>
+
+  <section>
+    <h2>Antes de venir</h2>
+    <p class="sec-nota">Elementos preparados para el Capítulo 02</p>
+    <div class="previo">
+      <ul>
+        <li><span class="box"></span><span><b>Traer BASE 01 en la compu</b><small>La playlist de la clase pasada, con los temas analizados. Si le sumaste música nueva, mejor.</small></span></li>
+        <li><span class="box"></span><span><b>Traer las anotaciones de los 3 temas</b><small>Los minutos donde notaste que cambiaba algo. En papel, en notas del celu, como sea. Es el material con el que vamos a trabajar.</small></span></li>
+        <li><span class="box"></span><span><b>Si no llegaste con la escucha, vení igual</b><small>Lo hacemos en clase y listo. Es preferible eso a mover la fecha: la escucha se aprende haciéndola acompañado.</small></span></li>
+        <li><span class="box"></span><span><b>Auriculares, cable USB y la compu cargada</b><small>Vamos a estar bastante rato con el equipo prendido.</small></span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Qué vamos a ver</h2>
+    <p class="sec-nota">90 a 120 minutos aproximadamente, seis bloques</p>
+    <div class="bloques">
+
+      <article class="bloque">
+        <div class="marca"><span class="letra">A</span><span class="dur">10 min</span><span class="rango">0 a 10</span></div>
+        <div>
+          <span class="n">Manos antes que cabeza</span>
+          <p class="d">Prendemos, cargamos dos temas y movemos todo un rato. Pasaron tres semanas: esto es para sacarse el óxido y terminar lo que quedó corto la clase pasada. Todavía sin teoría.</p>
+        </div>
+      </article>
+
+      <article class="bloque">
+        <div class="marca"><span class="letra">B</span><span class="dur">15 min</span><span class="rango">10 a 25</span></div>
+        <div>
+          <span class="n">Las partes de un tema</span>
+          <p class="d">Intro, cuerpo, break, subida, vuelta, salida. Qué pasa en cada una, qué se va y qué queda. Y los distintos nombres que vas a escuchar según a quién le preguntes, porque no todos le dicen igual a lo mismo.</p>
+        </div>
+      </article>
+
+      <article class="bloque">
+        <div class="marca"><span class="letra">C</span><span class="dur">20 min</span><span class="rango">25 a 45</span></div>
+        <div>
+          <span class="n">Contar</span>
+          <p class="d">El <b>1</b>. Frases de 4, 8, 16 y 32 compases. Contamos en voz alta juntos sobre un tema hasta que te salga sin pensarlo. Y después el juego de verdad: anticipar el cambio antes de que llegue. Si podés decir “en ocho compases se va la batería” y pasa, ya está.</p>
+        </div>
+      </article>
+
+      <article class="bloque">
+        <div class="marca"><span class="letra">D</span><span class="dur">20 min</span><span class="rango">45 a 65</span></div>
+        <div>
+          <span class="n">Leer la onda</span>
+          <p class="d">Lo que la oreja escucha, el ojo también lo ve. Cómo se ve un break en la waveform, cómo se ve una subida. Y la grilla: qué es, para qué sirve, y qué hacer cuando el software la pone donde no va.</p>
+        </div>
+      </article>
+
+      <article class="bloque">
+        <div class="marca"><span class="letra">E</span><span class="dur">20 min</span><span class="rango">65 a 85</span></div>
+        <div>
+          <span class="n">Marcar</span>
+          <p class="d">Memory cues y hot cues sobre tus propios temas. La regla: se marcan secciones, no sonidos lindos. Tres marcas por tema — dónde empieza la intro útil, dónde cae el break, dónde vuelve todo.</p>
+        </div>
+      </article>
+
+      <article class="bloque">
+        <div class="marca"><span class="letra">F</span><span class="dur">20—35 min</span><span class="rango">85 a 120</span></div>
+        <div>
+          <span class="n">Entrar donde va <span style="color:var(--terra)">(práctica)</span></span>
+          <p class="d">Con los cues puestos, entrar con el segundo tema justo donde arranca una frase. El sync sigue puesto. La diferencia con la clase pasada: el <em>cuándo</em> ahora lo decidís vos.</p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>El mapa de un tema</h2>
+    <p class="sec-nota">Bloques B y C — cómo se acomodan las partes sobre la cuenta</p>
+    <figure>
+      <div class="fig-scroll">
+        <svg viewBox="0 0 980 215" role="img" aria-label="Línea de tiempo de un tema de pista: intro de 32 compases, cuerpo de 32, break de 32, subida de 16, vuelta de 48 y salida de 32. Debajo, una regla de compases muestra que cada sección empieza donde empieza una frase.">
+
+          <text x="30" y="20" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="#a89d8e">las secciones empiezan donde empieza una frase — nunca en el medio</text>
+
+          <!-- nombres -->
+          <g font-family="IBM Plex Sans, sans-serif" font-size="13" font-weight="600" text-anchor="middle">
+            <text x="106" y="40" fill="#e8b04a">INTRO</text>
+            <text x="260" y="40" fill="#f2ede4">CUERPO</text>
+            <text x="413" y="40" fill="#e8b04a">BREAK</text>
+            <text x="528" y="40" fill="#f2ede4" font-size="11">SUBIDA</text>
+            <text x="682" y="40" fill="#f2ede4">VUELTA</text>
+            <text x="873" y="40" fill="#e8b04a">SALIDA</text>
+          </g>
+
+          <!-- secciones -->
+          <g>
+            <rect x="30" y="50" width="153" height="48" rx="2" fill="#2a1e0c" stroke="#e8b04a" stroke-width="1.4"></rect>
+            <rect x="183" y="50" width="154" height="48" rx="2" fill="#15120f" stroke="#2e2620" stroke-width="1"></rect>
+            <rect x="337" y="50" width="153" height="48" rx="2" fill="#2a1e0c" stroke="#e8b04a" stroke-width="1.4"></rect>
+            <rect x="490" y="50" width="77" height="48" rx="2" fill="#15120f" stroke="#2e2620" stroke-width="1"></rect>
+            <rect x="567" y="50" width="230" height="48" rx="2" fill="#15120f" stroke="#2e2620" stroke-width="1"></rect>
+            <rect x="797" y="50" width="153" height="48" rx="2" fill="#2a1e0c" stroke="#e8b04a" stroke-width="1.4"></rect>
+          </g>
+
+          <!-- cuánto dura cada una -->
+          <g font-family="IBM Plex Mono, monospace" font-size="11.5" fill="#a89d8e" text-anchor="middle">
+            <text x="106" y="79">32</text>
+            <text x="260" y="79">32</text>
+            <text x="413" y="79">32</text>
+            <text x="528" y="79">16</text>
+            <text x="682" y="79">48</text>
+            <text x="873" y="79">32</text>
+          </g>
+
+          <!-- bajadas punteadas hasta la regla -->
+          <g stroke="#6f665c" stroke-width="1" stroke-dasharray="3 3">
+            <line x1="183" y1="98" x2="183" y2="140"></line>
+            <line x1="337" y1="98" x2="337" y2="140"></line>
+            <line x1="490" y1="98" x2="490" y2="140"></line>
+            <line x1="567" y1="98" x2="567" y2="140"></line>
+            <line x1="797" y1="98" x2="797" y2="140"></line>
+          </g>
+
+          <!-- regla de compases -->
+          <line x1="30" y1="140" x2="950" y2="140" stroke="#a89d8e" stroke-width="1.2"></line>
+          <g stroke="#6b6157" stroke-width="1.2">
+            <line x1="68" y1="140" x2="68" y2="148"></line>
+            <line x1="107" y1="140" x2="107" y2="148"></line>
+            <line x1="145" y1="140" x2="145" y2="148"></line>
+            <line x1="222" y1="140" x2="222" y2="148"></line>
+            <line x1="260" y1="140" x2="260" y2="148"></line>
+            <line x1="299" y1="140" x2="299" y2="148"></line>
+            <line x1="375" y1="140" x2="375" y2="148"></line>
+            <line x1="414" y1="140" x2="414" y2="148"></line>
+            <line x1="452" y1="140" x2="452" y2="148"></line>
+            <line x1="529" y1="140" x2="529" y2="148"></line>
+            <line x1="605" y1="140" x2="605" y2="148"></line>
+            <line x1="682" y1="140" x2="682" y2="148"></line>
+            <line x1="720" y1="140" x2="720" y2="148"></line>
+            <line x1="759" y1="140" x2="759" y2="148"></line>
+            <line x1="835" y1="140" x2="835" y2="148"></line>
+            <line x1="874" y1="140" x2="874" y2="148"></line>
+            <line x1="912" y1="140" x2="912" y2="148"></line>
+          </g>
+          <g stroke="#a89d8e" stroke-width="1.4">
+            <line x1="30" y1="140" x2="30" y2="155"></line>
+            <line x1="183" y1="140" x2="183" y2="155"></line>
+            <line x1="337" y1="140" x2="337" y2="155"></line>
+            <line x1="490" y1="140" x2="490" y2="155"></line>
+            <line x1="643" y1="140" x2="643" y2="155"></line>
+            <line x1="797" y1="140" x2="797" y2="155"></line>
+            <line x1="950" y1="140" x2="950" y2="155"></line>
+          </g>
+          <g font-family="IBM Plex Mono, monospace" font-size="11.5" fill="#a89d8e" text-anchor="middle">
+            <text x="30" y="170">0</text>
+            <text x="183" y="170">32</text>
+            <text x="337" y="170">64</text>
+            <text x="490" y="170">96</text>
+            <text x="643" y="170">128</text>
+            <text x="797" y="170">160</text>
+            <text x="950" y="170">192</text>
+          </g>
+          <text x="30" y="192" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="#6f665c">compases · marca chica = 8 · marca grande = 32</text>
+
+          <!-- leyenda -->
+          <g font-family="IBM Plex Mono, monospace" font-size="11.5">
+            <rect x="620" y="182" width="12" height="12" rx="2" fill="#2a1e0c" stroke="#e8b04a" stroke-width="1.4"></rect>
+            <text x="639" y="192" fill="#e8b04a">acá entrás y salís</text>
+            <rect x="790" y="182" width="12" height="12" rx="2" fill="#15120f" stroke="#2e2620" stroke-width="1"></rect>
+            <text x="809" y="192" fill="#6f665c">acá manda el tema</text>
+          </g>
+        </svg>
+      </div>
+      <figcaption><b>Todo cae en múltiplos de 8, 16 y 32.</b> Por eso contar sirve: si sabés en qué compás estás, sabés cuánto falta para el próximo cambio sin mirar la pantalla. La subida de 16 es la excepción habitual — arranca en el 96 y entrega en el 112.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>Para tener claro</h2>
+    <p class="sec-nota">Seis cosas que conviene no confundir</p>
+    <div class="conceptos">
+      <div class="concepto">
+        <h3>Contar el 1 no es contar los golpes</h3>
+        <p>El 1 es el primer tiempo de cada compás, no cada bombo. Contás 1-2-3-4 y cada vez que volvés al 1 pasó un compás. Ocho de esos son una frase.</p>
+      </div>
+      <div class="concepto">
+        <h3>La grilla es del software, la frase es tuya</h3>
+        <p>La grilla es una cuadrícula que dibuja rekordbox y a veces la pone donde no va. Cuando la grilla y tu oreja no coinciden, gana tu oreja — y se corrige la grilla.</p>
+      </div>
+      <div class="concepto">
+        <h3>Memory cue y hot cue no son lo mismo</h3>
+        <p>El memory cue marca y no dispara: sirve para leer el tema. El hot cue vive en un pad y salta al instante: sirve para tocarlo. Memory para leer, hot para tocar.</p>
+      </div>
+      <div class="concepto">
+        <h3>No todos los temas tienen drop</h3>
+        <p>“Drop” es vocabulario de EDM y de festival. En house y en techno muchas veces no hay un punto único que señalar: hay un groove que se transforma. Ahí funciona mejor “cuando entra todo”.</p>
+      </div>
+      <div class="concepto">
+        <h3>Ojo con la palabra break</h3>
+        <p>En electrónica de pista, el break es donde <em>se va</em> la batería. En hip hop, funk y drum &amp; bass es al revés: donde queda <em>sólo</em> la batería. Las dos son correctas según el palo.</p>
+      </div>
+      <div class="concepto">
+        <h3>Se marcan secciones, no sonidos</h3>
+        <p>El cue va donde empieza un tramo, no donde entra un sintetizador que te gustó. Si marcás cosas lindas, después no sabés dónde estás parado.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Tareas</h2>
+    <p class="sec-nota">Para llegar con material al Capítulo 03</p>
+    <div class="tareas">
+      <article class="tarea">
+        <div>
+          <h3>Marcar cinco temas</h3>
+          <p>De BASE 01, elegí 5 y ponéles las mismas tres marcas: <em>arranque útil</em>, <em>break</em>, <em>vuelta</em>. Siempre los mismos tres puntos, aunque el tema pida otra cosa. La idea es que el criterio se te haga costumbre antes de empezar a hacer excepciones.</p>
+        </div>
+      </article>
+      <article class="tarea">
+        <div>
+          <h3>Contar a ciegas</h3>
+          <p>Poné un tema, contá frases <em>sin mirar la pantalla</em> y anotá en qué compás cae el primer cambio grande. Después fijate si le pegaste. Tres temas alcanzan. Errarle está perfecto: lo que entrena es el intento, no el acierto.</p>
+        </div>
+      </article>
+      <article class="tarea">
+        <div>
+          <h3>Escuchar un set ajeno</h3>
+          <p>Veinte minutos de un set grabado de alguien que te guste, tratando de escuchar dónde entra y dónde sale cada tema. No hace falta que los detectes todos: hace falta que empieces a escuchar con esa oreja puesta.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <h2>Links</h2>
+    <p class="sec-nota">Lo mínimo, no una biblioteca</p>
+    <ul class="links">
+      <li><a href="https://cdn.rekordbox.com/files/20250115173455/rekordbox7.0.7_introduction_ES.pdf">Introducción a rekordbox (PDF, español)</a><small>Oficial. Puede estar una versión atrás de la que tenés instalada, pero lo básico no se movió.</small></li>
+      <li><a href="https://media.djmania.net/manuales/pdf/Manual_Pioneer_DDJ-400.pdf">Manual de la DDJ-400 (PDF, español)</a><small>Ahora te interesa la sección de los performance pads: ahí viven los hot cues.</small></li>
+    </ul>
+  </section>
+
+  <div class="proximo">
+    <span class="lbl">Próximo</span>
+    <h3>Capítulo 03 — La biblioteca</h3>
+    <p>Dónde conseguir música, qué calidad de archivo sirve de verdad, y cómo ordenar todo para que dentro de diez años sigas encontrando lo que buscás.</p>
+  </div>
+
+  <footer>
+    <span>NAYA · Clases de DJ</span>
+    <span>Capítulo 02 · para Olix</span>
+  </footer>
+
+</div>
+
+</html>
