@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Clase 01 · Tu primer loop · BeatStep Pro</title>
+<meta name="description" content="Clase interactiva: armar un loop entero con el BeatStep Pro y Ableton Live, paso a paso.">
+<meta name="theme-color" content="#0b0a0a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#0b0a0a; --bg-raised:#15120f; --bg-feature:#1a1108; --line:#2e2620; --line-soft:#241e19;
+    --text:#f2ede4; --text-muted:#a89d8e; --text-faint:#6f665c;
+    --gold:#e8b04a; --gold-soft:#8a6c2f; --terra:#e0653a; --sand:#cbb389;
+    --g:#1ea585; --y:#efbd2c; --v:#a86cbd;
+    --font-display:"Fraunces", ui-serif, Georgia, serif;
+    --font-poster:"Anton", ui-sans-serif, sans-serif;
+    --font-body:"IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+    --font-mono:"IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+  }
+  *,*::before,*::after{ box-sizing:border-box; }
+  body{ margin:0; background:var(--bg); color:var(--text); font-family:var(--font-body); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+  a{ color:var(--gold); text-underline-offset:3px; }
+  button:focus-visible, a:focus-visible{ outline:2px solid var(--gold); outline-offset:3px; }
+  .wrap{ max-width:1180px; margin:0 auto; padding:1.6rem 1.4rem 4rem; }
+
+  .brand{ display:flex; justify-content:space-between; gap:.75rem; flex-wrap:wrap; font-family:var(--font-mono); font-size:.68rem; letter-spacing:.18em; text-transform:uppercase; color:var(--text-faint); border-bottom:1px solid var(--line); padding-bottom:.8rem; margin-bottom:1.4rem; }
+  .brand .n{ color:var(--gold); font-weight:600; }
+  .brand a{ color:var(--text-faint); text-decoration:none; } .brand a:hover{ color:var(--gold); }
+  .cab{ display:flex; align-items:baseline; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:1rem; }
+  h1{ font-family:var(--font-poster); font-weight:400; text-transform:uppercase; font-size:clamp(1.8rem,5vw,2.8rem); line-height:.95; margin:0; }
+  h1 small{ display:block; font-family:var(--font-mono); font-size:.7rem; letter-spacing:.22em; color:var(--terra); margin-bottom:.4rem; }
+  .meta{ font-family:var(--font-mono); font-size:.72rem; color:var(--text-faint); }
+
+  .bloques{ display:flex; gap:.35rem; overflow-x:auto; scrollbar-width:none; margin:0 0 1.2rem; padding-bottom:.2rem; }
+  .bloques::-webkit-scrollbar{ display:none; }
+  .bloques button{ flex:0 0 auto; font-family:var(--font-mono); font-size:.66rem; letter-spacing:.06em; text-transform:uppercase; color:var(--text-muted); background:transparent; border:1px solid var(--line); border-radius:2px; padding:.35rem .6rem; cursor:pointer; }
+  .bloques button.act{ color:var(--bg); background:var(--gold); border-color:var(--gold); }
+  .bloques button.ok{ border-color:var(--gold-soft); color:var(--gold); }
+  .barra{ height:3px; background:var(--line); margin:-.6rem 0 1.2rem; }
+  .barra i{ display:block; height:100%; width:0; background:var(--gold); transition:width .25s; }
+
+  .estado{ display:flex; gap:.5rem; flex-wrap:wrap; align-items:center; margin:.7rem 0 0; font-family:var(--font-mono); font-size:.7rem; color:var(--text-faint); }
+  .estado .chip{ border:1px solid var(--line); border-radius:2px; padding:.2rem .5rem; color:var(--text-muted); }
+  .estado .chip b{ font-weight:600; }
+  .chip.s1 b{ color:var(--g); } .chip.s2 b{ color:var(--y); } .chip.dr b{ color:var(--v); } .chip.ab b{ color:var(--sand); }
+
+  /* paso a la izquierda, aparato a la derecha (es apaisado: necesita ancho) */
+  .escena{ display:grid; grid-template-columns: minmax(300px,.75fr) minmax(0,1.6fr); gap:1.4rem; align-items:start; }
+  @media (max-width: 1020px){ .escena{ grid-template-columns:1fr; } .lado{ order:-1; } }
+
+  .paso{ background:var(--bg-raised); border:1px solid var(--line-soft); border-left:2px solid var(--gold); border-radius:3px; padding:1.3rem 1.4rem 1.2rem; }
+  .num{ font-family:var(--font-mono); font-size:.7rem; letter-spacing:.16em; text-transform:uppercase; color:var(--gold); margin-bottom:.35rem; }
+  .paso h2{ font-family:var(--font-poster); font-weight:400; text-transform:uppercase; font-size:clamp(1.5rem,4vw,2rem); line-height:1; margin:0 0 .9rem; }
+  .combo{ font-family:var(--font-mono); font-size:.82rem; color:var(--sand); background:#0f0d0b; border:1px solid var(--line); border-radius:3px; padding:.55rem .75rem; margin:0 0 1rem; }
+  .combo:empty{ display:none; }
+  .donde{ display:inline-block; font-family:var(--font-mono); font-size:.62rem; letter-spacing:.14em; text-transform:uppercase; padding:.15rem .5rem; border-radius:2px; margin:0 0 .8rem; font-weight:600; }
+  .donde.s1{ background:var(--g); color:#06140f; } .donde.s2{ background:var(--y); color:#1a1405; } .donde.dr{ background:var(--v); color:#fff; } .donde.ab{ background:var(--sand); color:#1a1408; } .donde.ct{ background:#ddd; color:#111; }
+  .txt p{ margin:0 0 .8rem; color:var(--text-muted); }
+  .txt ol, .txt ul{ color:var(--text-muted); padding-left:1.2rem; margin:0 0 .8rem; }
+  .txt li{ margin-bottom:.3rem; }
+  .txt b{ color:var(--text); }
+  kbd{ font-family:var(--font-mono); font-size:.78em; font-weight:600; color:#1d1c1a; background:#dcdbd6; border:1px solid #aeaca6; border-bottom-width:2px; border-radius:3px; padding:.02em .38em; white-space:nowrap; }
+  kbd.sh{ background:#151515; color:#f2f2f2; border-color:#000; }
+  kbd.g{ background:var(--g); color:#06140f; border-color:#137a62; } kbd.y{ background:var(--y); color:#1a1405; border-color:#b38c1c; } kbd.v{ background:var(--v); color:#fff; border-color:#7a4590; }
+  kbd.ab{ background:#2a2826; color:var(--sand); border-color:#3a3633; }
+  .ver{ border-left:2px solid var(--gold-soft); padding:.1rem 0 .1rem .9rem; margin:.4rem 0 .8rem; font-size:.92rem; color:var(--text-muted); }
+  .ver b{ font-family:var(--font-mono); font-size:.62rem; letter-spacing:.16em; text-transform:uppercase; color:var(--gold); display:block; font-weight:500; }
+  details{ margin:.4rem 0 0; border-top:1px solid var(--line); padding-top:.7rem; }
+  summary{ cursor:pointer; font-family:var(--font-mono); font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--terra); }
+  details p{ color:var(--text-muted); font-size:.92rem; margin:.6rem 0 0; }
+
+  .nav{ display:flex; gap:.6rem; margin-top:1.1rem; }
+  .nav button{ font-family:var(--font-mono); font-size:.74rem; letter-spacing:.12em; text-transform:uppercase; padding:.85rem 1.1rem; cursor:pointer; border-radius:2px; }
+  .nav .atras{ background:transparent; color:var(--text-muted); border:1px solid var(--line); }
+  .nav .sig{ flex:1; background:var(--gold); color:var(--bg); border:1px solid var(--gold); font-weight:600; }
+  .nav .sig:hover{ background:#f0bb55; }
+  .nav button:disabled{ opacity:.35; cursor:default; }
+  .tip{ font-family:var(--font-mono); font-size:.64rem; color:var(--text-faint); margin-top:.6rem; }
+
+  .lado{ position:sticky; top:1rem; display:grid; gap:.8rem; }
+  @media (max-width: 1020px){ .lado{ position:static; } .regla{ display:none; } }
+  .lado-inf{ display:grid; grid-template-columns: 1fr 1fr; gap:.8rem; }
+  @media (max-width: 700px){ .lado-inf{ grid-template-columns:1fr; } }
+  .info{ font-size:.88rem; color:var(--text-muted); background:var(--bg-raised); border:1px solid var(--line); border-radius:3px; padding:.85rem 1rem; min-height:4rem; }
+  .info b{ color:var(--text); font-family:var(--font-poster); font-weight:400; text-transform:uppercase; letter-spacing:.02em; font-size:1.05rem; display:block; margin-bottom:.2rem; }
+  .info .fn{ color:var(--sand); display:block; margin-top:.35rem; }
+  .regla{ font-size:.86rem; color:var(--text-muted); border-left:2px solid var(--terra); padding:.1rem 0 .1rem .9rem; }
+  .regla b{ color:var(--terra); font-weight:600; }
+  .regla p{ margin:0 0 .5rem; } .regla p:last-child{ margin:0; }
+</style>
+
+<div class="wrap">
+  <div class="brand"><span><span class="n">NAYA</span> · Clases de Producción · BeatStep Pro</span><a href="../">← Guía BeatStep Pro</a></div>
+
+  <div class="cab">
+    <h1><small>Clase 01 · Interactiva</small>Tu primer loop</h1>
+    <span class="meta">BeatStep Pro + Ableton Live · 124 BPM · ~2 horas</span>
+  </div>
+
+  <div class="bloques" id="bloques"></div>
+  <div class="barra"><i id="barra"></i></div>
+
+  <div class="escena">
+    <div>
+      <article class="paso" aria-live="polite">
+        <div class="num" id="num"></div>
+        <h2 id="titulo"></h2>
+        <span class="donde" id="donde"></span>
+        <div class="combo" id="combo"></div>
+        <div class="txt" id="txt"></div>
+        <div class="ver" id="ver"><b>Tenés que ver / escuchar</b><span></span></div>
+        <details id="ayuda"><summary>No me sale</summary><p></p></details>
+      </article>
+      <div class="nav">
+        <button class="atras" id="atras">← Atrás</button>
+        <button class="sig" id="sig">Listo, siguiente →</button>
+      </div>
+      <p class="tip">También con las flechas del teclado. Tu avance queda guardado en este navegador.</p>
+    </div>
+    <div class="lado">
+      <div id="panel"></div>
+      <div class="lado-inf">
+      <div class="info" id="info">Lo que brilla en el dibujo es lo que tenés que tocar, en el orden de los números. <span class="fn">Tocá cualquier tecla, perilla o pad del dibujo para ver qué hace.</span></div>
+      <div class="regla">
+        <p><b>Regla 1 · ¿A quién le estoy hablando?</b> Todo lo que hacés le pasa al secuenciador elegido. Te lo dice el color de las teclas de paso: <b style="color:var(--g)">verde</b> SEQ1, <b style="color:var(--y)">amarillo</b> SEQ2, <b style="color:var(--v)">violeta</b> DRUM.</p>
+        <p><b>Regla 2 · ¿Qué hacen las perillas?</b> Lo que marque la luz al lado del KNOBS de ese secuenciador (nota, fuerza, largo…). Mirala antes de girar.</p>
+        <p><b>Regla 3 · Guardá antes de cambiar de patrón.</b> Si no, se pierde lo que editaste.</p>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../panel.js"></script>
+<script>
+(function(){
+  var SH = '<kbd class="sh">SHIFT</kbd>';
+  function K(t){ return '<kbd>'+t+'</kbd>'; }
+  var S1 = '<kbd class="g">SEQUENCER 1</kbd>', S2 = '<kbd class="y">SEQUENCER 2</kbd>', DR = '<kbd class="v">DRUM</kbd>';
+  function P(n, nota){ return K("pad "+n+(nota?" · "+nota:"")); }
+  function ST(n){ return K(n); }
+  function A(t){ return '<kbd class="ab">'+t+'</kbd>'; }
+
+  var BLOQUES = ["Conectar","La batería","El bajo","La melodía","Que respire","Guardar y variar","Tocarlo en vivo","Grabarlo"];
+
+  // b: bloque · w: dónde (s1, s2, dr, ab, ct) · k: qué iluminar (["x","h"] = mantener) · t: título · p: texto · v: qué ver · a: ayuda
+  var PASOS = [
+    // 0 · Conectar
+    {b:0, w:"", t:"Cómo leer esta clase", k:[], p:"<p>Un paso por pantalla. Arriba está tu BeatStep Pro dibujado: <b>lo que brilla es lo que tenés que tocar</b>, con el orden numerado. Si dice <b>mantené</b>, lo dejás apretado mientras tocás lo siguiente.</p><p>El BeatStep Pro <b>no hace sonido</b>: es un cerebro que manda notas. El sonido lo va a poner Ableton Live. Arriba de cada paso, una etiqueta de color te dice dónde estás trabajando: <span class='donde ab' style='margin:0'>Ableton</span> <span class='donde s1' style='margin:0'>SEQ1</span> <span class='donde s2' style='margin:0'>SEQ2</span> <span class='donde dr' style='margin:0'>DRUM</span>.</p>", v:"Nada todavía. Tené a mano el BeatStep, el cable USB y la compu con Ableton."},
+    {b:0, w:"", t:"Enchufar", k:[], p:"<p>Conectá el BeatStep Pro a la compu con el cable USB (el conector está atrás). Si no se prende, el interruptor de encendido está atrás, hundido: usá la punta de una lapicera.</p>", v:"Las luces del aparato prendidas y un número rojo en el display (el tempo).", a:"Si hay un zumbido en los parlantes cuando está enchufado, es un loop de masa: probá otro puerto USB o el adaptador anti ground loop que viene en la caja."},
+    {b:0, w:"ab", t:"Que Ableton lo escuche", k:[], p:"<p>En Ableton: menú "+A("Live")+" → "+A("Settings")+" (en Windows: "+A("Options")+" → "+A("Preferences")+"). Pestaña "+A("Link, Tempo & MIDI")+".</p><p>En la lista de puertos MIDI buscá la fila <b>Entrada: Arturia BeatStep Pro</b> y prendé <b>Track</b>.</p>", v:"La fila del BeatStep Pro con el casillero Track en amarillo.", a:"Si no aparece el BeatStep en la lista, cerrá Ableton, desenchufá y volvé a enchufar el USB, y abrí Ableton de nuevo."},
+    {b:0, w:"ab", t:"Tres pistas MIDI", k:[], p:"<p>Creá tres pistas MIDI ("+A("Cmd + Shift + T")+" en Mac, "+A("Ctrl + Shift + T")+" en Windows) y ponele a cada una un instrumento desde el navegador de la izquierda:</p><ol><li><b>BAJO</b>: un sinte con un preset de bajo (Drift, Analog u Operator → Bass).</li><li><b>LEAD</b>: un sinte con un sonido corto tipo pluck o stab.</li><li><b>DRUMS</b>: un <b>Drum Rack</b> con un kit (Drums → un kit 909 o 808).</li></ol>", v:"Tres pistas, cada una con su instrumento cargado."},
+    {b:0, w:"ab", t:"Cada pista escucha un canal", k:[], p:"<p>En cada pista, en la sección <b>MIDI From</b> (si no la ves, mostrala con el botón "+A("I/O")+" a la derecha):</p><ul><li>Arriba: <b>Arturia BeatStep Pro</b>.</li><li>Abajo: el canal. BAJO → <b>Ch. 1</b> · LEAD → <b>Ch. 2</b> · DRUMS → <b>Ch. 10</b>.</li><li>Monitor: <b>In</b>.</li></ul><p>Así cada secuenciador del BeatStep le habla a una sola pista.</p>", v:"Las tres pistas con su entrada y su canal, y Monitor en In."},
+    {b:0, w:"s1", t:"SEQ1 manda por el canal 1", k:["seq1",["chan","h"],"st1"], p:"<p>Ahora del lado del BeatStep. Tocá "+S1+" (las teclas de paso se ponen verdes). Después mantené "+K("CHAN")+" y tocá el paso "+ST(1)+".</p><p>Mientras mantenés CHAN, las teclas de paso muestran el canal de cada secuenciador con su color.</p>", v:"Con CHAN apretado, el paso 1 en verde.", a:"Los canales quedan guardados en el aparato (no en el proyecto): esto se hace una sola vez."},
+    {b:0, w:"s2", t:"SEQ2 por el 2", k:["seq2",["chan","h"],"st2"], p:"<p>Tocá "+S2+" (pasos amarillos), mantené "+K("CHAN")+" y tocá "+ST(2)+".</p>", v:"Con CHAN apretado, el paso 2 en amarillo."},
+    {b:0, w:"dr", t:"DRUM por el 10", k:["drum",["chan","h"],"st10"], p:"<p>Tocá "+DR+" (pasos violetas), mantené "+K("CHAN")+" y tocá "+ST(10)+".</p>", v:"Con CHAN apretado: verde en 1, amarillo en 2, violeta en 10. (El rojo es el canal de Control Mode: no importa ahora.)"},
+    {b:0, w:"dr", t:"Probar los pads", k:["p1","p3","p4","p7","p11"], p:"<p>Con DRUM elegido, golpeá los pads. Tiene que sonar el kit de Ableton.</p><p>En casi todos los kits de Ableton queda así: <b>pad 1 bombo</b>, pad 3 caja, <b>pad 4 clap</b>, <b>pad 7 hat cerrado</b>, <b>pad 11 hat abierto</b>. Anotá cuál es cuál en el tuyo.</p>", v:"Cada pad suena distinto en la pista DRUMS, y su medidor se mueve.", a:"Si no suena nada: fijate que la pista DRUMS tenga MIDI From en BeatStep Pro, Ch. 10 y Monitor en In. Si suenan pads raros o ninguno, el mapa de notas no coincide: en MIDI Control Center (programa gratis de Arturia) → Device Settings → Drum Map, elegí Chromatic."},
+    {b:0, w:"", t:"Un proyecto para trabajar", k:[["project","h"],"st16"], p:"<p>El BeatStep guarda <b>16 proyectos</b>. Mantené "+K("PROJECT")+": la tecla roja es el proyecto cargado. Vamos a trabajar en el <b>16</b>: con PROJECT apretado, tocá "+ST(16)+".</p>", v:"El display de proyecto (arriba en el centro) dice 16.", a:"Si en el 16 tenías algo que querés conservar, elegí otro número y usalo en vez del 16 en toda la clase."},
+    {b:0, w:"", t:"Tempo: 124", k:["rate"], p:"<p>Girá "+K("RATE/FINE")+" hasta <b>124</b> en el display rojo.</p><p>Arriba a la izquierda, al lado de "+K("SYNC")+", tiene que estar prendida la luz <b>INT</b>: el BeatStep es el que marca el tiempo. Si está en otra, tocá SYNC (con todo parado) hasta que quede en INT.</p>", v:"124 en rojo y la luz INT prendida."},
+
+    // 1 · Batería
+    {b:1, w:"dr", t:"Empezar de cero", k:["drum",["shift","h"],"st1"], p:"<p>Tocá "+DR+". Mirá el display violeta: tiene que decir <b>01</b> (patrón 1). Si dice otro, mantené "+DR+" y tocá "+ST(1)+".</p><p>Para vaciarlo: mantené "+SH+" y tocá "+ST(1)+" (debajo dice <i>Clear Ptn</i>).</p>", v:"Ninguna tecla de paso encendida.", a:"SHIFT + paso 1 borra solo el patrón del secuenciador elegido. Por eso primero DRUM."},
+    {b:1, w:"dr", t:"Elegir el bombo", k:[["drum","h"],"p1"], p:"<p>Las teclas de paso muestran <b>un instrumento por vez</b>. Para elegir el bombo sin que suene: mantené "+DR+" y tocá "+P(1)+". (Golpear el pad solo también lo elige, pero suena.)</p>", v:"El pad 1 queda encendido fijo: es el instrumento que estás editando."},
+    {b:1, w:"dr", t:"Bombo en negras", k:["st1","st5","st9","st13","play"], p:"<p>Tocá los pasos "+ST(1)+" "+ST(5)+" "+ST(9)+" "+ST(13)+". Después "+K("❚❚/▶")+" PLAY.</p><p>No hace falta grabar: las teclas de paso prenden y apagan golpes directamente.</p>", v:"Los pasos 1, 5, 9 y 13 en violeta, una luz blanca recorriendo los 16 pasos y el bombo sonando en Ableton.", a:"Si se prende la luz pero no suena, es tema de Ableton (ver el paso Probar los pads). Si no se mueve nada, fijate que la luz de SYNC esté en INT."},
+    {b:1, w:"dr", t:"Clap", k:[["drum","h"],"p4","st5","st13"], p:"<p>Mantené "+DR+" + "+P(4)+" para elegir el clap. Los pasos del bombo desaparecen: ahora ves los del clap. Tocá "+ST(5)+" y "+ST(13)+".</p><p>Todo esto con el patrón sonando.</p>", v:"Clap en el 2 y el 4 de cada compás."},
+    {b:1, w:"dr", t:"Hat cerrado", k:[["drum","h"],"p7","st3","st7","st11","st15"], p:"<p>"+DR+" + "+P(7)+" (hat cerrado). Pasos "+ST(3)+" "+ST(7)+" "+ST(11)+" "+ST(15)+": el contratiempo.</p>"},
+    {b:1, w:"dr", t:"Grabar hats tocando", k:["rec"], p:"<p>Ahora a mano, en vivo. Con el patrón sonando, tocá "+K("●")+" REC (se prende). Golpeá "+P(11)+" (hat abierto) donde te guste, por ejemplo entre bombos. Lo que toques queda <b>cuantizado</b>: se acomoda solo al paso más cercano.</p><p>Cuando te guste, tocá "+K("●")+" otra vez para salir de la grabación.</p>", v:"Al elegir el hat abierto (DRUM + pad 11) ves los pasos que grabaste.", a:"Si te equivocaste: elegí ese instrumento y apagá el paso tocándolo. Con REC apagado, golpear pads no graba nada (sirve para ensayar)."},
+    {b:1, w:"dr", t:"Percusión", k:[["drum","h"],"p6","st4","st10","st15"], p:"<p>Buscá una percusión (rim, conga, shaker: probá los pads 5, 6, 8…). Elegila con "+DR+" + pad, y prendé pasos sueltos en los huecos: "+ST(4)+" "+ST(10)+" "+ST(15)+".</p>", v:"Un groove completo de batería."},
+    {b:1, w:"dr", t:"Guardar el patrón", k:[["save","h"],"st1"], p:"<p>Mantené "+K("SAVE")+": la tecla del patrón actual se prende en violeta. Tocá "+ST(1)+" y soltá.</p><p>Esto guarda <b>el patrón de batería</b>. El proyecto entero se guarda aparte, más adelante.</p>", v:"Desaparece el puntito al lado del número en el display violeta (el punto = cambios sin guardar)."},
+
+    // 2 · Bajo
+    {b:2, w:"s1", t:"Pasar a SEQ1", k:["seq1",["shift","h"],"st1"], p:"<p>Tocá "+S1+": las teclas de paso se ponen <b>verdes</b>. La batería sigue sonando.</p><p>Vaciá el patrón: "+SH+" + "+ST(1)+".</p>", v:"Pasos verdes, todos apagados. El display verde dice 01."},
+    {b:2, w:"s1", t:"La escala: menor", k:[["shift","h"],"p11"], p:"<p>Mantené "+SH+" y tocá "+P(11)+" (debajo dice <i>Minor</i>). Desde ahora SEQ1 está en <b>Do menor</b>: aunque gires una perilla, nunca cae en una nota que desafine.</p>", v:"Al mantener SHIFT, el pad 11 encendido.", a:"La escala no cambia los pads (siempre son cromáticos), cambia lo que suena y lo que eligen las perillas."},
+    {b:2, w:"s1", t:"Bajar una octava", k:["p15"], p:"<p>Tocá "+P(15,"OCT−")+" una vez: los pads ahora tocan una octava más grave. Probá tocar "+P(1,"C")+": es un Do grave.</p>", v:"El bajo sonando más grave al tocar los pads.", a:"OCT− y OCT+ juntos vuelven a la octava del medio."},
+    {b:2, w:"s1", t:"Cargar notas: paso + pad", k:[["st3","h"],"p1"], p:"<p>La forma más clara de escribir una nota: <b>mantené la tecla de paso y, sin soltarla, golpeá el pad de la nota</b>.</p><p>Mantené "+ST(3)+" y golpeá "+P(1,"C")+". Repetí con "+ST(7)+" y "+ST(11)+": Do en los tres. El bajo <b>esquiva al bombo</b>.</p>", v:"Pasos 3, 7 y 11 encendidos en verde y el bajo sonando entre bombos.", a:"Si al soltar un paso quedó apagado, tocalo una vez para prenderlo: la nota que cargaste queda guardada. La fuerza con que golpeás el pad queda como velocity."},
+    {b:2, w:"s1", t:"Dos notas más", k:[["st8","h"],"p10",["st15","h"],"p5"], p:"<p>Mantené "+ST(8)+" y golpeá "+P(10,"D#")+" (Mi bemol). Mantené "+ST(15)+" y golpeá "+P(5,"G")+" (Sol).</p>", v:"Un bajo de 5 notas: Do, Do, Mi♭, Do, Sol."},
+    {b:2, w:"s1", t:"Las perillas: ¿qué cambian?", k:["s1k"], p:"<p>Mirá las tres luces al lado del "+K("KNOBS")+" verde: <b>PITCH</b> (nota), <b>VELO</b> (fuerza), <b>GATE</b> (largo). La prendida es lo que hacen las 16 perillas. Tocá ese "+K("KNOBS")+" hasta que quede en <b>PITCH</b>.</p>", v:"La luz PITCH del bloque verde prendida."},
+    {b:2, w:"s1", t:"Mover una nota con la perilla", k:["e11"], p:"<p>Cada perilla es un paso: la <b>perilla 11</b> es el paso 11 (fila de abajo, tercera). Girala despacio: el paso 11 cambia de nota, siempre dentro de Do menor.</p><p><b>Tocala sin girar</b> y el display te muestra qué nota tiene.</p>", v:"El bajo cambia en el tercer golpe. Dejala donde te guste.", a:"Perillas 1–8 arriba = pasos 1–8; perillas 9–16 abajo = pasos 9–16."},
+    {b:2, w:"s1", t:"Bajo corto", k:["s1k",["shift","h"],"e2"], p:"<p>Tocá "+K("KNOBS")+" verde hasta <b>GATE</b>. Ahora mantené "+SH+" y girá la <b>perilla 2</b> a la izquierda, hasta unos <b>25</b>: pone <b>todos los pasos</b> al mismo largo de una.</p>", v:"Notas cortitas, que dejan respirar al bombo."},
+    {b:2, w:"s1", t:"Un slide", k:["e7"], p:"<p>Con KNOBS todavía en GATE, girá la <b>perilla 7</b> todo a la derecha, más allá de 99: aparece <b>TIE</b> y después <b>SLd</b> (slide). Dejalo en SLd.</p><p>El paso 7 ahora se liga con el 8: si el sinte de Ableton tiene glide/portamento, se desliza de una nota a la otra.</p>", v:"SLd en el display al girar la perilla 7.", a:"En Ableton: en Drift, Analog u Operator buscá Glide o Portamento y subilo un poco para escuchar el slide bien marcado."},
+    {b:2, w:"s1", t:"Guardar SEQ1", k:[["save","h"],"st1"], p:"<p>Con SEQ1 elegido: mantené "+K("SAVE")+" y tocá "+ST(1)+".</p>", v:"Sin punto al lado del 01 verde."},
+
+    // 3 · Melodía
+    {b:3, w:"s2", t:"Pasar a SEQ2", k:["seq2",["shift","h"],"st1",["shift","h"],"p11"], p:"<p>Tocá "+S2+" (pasos <b>amarillos</b>). Vaciá con "+SH+" + "+ST(1)+" y poné la escala menor: "+SH+" + "+P(11)+".</p>", v:"Pasos amarillos, todos apagados."},
+    {b:3, w:"s2", t:"Un patrón de 7 pasos", k:[["lst","h"],"st7"], p:"<p>Mantené "+K("LST STEP")+" y tocá "+ST(7)+": este patrón ahora dura <b>7 pasos</b>. La batería dura 16. Cada vuelta, la melodía cae en otro lugar del compás: eso la hace sonar viva sin cambiar nada.</p>", v:"Al darle play, la luz blanca de SEQ2 recorre solo los pasos 1 a 7."},
+    {b:3, w:"s2", t:"Siete notas", k:[["st1","h"],"p1",["st2","h"],"p10",["st3","h"],"p5"], p:"<p>Igual que el bajo, paso + pad. Una por paso:</p><ol><li>"+ST(1)+" + "+P(1,"C")+"</li><li>"+ST(2)+" + "+P(10,"D#")+"</li><li>"+ST(3)+" + "+P(5,"G")+"</li><li>"+ST(4)+" + "+P(14,"A#")+"</li><li>"+ST(5)+" + "+P(8,"C")+" (el Do agudo)</li><li>"+ST(6)+" + "+P(5,"G")+"</li><li>"+ST(7)+" + "+P(10,"D#")+"</li></ol>", v:"Un arpegio de 7 notas girando sobre la batería y el bajo.", a:"Si suena muy grave o muy agudo, usá OCT− / OCT+ y volvé a cargar, o subí la octava en el sinte de Ableton."},
+    {b:3, w:"s2", t:"Apagar dos", k:["st4","st6"], p:"<p>Una melodía con silencios respira mejor. Apagá "+ST(4)+" y "+ST(6)+" con un toque.</p>", v:"El arpegio con dos huecos. Si te gustaba más lleno, volvé a prenderlos: las notas siguen guardadas."},
+    {b:3, w:"s2", t:"Dinámica", k:["s2k","e3","e7"], p:"<p>"+K("KNOBS")+" amarillo hasta <b>VELO</b>. Bajá la perilla 3 y la 7 (más suaves) y dejá la 1 y la 5 arriba (acentos).</p>", v:"Unas notas más fuertes que otras.", a:"Si el sinte de Ableton no cambia con la velocity, buscá en el sinte el control Vel o Velocity → Volume y subilo."},
+    {b:3, w:"s2", t:"Guardar SEQ2", k:[["save","h"],"st1"], p:"<p>Mantené "+K("SAVE")+" y tocá "+ST(1)+".</p>"},
+
+    // 4 · Que respire
+    {b:4, w:"", t:"Swing para todos", k:["swing"], p:"<p>Girá "+K("SWING")+" hasta <b>56</b>. Afecta a los tres secuenciadores a la vez.</p>", v:"Todo un poco más balanceado, menos de máquina."},
+    {b:4, w:"dr", t:"El clap, un poquito tarde", k:["drum",["drum","h"],"p4","dk"], p:"<p>Elegí la batería y el clap ("+DR+", después "+DR+" mantenido + "+P(4)+"). Tocá el "+K("KNOBS")+" violeta hasta <b>SHIFT</b>: ahora las perillas <b>corren el golpe</b> antes o después.</p>", v:"La luz SHIFT del bloque violeta prendida."},
+    {b:4, w:"dr", t:"Correrlo", k:["e5","e13"], p:"<p>Girá las perillas <b>5</b> y <b>13</b> (los pasos del clap) a la derecha, hasta <b>+8</b> más o menos. El clap llega apenas tarde: más relajado.</p>", v:"Al tocar la perilla 5 sin girar, el display muestra el valor."},
+    {b:4, w:"dr", t:"Un hat abierto distinto", k:[["shift","h"],"st16"], p:"<p>Mantené "+SH+" y tocá "+ST(16)+": prendés la <b>polirritmia</b> (el paso 16 se pone azul con SHIFT). Ahora cada instrumento de la batería puede tener su propio largo.</p>", v:"Con SHIFT apretado, el paso 16 azul."},
+    {b:4, w:"dr", t:"Hat de 12 pasos", k:[["drum","h"],"p11",["lst","h"],"st12"], p:"<p>Elegí el hat abierto ("+DR+" + "+P(11)+"). Mantené "+K("LST STEP")+" y tocá "+ST(12)+".</p><p>El hat abierto ahora da la vuelta cada 12 pasos y se va corriendo contra el bombo: vuelve a coincidir cada 3 compases.</p>", v:"El hat abierto cae cada vez en otro lugar.", a:"Si cambió el largo de toda la batería, la polirritmia no estaba prendida: volvé al paso anterior."},
+    {b:4, w:"dr", t:"Un poco de azar, solo en la batería", k:["ct2","rand","prob"], p:"<p>Con DRUM elegido, tocá el "+K("CURRENT TRACK")+" que está <b>entre RANDOMNESS y PROBABILITY</b> (se prende). Así el azar afecta solo a la batería.</p><p>Girá "+K("RANDOMNESS")+" a <b>20</b> y "+K("PROBABILITY")+" a <b>25</b>.</p>", v:"La batería cambia de a ratos (golpes de más fuerza, de menos, alguno que se corre), sin perder el groove.", a:"El azar nunca inventa golpes en un instrumento vacío ni cambia notas: solo desordena lo que ya está."},
+    {b:4, w:"dr", t:"Guardar la batería", k:[["save","h"],"st1"], p:"<p>El corrimiento, la polirritmia y el azar con Current Track se guardan con el patrón. "+K("SAVE")+" + "+ST(1)+".</p>"},
+
+    // 5 · Guardar y variar
+    {b:5, w:"", t:"Guardar el proyecto", k:[["save","h"],["project","h"],"st16"], p:"<p>Ahora sí, todo junto: mantené "+K("SAVE")+", después mantené "+K("PROJECT")+" y tocá "+ST(16)+". Soltá.</p><p>Esto guarda los tres secuenciadores, el tempo y el swing en el proyecto 16.</p>", v:"Si apagás y prendés el aparato, cargando el proyecto 16 (PROJECT + 16) vuelve todo."},
+    {b:5, w:"dr", t:"Copiar la batería al patrón 2", k:["drum",["save","h"],"st2"], p:"<p>Con "+DR+" elegido, mantené "+K("SAVE")+" y tocá "+ST(2)+": guardás una <b>copia</b> del patrón en el lugar 2.</p>", v:"Con SAVE apretado, el paso 2 ahora aparece blanco (ya no está vacío)."},
+    {b:5, w:"dr", t:"Ir al patrón 2", k:[["drum","h"],"st2"], p:"<p>Mantené "+DR+" y tocá "+ST(2)+".</p>", v:"El display violeta dice 02. Suena igual que el 1 (es una copia)."},
+    {b:5, w:"dr", t:"Hacerlo un break", k:[["drum","h"],"p1","st1","st5","st9","st13"], p:"<p>Elegí el bombo ("+DR+" + "+P(1)+") y apagá sus cuatro pasos: "+ST(1)+" "+ST(5)+" "+ST(9)+" "+ST(13)+".</p>", v:"Sin bombo: un momento de respiro."},
+    {b:5, w:"dr", t:"Un remate al final", k:[["drum","h"],"p4","st14","st15","st16"], p:"<p>Elegí el clap ("+DR+" + "+P(4)+") y prendé "+ST(14)+" "+ST(15)+" "+ST(16)+": tres claps seguidos al final del compás, un remate que lleva de vuelta al groove.</p><p>Si querés que crezca: "+K("KNOBS")+" violeta en <b>VELO</b> y bajá un poco la perilla 14, menos la 15, y dejá la 16 arriba.</p>", v:"Un remate de clap al final del break."},
+    {b:5, w:"dr", t:"Guardar el break", k:[["save","h"],"st2"], p:"<p>"+K("SAVE")+" + "+ST(2)+". <b>Antes de cambiar de patrón, siempre guardar</b>.</p>", v:"Sin punto al lado del 02."},
+    {b:5, w:"dr", t:"Una cadena: 3 groove + 1 break", k:[["shift","h"],["drum","h"],"st1","st2"], p:"<p>Mantené "+SH+" y "+DR+". Soltá SHIFT pero <b>seguí manteniendo DRUM</b>. Tocá en orden: "+ST(1)+" "+ST(1)+" "+ST(1)+" "+ST(2)+". Soltá DRUM.</p><p>La batería toca 3 compases de groove y 1 de break, y vuelve a empezar. Bajo y melodía siguen en su patrón 1.</p>", v:"Si mantenés DRUM, las teclas parpadean en el orden de la cadena: 1, 1, 1, 2.", a:"La cadena se pierde si cambiás el patrón de batería a mano. Para guardarla hay que usar Scenes (en la guía)."},
+
+    // 6 · Tocar en vivo
+    {b:6, w:"", t:"Mutes", k:["s1m","s2m","dm"], p:"<p>Cada secuenciador tiene su "+K("MUTE")+". Probá sacar y meter: arrancá solo con batería (mute en SEQ1 y SEQ2), sumá el bajo a los 8 compases, la melodía a los 16.</p>", v:"Ya podés armar una intro y un desarrollo sin tocar nada más."},
+    {b:6, w:"dr", t:"Silenciar un solo instrumento", k:[["drum","h"],["dm","h"],"p7"], p:"<p>Mantené "+DR+" y "+K("MUTE")+" violeta, y tocá "+P(7)+": se calla solo el hat cerrado. Igual para volver. "+K("MUTE")+" solo, una vez, los vuelve a todos.</p>", v:"El MUTE violeta parpadea mientras haya algún instrumento callado."},
+    {b:6, w:"s1", t:"Transponer en vivo", k:["trns",["seq1","h"],"p4"], p:"<p>Prendé "+K("TRNS LNK")+": bajo y melodía se transponen juntos. Mantené "+S1+" y tocá "+P(4,"F")+": todo sube a Fa. "+S1+" + "+P(1,"C")+" vuelve a Do.</p><p>Un clásico: 4 compases en Do, 4 en Fa.</p>", v:"Bajo y melodía cambian de tono; la batería no.", a:"Mientras REC está prendido no se puede transponer."},
+    {b:6, w:"dr", t:"Roller: redobles con el dedo", k:["drum",["p7","h"],"strip"], p:"<p>Con DRUM elegido, <b>mantené</b> "+P(7)+" (hat cerrado) y apoyá el dedo en la tira "+K("ROLLER/LOOPER")+". El hat se repite: a la izquierda (1/4) lento, a la derecha (1/32) rapidísimo. Deslizá el dedo hacia la derecha antes de que vuelva el groove.</p>", v:"Redobles en tiempo, sin esfuerzo.", a:"Si no pasa nada, la tira está en modo Looper: se cambia en CONTROL MODE con SHIFT + paso 9 (prendido = Roller)."},
+    {b:6, w:"s2", t:"Roller como arpegiador", k:["seq2",["p1","h"],["p10","h"],["p5","h"],"strip"], p:"<p>En SEQ1 o SEQ2 la tira hace otra cosa: <b>arpegia los pads que mantenés</b>. Tocá "+S2+", mantené "+P(1,"C")+" "+P(10,"D#")+" "+P(5,"G")+" y apoyá el dedo en la tira.</p>", v:"Mientras tocás la tira, la melodía se reemplaza por un arpegio de esas tres notas. Al soltar, vuelve."},
+    {b:6, w:"", t:"Cortar notas colgadas", k:["stop"], p:"<p>Si alguna nota queda sonando para siempre: "+K("■")+" STOP <b>tres veces rápido</b>. Manda un All Notes Off.</p>", v:"Silencio total. Play para volver."},
+
+    // 7 · Grabarlo
+    {b:7, w:"", t:"Parar y cambiar el reloj", k:["stop","sync"], p:"<p>Para grabar prolijo, que mande Ableton y el BeatStep lo siga. "+K("■")+" STOP, y tocá "+K("SYNC")+" hasta que quede prendida la luz <b>USB</b>.</p>", v:"La luz USB prendida.", a:"SYNC no cambia si el aparato está sonando: primero STOP."},
+    {b:7, w:"ab", t:"Ableton manda el tiempo", k:[], p:"<p>En Ableton: "+A("Settings")+" → "+A("Link, Tempo & MIDI")+". En la fila <b>Salida: Arturia BeatStep Pro</b>, prendé <b>Sync</b>. Cerrá y poné el tempo de Ableton en <b>124</b>.</p>", v:"Al darle Play en Ableton, el BeatStep arranca solo, al mismo tempo.", a:"Si no arranca solo: con Ableton sonando, tocá PLAY en el BeatStep una vez."},
+    {b:7, w:"ab", t:"Grabar", k:[], p:"<ol><li>Pasá a la vista Arrangement ("+A("Tab")+").</li><li>Armá las tres pistas (el botón redondo de grabar de cada una).</li><li>Tocá el botón de grabación general de Ableton ("+A("F9")+").</li><li>Tocá tu loop en vivo unos 3 minutos: mutes, transposición, roller, el break.</li><li>Barra espaciadora para parar.</li></ol>", v:"Tres pistas con clips MIDI: lo que tocaste quedó como notas, editables en Ableton."},
+    {b:7, w:"", t:"Guardar todo", k:[["save","h"],["project","h"],"st16"], p:"<p>Guardá el proyecto del BeatStep otra vez ("+K("SAVE")+" + "+K("PROJECT")+" + "+ST(16)+") y el set de Ableton ("+A("Cmd/Ctrl + S")+").</p>"},
+    {b:7, w:"", t:"Tarea", k:[], p:"<p>Escuchá la grabación al otro día y anotá <b>3 cosas para cambiar</b>. Probá también un patrón 2 para el bajo (copiar con SAVE + 2, cambiar notas, guardar).</p><p>Hiciste tu primer loop con el BeatStep Pro. 🎛️</p>"}
+  ];
+
+  /* ---------- motor ---------- */
+  var KEY = "naya-bsp-clase01";
+  var i = 0, hechos = {};
+  try{ var s = JSON.parse(localStorage.getItem(KEY)) || {}; i = Math.min(s.i||0, PASOS.length-1); hechos = s.h || {}; }catch(e){}
+  function guardar(){ try{ localStorage.setItem(KEY, JSON.stringify({i:i, h:hechos})); }catch(e){} }
+
+  var DONDE = { s1:"Trabajás en SEQ1 · bajo", s2:"Trabajás en SEQ2 · melodía", dr:"Trabajás en DRUM · batería", ab:"En Ableton", ct:"Control mode" };
+
+  BSPPanel.render(document.getElementById("panel"));
+  var bl = document.getElementById("bloques");
+  BLOQUES.forEach(function(n, b){
+    var btn = document.createElement("button"); btn.textContent = b+" · "+n;
+    btn.addEventListener("click", function(){ for(var j=0;j<PASOS.length;j++){ if(PASOS[j].b===b){ ir(j); break; } } });
+    bl.appendChild(btn);
+  });
+
+  function ir(n){
+    i = Math.max(0, Math.min(PASOS.length-1, n));
+    var p = PASOS[i];
+    document.getElementById("num").textContent = "Bloque "+p.b+" · "+BLOQUES[p.b]+" · paso "+(i+1)+" de "+PASOS.length;
+    document.getElementById("titulo").textContent = p.t;
+    var d = document.getElementById("donde");
+    d.className = "donde " + (p.w||""); d.textContent = DONDE[p.w] || ""; d.style.display = p.w ? "" : "none";
+    document.getElementById("combo").textContent = p.k.length ? BSPPanel.texto(p.k).replace(/^./, function(c){ return c.toUpperCase(); }) : "";
+    document.getElementById("txt").innerHTML = p.p;
+    var v = document.getElementById("ver"); v.style.display = p.v ? "" : "none"; v.querySelector("span").textContent = p.v || "";
+    var a = document.getElementById("ayuda"); a.style.display = p.a ? "" : "none"; a.open = false; a.querySelector("p").textContent = p.a || "";
+    BSPPanel.marcar(p.k);
+    document.getElementById("atras").disabled = i === 0;
+    document.getElementById("sig").textContent = i === PASOS.length-1 ? "Terminé la clase ✓" : "Listo, siguiente →";
+    [].forEach.call(bl.children, function(btn, b){
+      btn.classList.toggle("act", b === p.b);
+      var todos = PASOS.every(function(q, j){ return q.b !== b || hechos[j]; });
+      btn.classList.toggle("ok", todos && b !== p.b);
+    });
+    var n = Object.keys(hechos).length;
+    document.getElementById("barra").style.width = (n / PASOS.length * 100) + "%";
+    guardar();
+  }
+  document.getElementById("sig").addEventListener("click", function(){ hechos[i] = 1; ir(i+1); if(i === PASOS.length-1) guardar(); window.scrollTo({top:0, behavior:"smooth"}); });
+  document.getElementById("atras").addEventListener("click", function(){ ir(i-1); });
+  document.addEventListener("keydown", function(e){
+    if(e.target.closest("input,textarea")) return;
+    if(e.key === "ArrowRight"){ hechos[i] = 1; ir(i+1); }
+    if(e.key === "ArrowLeft") ir(i-1);
+  });
+
+  var info = document.getElementById("info");
+  document.getElementById("panel").addEventListener("click", function(e){
+    var k = e.target.closest("[data-k]"); if(!k) return;
+    var d = BSPPanel.info(k.dataset.k); if(!d) return;
+    info.innerHTML = "<b></b><span class='a'></span>" + (d[2] ? "<span class='fn'></span>" : "");
+    info.querySelector("b").textContent = d[0];
+    info.querySelector(".a").textContent = d[1];
+    if(d[2]) info.querySelector(".fn").textContent = d[2];
+  });
+
+  ir(i);
+})();
+</script>
+</html>
