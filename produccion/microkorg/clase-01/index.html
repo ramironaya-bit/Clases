@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Clase 01 · Tus primeros sonidos · microKORG</title>
+<meta name="description" content="Clase interactiva: elegir, editar y guardar sonidos en el microKORG, paso a paso.">
+<meta name="theme-color" content="#0b0a0a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#0b0a0a; --bg-raised:#15120f; --bg-feature:#1a1108; --line:#2e2620; --line-soft:#241e19;
+    --text:#f2ede4; --text-muted:#a89d8e; --text-faint:#6f665c;
+    --gold:#e8b04a; --gold-soft:#8a6c2f; --terra:#e0653a; --sand:#cbb389;
+    --font-display:"Fraunces", ui-serif, Georgia, serif;
+    --font-poster:"Anton", ui-sans-serif, sans-serif;
+    --font-body:"IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+    --font-mono:"IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+  }
+  *,*::before,*::after{ box-sizing:border-box; }
+  body{ margin:0; background:var(--bg); color:var(--text); font-family:var(--font-body); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+  a{ color:var(--gold); text-underline-offset:3px; }
+  button:focus-visible, a:focus-visible{ outline:2px solid var(--gold); outline-offset:3px; }
+  .wrap{ max-width:1180px; margin:0 auto; padding:1.6rem 1.4rem 4rem; }
+
+  .brand{ display:flex; justify-content:space-between; gap:.75rem; flex-wrap:wrap; font-family:var(--font-mono); font-size:.68rem; letter-spacing:.18em; text-transform:uppercase; color:var(--text-faint); border-bottom:1px solid var(--line); padding-bottom:.8rem; margin-bottom:1.4rem; }
+  .brand .n{ color:var(--gold); font-weight:600; }
+  .brand a{ color:var(--text-faint); text-decoration:none; } .brand a:hover{ color:var(--gold); }
+  .cab{ display:flex; align-items:baseline; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:1rem; }
+  h1{ font-family:var(--font-poster); font-weight:400; text-transform:uppercase; font-size:clamp(1.8rem,5vw,2.8rem); line-height:.95; margin:0; }
+  h1 small{ display:block; font-family:var(--font-mono); font-size:.7rem; letter-spacing:.22em; color:var(--terra); margin-bottom:.4rem; }
+  .meta{ font-family:var(--font-mono); font-size:.72rem; color:var(--text-faint); }
+
+  .bloques{ display:flex; gap:.35rem; overflow-x:auto; scrollbar-width:none; margin:0 0 1.2rem; padding-bottom:.2rem; }
+  .bloques::-webkit-scrollbar{ display:none; }
+  .bloques button{ flex:0 0 auto; font-family:var(--font-mono); font-size:.66rem; letter-spacing:.06em; text-transform:uppercase; color:var(--text-muted); background:transparent; border:1px solid var(--line); border-radius:2px; padding:.35rem .6rem; cursor:pointer; }
+  .bloques button.act{ color:var(--bg); background:var(--gold); border-color:var(--gold); }
+  .bloques button.ok{ border-color:var(--gold-soft); color:var(--gold); }
+  .barra{ height:3px; background:var(--line); margin:-.6rem 0 1.2rem; }
+  .barra i{ display:block; height:100%; width:0; background:var(--gold); transition:width .25s; }
+
+  .escena{ display:grid; grid-template-columns: minmax(300px,.75fr) minmax(0,1.6fr); gap:1.4rem; align-items:start; }
+  @media (max-width: 1020px){ .escena{ grid-template-columns:1fr; } .lado{ order:-1; } }
+
+  .paso{ background:var(--bg-raised); border:1px solid var(--line-soft); border-left:2px solid var(--gold); border-radius:3px; padding:1.3rem 1.4rem 1.2rem; }
+  .num{ font-family:var(--font-mono); font-size:.7rem; letter-spacing:.16em; text-transform:uppercase; color:var(--gold); margin-bottom:.35rem; }
+  .paso h2{ font-family:var(--font-poster); font-weight:400; text-transform:uppercase; font-size:clamp(1.5rem,4vw,2rem); line-height:1; margin:0 0 .9rem; }
+  .combo{ font-family:var(--font-mono); font-size:.82rem; color:var(--sand); background:#0f0d0b; border:1px solid var(--line); border-radius:3px; padding:.55rem .75rem; margin:0 0 1rem; }
+  .combo:empty{ display:none; }
+  .donde{ display:inline-block; font-family:var(--font-mono); font-size:.62rem; letter-spacing:.14em; text-transform:uppercase; padding:.15rem .5rem; border-radius:2px; margin:0 0 .8rem; font-weight:600; }
+  .donde.pf{ background:var(--gold); color:#1a1408; } .donde.ed{ background:var(--sand); color:#1a1408; } .donde.gu{ background:#7fd08a; color:#0b1a0d; } .donde.sh{ background:#ddd; color:#111; }
+  .txt p{ margin:0 0 .8rem; color:var(--text-muted); }
+  .txt ol, .txt ul{ color:var(--text-muted); padding-left:1.2rem; margin:0 0 .8rem; }
+  .txt li{ margin-bottom:.3rem; }
+  .txt b{ color:var(--text); }
+  kbd{ font-family:var(--font-mono); font-size:.78em; font-weight:600; color:#1d1c1a; background:#dcdbd6; border:1px solid #aeaca6; border-bottom-width:2px; border-radius:3px; padding:.02em .38em; white-space:nowrap; }
+  .scr{ font-family:var(--font-mono); font-weight:600; color:#ff5a4f; background:#0b0b0c; border-radius:3px; padding:0 .35em; font-size:.85em; letter-spacing:.06em; }
+  .ver{ border-left:2px solid var(--gold-soft); padding:.1rem 0 .1rem .9rem; margin:.4rem 0 .8rem; font-size:.92rem; color:var(--text-muted); }
+  .ver b{ font-family:var(--font-mono); font-size:.62rem; letter-spacing:.16em; text-transform:uppercase; color:var(--gold); display:block; font-weight:500; }
+  details{ margin:.4rem 0 0; border-top:1px solid var(--line); padding-top:.7rem; }
+  summary{ cursor:pointer; font-family:var(--font-mono); font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--terra); }
+  details p{ color:var(--text-muted); font-size:.92rem; margin:.6rem 0 0; }
+
+  .nav{ display:flex; gap:.6rem; margin-top:1.1rem; }
+  .nav button{ font-family:var(--font-mono); font-size:.74rem; letter-spacing:.12em; text-transform:uppercase; padding:.85rem 1.1rem; cursor:pointer; border-radius:2px; }
+  .nav .atras{ background:transparent; color:var(--text-muted); border:1px solid var(--line); }
+  .nav .sig{ flex:1; background:var(--gold); color:var(--bg); border:1px solid var(--gold); font-weight:600; }
+  .nav .sig:hover{ background:#f0bb55; }
+  .nav button:disabled{ opacity:.35; cursor:default; }
+  .tip{ font-family:var(--font-mono); font-size:.64rem; color:var(--text-faint); margin-top:.6rem; }
+
+  .lado{ position:sticky; top:1rem; display:grid; gap:.8rem; }
+  @media (max-width: 1020px){ .lado{ position:static; } .regla{ display:none; } }
+  .lado-inf{ display:grid; grid-template-columns: 1fr 1fr; gap:.8rem; }
+  @media (max-width: 700px){ .lado-inf{ grid-template-columns:1fr; } }
+  .info{ font-size:.88rem; color:var(--text-muted); background:var(--bg-raised); border:1px solid var(--line); border-radius:3px; padding:.85rem 1rem; min-height:4rem; }
+  .info b{ color:var(--text); font-family:var(--font-poster); font-weight:400; text-transform:uppercase; letter-spacing:.02em; font-size:1.05rem; display:block; margin-bottom:.2rem; }
+  .info .fn{ color:var(--sand); display:block; margin-top:.35rem; }
+  .regla{ font-size:.86rem; color:var(--text-muted); border-left:2px solid var(--terra); padding:.1rem 0 .1rem .9rem; }
+  .regla b{ color:var(--terra); font-weight:600; }
+  .regla p{ margin:0 0 .5rem; } .regla p:last-child{ margin:0; }
+</style>
+
+<div class="wrap">
+  <div class="brand"><span><span class="n">NAYA</span> · Clases de Producción · microKORG</span><a href="../">← Guía microKORG</a></div>
+
+  <div class="cab">
+    <h1><small>Clase 01 · Interactiva</small>Tus primeros sonidos</h1>
+    <span class="meta">microKORG solo · elegir, editar, guardar · ~1 hora y media</span>
+  </div>
+
+  <div class="bloques" id="bloques"></div>
+  <div class="barra"><i id="barra"></i></div>
+
+  <div class="escena">
+    <div>
+      <article class="paso" aria-live="polite">
+        <div class="num" id="num"></div>
+        <h2 id="titulo"></h2>
+        <span class="donde" id="donde"></span>
+        <div class="combo" id="combo"></div>
+        <div class="txt" id="txt"></div>
+        <div class="ver" id="ver"><b>Tenés que ver / escuchar</b><span></span></div>
+        <details id="ayuda"><summary>No me sale</summary><p></p></details>
+      </article>
+      <div class="nav">
+        <button class="atras" id="atras">← Atrás</button>
+        <button class="sig" id="sig">Listo, siguiente →</button>
+      </div>
+      <p class="tip">También con las flechas del teclado. Tu avance queda guardado en este navegador.</p>
+    </div>
+    <div class="lado">
+      <div id="panel"></div>
+      <div class="lado-inf">
+      <div class="info" id="info">Lo que brilla en el dibujo es lo que tenés que tocar, en el orden de los números. En la grilla se marca la fila y la casilla. <span class="fn">Tocá cualquier cosa del dibujo para ver qué hace.</span></div>
+      <div class="regla">
+        <p><b>Regla 1 · ¿Toco o edito?</b> Luces 1 y 2 de la grilla prendidas: las perillas hacen lo de arriba (cutoff, resonance…). Una sola: editan la fila elegida con EDIT SELECT.</p>
+        <p><b>Regla 2 · Si titila, no enganchó.</b> Girá la perilla hasta pasar por el valor actual; ahí deja de titilar y edita.</p>
+        <p><b>Regla 3 · Lo que tocás no está guardado.</b> Si cambiás de programa sin WRITE, se pierde.</p>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../panel.js"></script>
+<script>
+(function(){
+  function K(t){ return '<kbd>'+t+'</kbd>'; }
+  function D(t){ return '<span class="scr">'+t+'</span>'; }
+  var SH = K("SHIFT"), WR = K("WRITE");
+
+  var BLOQUES = ["Preparar","Elegir","Tocar","Tu lugar","Editar","Desde cero","Arpegiador","Cierre"];
+
+  // b: bloque · w: dónde (pf performance, ed editando, gu guardando, sh shift) · k: qué iluminar · d: display
+  // t: título · p: texto · v: qué ver · a: ayuda
+  var PASOS = [
+    // 0 · Preparar
+    {b:0, w:"", t:"Cómo leer esta clase", k:[], p:"<p>Un paso por pantalla. A la derecha está tu microKORG dibujado: <b>lo que brilla es lo que tenés que tocar</b>, numerado en orden. Si dice <b>mantené</b>, lo dejás apretado mientras tocás lo siguiente. Cuando hay que editar, también se marca la fila y la casilla de la grilla.</p><p>Arriba de cada paso, una etiqueta te dice en qué modo estás: <span class='donde pf' style='margin:0'>Tocando</span> <span class='donde ed' style='margin:0'>Editando</span> <span class='donde gu' style='margin:0'>Guardando</span>.</p><p>Hoy no hacemos un tema: aprendemos a <b>elegir</b>, <b>cambiar</b> y <b>guardar</b> sonidos sin perder nada.</p>", v:"Nada todavía. Tené a mano el microKORG, su fuente, auriculares o un cable a los parlantes, y un papel."},
+    {b:0, w:"", t:"Enchufar", k:["vol"], p:"<p>Antes de prender, girá "+K("VOLUME")+" (arriba a la izquierda) <b>al mínimo</b>.</p><ol><li>Fuente de 9 V atrás (o 6 pilas AA abajo).</li><li>Auriculares en la salida de atrás, o <b>OUTPUT L/MONO</b> a los parlantes o la placa.</li><li>Prendelo con el botón de atrás.</li></ol><p>Tocá una tecla y subí VOLUME de a poco.</p>", v:"El display rojo prendido con un nombre de programa, y sonido al tocar.", a:"Si no suena: VOLUME arriba, el cable en L/MONO (si usás uno solo), y el volumen de lo que esté del otro lado."},
+    {b:0, w:"sh", t:"Las canciones demo", k:[["shift","h"],"arp","n1"], p:"<p>Para escuchar de qué es capaz: mantené "+SH+" y tocá "+K("ARPEGGIATOR ON/OFF")+". Después tocá "+K("1")+": arranca la demo 1. Hay 8, una por número.</p><p>Para salir: "+SH+".</p>", v:"Una canción sonando sola.", a:"Si no pasa nada, soltá todo, y volvé a hacerlo: primero SHIFT apretado, después ARPEGGIATOR."},
+
+    // 1 · Elegir
+    {b:1, w:"pf", t:"El primer programa", k:["bank:TRANCE","n1"], d:"A.11", p:"<p>Girá la rueda grande "+K("PROGRAM SELECT")+" hasta <b>TRANCE</b> (abajo a la izquierda). Tocá "+K("1")+".</p><p>Mirá la luz de "+K("BANK SIDE")+": si está <b>prendida</b>, estás en el lado B; tocala para apagarla (lado A).</p>", v:"El display dice "+D("A.11")+": lado A, banco 1, número 1.", a:"El display muestra el programa como lado · banco · número. A.11 es el primero de los 128."},
+    {b:1, w:"pf", t:"Recorrer el lado A", k:["n2","n3","n4","n5","n6","n7","n8"], d:"A.18", p:"<p>Tocá los números del "+K("2")+" al "+K("8")+" de a uno. En cada uno, tocá una nota grave, una aguda y un acorde de 3 notas.</p>", v:"Ocho sonidos distintos, de A.11 a A.18."},
+    {b:1, w:"pf", t:"El lado B", k:["side","n1"], d:"b.11", p:"<p>Tocá "+K("BANK SIDE")+" (se prende la luz) y tocá "+K("1")+". Otros 8 sonidos del mismo banco.</p>", v:"El display dice "+D("b.11")+". La b es minúscula porque el display no puede escribir B.", a:"Si el número no cambió, tocá un número después de BANK SIDE: el lado cambia recién cuando elegís el programa."},
+    {b:1, w:"pf", t:"Otro banco", k:["bank:RETRO","n1"], d:"b.61", p:"<p>Girá la rueda a <b>RETRO</b> y tocá "+K("1")+". Recorrelo como el anterior, del 1 al 8, y después el lado A.</p><p>Los nombres de los bancos orientan, pero no mandan: confiá en el oído.</p>", v:"El display dice "+D("b.61")+" (banco 6 = Retro)."},
+    {b:1, w:"pf", t:"Escuchar bien", k:["octd","octu","mod","pitch"], p:"<p>Un sonido cambia mucho según dónde lo toques:</p><ul><li>"+K("OCTAVE SHIFT")+" DOWN y UP: el teclado sube o baja de a una octava.</li><li>La rueda "+K("MOD")+": casi todos los programas hacen algo con ella.</li><li>La rueda "+K("PITCH")+": dobla la nota.</li></ul>", v:"El mismo programa sonando como bajo o como melodía según la octava.", a:"Si un programa toca solo cuando apretás una tecla, tiene el arpegiador prendido: tocá ARPEGGIATOR ON/OFF para apagarlo."},
+    {b:1, w:"", t:"Tu lista", k:[], p:"<p>Recorré todos los bancos que quieras (tomate tu tiempo) y anotá en el papel <b>tus 3 favoritos</b>, con su nombre del display. Por ejemplo: "+D("A.36")+" bajo · "+D("b.52")+" pad.</p><p>Uno de esos lo vamos a modificar y guardar en el bloque que viene.</p>", v:"3 nombres anotados."},
+
+    // 2 · Tocar
+    {b:2, w:"pf", t:"Modo performance", k:[], p:"<p>Elegí el primero de tu lista. Mirá las dos luces <b>1</b> y <b>2</b> al costado de la grilla: si están <b>las dos prendidas</b>, las cinco perillas hacen lo que dice arriba de cada una: CUTOFF, RESONANCE, EG ATTACK, EG RELEASE, TEMPO.</p>", v:"Las luces 1 y 2 de la grilla prendidas.", a:"Si hay una sola prendida, estás editando: tocá el número del programa que está prendido para volver."},
+    {b:2, w:"pf", t:"Brillo: CUTOFF", k:["k1"], p:"<p>Mantené una nota y girá despacio la <b>perilla 1</b> de punta a punta. A la izquierda el sonido se oscurece; a la derecha se abre.</p>", v:"El sonido pasa de apagado a brillante.", a:"Si al principio no cambia nada y el display titila, es que la perilla todavía no 'enganchó': seguí girando hasta que pase por el valor del programa."},
+    {b:2, w:"pf", t:"Que cante: RESONANCE", k:["k1","k2"], p:"<p>Dejá CUTOFF en el medio. Subí la <b>perilla 2</b> y volvé a mover CUTOFF.</p>", v:"Un silbido o un 'wah' que sigue al movimiento del CUTOFF."},
+    {b:2, w:"pf", t:"Forma: ATTACK y RELEASE", k:["k3","k4"], p:"<p>Subí la <b>perilla 3</b>: el sonido tarda en aparecer. Subí la <b>4</b>: queda sonando al soltar la tecla.</p><p>Con las dos altas, casi cualquier sonido se vuelve un colchón. Con las dos abajo, golpea seco.</p>", v:"El mismo sonido, ahora entrando lento y con cola."},
+    {b:2, w:"pf", t:"Deshacer todo", k:["n2","n1"], p:"<p>Lo que tocaste <b>no está guardado</b>: es una copia. Elegí otro número (por ejemplo "+K("2")+") y volvé al tuyo.</p>", v:"Tu programa suena exactamente como antes de tocar las perillas.", a:"Esto es una red de seguridad y también una trampa: si algo te gusta, hay que guardarlo antes de cambiar de programa. Eso viene ahora."},
+
+    // 3 · Tu lugar
+    {b:3, w:"sh", t:"Sacar la protección", k:[["shift","h"],"n8","k1"], d:"oFF", p:"<p>De fábrica la memoria está protegida y WRITE no guarda. Mantené "+SH+" y tocá "+K("8")+".</p><p>Girá la <b>perilla 1</b> a la derecha y después a la izquierda, hasta que el display diga "+D("oFF")+".</p>", v:D("oFF")+" en el display.", a:"Si dice on, girá la perilla 1 para el otro lado."},
+    {b:3, w:"gu", t:"Que quede así", k:["write","write"], p:"<p>Para que la protección siga apagada después de apagar el aparato: tocá "+WR+" y otra vez "+WR+".</p>", v:"El display vuelve al programa.", a:"Si no querés guardar este ajuste, tocá SHIFT para salir: la protección queda apagada hasta que lo apagues."},
+    {b:3, w:"pf", t:"Tu zona: b.71 a b.78", k:["bank:S.E./HIT","side","n1"], d:"b.71", p:"<p>Vamos a usar 8 lugares como tuyos: <b>S.E./HIT, lado B</b>. Son efectos especiales que casi no se usan.</p><p>Girá la rueda a <b>S.E./HIT</b>, prendé la luz de "+K("BANK SIDE")+" y tocá "+K("1")+". Escuchá del 1 al 8.</p>", v:"Del "+D("b.71")+" al "+D("b.78")+".", a:"Si alguno de estos te gusta, anotalo y elegí otra zona (por ejemplo b.61–b.68). Todo lo que guardes en esta clase va a pisar lo que haya ahí."},
+    {b:3, w:"pf", t:"Un favorito, a tu gusto", k:["k1","k2","k3","k4"], p:"<p>Elegí el primero de tu lista. Con las perillas 1 a 4, dejalo como más te guste: más oscuro, más largo, más filoso.</p><p><b>Todavía no cambies de programa.</b></p>", v:"Tu versión sonando."},
+    {b:3, w:"gu", t:"WRITE (primera vez)", k:["write"], p:"<p>Tocá "+WR+" una vez.</p>", v:"El display y la luz de WRITE titilan: te está preguntando dónde guardar."},
+    {b:3, w:"gu", t:"Elegir el lugar", k:["bank:S.E./HIT","side","n1"], d:"b.71", p:"<p>Mientras titila: rueda en <b>S.E./HIT</b>, luz de "+K("BANK SIDE")+" prendida (lado B), y "+K("1")+".</p>", v:"El display titilando "+D("b.71")+".", a:"Si te arrepentís, tocá SHIFT (está prendido y hace de salida): no se guarda nada."},
+    {b:3, w:"gu", t:"WRITE (segunda vez)", k:["write"], d:"b.71", p:"<p>Tocá "+WR+" otra vez. Listo: tu versión está en b.71.</p>", v:"El display deja de titilar.", a:"Nunca apagues el aparato mientras guarda."},
+    {b:3, w:"pf", t:"Comprobar", k:["n2","n1"], d:"b.71", p:"<p>Tocá "+K("2")+" (b.72) y volvé a "+K("1")+".</p>", v:"b.71 es tu sonido, no el de fábrica. El original sigue en su lugar."},
+
+    // 4 · Editar
+    {b:4, w:"ed", t:"Entrar a la grilla", k:["es1:FILTER"], d:"b.71", p:"<p>Con b.71 elegido, girá "+K("EDIT SELECT 1")+" hasta <b>FILTER</b>.</p><p>Ahora queda prendida solo la luz <b>1</b>: las perillas editan la fila FILTER. Mirá la grilla: perilla 1 = TYPE, 2 = CUTOFF, 3 = RESONANCE, 4 = FILTER EG INT, 5 = FILTER KEY TRACK.</p>", v:"Solo la luz 1 de la grilla prendida."},
+    {b:4, w:"ed", t:"Tipo de filtro", k:["g:FILTER:1"], d:"24L", p:"<p>Girá la <b>perilla 1</b> despacio y escuchá cada tipo:</p><ul><li>"+D("24L")+" pasa bajos fuerte (el clásico).</li><li>"+D("12L")+" pasa bajos suave.</li><li>"+D("bPF")+" solo los medios: sonido de radio.</li><li>"+D("HPF")+" saca los graves.</li></ul><p>Quedate con el que más te guste.</p>", v:"El display muestra el tipo mientras girás.", a:"Si el display titila y no cambia, la perilla no enganchó: girala hacia un lado y hacia el otro."},
+    {b:4, w:"ed", t:"Cutoff, ahora editando", k:["g:FILTER:2"], p:"<p>La <b>perilla 2</b> es CUTOFF dentro de la grilla (en modo performance era la 1). Girala hasta que el display deje de titilar y después llevala adonde quieras.</p>", v:"Primero titila, después engancha y edita."},
+    {b:4, w:"ed", t:"Cuánto se mueve el filtro", k:["g:FILTER:4"], p:"<p><b>Perilla 4</b>, FILTER EG INT: cuánto abre el filtro la envolvente cada vez que tocás. Probá alto positivo (golpe brillante), 0 (quieto) y negativo (al revés).</p>", v:"Con valores altos, cada nota arranca brillante y se cierra."},
+    {b:4, w:"ed", t:"La cola", k:["es1:AMP EG","g:AMP EG:4"], p:"<p>"+K("EDIT SELECT 1")+" a <b>AMP EG</b>. <b>Perilla 4</b> = RELEASE: cuánto dura el sonido al soltar.</p>", v:"Notas más secas o más largas al soltar."},
+    {b:4, w:"ed", t:"Ajuste fino", k:[["shift","h"],"octu","octd"], p:"<p>Para mover el valor de a un paso: mantené "+SH+" y tocá "+K("OCTAVE UP")+" (sube) o "+K("DOWN")+" (baja). Actúa sobre el último parámetro que moviste.</p>", v:"El número cambia de a uno."},
+    {b:4, w:"ed", t:"Volver un parámetro", k:["g:AMP EG:4","ov"], p:"<p>Girá la perilla 4 despacio y mirá la luz <b>ORIGINAL VALUE</b> (arriba de la grilla): se prende justo cuando pasás por el valor guardado.</p>", v:"La luz se prende en un punto exacto: ese es el valor de antes."},
+    {b:4, w:"ed", t:"Comparar", k:[["shift","h"],"octu","octd"], p:"<p>Mantené "+SH+" y tocá "+K("OCTAVE UP")+" y "+K("DOWN")+" <b>juntos</b>: COMPARE. Escuchás el sonido guardado. Hacelo otra vez para volver a tu versión.</p>", v:"Antes y después, uno contra otro.", a:"Mientras estás en COMPARE no edites: volvé primero a tu versión."},
+    {b:4, w:"ed", t:"Un efecto", k:["es2:MOD FX","g:MOD FX:1","g:MOD FX:3"], p:"<p>Ahora la otra rueda: "+K("EDIT SELECT 2")+" a <b>MOD FX</b> (se prende la luz 2). <b>Perilla 1</b>: elegí <b>Ensemble</b>. <b>Perilla 3</b>: subí la profundidad.</p>", v:"El sonido más ancho, como si fueran varios.", a:"Con la perilla 3 en 0 el efecto no se escucha aunque esté elegido."},
+    {b:4, w:"ed", t:"Un eco a tempo", k:["es2:DELAY","g:DELAY:2","g:DELAY:3","g:DELAY:4"], p:"<p>"+K("EDIT SELECT 2")+" a <b>DELAY</b>.</p><ol><li><b>Perilla 2</b> (TEMPO SYNC) en "+D("on")+".</li><li><b>Perilla 3</b>: la figura, por ejemplo <b>1/8</b>.</li><li><b>Perilla 4</b> (DEPTH): unos 40.</li></ol>", v:"Repeticiones a tempo detrás de cada nota.", a:"El tempo lo marca la perilla 5 en modo performance (o ARPEG.A perilla 1)."},
+    {b:4, w:"gu", t:"Guardar en el mismo lugar", k:["write","write"], d:"b.71", p:"<p>"+WR+" y otra vez "+WR+": si no elegís otro lugar, guarda en el mismo (b.71).</p>", v:"El display deja de titilar. Tu b.71 nueva quedó guardada."},
+    {b:4, w:"pf", t:"Volver a tocar", k:["n1"], p:"<p>Ya guardado, tocá el número prendido ("+K("1")+") para volver a modo performance.</p>", v:"Las dos luces 1 y 2 prendidas otra vez.", a:"Por eso guardamos antes: según el manual, volver a elegir el mismo programa también descarta lo que no guardaste."},
+
+    // 5 · Desde cero
+    {b:5, w:"pf", t:"Ir a b.72", k:["n2"], d:"b.72", p:"<p>Seguís en S.E./HIT lado B. Tocá "+K("2")+".</p>", v:D("b.72")+" en el display."},
+    {b:5, w:"sh", t:"Inicializar", k:[["shift","h"],"n3","n3"], p:"<p>Mantené "+SH+" y tocá "+K("3")+". Soltá. El "+K("3")+" titila: tocalo para confirmar.</p><p>El programa queda en blanco: un sonido básico, sin efectos. (El original de b.72 sigue guardado hasta que hagas WRITE.)</p>", v:"Un sonido simple y crudo.", a:"Si te arrepentís antes de confirmar, tocá SHIFT."},
+    {b:5, w:"ed", t:"Una nota por vez", k:["es1:VOICE","g:VOICE:3"], p:"<p>Vamos a hacer un <b>bajo</b>. "+K("EDIT SELECT 1")+" a <b>VOICE</b>, <b>perilla 3</b> (VOICE ASSIGN) en <b>Mono</b>.</p>", v:"Si tocás un acorde, suena una sola nota."},
+    {b:5, w:"ed", t:"Oscilador 1: sierra", k:["es1:OSC1","g:OSC1:1"], p:"<p>"+K("EDIT SELECT 1")+" a <b>OSC1</b>, <b>perilla 1</b> (WAVE) en <b>Saw</b> (sierra).</p>", v:"Un sonido zumbón, lleno de armónicos."},
+    {b:5, w:"ed", t:"Oscilador 2: una octava abajo", k:["es1:OSC2","g:OSC2:1","g:OSC2:3"], p:"<p>"+K("EDIT SELECT 1")+" a <b>OSC2</b>. <b>Perilla 1</b> en <b>Square</b>. <b>Perilla 3</b> (SEMITONE) en <b>−12</b>: una octava debajo del 1.</p>", v:"Todavía no cambia: el OSC2 está bajo en el mixer. Paso siguiente."},
+    {b:5, w:"ed", t:"Mezclar", k:["es1:MIXER","g:MIXER:1","g:MIXER:2"], p:"<p>"+K("EDIT SELECT 1")+" a <b>MIXER</b>. <b>Perilla 1</b> (OSC1) en <b>127</b>; <b>perilla 2</b> (OSC2) en <b>90</b>.</p>", v:"Un sonido mucho más grave y gordo."},
+    {b:5, w:"ed", t:"El filtro", k:["es1:FILTER","g:FILTER:1","g:FILTER:2","g:FILTER:3","g:FILTER:4"], p:"<p>"+K("EDIT SELECT 1")+" a <b>FILTER</b>:</p><ol><li>TYPE "+D("24L")+"</li><li>CUTOFF <b>35</b></li><li>RESONANCE <b>30</b></li><li>FILTER EG INT <b>+35</b></li></ol>", v:"Oscuro, con un pequeño golpe de brillo al tocar.", a:"Recordá: si titila, primero hacé que enganche."},
+    {b:5, w:"ed", t:"El golpe del filtro", k:["es1:FILTER EG","g:FILTER EG:1","g:FILTER EG:2","g:FILTER EG:3","g:FILTER EG:4"], p:"<p>"+K("EDIT SELECT 1")+" a <b>FILTER EG</b>: ATTACK <b>0</b>, DECAY <b>50</b>, SUSTAIN <b>20</b>, RELEASE <b>15</b>.</p>", v:"Cada nota arranca con un 'pluck' de brillo y se cierra."},
+    {b:5, w:"ed", t:"La forma del volumen", k:["es1:AMP EG","g:AMP EG:1","g:AMP EG:2","g:AMP EG:3","g:AMP EG:4"], p:"<p>"+K("EDIT SELECT 1")+" a <b>AMP EG</b>: ATTACK <b>0</b>, DECAY <b>64</b>, SUSTAIN <b>110</b>, RELEASE <b>8</b>.</p>", v:"Golpe inmediato, se sostiene mientras mantenés, corta al soltar."},
+    {b:5, w:"ed", t:"Deslizar (opcional)", k:["es1:PITCH","g:PITCH:3"], p:"<p>"+K("EDIT SELECT 1")+" a <b>PITCH</b>, <b>perilla 3</b> (PORTAMENTO) en <b>15</b>. Tocá dos notas ligadas.</p>", v:"La nota se desliza a la siguiente. Si no te gusta, volvé a 0."},
+    {b:5, w:"pf", t:"Probarlo grave", k:["octd"], p:"<p>"+K("OCTAVE SHIFT")+" DOWN una o dos veces y tocá una línea de bajo.</p>", v:"Un bajo hecho por vos, sabiendo qué hace cada perilla."},
+    {b:5, w:"gu", t:"Guardar en b.72", k:["write","write"], d:"b.72", p:"<p>"+WR+" y "+WR+".</p>", v:"Tu bajo guardado en b.72."},
+
+    // 6 · Arpegiador
+    {b:6, w:"pf", t:"De vuelta a tocar", k:["n2"], d:"b.72", p:"<p>Ya guardado: tocá el "+K("2")+" (prendido) para volver a modo performance.</p>", v:"Luces 1 y 2 prendidas."},
+    {b:6, w:"pf", t:"Prender el arpegiador", k:["arp","kb","k5"], p:"<p>"+K("ARPEGGIATOR ON/OFF")+" (se prende). Mantené un acorde de 3 notas. Con la <b>perilla 5</b> elegí el tempo.</p>", v:"Las notas del acorde una por una. La luz TEMPO titila al ritmo."},
+    {b:6, w:"ed", t:"Dibujo y octavas", k:["es2:ARPEG.A","g:ARPEG.A:4","g:ARPEG.A:5","g:ARPEG.A:3"], p:"<p>"+K("EDIT SELECT 2")+" a <b>ARPEG.A</b>:</p><ul><li><b>Perilla 4</b> (TYPE): probá Up, Down, Alt1, Random.</li><li><b>Perilla 5</b> (RANGE): <b>2</b> octavas.</li><li><b>Perilla 3</b> (GATE): <b>40</b>, notas más cortas.</li></ul>", v:"El arpegio cambiando de dibujo."},
+    {b:6, w:"ed", t:"Que siga solo", k:["es2:ARPEG.B","g:ARPEG.B:1"], p:"<p>"+K("EDIT SELECT 2")+" a <b>ARPEG.B</b>, <b>perilla 1</b> (LATCH) en "+D("on")+". Tocá un acorde y soltá.</p>", v:"El arpegio sigue sonando con las manos libres. Otro acorde lo reemplaza."},
+    {b:6, w:"ed", t:"Silencios", k:["n3","n6"], p:"<p>Con EDIT SELECT 2 en ARPEG.A o ARPEG.B, los botones "+K("1")+"–"+K("8")+" son los <b>pasos</b> del arpegio. Tocá "+K("3")+" y "+K("6")+": quedan titilando = silencio.</p>", v:"Un ritmo con huecos: ya no es un arpegio parejo.", a:"Prendido = suena. Titilando = silencio. Tocalo de nuevo para volver."},
+    {b:6, w:"gu", t:"Guardar como b.73", k:["write","n3","write"], d:"b.73", p:"<p>Así no pisamos el bajo sin arpegio: "+WR+", tocá "+K("3")+" (sigue S.E./HIT lado B) y "+WR+".</p>", v:"El bajo arpegiado guardado en "+D("b.73")+". b.72 sigue siendo el bajo solo."},
+
+    // 7 · Cierre
+    {b:7, w:"pf", t:"Tu banco, hasta ahora", k:["n1","n2","n3"], d:"b.71", p:"<p>Recorré "+D("b.71")+", "+D("b.72")+" y "+D("b.73")+". Son tuyos.</p><p>Anotalos en el papel al lado de tu lista.</p>", v:"Tres sonidos tuyos guardados."},
+    {b:7, w:"", t:"Tarea", k:[], p:"<p>Completá b.74 a b.78 con las recetas de la guía (pad, lead, pluck) o con versiones de tus favoritos. Al día siguiente, tocalos de nuevo y rehacé el que no te convenza.</p><p>Ya sabés elegir, editar y guardar en el microKORG. 🎹</p>"}
+  ];
+
+  /* ---------- motor ---------- */
+  var KEY = "naya-mk-clase01";
+  var i = 0, hechos = {};
+  try{ var s = JSON.parse(localStorage.getItem(KEY)) || {}; i = Math.min(s.i||0, PASOS.length-1); hechos = s.h || {}; }catch(e){}
+  function guardar(){ try{ localStorage.setItem(KEY, JSON.stringify({i:i, h:hechos})); }catch(e){} }
+
+  var DONDE = { pf:"Tocando · luces 1 y 2", ed:"Editando · grilla", gu:"Guardando", sh:"Con SHIFT" };
+
+  MKPanel.render(document.getElementById("panel"));
+  var bl = document.getElementById("bloques");
+  BLOQUES.forEach(function(n, b){
+    var btn = document.createElement("button"); btn.textContent = b+" · "+n;
+    btn.addEventListener("click", function(){ for(var j=0;j<PASOS.length;j++){ if(PASOS[j].b===b){ ir(j); break; } } });
+    bl.appendChild(btn);
+  });
+
+  // el último display conocido hasta este paso
+  // (los valores como "24L" se muestran solo en su paso; el nombre del programa se arrastra)
+  function pantallaHasta(n){
+    if(PASOS[n].d) return PASOS[n].d;
+    for(var j=n-1;j>=0;j--){ if(PASOS[j].d && /^[Ab]\.\d\d$/.test(PASOS[j].d)) return PASOS[j].d; }
+    return "A.11";
+  }
+
+  function ir(n){
+    i = Math.max(0, Math.min(PASOS.length-1, n));
+    var p = PASOS[i];
+    document.getElementById("num").textContent = "Bloque "+p.b+" · "+BLOQUES[p.b]+" · paso "+(i+1)+" de "+PASOS.length;
+    document.getElementById("titulo").textContent = p.t;
+    var d = document.getElementById("donde");
+    d.className = "donde " + (p.w||""); d.textContent = DONDE[p.w] || ""; d.style.display = p.w ? "" : "none";
+    document.getElementById("combo").textContent = p.k.length ? MKPanel.texto(p.k).replace(/^./, function(c){ return c.toUpperCase(); }) : "";
+    document.getElementById("txt").innerHTML = p.p;
+    var v = document.getElementById("ver"); v.style.display = p.v ? "" : "none"; v.querySelector("span").innerHTML = p.v || "";
+    var a = document.getElementById("ayuda"); a.style.display = p.a ? "" : "none"; a.open = false; a.querySelector("p").textContent = p.a || "";
+    MKPanel.marcar(p.k, pantallaHasta(i));
+    document.getElementById("atras").disabled = i === 0;
+    document.getElementById("sig").textContent = i === PASOS.length-1 ? "Terminé la clase ✓" : "Listo, siguiente →";
+    [].forEach.call(bl.children, function(btn, b){
+      btn.classList.toggle("act", b === p.b);
+      var todos = PASOS.every(function(q, j){ return q.b !== b || hechos[j]; });
+      btn.classList.toggle("ok", todos && b !== p.b);
+    });
+    var n2 = Object.keys(hechos).length;
+    document.getElementById("barra").style.width = (n2 / PASOS.length * 100) + "%";
+    guardar();
+  }
+  document.getElementById("sig").addEventListener("click", function(){ hechos[i] = 1; ir(i+1); if(i === PASOS.length-1) guardar(); window.scrollTo({top:0, behavior:"smooth"}); });
+  document.getElementById("atras").addEventListener("click", function(){ ir(i-1); });
+  document.addEventListener("keydown", function(e){
+    if(e.target.closest("input,textarea")) return;
+    if(e.key === "ArrowRight"){ hechos[i] = 1; ir(i+1); }
+    if(e.key === "ArrowLeft") ir(i-1);
+  });
+
+  var info = document.getElementById("info");
+  document.getElementById("panel").addEventListener("click", function(e){
+    var k = e.target.closest("[data-k]"); if(!k) return;
+    var d = MKPanel.info(k.dataset.k); if(!d) return;
+    info.innerHTML = "<b></b><span class='a'></span>" + (d[2] ? "<span class='fn'></span>" : "");
+    info.querySelector("b").textContent = d[0];
+    info.querySelector(".a").textContent = d[1];
+    if(d[2]) info.querySelector(".fn").textContent = d[2];
+  });
+
+  ir(i);
+})();
+</script>
+</html>

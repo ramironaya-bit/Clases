@@ -1,0 +1,842 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>microKORG · Clases de Producción</title>
+<meta name="description" content="Guía para aprender el Korg microKORG: elegir sonidos, editarlos y guardarlos. Clases de producción con NAYA.">
+<meta name="theme-color" content="#0b0a0a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================================
+     GUÍA microKORG — mismo mundo que Digitakt II y BeatStep Pro.
+     Oro = lo importante / lo que se aprieta. Terracota = ojo.
+     Fuente de todo lo técnico: manual oficial de Korg (microKORG, 2002)
+     y su EasyStart.
+     ============================================================ */
+  :root{
+    --bg: #0b0a0a; --bg-raised: #15120f; --bg-feature: #1a1108;
+    --line: #2e2620; --line-soft: #241e19;
+    --text: #f2ede4; --text-muted: #a89d8e; --text-faint: #6f665c;
+    --gold: #e8b04a; --gold-soft: #8a6c2f; --terra: #e0653a; --sand: #cbb389;
+    --panel-key: #2a2826; --panel-line: #3a3633;
+    --max: 900px;
+    --font-display: "Fraunces", ui-serif, Georgia, serif;
+    --font-poster: "Anton", ui-sans-serif, sans-serif;
+    --font-body: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+  }
+  *,*::before,*::after{ box-sizing: border-box; }
+  @media (prefers-reduced-motion: reduce){ *{ transition-duration:.001ms !important; scroll-behavior:auto !important; } }
+  html{ scroll-behavior: smooth; scroll-padding-top: 4rem; }
+  body{
+    margin:0; background: var(--bg); color: var(--text);
+    font-family: var(--font-body); font-size:16px; line-height:1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  a{ color: var(--gold); text-underline-offset: 3px; }
+  a:focus-visible, button:focus-visible, input:focus-visible{ outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
+  .wrap{ max-width: var(--max); margin: 0 auto; padding: 3rem 1.4rem 5rem; }
+
+  .brand{
+    display:flex; justify-content:space-between; gap:.75rem; flex-wrap:wrap;
+    font-family: var(--font-mono); font-size:.7rem; letter-spacing:.18em; text-transform:uppercase; color: var(--text-faint);
+    border-bottom:1px solid var(--line); padding-bottom:.85rem; margin-bottom:2.4rem;
+  }
+  .brand .n{ color: var(--gold); font-weight:600; letter-spacing:.22em; }
+  .brand a{ color: var(--text-faint); text-decoration:none; }
+  .brand a:hover{ color: var(--gold); }
+  .kicker{ font-family: var(--font-mono); font-size:.76rem; font-weight:600; letter-spacing:.28em; text-transform:uppercase; color: var(--terra); margin:0 0 .5rem; }
+  h1{ font-family: var(--font-poster); font-weight:400; font-size: clamp(3.6rem, 16vw, 7.2rem); line-height:.84; text-transform:uppercase; margin:0 0 1rem; }
+  .bajada{ font-family: var(--font-display); font-weight:300; font-size: clamp(1.05rem, 2.6vw, 1.35rem); line-height:1.45; color: var(--sand); max-width:42ch; margin:0 0 2rem; }
+  .meta{
+    display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem 1.2rem;
+    border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:1.1rem 0; margin:0 0 2.6rem;
+  }
+  .meta dt{ font-family: var(--font-mono); font-size:.6rem; letter-spacing:.16em; text-transform:uppercase; color: var(--text-faint); margin-bottom:.25rem; }
+  .meta dd{ margin:0; font-weight:600; font-size:.95rem; }
+  .meta dd.hi{ color: var(--gold); }
+
+  .toc{
+    position: sticky; top:0; z-index:5; background: rgba(11,10,10,.94); backdrop-filter: blur(6px);
+    border-bottom:1px solid var(--line); margin: 0 -1.4rem 2.6rem; padding:.55rem 1.4rem;
+    display:flex; gap:.4rem; overflow-x:auto; scrollbar-width:none;
+  }
+  .toc::-webkit-scrollbar{ display:none; }
+  .toc a{
+    flex:0 0 auto; text-decoration:none; color: var(--text-muted);
+    font-family: var(--font-mono); font-size:.68rem; letter-spacing:.08em; text-transform:uppercase;
+    border:1px solid var(--line); border-radius:2px; padding:.3rem .55rem; white-space:nowrap;
+  }
+  .toc a:hover{ color: var(--gold); border-color: var(--gold-soft); }
+  .toc a.done{ color: var(--bg); background: var(--gold-soft); border-color: var(--gold-soft); }
+
+  .progreso{ display:flex; align-items:center; gap:1rem; margin: -1.2rem 0 2.6rem; font-family: var(--font-mono); font-size:.72rem; color: var(--text-faint); }
+  .barra{ flex:1; height:4px; background: var(--line); border-radius:2px; overflow:hidden; }
+  .barra i{ display:block; height:100%; width:0; background: var(--gold); transition: width .3s; }
+
+  section.mod{ margin-bottom: 4rem; }
+  .mod-head{ display:flex; align-items:baseline; gap:.8rem; flex-wrap:wrap; margin-bottom:.4rem; }
+  .mod-num{ font-family: var(--font-mono); font-size:.8rem; font-weight:600; color: var(--gold); }
+  h2{ font-family: var(--font-poster); font-weight:400; font-size: clamp(1.7rem, 5vw, 2.4rem); line-height:1; text-transform:uppercase; margin:0; }
+  .sec-nota{ font-family: var(--font-mono); font-size:.73rem; color: var(--text-faint); margin:0 0 1.4rem; letter-spacing:.04em; }
+  h3{ font-family: var(--font-body); font-weight:600; font-size:1.05rem; margin: 2rem 0 .5rem; color: var(--text); }
+  p{ margin: 0 0 1rem; color: var(--text-muted); }
+  p b, li b, td b{ color: var(--text); font-weight:600; }
+  ul, ol{ color: var(--text-muted); padding-left: 1.3rem; margin: 0 0 1rem; }
+  li{ margin-bottom: .35rem; }
+
+  kbd{
+    display:inline-block; font-family: var(--font-mono); font-size:.72em; font-weight:600; letter-spacing:.04em;
+    color: var(--text); background: var(--panel-key); border:1px solid var(--panel-line); border-bottom-width:2px;
+    border-radius:3px; padding:.05em .4em; line-height:1.5; white-space:nowrap; vertical-align: .08em;
+  }
+  kbd.d{ color:#1a1408; background:#d8d6cf; border-color:#9d9b95; }
+  .scr{ font-family: var(--font-mono); font-weight:600; color:#ff5a4f; background:#0b0b0c; border-radius:3px; padding:0 .35em; font-size:.85em; letter-spacing:.06em; }
+
+  .idea{ border-left:2px solid var(--gold); padding:.2rem 0 .2rem 1.1rem; margin: 1.4rem 0; }
+  .idea p:last-child{ margin-bottom:0; }
+  .ojo{ border-left:2px solid var(--terra); padding:.2rem 0 .2rem 1.1rem; margin: 1.4rem 0; }
+  .ojo .t, .idea .t{ font-family: var(--font-mono); font-size:.65rem; letter-spacing:.18em; text-transform:uppercase; display:block; margin-bottom:.3rem; }
+  .ojo .t{ color: var(--terra); } .idea .t{ color: var(--gold); }
+  .ojo p:last-child{ margin-bottom:0; }
+
+  .hacelo{ background: var(--bg-feature); border:1px solid var(--gold-soft); border-radius:3px; padding:1.2rem 1.3rem; margin: 1.6rem 0 0; }
+  .hacelo .t{ font-family: var(--font-poster); text-transform:uppercase; font-size:1.15rem; letter-spacing:.02em; color: var(--gold); margin-bottom:.6rem; display:block; }
+  .hacelo ol{ margin-bottom:.9rem; }
+  .hecho{ display:inline-flex; align-items:center; gap:.55rem; cursor:pointer; font-family: var(--font-mono); font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color: var(--text-muted); user-select:none; }
+  .hecho input{ appearance:none; width:16px; height:16px; border:1px solid var(--gold-soft); border-radius:2px; margin:0; display:grid; place-content:center; cursor:pointer; }
+  .hecho input:checked{ background: var(--gold); border-color: var(--gold); }
+  .hecho input:checked::after{ content:""; width:8px; height:4px; border-left:2px solid var(--bg); border-bottom:2px solid var(--bg); transform: rotate(-45deg) translate(1px,-1px); }
+  .hecho:has(input:checked){ color: var(--gold); }
+
+  .tabla{ width:100%; border-collapse: collapse; font-size:.9rem; margin: .4rem 0 1.2rem; }
+  .tabla th{ text-align:left; font-family: var(--font-mono); font-size:.62rem; letter-spacing:.14em; text-transform:uppercase; color: var(--text-faint); font-weight:500; border-bottom:1px solid var(--line); padding:.5rem .6rem .5rem 0; }
+  .tabla td{ border-bottom:1px solid var(--line-soft); padding:.6rem .6rem .6rem 0; vertical-align:top; color: var(--text-muted); }
+  .tabla td:first-child{ color: var(--text); font-weight:600; white-space:nowrap; }
+  .scroll-x{ overflow-x:auto; }
+
+  .capas{ display:grid; gap:.4rem; margin: 1rem 0 1.4rem; }
+  .capa{ background: var(--bg-raised); border:1px solid var(--line-soft); border-radius:3px; padding:.75rem 1rem; display:grid; grid-template-columns: 7.5rem 1fr; gap:.8rem; align-items:baseline; }
+  .capa .c{ font-family: var(--font-poster); text-transform:uppercase; font-size:1.05rem; color: var(--gold); }
+  .capa span:last-child{ color: var(--text-muted); font-size:.9rem; }
+  .capa:nth-child(2){ margin-left: .8rem; } .capa:nth-child(3){ margin-left: 1.6rem; } .capa:nth-child(4){ margin-left: 2.4rem; }
+  @media (max-width: 560px){ .capa{ grid-template-columns: 1fr; gap:.1rem; } .capa:nth-child(n){ margin-left:0; } }
+
+  /* el camino del sonido */
+  .camino{ display:flex; flex-wrap:wrap; gap:.4rem; align-items:center; margin:1rem 0 1.4rem; font-family: var(--font-mono); font-size:.78rem; }
+  .camino span{ border:1px solid var(--gold-soft); color: var(--text); padding:.35rem .6rem; border-radius:2px; background: var(--bg-raised); }
+  .camino i{ font-style:normal; color: var(--gold); }
+  .camino .mod{ border-color: var(--line); color: var(--text-muted); }
+
+  /* panel */
+  .panel-wrap{ margin: 1.2rem 0 0; }
+  .info{
+    margin-top:.8rem; background: var(--bg-raised); border:1px solid var(--line); border-left:2px solid var(--gold);
+    border-radius:3px; padding:1rem 1.15rem; min-height:7.5rem;
+  }
+  .info .nom{ font-family: var(--font-poster); text-transform:uppercase; font-size:1.25rem; line-height:1; color: var(--text); margin-bottom:.55rem; }
+  .info dl{ margin:0; display:grid; grid-template-columns: 6.2rem 1fr; gap:.35rem .8rem; }
+  .info dt{ font-family: var(--font-mono); font-size:.62rem; letter-spacing:.14em; text-transform:uppercase; color: var(--text-faint); padding-top:.2rem; }
+  .info dd{ margin:0; color: var(--text-muted); font-size:.92rem; }
+  .info dd.fn{ color: var(--sand); }
+  .panel-nota{ font-family: var(--font-mono); font-size:.68rem; color: var(--text-faint); margin:.6rem 0 0; }
+  @media (max-width: 640px){ .info dl{ grid-template-columns: 1fr; gap:.1rem; } .info dt{ padding-top:.5rem; } }
+  .clase-cta{ display:block; text-decoration:none; background: var(--bg-feature); border:1px solid var(--gold); border-radius:3px; padding:1.1rem 1.25rem; margin: 0 0 2.6rem; color: var(--text); }
+  .clase-cta:hover{ background:#22170a; }
+  .clase-cta .t{ font-family: var(--font-poster); text-transform:uppercase; font-size:1.4rem; line-height:1; color: var(--gold); display:block; margin-bottom:.3rem; }
+  .clase-cta span{ color: var(--text-muted); font-size:.93rem; }
+
+  /* mapa de la grilla */
+  .mapa{ display:grid; gap:.5rem; margin: 1rem 0 1.4rem; }
+  .mapa details{ background: var(--bg-raised); border:1px solid var(--line-soft); border-radius:3px; }
+  .mapa summary{ cursor:pointer; padding:.7rem 1rem; display:flex; gap:.8rem; align-items:baseline; flex-wrap:wrap; list-style:none; }
+  .mapa summary::-webkit-details-marker{ display:none; }
+  .mapa summary .s{ font-family: var(--font-poster); text-transform:uppercase; font-size:1.05rem; color: var(--text); }
+  .mapa summary .e{ font-family: var(--font-mono); font-size:.62rem; letter-spacing:.14em; text-transform:uppercase; color: var(--gold); }
+  .mapa summary .d{ color: var(--text-muted); font-size:.85rem; flex-basis:100%; }
+  .mapa details[open] summary{ border-bottom:1px solid var(--line); }
+  .mapa .tabla{ margin:0; font-size:.86rem; }
+  .mapa .tabla td, .mapa .tabla th{ padding-left:1rem; }
+  .mapa .tabla td:nth-child(3){ font-family: var(--font-mono); font-size:.75rem; color: var(--sand); }
+
+  .buscar{ display:flex; gap:.6rem; margin: .4rem 0 1rem; }
+  .buscar input{
+    flex:1; font: inherit; font-family: var(--font-mono); font-size:.9rem; color: var(--text);
+    background: var(--bg-raised); border:1px solid var(--line); padding:.7rem .9rem; border-radius:0;
+  }
+  .buscar input:focus{ outline:none; border-color: var(--gold-soft); }
+  .atajos .grupo{ font-family: var(--font-mono); font-size:.62rem; letter-spacing:.16em; text-transform:uppercase; color: var(--terra); padding-top:1.1rem; border-bottom:1px solid var(--line); }
+  .atajos td:first-child{ white-space:normal; min-width: 11rem; font-weight:400; }
+  .sin{ font-family: var(--font-mono); font-size:.8rem; color: var(--text-faint); display:none; }
+
+  /* recetas */
+  .receta{ background: var(--bg-raised); border:1px solid var(--line-soft); border-left:2px solid var(--gold-soft); border-radius:3px; padding:1rem 1.15rem; margin: 1rem 0; }
+  .receta .rn{ font-family: var(--font-poster); text-transform:uppercase; font-size:1.25rem; line-height:1; margin-bottom:.4rem; }
+  .receta p{ font-size:.92rem; }
+  .receta table{ font-size:.86rem; }
+  .receta td:nth-child(2){ font-family: var(--font-mono); font-size:.78rem; color: var(--sand); }
+
+  .pasos{ counter-reset: paso; display:grid; gap:.7rem; margin: 1rem 0; }
+  .paso{ background: var(--bg-raised); border:1px solid var(--line-soft); border-left:2px solid var(--line); border-radius:3px; padding:1rem 1.15rem; }
+  .paso:has(input:checked){ border-left-color: var(--gold); }
+  .paso-top{ display:flex; align-items:baseline; gap:.7rem; flex-wrap:wrap; margin-bottom:.45rem; }
+  .paso-top::before{ counter-increment: paso; content: counter(paso, decimal-leading-zero); font-family: var(--font-mono); font-size:.78rem; font-weight:600; color: var(--gold); }
+  .paso-nom{ font-family: var(--font-poster); text-transform:uppercase; font-size:1.2rem; line-height:1; }
+  .paso p, .paso ul{ font-size:.93rem; }
+  .paso .hecho{ margin-top:.2rem; }
+
+  footer{ border-top:1px solid var(--line); padding-top:1.2rem; margin-top:3rem; font-family: var(--font-mono); font-size:.66rem; letter-spacing:.1em; text-transform:uppercase; color: var(--text-faint); display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+  footer a{ color: var(--text-faint); }
+</style>
+
+<div class="wrap">
+
+  <div class="brand"><span><span class="n">NAYA</span> · Clases de Producción</span><a href="../">← Producción</a></div>
+
+  <p class="kicker">Máquina 04 · Korg</p>
+  <h1>microKORG</h1>
+  <p class="bajada">Un sinte chico con 128 sonidos adentro y un vocoder. Acá no vamos a hacer un tema entero con él: vamos a aprender a elegir sonidos, a cambiarlos hasta que sean tuyos y a guardarlos sin perder nada.</p>
+
+  <dl class="meta">
+    <div><dt>Sonidos</dt><dd class="hi">128 programas</dd></div>
+    <div><dt>Voces</dt><dd>4 notas a la vez</dd></div>
+    <div><dt>Teclado</dt><dd>37 teclas chicas</dd></div>
+    <div><dt>Sale por</dt><dd>L/R · auriculares · MIDI</dd></div>
+  </dl>
+
+  <a class="clase-cta" href="clase-01/"><span class="t">Clase 01 · Tus primeros sonidos →</span><span>Interactiva, paso a paso: el panel te marca qué tocar. Recorrer los bancos, moldear un sonido, guardarlo en tu propio lugar y armar un bajo desde cero. Más o menos 1 hora y media.</span></a>
+
+  <nav class="toc" aria-label="Módulos">
+    <a href="#m1">1 · Panel</a>
+    <a href="#m2">2 · Cómo piensa</a>
+    <a href="#m3">3 · Conectarlo</a>
+    <a href="#m4">4 · Elegir</a>
+    <a href="#m5">5 · Tocarlo</a>
+    <a href="#m6">6 · Editar</a>
+    <a href="#m7">7 · Por dentro</a>
+    <a href="#m8">8 · Guardar</a>
+    <a href="#m9">9 · Recetas</a>
+    <a href="#m10">10 · Arpegiador</a>
+    <a href="#m11">11 · Vocoder</a>
+    <a href="#m12">12 · Tu banco</a>
+    <a href="#atajos">Atajos</a>
+  </nav>
+
+  <div class="progreso"><span id="prog-txt">0 de 12 módulos</span><div class="barra"><i id="prog-bar"></i></div></div>
+
+  <!-- ============ 1 ============ -->
+  <section class="mod" id="m1">
+    <div class="mod-head"><span class="mod-num">01</span><h2>El panel</h2></div>
+    <p class="sec-nota">Tocá cualquier tecla, perilla o casilla del dibujo para ver qué hace</p>
+
+    <p>De izquierda a derecha: <b>volumen, arpegiador y octava</b>; después, <b>elegir el sonido</b> (la rueda de bancos, el lado A/B y los números 1–8); el <b>display</b> con WRITE y SHIFT; y a la derecha, <b>editar</b>: dos ruedas EDIT SELECT, cinco perillas y la grilla impresa.</p>
+    <p>La grilla es el mapa de todo el sonido. <b>Cada fila es una sección</b> (FILTER, AMP EG…) y <b>cada columna es una perilla</b>. Elegís la fila con una rueda EDIT SELECT y girás la perilla que está arriba de la columna.</p>
+
+    <div class="panel-wrap">
+      <div id="panel"></div>
+      <div class="info" id="info" aria-live="polite">
+        <div class="nom">Tocá algo del dibujo</div>
+        <p style="margin:0">También la grilla: cada casilla te dice qué hace ese parámetro y sus valores.</p>
+      </div>
+      <p class="panel-nota">Dibujado con la disposición del manual oficial. Lo impreso en verde en el aparato es para el vocoder; acá la grilla muestra solo los parámetros del sinte.</p>
+    </div>
+
+    <div class="hacelo"><span class="t">Hacelo</span>
+      <ol>
+        <li>En el dibujo, tocá la casilla <b>CUTOFF</b> de la fila FILTER. Fijate en qué perilla cae.</li>
+        <li>En el aparato, ubicá las dos luces <b>1</b> y <b>2</b> al lado de la grilla. Si están las dos prendidas, estás en modo tocar (performance).</li>
+      </ol>
+      <label class="hecho"><input type="checkbox" data-mod="m1"> Módulo hecho</label>
+    </div>
+  </section>
+
+  <!-- ============ 2 ============ -->
+  <section class="mod" id="m2">
+    <div class="mod-head"><span class="mod-num">02</span><h2>Cómo piensa</h2></div>
+    <p class="sec-nota">La estructura: entender esto evita perder sonidos</p>
+
+    <div class="capas">
+      <div class="capa"><span class="c">Banco</span><span>8, uno por estilo, en la rueda PROGRAM SELECT: Trance, Techno/House, Electronica, D'n'B/Breaks, Hip Hop/Vintage, Retro, S.E./Hit y Vocoder.</span></div>
+      <div class="capa"><span class="c">Lado</span><span>Cada banco tiene lado A y lado B (la tecla BANK SIDE).</span></div>
+      <div class="capa"><span class="c">Programa</span><span>8 por lado: los botones 1–8. 8 × 2 × 8 = 128 sonidos. Un programa guarda todo: el sonido, los efectos y el arpegiador.</span></div>
+      <div class="capa"><span class="c">Timbre</span><span>Lo que suena adentro del programa. Uno (Single) o dos juntos (Layer).</span></div>
+    </div>
+
+    <h3>El nombre en el display</h3>
+    <p><span class="scr">A.26</span> = <b>lado A</b>, <b>banco 2</b> (Techno/House), <b>número 6</b>. <span class="scr">b.71</span> = lado B, banco 7 (S.E./Hit), número 1. El primer número es la posición de la rueda; el segundo, el botón.</p>
+
+    <h3>Lo que tocás no está guardado</h3>
+    <p>Cuando girás una perilla, cambiás una <b>copia</b> del sonido. El original sigue en la memoria. La copia se pierde si:</p>
+    <ul>
+      <li>elegís otro programa,</li>
+      <li>volvés a elegir el mismo (tocar el número prendido),</li>
+      <li>apagás el aparato.</li>
+    </ul>
+    <p>Esto tiene un lado bueno: <b>si arruinaste un sonido, elegí otro y volvé: está como antes</b>. Y uno peligroso: si te gustó, hay que guardarlo con WRITE (módulo 8) antes de tocar cualquier número.</p>
+
+    <div class="ojo"><span class="t">Ojo</span>
+      <p>Sinte de <b>4 voces</b>: un acorde de 5 notas no suena entero. En Layer las 4 voces se reparten entre los dos timbres: quedan 2 notas.</p>
+    </div>
+
+    <div class="hacelo"><span class="t">Hacelo</span>
+      <ol>
+        <li>Elegí cualquier programa y anotá qué dice el display. Descifralo: lado, banco, número.</li>
+        <li>Girá la perilla 1 a fondo. Elegí otro número y volvé al tuyo: el sonido está como antes.</li>
+      </ol>
+      <label class="hecho"><input type="checkbox" data-mod="m2"> Módulo hecho</label>
+    </div>
+  </section>
+
+  <!-- ============ 3 ============ -->
+  <section class="mod" id="m3">
+    <div class="mod-head"><span class="mod-num">03</span><h2>Conectarlo</h2></div>
+    <p class="sec-nota">Corriente, sonido y (si querés) MIDI</p>
+
+    <ul>
+      <li><b>Corriente</b>: la fuente de 9 V de Korg, o 6 pilas AA abajo. El botón de encendido está atrás.</li>
+      <li><b>Sonido</b>: atrás, <b>OUTPUT L/MONO y R</b> a la placa de audio o a la consola; con un solo cable, usá L/MONO. O auriculares, en el mini plug de atrás.</li>
+      <li><b>Volumen</b>: antes de prender, la perilla <kbd>VOLUME</kbd> abajo. Subila tocando.</li>
+    </ul>
+
+    <h3>MIDI: no tiene USB</h3>
+    <p>El microKORG original solo tiene <b>MIDI IN, OUT y THRU</b> de cinco patas. Para hablar con la compu hace falta una interfaz MIDI. Con un cable MIDI y el adaptador del BeatStep alcanza para que lo toque el BeatStep Pro.</p>
+
+    <h3>Que lo toque el BeatStep Pro</h3>
+    <ol>
+      <li>Adaptador de mini plug a MIDI en el <b>MIDI OUT</b> del BeatStep, y cable MIDI al <b>MIDI IN</b> del microKORG.</li>
+      <li>Canal del microKORG: <kbd>EDIT SELECT 2</kbd> en <b>MIDI</b>, perilla <b>1</b> (MIDI CH). Ponelo en <b>1</b> para que lo toque SEQ1 (o 2 para SEQ2).</li>
+      <li>Si querés que arpegiador, LFOs y delay vayan al tempo del BeatStep: misma fila MIDI, perilla <b>3</b> (CLOCK) en <b>Aut</b>.</li>
+      <li>Para guardar esa configuración: <kbd>WRITE</kbd> y otra vez <kbd>WRITE</kbd> (en GLOBAL y MIDI se guarda así, sin elegir lugar).</li>
+    </ol>
+
+    <div class="hacelo"><span class="t">Hacelo</span>
+      <ol>
+        <li>Conectalo al audio y tocá con el volumen bajo.</li>
+        <li>Opcional: hacé que SEQ1 del BeatStep lo toque por el canal 1.</li>
+      </ol>
+      <label class="hecho"><input type="checkbox" data-mod="m3"> Módulo hecho</label>
+    </div>
+  </section>
+
+  <!-- ============ 4 ============ -->
+  <section class="mod" id="m4">
+    <div class="mod-head"><span class="mod-num">04</span><h2>Elegir sonidos</h2></div>
+    <p class="sec-nota">Rueda, lado y número</p>
+
+    <ol>
+      <li>Girá la rueda <kbd>PROGRAM SELECT</kbd> al estilo.</li>
+      <li>Mirá la luz de <kbd>BANK SIDE</kbd>: apagada = lado A, prendida = lado B. Tocala para cambiar.</li>
+      <li>Tocá un número del <kbd>1</kbd> al <kbd>8</kbd>.</li>
+    </ol>
+    <p>Los nombres de los bancos orientan, pero no mandan: en Techno/House hay pads, en Retro hay bajos geniales. Probá por oído.</p>
+
+    <h3>Cómo escuchar un programa</h3>
+    <ul>
+      <li><b>Notas graves, medias y agudas</b>: muchos sonidos están pensados para una zona. Usá <kbd>OCTAVE SHIFT</kbd> DOWN/UP.</li>
+      <li><b>Corto y largo</b>: una nota suelta, una mantenida, un acorde de 3.</li>
+      <li><b>La rueda MOD</b>: casi todos los programas hacen algo con ella.</li>
+      <li>Si suena solo al apretar una tecla, el <b>arpegiador</b> está prendido en ese programa (luz de ON/OFF).</li>
+    </ul>
+
+    <div class="idea"><span class="t">Para conocerlo rápido</span>
+      <p>Las canciones demo: <kbd>SHIFT</kbd> + <kbd>ARPEGGIATOR ON/OFF</kbd>, después un número del 1 al 8. <kbd>SHIFT</kbd> para salir.</p>
+    </div>
+
+    <div class="hacelo"><span class="t">Hacelo</span>
+      <ol>
+        <li>Recorré un banco entero (A y B) y anotá en un papel los 3 que más te gustan, con su nombre (ej. <span class="scr">A.36</span>).</li>
+        <li>Hacé lo mismo en dos bancos más. Vas a tener tu primera lista.</li>
+      </ol>
+      <label class="hecho"><input type="checkbox" data-mod="m4"> Módulo hecho</label>
+    </div>
+  </section>
+
+  <!-- ============ 5 ============ -->
+  <section class="mod" id="m5">
+    <div class="mod-head"><span class="mod-num">05</span><h2>Tocarlo</h2></div>
+    <p class="sec-nota">Las cinco perillas en modo performance</p>
+
+    <p>Con las luces <b>1 y 2</b> de la grilla prendidas, las perillas hacen lo que dice arriba de cada una:</p>
+    <div class="scroll-x"><table class="tabla">
+      <tr><th>Perilla</th><th>Qué hace</th></tr>
+      <tr><td>1 · CUTOFF</td><td>Brillo. A la izquierda, oscuro y apagado; a la derecha, brillante.</td></tr>
+      <tr><td>2 · RESONANCE</td><td>Realza la zona del filtro. Con CUTOFF en el medio y esto alto: el sonido "canta".</td></tr>
+      <tr><td>3 · EG ATTACK</td><td>Cuánto tarda en aparecer el sonido (el volumen y el filtro). Alto = entra despacio.</td></tr>
+      <tr><td>4 · EG RELEASE</td><td>Cuánto queda sonando al soltar la tecla.</td></tr>
+      <tr><td>5 · TEMPO</td><td>Tempo del arpegiador, y de los LFO y el delay si van a tempo.</td></tr>
+    </table></div>
+
+    <h3>Ruedas y octava</h3>
+    <p><kbd>PITCH</kbd> dobla la nota y vuelve sola al centro. <kbd>MOD</kbd> agrega lo que el programa tenga preparado (vibrato, wah, filtro). <kbd>OCTAVE SHIFT</kbd> mueve el teclado hasta 3 octavas para cada lado.</p>
+
+    <div class="ojo"><span class="t">Ojo</span>
+      <p>Esto también modifica el sonido: si lo dejás con CUTOFF abajo y elegís otro programa, se pierde. Si querés quedártelo así, guardalo.</p>
+    </div>
+
+    <div class="hacelo"><span class="t">Hacelo</span>
+      <ol>
+        <li>Elegí uno de tu lista. Mantené una nota y girá despacio CUTOFF de punta a punta.</li>
+        <li>CUTOFF al medio, RESONANCE alto y volvé a mover CUTOFF.</li>
+        <li>ATTACK y RELEASE altos: ¿en qué se convirtió?</li>
+      </ol>
+      <label class="hecho"><input type="checkbox" data-mod="m5"> Módulo hecho</label>
+    </div>
+  </section>
+
+  <!-- ============ 6 ============ -->
+  <section class="mod" id="m6">
+    <div class="mod-head"><span class="mod-num">06</span><h2>Editar: la grilla</h2></div>
+    <p class="sec-nota">Fila con la rueda, columna con la perilla</p>
+
+    <ol>
+      <li>Girá <kbd>EDIT SELECT 1</kbd> (secciones de arriba) o <kbd>EDIT SELECT 2</kbd> (de abajo) a la sección. Queda prendida solo la luz 1 o la 2.</li>
+      <li>Buscá el parámetro en esa fila y girá la perilla <b>de su columna</b>.</li>
+      <li>Para volver a modo performance: tocá el <b>número de programa que está prendido</b>.</li>
+    </ol>
+    <div class="ojo"><span class="t">Ojo</span>
+      <p>El manual también dice que volver a elegir el mismo programa descarta lo editado. Hasta que lo compruebes en tu aparato: <b>si te gusta lo que hiciste, guardá antes de tocar el número prendido</b>.</p>
+    </div>
+
+    <h3>Cuando la perilla "no hace nada"</h3>
+    <p>La perilla está en un lugar y el valor guardado en otro. Para que el sonido no pegue un salto, el microKORG <b>espera a que la perilla pase por el valor actual</b>. Mientras, <b>el display titila</b>. Girala hacia un lado y hacia el otro: cuando deja de titilar, enganchó. Desde ahí, edita.</p>
+
+    <h3>Herramientas para editar tranquilo</h3>
+    <div class="scroll-x"><table class="tabla">
+      <tr><th>Qué</th><th>Cómo</th></tr>
+      <tr><td>Ver el valor sin cambiarlo</td><td>Girá apenas: el display muestra el número.</td></tr>
+      <tr><td>Ajuste fino</td><td><kbd>SHIFT</kbd> + <kbd>OCTAVE UP</kbd> / <kbd>DOWN</kbd>: de a un paso.</td></tr>
+      <tr><td>Volver un parámetro</td><td>Girá hasta que se prenda <b>ORIGINAL VALUE</b>: ahí está el valor guardado.</td></tr>
+      <tr><td>Comparar con el original</td><td><kbd>SHIFT</kbd> + <kbd>OCTAVE UP</kbd> y <kbd>DOWN</kbd> juntos (COMPARE). Lo mismo para volver a tu versión.</td></tr>
+      <tr><td>Saltar entre las dos ruedas</td><td><kbd>SHIFT</kbd> + <kbd>BANK SIDE</kbd>.</td></tr>
+      <tr><td>Deshacer todo</td><td>Elegí otro programa y volvé.</td></tr>
+    </table></div>
+
+    <h3>Dos timbres</h3>
+    <p>Si el programa es Layer, <kbd>TIMBRE SELECT</kbd> elige cuál editás (luces 1 y 2 arriba). Mantenido 2 segundos: los dos a la vez. <kbd>SHIFT</kbd> + <kbd>TIMBRE SELECT</kbd>: escuchás uno solo.</p>
+
+    <div class="hacelo"><span class="t">Hacelo</span>
+      <ol>
+        <li><kbd>EDIT SELECT 1</kbd> en <b>AMP EG</b>. Perilla 4 (RELEASE): hacé que enganche y llevala arriba.</li>
+        <li>Probá COMPARE para escuchar antes y después.</li>
+        <li>Volvé a modo performance tocando el número prendido.</li>
+      </ol>
+      <label class="hecho"><input type="checkbox" data-mod="m6"> Módulo hecho</label>
+    </div>
+  </section>
+
+  <!-- ============ 7 ============ -->
+  <section class="mod" id="m7">
+    <div class="mod-head"><span class="mod-num">07</span><h2>Por dentro</h2></div>
+    <p class="sec-nota">El camino del sonido, sección por sección</p>
+
+    <div class="camino">
+      <span>OSC1 · OSC2</span><i>→</i><span>MIXER</span><i>→</i><span>FILTER</span><i>→</i><span>AMP</span><i>→</i><span>MOD FX</span><i>→</i><span>DELAY</span><i>→</i><span>EQ</span>
+    </div>
+    <div class="camino">
+      <span class="mod">FILTER EG mueve el filtro</span><span class="mod">AMP EG mueve el volumen</span><span class="mod">LFO 1 · LFO 2 mueven cosas en ciclo</span><span class="mod">PATCH 1–4: cables virtuales</span>
+    </div>
+
+    <p><b>Los osciladores</b> hacen el sonido crudo. <b>El mixer</b> decide cuánto de cada uno. <b>El filtro</b> le saca brillo. <b>El amp</b> le da forma de volumen. Las <b>envolventes</b> (EG) dicen cómo se mueven filtro y volumen en el tiempo: Attack (subida), Decay (bajada), Sustain (dónde se queda), Release (cola al soltar).</p>
+
+    <div class="idea"><span class="t">Por dónde empezar a tocar</span>
+      <p>El 80 % de un sonido está en cuatro lugares: <b>FILTER</b> (cutoff, resonance, EG INT), <b>AMP EG</b> (forma del volumen), <b>FILTER EG</b> (forma del brillo) y <b>VOICE</b> (mono o poly). Los efectos, al final.</p>
+    </div>
+
+    <h3>El mapa completo</h3>
+    <p>Abrí cada sección: qué hace cada perilla y sus valores.</p>
+    <div class="mapa" id="mapa"></div>
+
+    <div class="hacelo"><span class="t">Hacelo</span>
+      <ol>
+        <li>Elegí un sonido y, en <b>FILTER</b>, cambiá TYPE (perilla 1) entre 24L, 12L, bPF y HPF.</li>
+        <li>En <b>FILTER</b>, perilla 4 (EG INT) a fondo para cada lado. Escuchá cómo cambia el ataque del brillo.</li>
+      </ol>
+      <label class="hecho"><input type="checkbox" data-mod="m7"> Módulo hecho</label>
+    </div>
+  </section>
+
+  <!-- ============ 8 ============ -->
+  <section class="mod" id="m8">
+    <div class="mod-head"><span class="mod-num">08</span><h2>Guardar</h2></div>
+    <p class="sec-nota">WRITE, dos veces, con el lugar elegido en el medio</p>
+
+    <h3>Una vez: sacar la protección</h3>
+    <p>De fábrica viene con la memoria protegida y WRITE no hace nada.</p>
+    <ol>
+      <li><kbd>SHIFT</kbd> + <kbd>8</kbd>.</li>
+      <li>Girá la perilla <b>1</b> a la derecha y después a la izquierda, hasta que el display diga <span class="scr">oFF</span>.</li>
+      <li>Para que quede así aunque lo apagues: <kbd>WRITE</kbd>, y otra vez <kbd>WRITE</kbd>. Si no, <kbd>SHIFT</kbd> para salir.</li>
+    </ol>
+
+    <h3>Guardar un programa</h3>
+    <ol>
+      <li><kbd>WRITE</kbd>: titilan el display y la luz de WRITE.</li>
+      <li>Elegí <b>dónde</b>: lado (<kbd>BANK SIDE</kbd>), banco (la rueda) y número (1–8). Si no tocás nada, guarda en el mismo lugar.</li>
+      <li><kbd>WRITE</kbd> otra vez. Listo.</li>
+    </ol>
+    <p>Para cancelar a la mitad: <kbd>SHIFT</kbd> (está prendido y hace de salida).</p>
+
+    <div class="ojo"><span class="t">Ojo</span>
+      <p><b>Guardar en otro lugar borra lo que había ahí.</b> Antes de guardar, elegí ese lugar, escuchalo y asegurate de que no lo querés. Por eso conviene tener una zona tuya (módulo 12).</p>
+    </div>
+
+    <h3>Empezar de cero</h3>
+    <p><kbd>SHIFT</kbd> + <kbd>3</kbd> y tocá el <kbd>3</kbd> que titila: el programa actual queda <b>inicializado</b> (un sonido básico, sin efectos). Es solo en la copia: el original sigue guardado hasta que hagas WRITE. Ideal para construir un sonido sabiendo qué hace cada cosa.</p>
+
+    <h3>Otras funciones con SHIFT</h3>
+    <div class="scroll-x"><table class="tabla">
+      <tr><th>SHIFT +</th><th>Qué hace</th></tr>
+      <tr><td>1</td><td>Copiar un timbre de otro programa (elegís cuál con la perilla 1; confirmás con el 1 que titila).</td></tr>
+      <tr><td>2</td><td>Intercambiar timbre 1 y 2 (solo en Layer).</td></tr>
+      <tr><td>6</td><td>Volcado MIDI: mandar tus sonidos a la compu por SysEx (respaldo).</td></tr>
+      <tr><td>7</td><td>Volver a fábrica. <b>Cuidado</b>: puede pisar tus sonidos guardados.</td></tr>
+      <tr><td>8</td><td>Protección de memoria.</td></tr>
+    </table></div>
+
+    <div class="ojo"><span class="t">Nunca</span>
+      <p>Apagar el aparato mientras guarda.</p>
+    </div>
+
+    <div class="hacelo"><span class="t">Hacelo</span>
+      <ol>
+        <li>Sacá la protección.</li>
+        <li>Modificá un sonido, y guardalo en el <b>mismo</b> lugar. Elegí otro programa y volvé: tu versión sigue ahí.</li>
+      </ol>
+      <label class="hecho"><input type="checkbox" data-mod="m8"> Módulo hecho</label>
+    </div>
+  </section>
+
+  <!-- ============ 9 ============ -->
+  <section class="mod" id="m9">
+    <div class="mod-head"><span class="mod-num">09</span><h2>Recetas</h2></div>
+    <p class="sec-nota">Cuatro sonidos desde cero. Siempre: SHIFT + 3 primero</p>
+
+    <p>Los valores son puntos de partida: guiate por el oído. Cada fila dice <b>dónde</b> (rueda EDIT SELECT y sección), <b>qué perilla</b> y <b>a cuánto</b>.</p>
+
+    <div class="receta"><div class="rn">Bajo gordo</div>
+      <p>Una nota por vez, golpe de filtro corto.</p>
+      <div class="scroll-x"><table class="tabla">
+        <tr><th>Sección · perilla</th><th>Valor</th></tr>
+        <tr><td>VOICE · 3 VOICE ASSIGN</td><td>Mono</td></tr>
+        <tr><td>OSC1 · 1 WAVE</td><td>Saw</td></tr>
+        <tr><td>OSC2 · 1 WAVE / 3 SEMITONE</td><td>Square / −12</td></tr>
+        <tr><td>MIXER · 1 / 2</td><td>127 / 90</td></tr>
+        <tr><td>FILTER · 1 / 2 / 3 / 4</td><td>24L / 35 / 30 / +35</td></tr>
+        <tr><td>FILTER EG · 1 / 2 / 3 / 4</td><td>0 / 50 / 20 / 15</td></tr>
+        <tr><td>AMP EG · 1 / 2 / 3 / 4</td><td>0 / 64 / 110 / 8</td></tr>
+        <tr><td>PITCH · 3 PORTAMENTO</td><td>15 (opcional: deslizar)</td></tr>
+      </table></div>
+    </div>
+
+    <div class="receta"><div class="rn">Pad ancho</div>
+      <p>Acordes que entran despacio y flotan.</p>
+      <div class="scroll-x"><table class="tabla">
+        <tr><th>Sección · perilla</th><th>Valor</th></tr>
+        <tr><td>VOICE · 3</td><td>Poly</td></tr>
+        <tr><td>OSC1 · 1 / OSC2 · 1</td><td>Saw / Saw</td></tr>
+        <tr><td>OSC2 · 4 TUNE</td><td>+6 (desafinado leve)</td></tr>
+        <tr><td>MIXER · 1 / 2</td><td>110 / 110</td></tr>
+        <tr><td>FILTER · 1 / 2 / 3 / 4</td><td>12L / 60 / 10 / +15</td></tr>
+        <tr><td>FILTER EG · 1 / 2 / 3 / 4</td><td>70 / 80 / 70 / 80</td></tr>
+        <tr><td>AMP EG · 1 / 2 / 3 / 4</td><td>60 / 64 / 120 / 80</td></tr>
+        <tr><td>MOD FX · 1 / 2 / 3</td><td>Ensemble / 30 / 70</td></tr>
+        <tr><td>DELAY · 1 / 2 / 3 / 4</td><td>L/R / on / 1/4 / 40</td></tr>
+      </table></div>
+    </div>
+
+    <div class="receta"><div class="rn">Lead que corta</div>
+      <p>Las 4 voces en una nota: grueso, para melodías.</p>
+      <div class="scroll-x"><table class="tabla">
+        <tr><th>Sección · perilla</th><th>Valor</th></tr>
+        <tr><td>VOICE · 3 / 5</td><td>Unison / 15</td></tr>
+        <tr><td>OSC1 · 1 / 2</td><td>Square / 40 (pulso más fino)</td></tr>
+        <tr><td>FILTER · 1 / 2 / 3 / 4</td><td>24L / 80 / 25 / +20</td></tr>
+        <tr><td>AMP EG · 1 / 2 / 3 / 4</td><td>0 / 64 / 110 / 25</td></tr>
+        <tr><td>PITCH · 3 / 5</td><td>20 / 20 (vibrato con la rueda MOD)</td></tr>
+        <tr><td>DELAY · 1 / 2 / 3 / 4</td><td>Cross / on / 1/8 / 45</td></tr>
+      </table></div>
+    </div>
+
+    <div class="receta"><div class="rn">Pluck</div>
+      <p>Notas que se apagan solas, como una cuerda pulsada. Muy bueno con el arpegiador.</p>
+      <div class="scroll-x"><table class="tabla">
+        <tr><th>Sección · perilla</th><th>Valor</th></tr>
+        <tr><td>VOICE · 3</td><td>Poly</td></tr>
+        <tr><td>OSC1 · 1</td><td>Saw</td></tr>
+        <tr><td>FILTER · 1 / 2 / 3 / 4</td><td>24L / 25 / 35 / +45</td></tr>
+        <tr><td>FILTER EG · 1 / 2 / 3 / 4</td><td>0 / 45 / 0 / 40</td></tr>
+        <tr><td>AMP EG · 1 / 2 / 3 / 4</td><td>0 / 60 / 0 / 40</td></tr>
+        <tr><td>DELAY · 1 / 2 / 3 / 4</td><td>L/R / on / 1/8 / 50</td></tr>
+      </table></div>
+    </div>
+
+    <div class="ojo"><span class="t">Si no suena nada</span>
+      <p>Mirá MIXER perilla 1 (que el OSC1 no esté en 0), FILTER perilla 2 (con CUTOFF en 0 casi no pasa nada) y AMP perilla 1 (LEVEL).</p>
+    </div>
+
+    <div class="hacelo"><span class="t">Hacelo</span>
+      <ol>
+        <li>Armá el bajo y el pluck desde cero.</li>
+        <li>Guardá cada uno en tu zona (módulo 12).</li>
+      </ol>
+      <label class="hecho"><input type="checkbox" data-mod="m9"> Módulo hecho</label>
+    </div>
+  </section>
+
+  <!-- ============ 10 ============ -->
+  <section class="mod" id="m10">
+    <div class="mod-head"><span class="mod-num">10</span><h2>Arpegiador</h2></div>
+    <p class="sec-nota">Mantenés un acorde, él lo toca nota por nota</p>
+
+    <ol>
+      <li><kbd>ARPEGGIATOR ON/OFF</kbd> (se prende la luz).</li>
+      <li>Mantené un acorde. La perilla <b>5</b> cambia el tempo; la luz TEMPO titila a ese ritmo.</li>
+    </ol>
+
+    <h3>Moldearlo</h3>
+    <div class="scroll-x"><table class="tabla">
+      <tr><th>EDIT SELECT 2 en</th><th>Perillas</th></tr>
+      <tr><td>ARPEG.A</td><td>1 TEMPO · 2 RESOLUTION (1/16 = semicorcheas) · 3 GATE (largo de cada nota) · 4 TYPE (Up, Down, Alt1, Alt2, Random, Trigger) · 5 RANGE (1 a 4 octavas)</td></tr>
+      <tr><td>ARPEG.B</td><td>1 LATCH (sigue al soltar) · 2 SWING · 3 KEY SYNC · 4 LAST STEP (cuántos pasos) · 5 TARGET TIMBRE</td></tr>
+    </table></div>
+
+    <h3>Pasos: un mini secuenciador</h3>
+    <p>Con EDIT SELECT 2 en ARPEG.A o ARPEG.B, los botones <kbd>1</kbd>–<kbd>8</kbd> son los pasos del arpegio: <b>prendido</b> suena, <b>titilando</b> es silencio. Con LAST STEP en 5, 6 o 7 el dibujo se va corriendo contra el compás.</p>
+    <p>Todo esto se guarda con el programa: un pluck con su arpegio es un sonido completo.</p>
+
+    <div class="hacelo"><span class="t">Hacelo</span>
+      <ol>
+        <li>Arpegio en Up, 2 octavas, GATE 40, LATCH on.</li>
+        <li>Apagá los pasos 3 y 6. Guardalo.</li>
+      </ol>
+      <label class="hecho"><input type="checkbox" data-mod="m10"> Módulo hecho</label>
+    </div>
+  </section>
+
+  <!-- ============ 11 ============ -->
+  <section class="mod" id="m11">
+    <div class="mod-head"><span class="mod-num">11</span><h2>Vocoder</h2></div>
+    <p class="sec-nota">Que el sinte hable con tu voz</p>
+
+    <ol>
+      <li>Atrás: perilla <b>AUDIO IN 1 VOLUME</b> al mínimo y la llave <b>MIC/LINE</b> en <b>MIC</b>.</li>
+      <li>El micrófono de cuello en la entrada <b>CONDENSER</b> de AUDIO IN 1.</li>
+      <li>Rueda en <b>VOCODER</b>, por ejemplo <span class="scr">A.84</span>.</li>
+      <li>Hablá al micrófono mientras subís AUDIO IN 1 VOLUME, sin que la luz AUDIO IN 1 se ponga roja.</li>
+      <li>Tocá un acorde mientras hablás o cantás.</li>
+    </ol>
+    <p><kbd>FORMANT HOLD</kbd>: decí una vocal larga ("aaa") y tocalo justo: la vocal queda congelada y podés tocar sin hablar. Se guarda con el programa.</p>
+    <p>En vocoder, las perillas 1 y 2 mueven el filtro del sonido de fondo y 3 y 4 su volumen en el tiempo. La edición profunda del vocoder usa lo impreso en verde en la grilla.</p>
+
+    <div class="hacelo"><span class="t">Hacelo</span>
+      <ol>
+        <li>Hacé hablar al microKORG con A.84.</li>
+        <li>Congelá una vocal con FORMANT HOLD y tocá un acorde.</li>
+      </ol>
+      <label class="hecho"><input type="checkbox" data-mod="m11"> Módulo hecho</label>
+    </div>
+  </section>
+
+  <!-- ============ 12 ============ -->
+  <section class="mod" id="m12">
+    <div class="mod-head"><span class="mod-num">12</span><h2>Tu banco de sonidos</h2></div>
+    <p class="sec-nota">El proyecto: 8 sonidos tuyos, en un lugar fijo</p>
+
+    <p>Elegí una fila de 8 lugares que no uses y que sea <b>tuya</b>. Propuesta: <span class="scr">b.71</span> a <span class="scr">b.78</span> (S.E./Hit, lado B: efectos especiales que casi no se usan). Ahí va todo lo que hagas; así nunca pisás un sonido que te gusta.</p>
+
+    <div class="pasos">
+      <div class="paso"><div class="paso-top"><span class="paso-nom">Escuchar la zona</span></div>
+        <p>Recorré b.71–b.78. Si algo te gusta, guardalo antes en otro lado o anotalo.</p>
+        <label class="hecho"><input type="checkbox" data-paso="p1"> Hecho</label></div>
+      <div class="paso"><div class="paso-top"><span class="paso-nom">Un bajo</span></div>
+        <p>Desde fábrica modificado o desde cero. Guardalo en b.71.</p>
+        <label class="hecho"><input type="checkbox" data-paso="p2"> Hecho</label></div>
+      <div class="paso"><div class="paso-top"><span class="paso-nom">Un pad</span></div>
+        <p>b.72.</p>
+        <label class="hecho"><input type="checkbox" data-paso="p3"> Hecho</label></div>
+      <div class="paso"><div class="paso-top"><span class="paso-nom">Un lead</span></div>
+        <p>b.73.</p>
+        <label class="hecho"><input type="checkbox" data-paso="p4"> Hecho</label></div>
+      <div class="paso"><div class="paso-top"><span class="paso-nom">Un pluck con arpegio</span></div>
+        <p>b.74, con el arpegiador prendido y pasos apagados.</p>
+        <label class="hecho"><input type="checkbox" data-paso="p5"> Hecho</label></div>
+      <div class="paso"><div class="paso-top"><span class="paso-nom">Tres versiones de tus favoritos</span></div>
+        <p>De tu lista del módulo 4: cambialos hasta que sean tuyos. b.75 a b.77.</p>
+        <label class="hecho"><input type="checkbox" data-paso="p6"> Hecho</label></div>
+      <div class="paso"><div class="paso-top"><span class="paso-nom">Uno raro</span></div>
+        <p>Ruido, Ring, Sync, distorsión, S/H: lo que salga. b.78.</p>
+        <label class="hecho"><input type="checkbox" data-paso="p7"> Hecho</label></div>
+      <div class="paso"><div class="paso-top"><span class="paso-nom">La lista en papel</span></div>
+        <p>Nombre y lugar de cada uno, pegado al aparato o en el celu.</p>
+        <label class="hecho"><input type="checkbox" data-paso="p8"> Hecho</label></div>
+    </div>
+
+    <div class="hacelo"><span class="t">Cierre</span>
+      <p>Tocá los 8 seguidos un día después. El que no te convence, rehacelo.</p>
+      <label class="hecho"><input type="checkbox" data-mod="m12"> Módulo hecho</label>
+    </div>
+  </section>
+
+  <!-- ============ atajos ============ -->
+  <section class="mod" id="atajos">
+    <div class="mod-head"><span class="mod-num">★</span><h2>Atajos</h2></div>
+    <p class="sec-nota">Todas las combinaciones, con buscador</p>
+    <div class="buscar"><input id="q" type="search" placeholder="buscar: guardar, comparar, octava, demo…" aria-label="Buscar atajo"></div>
+    <div class="scroll-x">
+      <table class="tabla atajos" id="tabla-atajos"><tbody></tbody></table>
+    </div>
+    <p class="sin" id="sin">Nada con esa palabra. Probá con otra.</p>
+  </section>
+
+  <footer><span>NAYA · Clases de Producción · microKORG</span><span>Fuente: manual oficial de Korg y EasyStart</span></footer>
+
+</div>
+
+<script src="panel.js"></script>
+<script>
+(function(){
+  function esc(t){ return String(t).replace(/[&<>]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c]; }); }
+
+  /* ---------- panel ---------- */
+  MKPanel.render(document.getElementById("panel"));
+  var info = document.getElementById("info");
+  document.getElementById("panel").addEventListener("click", function(e){
+    var el = e.target.closest("[data-k]"); if(!el) return;
+    var d = MKPanel.info(el.dataset.k); if(!d) return;
+    MKPanel.marcar([el.dataset.k]);
+    var html = '<div class="nom">'+esc(d[0])+'</div><dl><dt>Qué hace</dt><dd>'+esc(d[1])+'</dd>';
+    if(d[2]) html += '<dt>Además</dt><dd class="fn">'+esc(d[2])+'</dd>';
+    info.innerHTML = html + '</dl>';
+  });
+
+  /* ---------- mapa de la grilla ---------- */
+  var DESC = {
+    "VOICE":"Sinte o vocoder, uno o dos timbres, mono o poly.", "PITCH":"Afinación, portamento, rueda PITCH y vibrato.",
+    "OSC1":"El oscilador principal: la onda.", "OSC2":"El segundo oscilador y cómo se cruza con el primero.",
+    "MIXER":"Cuánto suena cada oscilador y el ruido.", "FILTER":"El brillo del sonido.",
+    "FILTER EG":"Cómo se mueve el filtro en el tiempo.", "AMP":"Volumen, paneo y distorsión.",
+    "AMP EG":"Cómo se mueve el volumen en el tiempo.", "LFO 1":"Movimiento cíclico 1.", "LFO 2":"Movimiento cíclico 2 (el del vibrato).",
+    "PATCH 1":"Cables virtuales: una fuente mueve un destino. Las cuatro filas PATCH son iguales.",
+    "MOD FX":"Chorus, ensemble o phaser.", "DELAY":"Eco.", "EQ":"Graves y agudos.",
+    "ARPEG.A":"Tempo, figura, largo, dibujo y octavas del arpegio.", "ARPEG.B":"Latch, swing, pasos.",
+    "GLOBAL":"Afinación y respuesta de todo el aparato (no del programa).", "MIDI":"Canal, local y reloj (de todo el aparato)."
+  };
+  var mapa = document.getElementById("mapa");
+  [[1,MKPanel.GRID1],[2,MKPanel.GRID2]].forEach(function(par){
+    par[1].forEach(function(r){
+      if(/^PATCH [234]$/.test(r[0])) return;
+      var sec = r[0] === "PATCH 1" ? "PATCH 1–4" : r[0];
+      var det = document.createElement("details");
+      var filas = r[1].map(function(t, j){
+        if(!t) return "";
+        var key = /^PATCH/.test(r[0]) ? "PATCH:"+(j+1) : r[0]+":"+(j+1), d = MKPanel.P[key] || ["",""];
+        return '<tr><td>'+(j+1)+'</td><td><b>'+esc(t)+'</b><br>'+esc(d[1])+'</td><td>'+esc(d[0])+'</td></tr>';
+      }).join("");
+      det.innerHTML = '<summary><span class="s">'+esc(sec)+'</span><span class="e">Edit select '+par[0]+'</span><span class="d">'+esc(DESC[r[0]]||"")+'</span></summary>'+
+        '<div class="scroll-x"><table class="tabla"><tr><th>Perilla</th><th>Parámetro</th><th>Valores</th></tr>'+filas+'</table></div>';
+      mapa.appendChild(det);
+    });
+  });
+
+  /* ---------- atajos ---------- */
+  var SH = '<kbd>SHIFT</kbd>';
+  function K(t){ return '<kbd>'+t+'</kbd>'; }
+  var ATAJOS = [
+    ["Elegir", [
+      [K("PROGRAM SELECT")+" + "+K("1")+"–"+K("8"), "Elegir programa (banco + número)", "elegir programa banco sonido"],
+      [K("BANK SIDE"), "Lado A / lado B", "lado a b side"],
+      [K("OCTAVE SHIFT")+" DOWN / UP", "Octava del teclado (±3)", "octava"],
+      [SH+" + "+K("ARPEGGIATOR ON/OFF"), "Canciones demo (1–8; SHIFT para salir)", "demo canciones"],
+    ]],
+    ["Editar", [
+      [K("EDIT SELECT 1/2"), "Elegir la sección (fila de la grilla)", "editar seccion grilla"],
+      ["número prendido", "Volver a modo performance", "performance volver"],
+      ["otro programa y volver", "Descartar todo lo editado", "deshacer descartar"],
+      [SH+" + "+K("BANK SIDE"), "Saltar entre EDIT SELECT 1 y 2", "edit select saltar"],
+      [SH+" + "+K("OCTAVE UP")+" / "+K("DOWN"), "Valor de a un paso (ajuste fino)", "fino valor"],
+      [SH+" + "+K("OCTAVE UP")+" y "+K("DOWN")+" juntos", "COMPARE: escuchar el original", "comparar compare original"],
+      [K("TIMBRE SELECT"), "Elegir timbre 1 o 2 (mantenido 2 s: los dos)", "timbre layer"],
+      [SH+" + "+K("TIMBRE SELECT"), "Solo de un timbre", "solo timbre"],
+      ["EDIT SELECT 2 en ARPEG + "+K("1")+"–"+K("8"), "Prender y apagar pasos del arpegio", "pasos arpegio step"],
+    ]],
+    ["Guardar", [
+      [K("WRITE")+", lugar, "+K("WRITE"), "Guardar el programa (en el mismo lugar o en otro)", "guardar write save"],
+      [K("SHIFT")+" (prendido)", "Cancelar / salir", "cancelar salir exit"],
+      [SH+" + "+K("8")+", perilla 1 en oFF", "Sacar la protección de memoria", "proteccion protect memoria"],
+      [K("WRITE")+" + "+K("WRITE")+" (en GLOBAL, MIDI o SHIFT)", "Guardar ajustes del aparato", "guardar global midi"],
+    ]],
+    ["Con SHIFT + número", [
+      [SH+" + "+K("1"), "Copiar timbre de otro programa (en vocoder: niveles)", "copiar timbre"],
+      [SH+" + "+K("2"), "Intercambiar timbres (en vocoder: paneos)", "intercambiar swap"],
+      [SH+" + "+K("3"), "Inicializar el programa (confirmar con el 3)", "init inicializar cero"],
+      [SH+" + "+K("4"), "Filtro MIDI", "midi filtro"],
+      [SH+" + "+K("5"), "Asignar CC a los parámetros", "cc control change"],
+      [SH+" + "+K("6"), "Volcado MIDI (respaldo SysEx)", "respaldo backup dump sysex"],
+      [SH+" + "+K("7"), "Volver a fábrica", "fabrica factory preload"],
+      [SH+" + "+K("8"), "Protección de memoria", "proteccion"],
+    ]],
+    ["Tocar", [
+      ["perillas 1–5", "Cutoff, Resonance, Attack, Release, Tempo", "perillas performance cutoff"],
+      [K("ARPEGGIATOR ON/OFF"), "Arpegiador", "arpegiador arp"],
+      [K("FORMANT HOLD"), "Congelar la vocal (vocoder)", "vocoder formant"],
+    ]]
+  ];
+  var tbody = document.querySelector("#tabla-atajos tbody");
+  var filas = [];
+  ATAJOS.forEach(function(g){
+    var h = document.createElement("tr"); h.className = "gr";
+    h.innerHTML = '<td colspan="2" class="grupo">'+g[0]+'</td>';
+    tbody.appendChild(h);
+    g[1].forEach(function(a){
+      var r = document.createElement("tr");
+      r.innerHTML = '<td>'+a[0]+'</td><td>'+a[1]+'</td>';
+      r._txt = (r.textContent+" "+a[2]+" "+g[0]).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
+      r._g = h; tbody.appendChild(r); filas.push(r);
+    });
+  });
+  var q = document.getElementById("q"), sin = document.getElementById("sin");
+  q.addEventListener("input", function(){
+    var t = q.value.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").trim();
+    var vis = 0; var grupos = new Set();
+    filas.forEach(function(r){
+      var ok = !t || r._txt.indexOf(t) > -1;
+      r.style.display = ok ? "" : "none";
+      if(ok){ vis++; grupos.add(r._g); }
+    });
+    tbody.querySelectorAll("tr.gr").forEach(function(h){ h.style.display = grupos.has(h) ? "" : "none"; });
+    sin.style.display = vis ? "none" : "block";
+  });
+
+  /* ---------- progreso (se guarda solo en este navegador) ---------- */
+  var KEY = "naya-mk-progreso";
+  var estado = {};
+  try{ estado = JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){ estado = {}; }
+  var checks = document.querySelectorAll("input[data-mod], input[data-paso]");
+  function id(c){ return c.getAttribute("data-mod") || c.getAttribute("data-paso"); }
+  function pintar(){
+    var mods = document.querySelectorAll("input[data-mod]"), n = 0;
+    mods.forEach(function(c){
+      var link = document.querySelector('.toc a[href="#'+c.getAttribute("data-mod")+'"]');
+      if(link) link.classList.toggle("done", c.checked);
+      if(c.checked) n++;
+    });
+    document.getElementById("prog-txt").textContent = n + " de " + mods.length + " módulos";
+    document.getElementById("prog-bar").style.width = (n / mods.length * 100) + "%";
+  }
+  checks.forEach(function(c){
+    c.checked = !!estado[id(c)];
+    c.addEventListener("change", function(){
+      estado[id(c)] = c.checked;
+      try{ localStorage.setItem(KEY, JSON.stringify(estado)); }catch(e){}
+      pintar();
+    });
+  });
+  pintar();
+})();
+</script>
+
+</html>
