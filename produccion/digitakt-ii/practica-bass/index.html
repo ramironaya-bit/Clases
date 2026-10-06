@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Práctica 5 · Bass house · Digitakt II</title>
+<meta name="description" content="Practicar bass house en el Digitakt II: bajo saturado, resampleo, Grid y Slice.">
+<meta name="theme-color" content="#0b0a0a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#0b0a0a; --bg-raised:#15120f; --bg-feature:#1a1108; --line:#2e2620; --line-soft:#241e19;
+    --text:#f2ede4; --text-muted:#a89d8e; --text-faint:#6f665c;
+    --gold:#e8b04a; --gold-soft:#8a6c2f; --terra:#e0653a; --sand:#cbb389;
+    --font-display:"Fraunces", ui-serif, Georgia, serif;
+    --font-poster:"Anton", ui-sans-serif, sans-serif;
+    --font-body:"IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+    --font-mono:"IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+  }
+  *,*::before,*::after{ box-sizing:border-box; }
+  body{ margin:0; background:var(--bg); color:var(--text); font-family:var(--font-body); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+  a{ color:var(--gold); text-underline-offset:3px; }
+  button:focus-visible, a:focus-visible{ outline:2px solid var(--gold); outline-offset:3px; }
+  .wrap{ max-width:1080px; margin:0 auto; padding:1.6rem 1.4rem 4rem; }
+
+  .brand{ display:flex; justify-content:space-between; gap:.75rem; flex-wrap:wrap; font-family:var(--font-mono); font-size:.68rem; letter-spacing:.18em; text-transform:uppercase; color:var(--text-faint); border-bottom:1px solid var(--line); padding-bottom:.8rem; margin-bottom:1.4rem; }
+  .brand .n{ color:var(--gold); font-weight:600; }
+  .brand a{ color:var(--text-faint); text-decoration:none; } .brand a:hover{ color:var(--gold); }
+  .cab{ display:flex; align-items:baseline; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:1rem; }
+  h1{ font-family:var(--font-poster); font-weight:400; text-transform:uppercase; font-size:clamp(1.8rem,5vw,2.8rem); line-height:.95; margin:0; }
+  h1 small{ display:block; font-family:var(--font-mono); font-size:.7rem; letter-spacing:.22em; color:var(--terra); margin-bottom:.4rem; }
+  .meta{ font-family:var(--font-mono); font-size:.72rem; color:var(--text-faint); }
+
+  .bloques{ display:flex; gap:.35rem; overflow-x:auto; scrollbar-width:none; margin:0 0 1.2rem; padding-bottom:.2rem; }
+  .bloques::-webkit-scrollbar{ display:none; }
+  .bloques button{ flex:0 0 auto; font-family:var(--font-mono); font-size:.66rem; letter-spacing:.06em; text-transform:uppercase; color:var(--text-muted); background:transparent; border:1px solid var(--line); border-radius:2px; padding:.35rem .6rem; cursor:pointer; }
+  .bloques button.act{ color:var(--bg); background:var(--gold); border-color:var(--gold); }
+  .bloques button.ok{ border-color:var(--gold-soft); color:var(--gold); }
+  .barra{ height:3px; background:var(--line); margin:-.6rem 0 1.4rem; }
+  .barra i{ display:block; height:100%; width:0; background:var(--gold); transition:width .25s; }
+
+  .escena{ display:grid; grid-template-columns: minmax(0,1fr) minmax(0,1.25fr); gap:1.6rem; align-items:start; }
+  @media (max-width: 860px){ .escena{ grid-template-columns:1fr; } }
+
+  .paso{ background:var(--bg-raised); border:1px solid var(--line-soft); border-left:2px solid var(--gold); border-radius:3px; padding:1.3rem 1.4rem 1.2rem; }
+  .num{ font-family:var(--font-mono); font-size:.7rem; letter-spacing:.16em; text-transform:uppercase; color:var(--gold); margin-bottom:.35rem; }
+  .paso h2{ font-family:var(--font-poster); font-weight:400; text-transform:uppercase; font-size:clamp(1.5rem,4vw,2rem); line-height:1; margin:0 0 .9rem; }
+  .combo{ font-family:var(--font-mono); font-size:.82rem; color:var(--sand); background:#0f0d0b; border:1px solid var(--line); border-radius:3px; padding:.55rem .75rem; margin:0 0 1rem; }
+  .combo:empty{ display:none; }
+  .txt p{ margin:0 0 .8rem; color:var(--text-muted); }
+  .txt ol, .txt ul{ color:var(--text-muted); padding-left:1.2rem; margin:0 0 .8rem; }
+  .txt li{ margin-bottom:.3rem; }
+  .txt b{ color:var(--text); }
+  kbd{ font-family:var(--font-mono); font-size:.78em; font-weight:600; color:var(--text); background:#2a2826; border:1px solid #3a3633; border-bottom-width:2px; border-radius:3px; padding:.02em .38em; white-space:nowrap; }
+  kbd.f{ background:#d9a03a; color:#1a1408; border-color:#b8862e; }
+  .ver{ border-left:2px solid var(--gold-soft); padding:.1rem 0 .1rem .9rem; margin:.4rem 0 .8rem; font-size:.92rem; color:var(--text-muted); }
+  .ver b{ font-family:var(--font-mono); font-size:.62rem; letter-spacing:.16em; text-transform:uppercase; color:var(--gold); display:block; font-weight:500; }
+  .antes{ border:1px solid var(--terra); background:#1d0f0a; border-radius:3px; padding:.6rem .8rem; margin:0 0 1rem; font-size:.9rem; color:var(--text-muted); }
+  .antes b{ color:var(--terra); }
+  details{ margin:.4rem 0 0; border-top:1px solid var(--line); padding-top:.7rem; }
+  summary{ cursor:pointer; font-family:var(--font-mono); font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--terra); }
+  details p{ color:var(--text-muted); font-size:.92rem; margin:.6rem 0 0; }
+
+  .nav{ display:flex; gap:.6rem; margin-top:1.1rem; }
+  .nav button{ font-family:var(--font-mono); font-size:.74rem; letter-spacing:.12em; text-transform:uppercase; padding:.85rem 1.1rem; cursor:pointer; border-radius:2px; }
+  .nav .atras{ background:transparent; color:var(--text-muted); border:1px solid var(--line); }
+  .nav .sig{ flex:1; background:var(--gold); color:var(--bg); border:1px solid var(--gold); font-weight:600; }
+  .nav .sig:hover{ background:#f0bb55; }
+  .nav button:disabled{ opacity:.35; cursor:default; }
+  .tip{ font-family:var(--font-mono); font-size:.64rem; color:var(--text-faint); margin-top:.6rem; }
+
+  .lado{ position:sticky; top:1rem; }
+  @media (max-width: 860px){ .lado{ position:static; order:-1; } .regla{ display:none; } .info{ min-height:0; } }
+  .info{ margin-top:.8rem; font-size:.86rem; color:var(--text-muted); background:var(--bg-raised); border:1px solid var(--line); border-radius:3px; padding:.75rem .9rem; min-height:3.4rem; }
+  .info b{ color:var(--text); font-family:var(--font-poster); font-weight:400; text-transform:uppercase; letter-spacing:.02em; font-size:1rem; display:block; }
+  .info .fn{ color:var(--sand); display:block; margin-top:.25rem; }
+  .regla{ margin-top:.8rem; font-size:.84rem; color:var(--text-faint); border-left:2px solid var(--terra); padding-left:.8rem; }
+  .regla b{ color:var(--terra); font-weight:600; }
+
+  /* barra superior fija con botón de volver */
+  .brand{ position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: .9rem; flex-wrap: wrap;
+    background: rgba(11,10,10,.94); backdrop-filter: blur(8px); padding: .7rem 0 .75rem; margin-bottom: 2.2rem; }
+  .brand .ctx{ font-family: var(--font-mono); font-size: .66rem; letter-spacing: .16em; text-transform: uppercase; color: var(--text-faint); text-align: right; }
+  .brand .n{ color: var(--gold); font-weight: 600; letter-spacing: .22em; }
+  .brand a.back{ font-family: var(--font-mono); font-size: .74rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+    color: #0b0a0a; background: var(--gold); padding: .55rem .95rem; border-radius: 3px; text-decoration: none; white-space: nowrap; transition: background .15s; }
+  .brand a.back:hover, .brand a.back:focus-visible{ background: #f4c46a; }
+</style>
+
+<div class="wrap">
+  <div class="brand"><a class="back" href="../">← Guía Digitakt II</a><span class="ctx"><span class="n">NAYA</span> · Clases de Producción · Digitakt II</span></div>
+
+  <div class="cab">
+    <h1><small>Práctica 5 · por género</small>Bass house</h1>
+    <span class="meta" id="meta">126 BPM · banco G · resampleo</span>
+  </div>
+
+  <div class="bloques" id="bloques"></div>
+  <div class="barra"><i id="barra"></i></div>
+
+  <div class="escena">
+    <div>
+      <article class="paso" aria-live="polite">
+        <div class="num" id="num"></div>
+        <h2 id="titulo"></h2>
+        <div class="antes" id="antes"><b>Antes:</b> REC (○) tiene que estar <b>roja</b>. Si está apagada, las teclas son pistas y no pasos: la perilla cambia toda la pista.</div>
+        <div class="combo" id="combo"></div>
+        <div class="txt" id="txt"></div>
+        <div class="ver" id="ver"><b>Tenés que ver</b><span></span></div>
+        <details id="ayuda"><summary>No me sale</summary><p></p></details>
+      </article>
+      <div class="nav">
+        <button class="atras" id="atras">← Atrás</button>
+        <button class="sig" id="sig">Listo, siguiente →</button>
+      </div>
+      <p class="tip">También con las flechas del teclado. Tu avance queda guardado en este navegador.</p>
+    </div>
+    <div class="lado">
+      <div id="panel"></div>
+      <div class="info" id="info">Lo que brilla es lo que tenés que tocar. <span class="fn">Tocá cualquier tecla del dibujo para ver qué hace.</span></div>
+      <p class="regla"><b>La regla de oro:</b> las perillas A–H mueven lo que muestra la pantalla en ese momento. Si girás A y cambia otra cosa, es porque tenés abierta otra página: fijate qué dice la pantalla.</p>
+    </div>
+  </div>
+</div>
+
+<script src="../panel.js"></script>
+<script>
+(function(){
+  var F = '<kbd class="f">FUNC</kbd>';
+  function K(t){ return '<kbd>'+t+'</kbd>'; }
+  var GUARDAR = "Guardá: mantené "+F+" y tocá "+K("⚙ SETTINGS")+" (abajo dice Save Proj). Acostumbrate a hacerlo cada vez que algo te gusta.";
+
+  var BLOQUES = ["Arrancar","El kit","La batería","El bajo sucio","Resamplear","Voz picada","El drop"];
+  var PASOS = [
+    {b:0, t:"Bass house, en una línea", k:[], p:"<p>Batería de house con mucho golpe y un <b>bajo sucio</b>, saturado, que habla con el filtro. Voces picadas y un drop que explota.</p><p>Técnicas nuevas: <b>saturación</b>, <b>resamplear</b> un sonido para picarlo, y la máquina <b>Grid</b>.</p>"},
+    {b:0, t:"Patrón G01, 126 BPM", k:["ptn","right","t1","tempo","knobA","knobD"], p:"<p>Banco <b>G</b>, patrón 1. <b>126</b> BPM, swing <b>53</b>.</p>"},
+    {b:1, t:"El kit", k:[["trk","h"],"t1","preset"], p:"<ul><li><b>1</b>: bombo con mucho golpe</li><li><b>2</b>: clap</li><li><b>3</b>: hat cerrado</li><li><b>4</b>: hat abierto</li><li><b>5</b>: bajo (cuanto más armónicos, mejor)</li><li><b>6</b>: voz</li><li><b>7</b>: vacía (para el bajo resampleado)</li></ul>"},
+    {b:2, t:"Batería", k:["rec",["trk","h"],"t1"], p:"<p>Bombo 1, 5, 9, 13 · clap 5, 13 · hat cerrado en pares · hat abierto 3, 7, 11, 15. Sidechain como en la clase 1.</p>"},
+    {b:3, t:"El ritmo del bajo", k:[["trk","h"],"t5","t3","t4","t7","t11","t12","t15"], p:"<p>Pista 5: pasos <b>3, 4, 7, 11, 12, 15</b>. Esquiva al bombo y empuja hacia el siguiente.</p>"},
+    {b:3, t:"Filtro que habla", k:[["func","h"],"src","fltr","knobE"], p:"<p>Máquina de filtro <b>Lowpass 4</b> ("+F+" + "+K("SRC")+", categoría filtro). En "+K("FLTR")+": FREQ bajo, RESO alta, <b>ENV</b> positiva y DEC corto. Cada nota hace “uau”.</p>"},
+    {b:3, t:"Ensuciarlo", k:["fx"], p:"<p>En "+K("FX")+": <b>OVER</b> (overdrive) bastante alto, un poco de <b>BR</b> (bit reduction). Probá <b>OD.RT</b> antes y después del filtro: cambia mucho el carácter.</p>"},
+    {b:3, t:"Locks de filtro", k:["fltr",["t7","h"],"knobE"], p:"<p>Lockeá FREQ y ENV distintos en cada paso: que cada golpe del bajo diga algo distinto.</p>", rec:1},
+    {b:4, t:"Resamplear el bajo", k:["sampling","knobA"], p:"<p>"+K("▥")+" SAMPLING: <b>SRC</b> en <b>TRK5</b> (solo el bajo, con todos sus locks y saturación). <b>R.LEN</b> en <b>16</b> (un compás). <b>R.STRT</b> en PLAY y <b>ARM</b> en ON. Después "+K("▷")+".</p>", v:"Graba un compás exacto y te pide recortar."},
+    {b:4, t:"Guardarlo en la 7", k:["yes","yes","t7"], p:"<p>Sin recortar (ya es un compás justo): "+K("YES")+", nombre, "+K("YES")+", tecla "+K("7")+".</p>"},
+    {b:4, t:"Picarlo con Grid", k:[["trk","h"],"t7",["func","h"],"src"], p:"<p>Pista 7: máquina de fuente <b>GRID</b>. En "+K("SRC")+", <b>GRID</b> en 16 cortes.</p><p>Poné pasos en la pista 7 (por ejemplo 2, 6, 10, 14, 16), "+K("SRC")+" → "+K("YES")+" → <b>CREATE RANDOM LOCKS</b>. Cada paso toca un pedazo distinto de tu bajo.</p>", v:"Un bajo “picado”, nuevo, hecho con tu propio bajo."},
+    {b:5, t:"La voz con Slice", k:[["trk","h"],"t6",["func","h"],"src"], p:"<p>Pista 6: máquina <b>SLICE</b>, "+K("SRC")+" → "+K("YES")+" → CREATE SLICE GRID con 8 cortes y transitorios. Tocalos en vivo con el modo de teclas <b>SLICES</b> ("+F+" + "+K("▲")+"/"+K("▼")+") y grabalos con "+K("○")+" + "+K("▷")+".</p>"},
+    {b:6, t:"El build", k:["stop","rec",["func","h"],"rec","ptn","t2",["func","h"],"stop"], p:"<p>Copiá G01 a <b>G02</b>. En G02: sacá bombo y bajo, poné la caja en los 16 pasos con <b>RTRG</b> (retrig) creciendo, y un LFO de subida en el filtro del hat (onda RAMP, modo ONE).</p>"},
+    {b:6, t:"Tarea", k:[["func","h"],"settings"], p:"<p>Tocá G02 → G01 en vivo, y en el cambio cortá todo con mutes por un paso. Ese silencio antes del drop es la mitad del golpe. Guardá.</p>"}
+  ];
+
+  /* ---------- motor ---------- */
+  var KEY = "naya-dt2-practica-bass";
+  var i = 0, hechos = {};
+  try{ var s = JSON.parse(localStorage.getItem(KEY)) || {}; i = Math.min(s.i||0, PASOS.length-1); hechos = s.h || {}; }catch(e){}
+  function guardar(){ try{ localStorage.setItem(KEY, JSON.stringify({i:i, h:hechos})); }catch(e){} }
+
+  DT2Panel.render(document.getElementById("panel"));
+  var bl = document.getElementById("bloques");
+  BLOQUES.forEach(function(n, b){
+    var btn = document.createElement("button"); btn.textContent = (b)+" · "+n;
+    btn.addEventListener("click", function(){ for(var j=0;j<PASOS.length;j++){ if(PASOS[j].b===b){ ir(j); break; } } });
+    bl.appendChild(btn);
+  });
+
+  function ir(n){
+    i = Math.max(0, Math.min(PASOS.length-1, n));
+    var p = PASOS[i];
+    document.getElementById("num").textContent = "Bloque "+p.b+" · "+BLOQUES[p.b]+" · paso "+(i+1)+" de "+PASOS.length;
+    document.getElementById("titulo").textContent = p.t;
+    document.getElementById("combo").textContent = p.ab ? "En Ableton · " + p.ab : p.k.length ? DT2Panel.texto(p.k).replace(/^./, function(c){ return c.toUpperCase(); }) : "";
+    document.getElementById("antes").style.display = p.rec ? "" : "none";
+    document.getElementById("txt").innerHTML = p.p;
+    var v = document.getElementById("ver"); v.style.display = p.v ? "" : "none"; v.querySelector("span").textContent = p.v || "";
+    var a = document.getElementById("ayuda"); a.style.display = p.a ? "" : "none"; a.open = false; a.querySelector("p").textContent = p.a || "";
+    DT2Panel.marcar(p.k);
+    document.getElementById("atras").disabled = i === 0;
+    document.getElementById("sig").textContent = i === PASOS.length-1 ? "Terminé la clase ✓" : "Listo, siguiente →";
+    [].forEach.call(bl.children, function(btn, b){
+      btn.classList.toggle("act", b === p.b);
+      var todos = PASOS.every(function(q, j){ return q.b !== b || hechos[j]; });
+      btn.classList.toggle("ok", todos && b !== p.b);
+    });
+    var n = Object.keys(hechos).length;
+    document.getElementById("barra").style.width = (n / PASOS.length * 100) + "%";
+    guardar();
+  }
+  document.getElementById("sig").addEventListener("click", function(){ hechos[i] = 1; ir(i+1); if(i === PASOS.length-1) guardar(); window.scrollTo({top:0, behavior:"smooth"}); });
+  document.getElementById("atras").addEventListener("click", function(){ ir(i-1); });
+  document.addEventListener("keydown", function(e){
+    if(e.target.closest("input,textarea")) return;
+    if(e.key === "ArrowRight"){ hechos[i] = 1; ir(i+1); }
+    if(e.key === "ArrowLeft") ir(i-1);
+  });
+
+  var info = document.getElementById("info");
+  document.getElementById("panel").addEventListener("click", function(e){
+    var k = e.target.closest("[data-k]"); if(!k) return;
+    var d = DT2Panel.info(k.dataset.k); if(!d) return;
+    info.innerHTML = "<b></b><span class='a'></span>" + (d[2] ? "<span class='fn'></span>" : "");
+    info.querySelector("b").textContent = d[0];
+    info.querySelector(".a").textContent = d[1];
+    if(d[2]) info.querySelector(".fn").textContent = "Con FUNC: " + d[2];
+  });
+
+  ir(i);
+})();
+</script>
+</html>
