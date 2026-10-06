@@ -149,6 +149,8 @@
   .info dd.fn{ color: var(--sand); }
   .panel-nota{ font-family: var(--font-mono); font-size:.68rem; color: var(--text-faint); margin:.6rem 0 0; }
   @media (max-width: 640px){ .info dl{ grid-template-columns: 1fr; gap:.1rem; } .info dt{ padding-top:.5rem; } }
+  .clases-cta{ display:grid; gap:.6rem; margin: 0 0 2.6rem; }
+  .clases-cta .clase-cta{ margin:0; }
   .clase-cta{ display:block; text-decoration:none; background: var(--bg-feature); border:1px solid var(--gold); border-radius:3px; padding:1.1rem 1.25rem; margin: 0 0 2.6rem; color: var(--text); }
   .clase-cta:hover{ background:#22170a; }
   .clase-cta .t{ font-family: var(--font-poster); text-transform:uppercase; font-size:1.4rem; line-height:1; color: var(--gold); display:block; margin-bottom:.3rem; }
@@ -203,7 +205,10 @@
     <div><dt>Sistema</dt><dd>OS 1.17</dd></div>
   </dl>
 
-  <a class="clase-cta" href="clase-01/"><span class="t">Clase 01 · Tu primera canción →</span><span>Interactiva, paso a paso: el panel te marca qué tocar. Un tema de tech house entero en unas 2 horas.</span></a>
+  <div class="clases-cta">
+    <a class="clase-cta" href="clase-01/"><span class="t">Clase 01 · Tu primera canción →</span><span>Interactiva, paso a paso: el panel te marca qué tocar. Un tema de tech house entero en unas 2 horas.</span></a>
+    <a class="clase-cta" href="clase-02/"><span class="t">Clase 02 · Digitakt + Ableton →</span><span>Grabar el audio, sincronizar el tempo y usar MIDI en las dos direcciones. Con un solo cable USB.</span></a>
+  </div>
 
   <nav class="toc" aria-label="Módulos">
     <a href="#m1">1 · Panel</a>

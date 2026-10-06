@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Clase 02 · Digitakt + Ableton · Digitakt II</title>
+<meta name="description" content="Clase interactiva: conectar el Digitakt II con Ableton Live. Audio, tempo y MIDI.">
+<meta name="theme-color" content="#0b0a0a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#0b0a0a; --bg-raised:#15120f; --bg-feature:#1a1108; --line:#2e2620; --line-soft:#241e19;
+    --text:#f2ede4; --text-muted:#a89d8e; --text-faint:#6f665c;
+    --gold:#e8b04a; --gold-soft:#8a6c2f; --terra:#e0653a; --sand:#cbb389;
+    --font-display:"Fraunces", ui-serif, Georgia, serif;
+    --font-poster:"Anton", ui-sans-serif, sans-serif;
+    --font-body:"IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+    --font-mono:"IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+  }
+  *,*::before,*::after{ box-sizing:border-box; }
+  body{ margin:0; background:var(--bg); color:var(--text); font-family:var(--font-body); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+  a{ color:var(--gold); text-underline-offset:3px; }
+  button:focus-visible, a:focus-visible{ outline:2px solid var(--gold); outline-offset:3px; }
+  .wrap{ max-width:1080px; margin:0 auto; padding:1.6rem 1.4rem 4rem; }
+
+  .brand{ display:flex; justify-content:space-between; gap:.75rem; flex-wrap:wrap; font-family:var(--font-mono); font-size:.68rem; letter-spacing:.18em; text-transform:uppercase; color:var(--text-faint); border-bottom:1px solid var(--line); padding-bottom:.8rem; margin-bottom:1.4rem; }
+  .brand .n{ color:var(--gold); font-weight:600; }
+  .brand a{ color:var(--text-faint); text-decoration:none; } .brand a:hover{ color:var(--gold); }
+  .cab{ display:flex; align-items:baseline; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:1rem; }
+  h1{ font-family:var(--font-poster); font-weight:400; text-transform:uppercase; font-size:clamp(1.8rem,5vw,2.8rem); line-height:.95; margin:0; }
+  h1 small{ display:block; font-family:var(--font-mono); font-size:.7rem; letter-spacing:.22em; color:var(--terra); margin-bottom:.4rem; }
+  .meta{ font-family:var(--font-mono); font-size:.72rem; color:var(--text-faint); }
+
+  .bloques{ display:flex; gap:.35rem; overflow-x:auto; scrollbar-width:none; margin:0 0 1.2rem; padding-bottom:.2rem; }
+  .bloques::-webkit-scrollbar{ display:none; }
+  .bloques button{ flex:0 0 auto; font-family:var(--font-mono); font-size:.66rem; letter-spacing:.06em; text-transform:uppercase; color:var(--text-muted); background:transparent; border:1px solid var(--line); border-radius:2px; padding:.35rem .6rem; cursor:pointer; }
+  .bloques button.act{ color:var(--bg); background:var(--gold); border-color:var(--gold); }
+  .bloques button.ok{ border-color:var(--gold-soft); color:var(--gold); }
+  .barra{ height:3px; background:var(--line); margin:-.6rem 0 1.4rem; }
+  .barra i{ display:block; height:100%; width:0; background:var(--gold); transition:width .25s; }
+
+  .escena{ display:grid; grid-template-columns: minmax(0,1fr) minmax(0,1.25fr); gap:1.6rem; align-items:start; }
+  @media (max-width: 860px){ .escena{ grid-template-columns:1fr; } }
+
+  .paso{ background:var(--bg-raised); border:1px solid var(--line-soft); border-left:2px solid var(--gold); border-radius:3px; padding:1.3rem 1.4rem 1.2rem; }
+  .num{ font-family:var(--font-mono); font-size:.7rem; letter-spacing:.16em; text-transform:uppercase; color:var(--gold); margin-bottom:.35rem; }
+  .paso h2{ font-family:var(--font-poster); font-weight:400; text-transform:uppercase; font-size:clamp(1.5rem,4vw,2rem); line-height:1; margin:0 0 .9rem; }
+  .combo{ font-family:var(--font-mono); font-size:.82rem; color:var(--sand); background:#0f0d0b; border:1px solid var(--line); border-radius:3px; padding:.55rem .75rem; margin:0 0 1rem; }
+  .combo:empty{ display:none; }
+  .txt p{ margin:0 0 .8rem; color:var(--text-muted); }
+  .txt ol, .txt ul{ color:var(--text-muted); padding-left:1.2rem; margin:0 0 .8rem; }
+  .txt li{ margin-bottom:.3rem; }
+  .txt b{ color:var(--text); }
+  kbd{ font-family:var(--font-mono); font-size:.78em; font-weight:600; color:var(--text); background:#2a2826; border:1px solid #3a3633; border-bottom-width:2px; border-radius:3px; padding:.02em .38em; white-space:nowrap; }
+  kbd.f{ background:#d9a03a; color:#1a1408; border-color:#b8862e; }
+  .ver{ border-left:2px solid var(--gold-soft); padding:.1rem 0 .1rem .9rem; margin:.4rem 0 .8rem; font-size:.92rem; color:var(--text-muted); }
+  .ver b{ font-family:var(--font-mono); font-size:.62rem; letter-spacing:.16em; text-transform:uppercase; color:var(--gold); display:block; font-weight:500; }
+  .antes{ border:1px solid var(--terra); background:#1d0f0a; border-radius:3px; padding:.6rem .8rem; margin:0 0 1rem; font-size:.9rem; color:var(--text-muted); }
+  .antes b{ color:var(--terra); }
+  details{ margin:.4rem 0 0; border-top:1px solid var(--line); padding-top:.7rem; }
+  summary{ cursor:pointer; font-family:var(--font-mono); font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--terra); }
+  details p{ color:var(--text-muted); font-size:.92rem; margin:.6rem 0 0; }
+
+  .nav{ display:flex; gap:.6rem; margin-top:1.1rem; }
+  .nav button{ font-family:var(--font-mono); font-size:.74rem; letter-spacing:.12em; text-transform:uppercase; padding:.85rem 1.1rem; cursor:pointer; border-radius:2px; }
+  .nav .atras{ background:transparent; color:var(--text-muted); border:1px solid var(--line); }
+  .nav .sig{ flex:1; background:var(--gold); color:var(--bg); border:1px solid var(--gold); font-weight:600; }
+  .nav .sig:hover{ background:#f0bb55; }
+  .nav button:disabled{ opacity:.35; cursor:default; }
+  .tip{ font-family:var(--font-mono); font-size:.64rem; color:var(--text-faint); margin-top:.6rem; }
+
+  .lado{ position:sticky; top:1rem; }
+  @media (max-width: 860px){ .lado{ position:static; order:-1; } .regla{ display:none; } .info{ min-height:0; } }
+  .info{ margin-top:.8rem; font-size:.86rem; color:var(--text-muted); background:var(--bg-raised); border:1px solid var(--line); border-radius:3px; padding:.75rem .9rem; min-height:3.4rem; }
+  .info b{ color:var(--text); font-family:var(--font-poster); font-weight:400; text-transform:uppercase; letter-spacing:.02em; font-size:1rem; display:block; }
+  .info .fn{ color:var(--sand); display:block; margin-top:.25rem; }
+  .regla{ margin-top:.8rem; font-size:.84rem; color:var(--text-faint); border-left:2px solid var(--terra); padding-left:.8rem; }
+  .regla b{ color:var(--terra); font-weight:600; }
+
+  /* barra superior fija con botón de volver */
+  .brand{ position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: .9rem; flex-wrap: wrap;
+    background: rgba(11,10,10,.94); backdrop-filter: blur(8px); padding: .7rem 0 .75rem; margin-bottom: 2.2rem; }
+  .brand .ctx{ font-family: var(--font-mono); font-size: .66rem; letter-spacing: .16em; text-transform: uppercase; color: var(--text-faint); text-align: right; }
+  .brand .n{ color: var(--gold); font-weight: 600; letter-spacing: .22em; }
+  .brand a.back{ font-family: var(--font-mono); font-size: .74rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+    color: #0b0a0a; background: var(--gold); padding: .55rem .95rem; border-radius: 3px; text-decoration: none; white-space: nowrap; transition: background .15s; }
+  .brand a.back:hover, .brand a.back:focus-visible{ background: #f4c46a; }
+</style>
+
+<div class="wrap">
+  <div class="brand"><a class="back" href="../">← Guía Digitakt II</a><span class="ctx"><span class="n">NAYA</span> · Clases de Producción · Digitakt II</span></div>
+
+  <div class="cab">
+    <h1><small>Clase 02 · Interactiva</small>Digitakt + Ableton</h1>
+    <span class="meta" id="meta">Audio · tempo · MIDI · 1 cable USB</span>
+  </div>
+
+  <div class="bloques" id="bloques"></div>
+  <div class="barra"><i id="barra"></i></div>
+
+  <div class="escena">
+    <div>
+      <article class="paso" aria-live="polite">
+        <div class="num" id="num"></div>
+        <h2 id="titulo"></h2>
+        <div class="antes" id="antes"><b>Antes:</b> REC (○) tiene que estar <b>roja</b>. Si está apagada, las teclas son pistas y no pasos: la perilla cambia toda la pista.</div>
+        <div class="combo" id="combo"></div>
+        <div class="txt" id="txt"></div>
+        <div class="ver" id="ver"><b>Tenés que ver</b><span></span></div>
+        <details id="ayuda"><summary>No me sale</summary><p></p></details>
+      </article>
+      <div class="nav">
+        <button class="atras" id="atras">← Atrás</button>
+        <button class="sig" id="sig">Listo, siguiente →</button>
+      </div>
+      <p class="tip">También con las flechas del teclado. Tu avance queda guardado en este navegador.</p>
+    </div>
+    <div class="lado">
+      <div id="panel"></div>
+      <div class="info" id="info">Lo que brilla es lo que tenés que tocar. <span class="fn">Tocá cualquier tecla del dibujo para ver qué hace.</span></div>
+      <p class="regla"><b>La regla de oro:</b> las perillas A–H mueven lo que muestra la pantalla en ese momento. Si girás A y cambia otra cosa, es porque tenés abierta otra página: fijate qué dice la pantalla.</p>
+    </div>
+  </div>
+</div>
+
+<script src="../panel.js"></script>
+<script>
+(function(){
+  var F = '<kbd class="f">FUNC</kbd>';
+  function K(t){ return '<kbd>'+t+'</kbd>'; }
+  var GUARDAR = "Guardá: mantené "+F+" y tocá "+K("⚙ SETTINGS")+" (abajo dice Save Proj). Acostumbrate a hacerlo cada vez que algo te gusta.";
+
+  var BLOQUES = ["Conectar","Grabar el audio","Ableton manda el tempo","El Digitakt toca Ableton","Ableton toca el Digitakt","Pista por pista"];
+
+  // ab: lo que pasa en Ableton (se muestra en el recuadro en vez de las teclas)
+  var PASOS = [
+    // 0 · Conectar
+    {b:0, t:"Qué vamos a hacer", k:[], p:"<p>Con <b>un solo cable USB</b> el Digitakt II le pasa a Ableton tres cosas: <b>audio</b> (lo grabás), <b>tempo</b> (arrancan y paran juntos) y <b>MIDI</b> (uno toca al otro).</p><p>Los pasos que son en la compu dicen <b>En Ableton</b> arriba. Los demás son en el aparato, con el panel iluminado como en la clase 1.</p>", v:"El Digitakt prendido y Ableton abierto."},
+    {b:0, t:"El cable", k:[], ab:"conectar el USB", p:"<p>Cable USB del Digitakt (el puerto cuadrado de atrás, dice USB) a la compu. Sin placa de por medio: el Digitakt es <b>class compliant</b>, la Mac lo reconoce sola.</p>"},
+    {b:0, t:"Modo USB: audio y MIDI", k:["settings","yes"], p:"<p>"+K("⚙")+" → <b>SYSTEM</b> → <b>USB CONFIG</b> → marcá <b>USB AUDIO/MIDI</b> → "+K("YES")+". "+K("NO")+" hasta salir.</p>", v:"USB AUDIO/MIDI tildado.", a:"Elegir un modo apaga los otros (Overbridge, solo MIDI). Para esta clase va USB AUDIO/MIDI; en el bloque 5 se cambia a Overbridge."},
+    {b:0, t:"Que vos sigas escuchando", k:["settings","yes"], p:"<p>Ojo con esto: cuando hay audio por USB, el Digitakt <b>puede silenciar su propia salida y los auriculares</b>. Para que no pase:</p><p>"+K("⚙")+" → <b>AUDIO ROUTING</b> → <b>INT TO MAIN</b> → <b>ON</b>.</p>", v:"Seguís escuchando el Digitakt por sus auriculares o salidas.", a:"Si preferís escucharlo todo desde Ableton, dejalo en AUTO y poné la pista de Ableton en Monitor In (paso siguiente). No uses las dos cosas a la vez: se duplica y suena con eco."},
+    {b:0, t:"Ableton ve al Digitakt", k:[], ab:"Settings → Audio", p:"<p>En Ableton: <b>Settings</b> (Cmd + ,) → pestaña <b>Audio</b>.</p><ul><li><b>Audio Input Device</b>: Digitakt II.</li><li><b>Audio Output Device</b>: lo que usás siempre (placa, auriculares de la Mac).</li><li><b>Sample Rate</b>: <b>48000</b>, que es la frecuencia del Digitakt.</li></ul>", v:"Digitakt II como entrada, sin mensajes de error.", a:"Si Ableton no deja elegir entrada y salida distintas, armá un dispositivo agregado: app Configuración de Audio MIDI → + abajo a la izquierda → Crear dispositivo agregado → tildá Digitakt II y tu salida. Después elegí ese dispositivo en Ableton."},
+
+    // 1 · Grabar el audio
+    {b:1, t:"Qué sale por el USB", k:["settings","yes"], p:"<p>"+K("⚙")+" → <b>AUDIO ROUTING</b> → <b>USB OUT</b> → <b>MAIN</b>: sale la mezcla completa, con efectos.</p><p>También podés mandar una sola pista (tocando su tecla dos veces) o dos pistas, una por lado. Para empezar, MAIN.</p>"},
+    {b:1, t:"Una pista de audio", k:[], ab:"nueva pista de audio", p:"<p>En Ableton: <b>Create → Insert Audio Track</b> (Cmd + Option + T).</p><ul><li><b>Audio From</b>: Ext. In → <b>1/2</b>.</li><li><b>Monitor</b>: <b>Off</b> si escuchás desde el Digitakt; <b>In</b> si querés escucharlo a través de Ableton.</li></ul>", v:"Al darle Play al Digitakt, el medidor de la pista se mueve."},
+    {b:1, t:"Grabar", k:["play"], ab:"armar y grabar", p:"<p>Armá la pista (el botón redondo de grabación de la pista) y grabá en el Arrangement (F9 o el botón de grabar de arriba). Dale "+K("▷")+" PLAY al Digitakt.</p><p>Así ya tenés el tema en audio. Pero queda <b>suelto</b>: no cae en la grilla de Ableton. Eso se arregla en el bloque siguiente.</p>", v:"Una onda de audio en la pista."},
+
+    // 2 · Sync
+    {b:2, t:"Que el Digitakt escuche el reloj", k:["settings","yes"], p:"<p>"+K("⚙")+" → <b>MIDI CONFIG</b> → <b>SYNC</b>:</p><ul><li><b>CLOCK RECEIVE</b>: tildado.</li><li><b>TRANSPORT RECEIVE</b>: tildado.</li><li>CLOCK SEND y TRANSPORT SEND: destildados (si no, se mandan reloj uno al otro).</li></ul><p>Se tilda con "+K("YES")+".</p>"},
+    {b:2, t:"Por dónde llega", k:["settings","yes"], p:"<p>"+K("⚙")+" → <b>MIDI CONFIG</b> → <b>PORT CONFIG</b> → <b>INPUT FROM</b>: <b>USB</b> (o MIDI+USB si también usás cables MIDI).</p>"},
+    {b:2, t:"Que Ableton mande el reloj", k:[], ab:"Settings → Link, Tempo & MIDI", p:"<p>En Ableton: <b>Settings → Link, Tempo &amp; MIDI</b>. En la tabla de puertos MIDI, en la fila <b>Output: Digitakt II</b>, prendé <b>Sync</b>.</p>", v:"Sync encendido en la salida del Digitakt II."},
+    {b:2, t:"Probar", k:[], ab:"Play en Ableton", p:"<p>Poné Ableton en 126 y dale <b>Play en Ableton</b>, no en el Digitakt: arranca solo. Cambiá el tempo en Ableton y el Digitakt lo sigue. Stop en Ableton y para.</p>", v:"El tempo del Digitakt cambia solo cuando lo cambiás en Ableton.", a:"Si no arranca: revisá TRANSPORT RECEIVE e INPUT FROM: USB. Si arranca pero no sigue el tempo: CLOCK RECEIVE."},
+    {b:2, t:"Que caiga justo", k:[], ab:"MIDI Clock Sync Delay", p:"<p>Grabá unos compases del Digitakt con el sync andando y mirá el bombo contra la grilla. Si cae un poquito tarde o temprano, corregilo en <b>Settings → Link, Tempo &amp; MIDI</b> → <b>MIDI Clock Sync Delay</b> de la salida del Digitakt II. Movelo de a poco y volvé a grabar hasta que los bombos caigan sobre las líneas.</p>"},
+    {b:2, t:"Grabar la canción en la grilla", k:["stop","stop","song","t1"], ab:"grabar desde el compás 1", p:"<p>En el Digitakt: "+K("□")+" dos veces (vuelve al principio) y "+K("SONG")+" + "+K("1")+" para la canción de la clase 1.</p><p>En Ableton: pista armada, puntero en el compás 1, y <b>grabar</b>. El Digitakt arranca con Ableton y el tema queda <b>clavado en la grilla</b>: lo podés cortar, editar y mezclar como cualquier audio.</p>", v:"La canción entera grabada, empezando justo en el compás 1."},
+
+    // 3 · Digitakt toca Ableton
+    {b:3, t:"Una pista que manda MIDI", k:[["trk","h"],"t16",["func","h"],"src"], p:"<p>"+K("TRK")+" + "+K("16")+". Después "+F+" + "+K("SRC")+" (<i>Machine</i>): con "+K("◀")+K("▶")+" andá a la categoría de fuente, con "+K("▼")+" elegí <b>MIDI</b> y "+K("YES")+".</p><p>La pista 16 ya no suena: ahora <b>manda notas</b>.</p>", v:"En la pantalla, la pista dice MID en vez de SMP."},
+    {b:3, t:"Su canal", k:["src","knobA"], p:"<p>En "+K("SRC")+", <b>CHAN</b> (perilla A): <b>16</b>. Por ese canal salen las notas de esta pista.</p>"},
+    {b:3, t:"Que salga por USB", k:["settings","yes"], p:"<p>"+K("⚙")+" → <b>MIDI CONFIG</b> → <b>PORT CONFIG</b> → <b>OUTPUT TO</b>: <b>USB</b> (o MIDI+USB).</p>"},
+    {b:3, t:"Un sinte en Ableton que escuche", k:[], ab:"pista MIDI con instrumento", p:"<p>En Ableton: pista MIDI nueva (Cmd + Shift + T) con un instrumento, por ejemplo <b>Drift</b> o <b>Operator</b>.</p><ul><li><b>MIDI From</b>: Digitakt II, canal <b>Ch. 16</b>.</li><li><b>Monitor</b>: <b>In</b>.</li></ul><p>En Settings → Link, Tempo &amp; MIDI, fila <b>Input: Digitakt II</b>: <b>Track</b> encendido.</p>", v:"Al tocar la tecla 16 del Digitakt (sin REC), suena el sinte de Ableton."},
+    {b:3, t:"Secuenciarlo", k:["rec",["trk","h"],"t16"], p:"<p>Con "+K("○")+" REC y la pista 16, poné pasos como siempre. Todo lo de la clase 1 funciona igual: <b>NOTE</b> con locks, <b>LEN</b> para el largo, condiciones, probabilidad.</p><p>Extra de las pistas MIDI: en "+K("TRIG")+", <b>NOT2, NOT3, NOT4</b> suman notas al paso. Un paso puede mandar un <b>acorde de hasta 4 notas</b>.</p>", v:"Tu secuenciador Elektron tocando un sinte de Ableton."},
+    {b:3, t:"Mover perillas de Ableton desde el Digitakt", k:["fltr"], ab:"MIDI Map (Cmd + M)", p:"<ol><li>En el Digitakt, pista 16, "+K("FLTR")+": ahí están <b>VAL1–VAL8</b>, valores de CC. Vienen apagados: para prender uno, mantené "+F+" y <b>apretá</b> su perilla.</li><li>En Ableton: Settings → fila <b>Input: Digitakt II</b>: <b>Remote</b> encendido.</li><li><b>Cmd + M</b> (MIDI Map), hacé clic en la perilla del filtro de Drift y girá VAL1 en el Digitakt. Cmd + M para salir.</li></ol><p>Ahora un <b>parameter lock</b> en VAL1 mueve el filtro de Ableton, paso a paso.</p>"},
+
+    // 4 · Ableton toca el Digitakt
+    {b:4, t:"Que el Digitakt reciba notas", k:["settings","yes"], p:"<p>"+K("⚙")+" → <b>MIDI CONFIG</b> → <b>PORT CONFIG</b>: <b>RECEIVE NOTES</b> tildado e <b>INPUT FROM</b> en USB.</p>"},
+    {b:4, t:"Un clip que toca la pista 1", k:[], ab:"pista MIDI hacia el Digitakt", p:"<p>En Ableton: pista MIDI nueva, <b>sin instrumento</b>.</p><ul><li><b>MIDI To</b>: Digitakt II, canal <b>Ch. 1</b>.</li></ul><p>Cada pista del Digitakt escucha su canal: <b>canal 1 = pista 1</b>, canal 2 = pista 2, y así. Dibujá unas notas en un clip y dale Play: suena el sonido de la pista 1, afinado según la nota.</p>", v:"El bombo (o lo que tengas en la pista 1) sonando desde un clip de Ableton.", a:"Si no suena, revisá RECEIVE NOTES e INPUT FROM. Los canales de cada pista se ven en ⚙ → MIDI CONFIG → CHANNELS."},
+    {b:4, t:"Cambiar de patrón desde Ableton", k:["settings","yes"], ab:"Program Change en el clip", p:"<p>En el Digitakt: "+K("⚙")+" → MIDI CONFIG → SYNC → <b>PRG CH RECEIVE</b> tildado. En CHANNELS, fijate el canal de <b>PROGRAM CHG IN CH</b>.</p><p>En Ableton, una pista MIDI hacia el Digitakt en ese canal. En cada clip, en <b>Pgm</b>, el número de patrón: <b>1 = A01</b>, 2 = A02, 3 = A03… Al lanzar el clip, el Digitakt cambia de patrón.</p>", v:"Lanzando clips en la vista Session, el Digitakt salta entre A01, A02, A03 y A04."},
+
+    // 5 · Overbridge
+    {b:5, t:"Qué es Overbridge", k:[], p:"<p>Hasta acá grababas la <b>mezcla</b> en estéreo. Con <b>Overbridge</b> el Digitakt aparece como un plugin dentro de Ableton y te da <b>cada pista por separado</b>: el bombo por un lado, el bajo por otro… Así mezclás en la compu con todo separado.</p><p>Es opcional: si con el estéreo te alcanza, la clase termina acá.</p>"},
+    {b:5, t:"Instalar y cambiar de modo", k:["settings","yes"], ab:"instalar Overbridge", p:"<ol><li>Bajá <b>Overbridge</b> de elektron.se (Support &amp; Downloads → Digitakt II) e instalalo.</li><li>En el Digitakt: "+K("⚙")+" → SYSTEM → USB CONFIG → <b>OVERBRIDGE</b>.</li></ol>", a:"Este modo reemplaza a USB AUDIO/MIDI: mientras uses Overbridge, el audio pasa por el plugin y no por Ext. In."},
+    {b:5, t:"El plugin en Ableton", k:[], ab:"cargar el plugin Digitakt II", p:"<p>Cargá el plugin <b>Digitakt II</b> (aparece en Plug-Ins, de Elektron) en una pista. Desde el plugin activás las salidas por pista; después creás pistas de audio en Ableton que toman cada una de esas salidas como entrada. Las salidas por pista llegan <b>sin efectos</b>: el delay y la reverb vienen aparte.</p>", v:"Una pista de Ableton por cada sonido del Digitakt."},
+    {b:5, t:"Tarea", k:[], p:"<p>Grabá la canción de la clase 1 <b>sincronizada</b> en Ableton y sumale una pista de sinte de Ableton tocada por la pista 16 del Digitakt.</p><p>Con eso ya tenés el Digitakt trabajando adentro de tu estudio. 🎛️</p>"}
+  ];
+
+  /* ---------- motor ---------- */
+  var KEY = "naya-dt2-clase02";
+  var i = 0, hechos = {};
+  try{ var s = JSON.parse(localStorage.getItem(KEY)) || {}; i = Math.min(s.i||0, PASOS.length-1); hechos = s.h || {}; }catch(e){}
+  function guardar(){ try{ localStorage.setItem(KEY, JSON.stringify({i:i, h:hechos})); }catch(e){} }
+
+  DT2Panel.render(document.getElementById("panel"));
+  var bl = document.getElementById("bloques");
+  BLOQUES.forEach(function(n, b){
+    var btn = document.createElement("button"); btn.textContent = (b)+" · "+n;
+    btn.addEventListener("click", function(){ for(var j=0;j<PASOS.length;j++){ if(PASOS[j].b===b){ ir(j); break; } } });
+    bl.appendChild(btn);
+  });
+
+  function ir(n){
+    i = Math.max(0, Math.min(PASOS.length-1, n));
+    var p = PASOS[i];
+    document.getElementById("num").textContent = "Bloque "+p.b+" · "+BLOQUES[p.b]+" · paso "+(i+1)+" de "+PASOS.length;
+    document.getElementById("titulo").textContent = p.t;
+    document.getElementById("combo").textContent = p.ab ? "En Ableton · " + p.ab : p.k.length ? DT2Panel.texto(p.k).replace(/^./, function(c){ return c.toUpperCase(); }) : "";
+    document.getElementById("antes").style.display = p.rec ? "" : "none";
+    document.getElementById("txt").innerHTML = p.p;
+    var v = document.getElementById("ver"); v.style.display = p.v ? "" : "none"; v.querySelector("span").textContent = p.v || "";
+    var a = document.getElementById("ayuda"); a.style.display = p.a ? "" : "none"; a.open = false; a.querySelector("p").textContent = p.a || "";
+    DT2Panel.marcar(p.k);
+    document.getElementById("atras").disabled = i === 0;
+    document.getElementById("sig").textContent = i === PASOS.length-1 ? "Terminé la clase ✓" : "Listo, siguiente →";
+    [].forEach.call(bl.children, function(btn, b){
+      btn.classList.toggle("act", b === p.b);
+      var todos = PASOS.every(function(q, j){ return q.b !== b || hechos[j]; });
+      btn.classList.toggle("ok", todos && b !== p.b);
+    });
+    var n = Object.keys(hechos).length;
+    document.getElementById("barra").style.width = (n / PASOS.length * 100) + "%";
+    guardar();
+  }
+  document.getElementById("sig").addEventListener("click", function(){ hechos[i] = 1; ir(i+1); if(i === PASOS.length-1) guardar(); window.scrollTo({top:0, behavior:"smooth"}); });
+  document.getElementById("atras").addEventListener("click", function(){ ir(i-1); });
+  document.addEventListener("keydown", function(e){
+    if(e.target.closest("input,textarea")) return;
+    if(e.key === "ArrowRight"){ hechos[i] = 1; ir(i+1); }
+    if(e.key === "ArrowLeft") ir(i-1);
+  });
+
+  var info = document.getElementById("info");
+  document.getElementById("panel").addEventListener("click", function(e){
+    var k = e.target.closest("[data-k]"); if(!k) return;
+    var d = DT2Panel.info(k.dataset.k); if(!d) return;
+    info.innerHTML = "<b></b><span class='a'></span>" + (d[2] ? "<span class='fn'></span>" : "");
+    info.querySelector("b").textContent = d[0];
+    info.querySelector(".a").textContent = d[1];
+    if(d[2]) info.querySelector(".fn").textContent = "Con FUNC: " + d[2];
+  });
+
+  ir(i);
+})();
+</script>
+</html>
