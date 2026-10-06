@@ -183,11 +183,20 @@
   kbd.g{ color:#06140f; background:#1ea585; border-color:#137a62; }
   kbd.y{ color:#1a1405; background:#efbd2c; border-color:#b38c1c; }
   kbd.v{ color:#fff; background:#a86cbd; border-color:#7a4590; }
+
+  /* barra superior fija con botón de volver */
+  .brand{ position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: .9rem; flex-wrap: wrap;
+    background: rgba(11,10,10,.94); backdrop-filter: blur(8px); padding: .7rem 0 .75rem; margin-bottom: 2.2rem; }
+  .brand .ctx{ font-family: var(--font-mono); font-size: .66rem; letter-spacing: .16em; text-transform: uppercase; color: var(--text-faint); text-align: right; }
+  .brand .n{ color: var(--gold); font-weight: 600; letter-spacing: .22em; }
+  .brand a.back{ font-family: var(--font-mono); font-size: .74rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+    color: #0b0a0a; background: var(--gold); padding: .55rem .95rem; border-radius: 3px; text-decoration: none; white-space: nowrap; transition: background .15s; }
+  .brand a.back:hover, .brand a.back:focus-visible{ background: #f4c46a; }
 </style>
 
 <div class="wrap">
 
-  <div class="brand"><span><span class="n">NAYA</span> · Clases de Producción</span><a href="../">← Producción</a></div>
+  <div class="brand"><a class="back" href="../">← Producción</a><span class="ctx"><span class="n">NAYA</span> · Clases de Producción</span></div>
 
   <p class="kicker">Máquina 03 · Arturia</p>
   <h1>BeatStep Pro</h1>

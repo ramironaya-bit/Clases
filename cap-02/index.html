@@ -201,11 +201,20 @@
     .bloque{ grid-template-columns: 2.8rem 1fr; gap: .8rem; }
     .marca .letra{ font-size: 1.5rem; }
   }
+
+  /* barra superior fija con botón de volver */
+  .brand{ position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: .9rem; flex-wrap: wrap;
+    background: rgba(11,10,10,.94); backdrop-filter: blur(8px); padding: .7rem 0 .75rem; margin-bottom: 2.2rem; }
+  .brand .ctx{ font-family: var(--font-mono); font-size: .66rem; letter-spacing: .16em; text-transform: uppercase; color: var(--text-faint); text-align: right; }
+  .brand .n{ color: var(--gold); font-weight: 600; letter-spacing: .22em; }
+  .brand a.back{ font-family: var(--font-mono); font-size: .74rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+    color: #0b0a0a; background: var(--gold); padding: .55rem .95rem; border-radius: 3px; text-decoration: none; white-space: nowrap; transition: background .15s; }
+  .brand a.back:hover, .brand a.back:focus-visible{ background: #f4c46a; }
 </style>
 
 <div class="wrap">
 
-  <div class="brand"><span class="n">NAYA</span> <span>Clases de DJ</span> <span>Módulo 01 — Equipo y material</span></div>
+  <div class="brand"><a class="back" href="../galgo/">← Recorrido</a><span class="ctx"><span class="n">NAYA</span> · Clases de DJ · Módulo 01</span></div>
 
   <p class="kicker">Capítulo 02</p>
   <h1>Anatomía<br>de un tema</h1>

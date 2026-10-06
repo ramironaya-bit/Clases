@@ -91,10 +91,19 @@
   .regla{ font-size:.86rem; color:var(--text-muted); border-left:2px solid var(--terra); padding:.1rem 0 .1rem .9rem; }
   .regla b{ color:var(--terra); font-weight:600; }
   .regla p{ margin:0 0 .5rem; } .regla p:last-child{ margin:0; }
+
+  /* barra superior fija con botón de volver */
+  .brand{ position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: .9rem; flex-wrap: wrap;
+    background: rgba(11,10,10,.94); backdrop-filter: blur(8px); padding: .7rem 0 .75rem; margin-bottom: 2.2rem; }
+  .brand .ctx{ font-family: var(--font-mono); font-size: .66rem; letter-spacing: .16em; text-transform: uppercase; color: var(--text-faint); text-align: right; }
+  .brand .n{ color: var(--gold); font-weight: 600; letter-spacing: .22em; }
+  .brand a.back{ font-family: var(--font-mono); font-size: .74rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+    color: #0b0a0a; background: var(--gold); padding: .55rem .95rem; border-radius: 3px; text-decoration: none; white-space: nowrap; transition: background .15s; }
+  .brand a.back:hover, .brand a.back:focus-visible{ background: #f4c46a; }
 </style>
 
 <div class="wrap">
-  <div class="brand"><span><span class="n">NAYA</span> · Clases de Producción · BeatStep Pro</span><a href="../">← Guía BeatStep Pro</a></div>
+  <div class="brand"><a class="back" href="../">← Guía BeatStep Pro</a><span class="ctx"><span class="n">NAYA</span> · Clases de Producción · BeatStep Pro</span></div>
 
   <div class="cab">
     <h1><small>Clase 01 · Interactiva</small>Tu primer loop</h1>
