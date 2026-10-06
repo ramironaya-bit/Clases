@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Clase 03 · Dembow · Digitakt II</title>
+<meta name="description" content="Clase interactiva: armar un reggaetón con el Digitakt II. Dembow, 808 y redobles.">
+<meta name="theme-color" content="#0b0a0a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#0b0a0a; --bg-raised:#15120f; --bg-feature:#1a1108; --line:#2e2620; --line-soft:#241e19;
+    --text:#f2ede4; --text-muted:#a89d8e; --text-faint:#6f665c;
+    --gold:#e8b04a; --gold-soft:#8a6c2f; --terra:#e0653a; --sand:#cbb389;
+    --font-display:"Fraunces", ui-serif, Georgia, serif;
+    --font-poster:"Anton", ui-sans-serif, sans-serif;
+    --font-body:"IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+    --font-mono:"IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+  }
+  *,*::before,*::after{ box-sizing:border-box; }
+  body{ margin:0; background:var(--bg); color:var(--text); font-family:var(--font-body); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+  a{ color:var(--gold); text-underline-offset:3px; }
+  button:focus-visible, a:focus-visible{ outline:2px solid var(--gold); outline-offset:3px; }
+  .wrap{ max-width:1080px; margin:0 auto; padding:1.6rem 1.4rem 4rem; }
+
+  .brand{ display:flex; justify-content:space-between; gap:.75rem; flex-wrap:wrap; font-family:var(--font-mono); font-size:.68rem; letter-spacing:.18em; text-transform:uppercase; color:var(--text-faint); border-bottom:1px solid var(--line); padding-bottom:.8rem; margin-bottom:1.4rem; }
+  .brand .n{ color:var(--gold); font-weight:600; }
+  .brand a{ color:var(--text-faint); text-decoration:none; } .brand a:hover{ color:var(--gold); }
+  .cab{ display:flex; align-items:baseline; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:1rem; }
+  h1{ font-family:var(--font-poster); font-weight:400; text-transform:uppercase; font-size:clamp(1.8rem,5vw,2.8rem); line-height:.95; margin:0; }
+  h1 small{ display:block; font-family:var(--font-mono); font-size:.7rem; letter-spacing:.22em; color:var(--terra); margin-bottom:.4rem; }
+  .meta{ font-family:var(--font-mono); font-size:.72rem; color:var(--text-faint); }
+
+  .bloques{ display:flex; gap:.35rem; overflow-x:auto; scrollbar-width:none; margin:0 0 1.2rem; padding-bottom:.2rem; }
+  .bloques::-webkit-scrollbar{ display:none; }
+  .bloques button{ flex:0 0 auto; font-family:var(--font-mono); font-size:.66rem; letter-spacing:.06em; text-transform:uppercase; color:var(--text-muted); background:transparent; border:1px solid var(--line); border-radius:2px; padding:.35rem .6rem; cursor:pointer; }
+  .bloques button.act{ color:var(--bg); background:var(--gold); border-color:var(--gold); }
+  .bloques button.ok{ border-color:var(--gold-soft); color:var(--gold); }
+  .barra{ height:3px; background:var(--line); margin:-.6rem 0 1.4rem; }
+  .barra i{ display:block; height:100%; width:0; background:var(--gold); transition:width .25s; }
+
+  .escena{ display:grid; grid-template-columns: minmax(0,1fr) minmax(0,1.25fr); gap:1.6rem; align-items:start; }
+  @media (max-width: 860px){ .escena{ grid-template-columns:1fr; } }
+
+  .paso{ background:var(--bg-raised); border:1px solid var(--line-soft); border-left:2px solid var(--gold); border-radius:3px; padding:1.3rem 1.4rem 1.2rem; }
+  .num{ font-family:var(--font-mono); font-size:.7rem; letter-spacing:.16em; text-transform:uppercase; color:var(--gold); margin-bottom:.35rem; }
+  .paso h2{ font-family:var(--font-poster); font-weight:400; text-transform:uppercase; font-size:clamp(1.5rem,4vw,2rem); line-height:1; margin:0 0 .9rem; }
+  .combo{ font-family:var(--font-mono); font-size:.82rem; color:var(--sand); background:#0f0d0b; border:1px solid var(--line); border-radius:3px; padding:.55rem .75rem; margin:0 0 1rem; }
+  .combo:empty{ display:none; }
+  .txt p{ margin:0 0 .8rem; color:var(--text-muted); }
+  .txt ol, .txt ul{ color:var(--text-muted); padding-left:1.2rem; margin:0 0 .8rem; }
+  .txt li{ margin-bottom:.3rem; }
+  .txt b{ color:var(--text); }
+  kbd{ font-family:var(--font-mono); font-size:.78em; font-weight:600; color:var(--text); background:#2a2826; border:1px solid #3a3633; border-bottom-width:2px; border-radius:3px; padding:.02em .38em; white-space:nowrap; }
+  kbd.f{ background:#d9a03a; color:#1a1408; border-color:#b8862e; }
+  .ver{ border-left:2px solid var(--gold-soft); padding:.1rem 0 .1rem .9rem; margin:.4rem 0 .8rem; font-size:.92rem; color:var(--text-muted); }
+  .ver b{ font-family:var(--font-mono); font-size:.62rem; letter-spacing:.16em; text-transform:uppercase; color:var(--gold); display:block; font-weight:500; }
+  .antes{ border:1px solid var(--terra); background:#1d0f0a; border-radius:3px; padding:.6rem .8rem; margin:0 0 1rem; font-size:.9rem; color:var(--text-muted); }
+  .antes b{ color:var(--terra); }
+  details{ margin:.4rem 0 0; border-top:1px solid var(--line); padding-top:.7rem; }
+  summary{ cursor:pointer; font-family:var(--font-mono); font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--terra); }
+  details p{ color:var(--text-muted); font-size:.92rem; margin:.6rem 0 0; }
+
+  .nav{ display:flex; gap:.6rem; margin-top:1.1rem; }
+  .nav button{ font-family:var(--font-mono); font-size:.74rem; letter-spacing:.12em; text-transform:uppercase; padding:.85rem 1.1rem; cursor:pointer; border-radius:2px; }
+  .nav .atras{ background:transparent; color:var(--text-muted); border:1px solid var(--line); }
+  .nav .sig{ flex:1; background:var(--gold); color:var(--bg); border:1px solid var(--gold); font-weight:600; }
+  .nav .sig:hover{ background:#f0bb55; }
+  .nav button:disabled{ opacity:.35; cursor:default; }
+  .tip{ font-family:var(--font-mono); font-size:.64rem; color:var(--text-faint); margin-top:.6rem; }
+
+  .lado{ position:sticky; top:1rem; }
+  @media (max-width: 860px){ .lado{ position:static; order:-1; } .regla{ display:none; } .info{ min-height:0; } }
+  .info{ margin-top:.8rem; font-size:.86rem; color:var(--text-muted); background:var(--bg-raised); border:1px solid var(--line); border-radius:3px; padding:.75rem .9rem; min-height:3.4rem; }
+  .info b{ color:var(--text); font-family:var(--font-poster); font-weight:400; text-transform:uppercase; letter-spacing:.02em; font-size:1rem; display:block; }
+  .info .fn{ color:var(--sand); display:block; margin-top:.25rem; }
+  .regla{ margin-top:.8rem; font-size:.84rem; color:var(--text-faint); border-left:2px solid var(--terra); padding-left:.8rem; }
+  .regla b{ color:var(--terra); font-weight:600; }
+
+  /* barra superior fija con botón de volver */
+  .brand{ position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: .9rem; flex-wrap: wrap;
+    background: rgba(11,10,10,.94); backdrop-filter: blur(8px); padding: .7rem 0 .75rem; margin-bottom: 2.2rem; }
+  .brand .ctx{ font-family: var(--font-mono); font-size: .66rem; letter-spacing: .16em; text-transform: uppercase; color: var(--text-faint); text-align: right; }
+  .brand .n{ color: var(--gold); font-weight: 600; letter-spacing: .22em; }
+  .brand a.back{ font-family: var(--font-mono); font-size: .74rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+    color: #0b0a0a; background: var(--gold); padding: .55rem .95rem; border-radius: 3px; text-decoration: none; white-space: nowrap; transition: background .15s; }
+  .brand a.back:hover, .brand a.back:focus-visible{ background: #f4c46a; }
+</style>
+
+<div class="wrap">
+  <div class="brand"><a class="back" href="../">← Guía Digitakt II</a><span class="ctx"><span class="n">NAYA</span> · Clases de Producción · Digitakt II</span></div>
+
+  <div class="cab">
+    <h1><small>Clase 03 · Interactiva</small>Dembow</h1>
+    <span class="meta" id="meta">92 BPM · banco B · 3 patrones</span>
+  </div>
+
+  <div class="bloques" id="bloques"></div>
+  <div class="barra"><i id="barra"></i></div>
+
+  <div class="escena">
+    <div>
+      <article class="paso" aria-live="polite">
+        <div class="num" id="num"></div>
+        <h2 id="titulo"></h2>
+        <div class="antes" id="antes"><b>Antes:</b> REC (○) tiene que estar <b>roja</b>. Si está apagada, las teclas son pistas y no pasos: la perilla cambia toda la pista.</div>
+        <div class="combo" id="combo"></div>
+        <div class="txt" id="txt"></div>
+        <div class="ver" id="ver"><b>Tenés que ver</b><span></span></div>
+        <details id="ayuda"><summary>No me sale</summary><p></p></details>
+      </article>
+      <div class="nav">
+        <button class="atras" id="atras">← Atrás</button>
+        <button class="sig" id="sig">Listo, siguiente →</button>
+      </div>
+      <p class="tip">También con las flechas del teclado. Tu avance queda guardado en este navegador.</p>
+    </div>
+    <div class="lado">
+      <div id="panel"></div>
+      <div class="info" id="info">Lo que brilla es lo que tenés que tocar. <span class="fn">Tocá cualquier tecla del dibujo para ver qué hace.</span></div>
+      <p class="regla"><b>La regla de oro:</b> las perillas A–H mueven lo que muestra la pantalla en ese momento. Si girás A y cambia otra cosa, es porque tenés abierta otra página: fijate qué dice la pantalla.</p>
+    </div>
+  </div>
+</div>
+
+<script src="../panel.js"></script>
+<script>
+(function(){
+  var F = '<kbd class="f">FUNC</kbd>';
+  function K(t){ return '<kbd>'+t+'</kbd>'; }
+  var GUARDAR = "Guardá: mantené "+F+" y tocá "+K("⚙ SETTINGS")+" (abajo dice Save Proj). Acostumbrate a hacerlo cada vez que algo te gusta.";
+
+  var BLOQUES = ["El dembow","El kit","El esqueleto","Dos compases","Hats y percusión","El 808","Partes y canción"];
+
+  var PASOS = [
+    // 0 · Qué es
+    {b:0, t:"Qué es el dembow", k:[], p:"<p>Casi todo el reggaetón, de Daddy Yankee a Bad Bunny, se apoya en un mismo ritmo: el <b>dembow</b>.</p><ul><li><b>Bombo</b> en las cuatro negras, como en el house.</li><li><b>Caja</b> en un patrón de <b>3 + 3 + 2</b>: “boom-ch-boom-<b>chik</b>”. Ese es el gancho.</li><li>Tempo lento: entre <b>88 y 100 BPM</b>.</li></ul><p>Encima va un <b>808</b> (bajo largo que desliza), hats con redobles y percusión. Lo armamos en el <b>banco B</b>, así tu canción de la clase 1 queda intacta en el banco A.</p>"},
+    {b:0, t:"Ir al patrón B01", k:["ptn","right","t1"], p:"<p>Tocá "+K("PTN")+", después "+K("▶")+" para pasar al banco <b>B</b>, y la tecla "+K("1")+".</p>", v:"Arriba a la izquierda dice B01. No suena nada: está vacío.", a:"Si dice C01, te pasaste de banco: con PTN abierto, ◀ vuelve uno."},
+    {b:0, t:"92 BPM, sin swing", k:["tempo","knobA","knobD","no"], p:"<p>"+K("◭")+" TEMPO: perilla A en <b>92</b>, perilla D (swing) en <b>50 %</b>: el dembow va derecho. "+K("NO")+" para salir.</p>", a:"Si el tempo es igual para todos los patrones y no querés cambiar el de la clase 1: dentro del menú TEMPO, mantené FUNC y girá E para pasar de tempo de proyecto a tempo por patrón."},
+
+    // 1 · Kit
+    {b:1, t:"Cargar los sonidos", k:[["trk","h"],"t1","preset"], p:"<p>Como en la clase 1: "+K("TRK")+" + número → "+K("☰")+" → PRESET → LOAD → buscar → "+K("YES")+". Usá <b>◀ → FILTER</b> para filtrar por etiqueta.</p><ul><li><b>1</b>: bombo seco y corto</li><li><b>2</b>: caja o rim con “chasquido”</li><li><b>3</b>: hat cerrado</li><li><b>4</b>: percusión (timbal, bongó, conga)</li><li><b>5</b>: un 808 o un bajo largo</li><li><b>6</b>: un acorde, pluck o pad</li><li><b>7</b>: una voz o un “hey” (opcional)</li></ul>", v:"Las teclas 1 a 7 suenan, cada una distinta."},
+    {b:1, t:"Guardar", k:[["func","h"],"settings"], p:"<p>Mantené "+F+" y tocá "+K("⚙")+".</p>"},
+
+    // 2 · Esqueleto
+    {b:2, t:"Bombo en negras", k:["rec",["trk","h"],"t1","t5","t9","t13"], p:"<p>"+K("○")+" REC (roja), "+K("TRK")+" + "+K("1")+", pasos <b>1, 5, 9, 13</b>. Dale "+K("▷")+" PLAY.</p>", v:"Un bombo parejo, lento."},
+    {b:2, t:"La caja del dembow", k:[["trk","h"],"t2","t4","t7","t12","t15"], p:"<p>"+K("TRK")+" + "+K("2")+", pasos <b>4, 7, 12, 15</b>.</p><p>Contalo: 1-2-3-<b>4</b>, 5-6-<b>7</b>, 8… La caja cae justo antes y después de los bombos de 5 y 13. Ese es el “boom-ch-boom-chik”.</p>", v:"Ya suena a reggaetón. Así de simple es el esqueleto.", a:"Si no suena a reggaetón, revisá que el swing esté en 50 % y que la caja esté en 4, 7, 12 y 15 (no en 5 y 13 como en el house)."},
+    {b:2, t:"Bombo y caja que se lleven bien", k:[["trk","h"],"t1","amp"], p:"<p>El bombo tiene que ser corto para que la caja respire: "+K("TRK")+" + "+K("1")+", "+K("AMP")+", bajá un poco <b>DEC</b>. Si la caja se pierde, subile el volumen con LEVEL/DATA (con la pista 2 activa).</p>"},
+
+    // 3 · Dos compases
+    {b:3, t:"Pasar a dos compases", k:[["func","h"],"page","no"], p:"<p>"+F+" + "+K("PAGE")+" abre PAGE SETUP. Poné <b>LENGTH</b> en <b>32</b> (girá la perilla que está en el mismo lugar que LENGTH en la pantalla) (dos páginas de 16). "+K("NO")+" para salir.</p><p>Al alargar, el Digitakt <b>copia</b> lo que había en la página 1 a la página 2. No perdés nada.</p>", v:"Las luces de página muestran 2 páginas.", a:"Si ves dos columnas (TRACK y PATTERN), quedó en modo PER TRACK: FUNC + YES vuelve a PER PATTERN y ahí cambiás LENGTH."},
+    {b:3, t:"Editar la página 2", k:["page"], p:"<p>Con REC prendida, "+K("PAGE")+" cambia qué página editás: la luz fija es la que estás viendo, la que parpadea es la que suena.</p><p>Andá a la <b>página 2</b>.</p>"},
+    {b:3, t:"Un hueco antes de la vuelta", k:[["trk","h"],"t1","t13","t15","t16"], p:"<p>En la página 2, con el bombo ("+K("TRK")+" + "+K("1")+"): <b>sacá el paso 13</b> y poné uno en el <b>15</b> y otro en el <b>16</b>.</p><p>Ese tropezón al final de cada dos compases es lo que hace que el loop “vuelva” con fuerza.</p>", v:"Cada dos compases, el bombo cambia antes de volver a empezar."},
+    {b:3, t:"Guardar", k:[["func","h"],"settings"], p:"<p>Mantené "+F+" y tocá "+K("⚙")+".</p>"},
+
+    // 4 · Hats y percusión
+    {b:4, t:"Hats en corcheas", k:["page",["trk","h"],"t3","t1","t3","t5","t7","t9","t11","t13","t15"], p:"<p>Volvé a la página 1 ("+K("PAGE")+"). "+K("TRK")+" + "+K("3")+", pasos impares: <b>1, 3, 5, 7, 9, 11, 13, 15</b>. Repetilo en la página 2.</p>", a:"Un atajo: armá la página 1 y copiala a la 2 con PAGE + ○ (copiar) en la página 1, y PAGE + □ (pegar) en la página 2."},
+    {b:4, t:"El redoble de hat", k:["trigp","trigp",["t15","h"],"knobA"], p:"<p>Con el hat activo, tocá "+K("TRIG")+" <b>dos veces</b> (página de retrigs). En la página 2, mantené el paso "+K("15")+" y prendé <b>RTRG</b>; poné <b>RATE</b> en <b>1/32</b>.</p><p>Es el “trrrr” de hat que tienen casi todos los temas nuevos.</p>", rec:1, v:"Un redoble rápido de hat al final de cada dos compases."},
+    {b:4, t:"Hats con vida", k:["trigp",["t3","h"],"knobB"], p:"<p>Página de "+K("TRIG")+" normal: mantené algunos hats y bajá <b>VEL</b> (perilla B). Que no todos peguen igual.</p>", rec:1},
+    {b:4, t:"Percusión que responde", k:[["trk","h"],"t4","t3","t11","t14"], p:"<p>"+K("TRK")+" + "+K("4")+" (timbal o bongó), pasos <b>3, 11 y 14</b> en la página 1. En "+K("SRC")+", probá distintas afinaciones con locks de <b>TUNE</b> (perilla A) en cada paso.</p>"},
+    {b:4, t:"Un remate cada 4 vueltas", k:["trigp",["t16","h"],"knobH"], p:"<p>Poné un golpe de percusión en el paso <b>16</b> de la página 2 y dale <b>COND</b> (perilla H) <b>2:2</b>. Como el patrón dura 2 compases, suena cada 4.</p>", rec:1},
+
+    // 5 · 808
+    {b:5, t:"El tono del tema", k:[["trk","h"],"t5",["func","h"],"kb"], p:"<p>"+K("TRK")+" + "+K("5")+" (el 808). "+F+" + "+K("♪")+": <b>KB SCALE</b> menor (eólica), <b>ROOT NOTE</b> en <b>F#</b> o la que te guste, <b>KB FOLD</b> en ON. "+K("NO")+".</p><p>Si fijaste NOTE PARAM en SCALE en la clase 1, las notas del 808 van a seguir esta escala solas.</p>"},
+    {b:5, t:"Que dure", k:["amp"], p:"<p>El 808 tiene que sonar largo, hasta la nota siguiente. En "+K("AMP")+" subí <b>DEC</b> (y <b>HOLD</b>) hasta que cada nota llegue a la otra.</p>"},
+    {b:5, t:"Siguiendo al bombo", k:["rec",["trk","h"],"t5","t1","t8","t9"], p:"<p>Con REC, pista 5: pasos <b>1, 8 y 9</b> en las dos páginas. El 808 empuja junto al bombo y adelanta la nota del 9 en el paso 8.</p>"},
+    {b:5, t:"Las notas", k:["trigp",["t9","h"],"knobA"], p:"<p>En "+K("TRIG")+", con locks de <b>NOTE</b> (perilla A): página 1 en la tónica; página 2, los pasos 8 y 9 <b>bajan</b> (probá 2 o 4 notas de la escala abajo). Ya tenés un movimiento de dos acordes.</p>", rec:1, v:"Un bajo que cambia de nota cada dos compases."},
+    {b:5, t:"Que deslice", k:["trigp","trigp"], p:"<p>El deslizamiento entre notas es clave en el 808. "+K("TRIG")+" dos veces: prendé <b>PORT</b> (portamento) y subí <b>PTIM</b> de a poco hasta que la nota “caiga” hacia la siguiente.</p>", a:"Si desliza demasiado y se vuelve molesto, bajá PTIM. Más detalles del portamento en FUNC + FLTR (Setup) → TRACK → PORTAMENTO."},
+    {b:5, t:"Afinar el bombo con el 808", k:[["trk","h"],"t1","src","knobA"], p:"<p>Si el bombo y el 808 chocan, afiná el bombo: "+K("TRK")+" + "+K("1")+", "+K("SRC")+", <b>TUNE</b> (perilla A) hasta que suenen juntos, no peleados. Probá también bajar un poco el volumen del 808.</p>"},
+    {b:5, t:"Guardar", k:[["func","h"],"settings"], p:"<p>Mantené "+F+" y tocá "+K("⚙")+".</p>"},
+
+    // 6 · Partes y canción
+    {b:6, t:"El acorde", k:[["trk","h"],"t6","t1"], p:"<p>"+K("TRK")+" + "+K("6")+": un golpe en el paso <b>1</b> de cada página, con <b>LEN</b> largo (en TRIG) para que dure. Lockeá <b>NOTE</b> en la página 2 para que acompañe al 808.</p>", a:"Las pistas de audio tocan un sample por vez: un acorde tiene que venir ya grabado en el sample. Si querés acordes armados nota por nota, usá una pista MIDI tocando un sinte de Ableton (clase 2)."},
+    {b:6, t:"Copiar a B02 y B03", k:["stop","rec",["func","h"],"rec","ptn","t2",["func","h"],"stop"], p:"<p>"+K("□")+" STOP, REC apagada, "+F+" + "+K("○")+" (copiar). Pegalo en <b>B02</b> y <b>B03</b> con "+K("PTN")+" + número y "+F+" + "+K("□")+".</p>"},
+    {b:6, t:"B02 · intro", k:["ptn","t2",["trk","h"],"t1",["func","h"],"play"], p:"<p>En B02, con REC: vaciá el <b>bombo</b> (1) y el <b>808</b> (5) con "+K("TRK")+" + número y "+F+" + "+K("▷")+". Queda acorde, hats y percusión: la intro.</p>"},
+    {b:6, t:"B03 · coro", k:["ptn","t3",["trk","h"],"t7"], p:"<p>En B03 sumá la <b>voz</b> (pista 7) en algún contratiempo, y más redobles de hat. Es el momento más lleno.</p>"},
+    {b:6, t:"La canción", k:["song","t2",["func","h"],"song"], p:"<p>"+K("SONG")+" + "+K("2")+" (canción nueva), "+F+" + "+K("SONG")+", INSERT ROW. Como cada patrón dura 2 compases, las repeticiones cuentan de a dos:</p><ol><li>B02 · 4 (8 compases)</li><li>B01 · 8</li><li>B03 · 8</li><li>B02 · 2</li><li>B03 · 8</li><li>B01 · 4</li></ol><p>END en STOP y guardá.</p>"},
+    {b:6, t:"Tarea", k:[], p:"<p>Escuchá un tema de Bad Bunny que te guste y prestá atención a <b>dónde cae la caja</b> y <b>qué hace el 808</b>. Copiá ese movimiento en B01.</p><p>Después, grabalo en Ableton con lo de la clase 2. 🎛️</p>"}
+  ];
+
+  /* ---------- motor ---------- */
+  var KEY = "naya-dt2-clase03";
+  var i = 0, hechos = {};
+  try{ var s = JSON.parse(localStorage.getItem(KEY)) || {}; i = Math.min(s.i||0, PASOS.length-1); hechos = s.h || {}; }catch(e){}
+  function guardar(){ try{ localStorage.setItem(KEY, JSON.stringify({i:i, h:hechos})); }catch(e){} }
+
+  DT2Panel.render(document.getElementById("panel"));
+  var bl = document.getElementById("bloques");
+  BLOQUES.forEach(function(n, b){
+    var btn = document.createElement("button"); btn.textContent = (b)+" · "+n;
+    btn.addEventListener("click", function(){ for(var j=0;j<PASOS.length;j++){ if(PASOS[j].b===b){ ir(j); break; } } });
+    bl.appendChild(btn);
+  });
+
+  function ir(n){
+    i = Math.max(0, Math.min(PASOS.length-1, n));
+    var p = PASOS[i];
+    document.getElementById("num").textContent = "Bloque "+p.b+" · "+BLOQUES[p.b]+" · paso "+(i+1)+" de "+PASOS.length;
+    document.getElementById("titulo").textContent = p.t;
+    document.getElementById("combo").textContent = p.ab ? "En Ableton · " + p.ab : p.k.length ? DT2Panel.texto(p.k).replace(/^./, function(c){ return c.toUpperCase(); }) : "";
+    document.getElementById("antes").style.display = p.rec ? "" : "none";
+    document.getElementById("txt").innerHTML = p.p;
+    var v = document.getElementById("ver"); v.style.display = p.v ? "" : "none"; v.querySelector("span").textContent = p.v || "";
+    var a = document.getElementById("ayuda"); a.style.display = p.a ? "" : "none"; a.open = false; a.querySelector("p").textContent = p.a || "";
+    DT2Panel.marcar(p.k);
+    document.getElementById("atras").disabled = i === 0;
+    document.getElementById("sig").textContent = i === PASOS.length-1 ? "Terminé la clase ✓" : "Listo, siguiente →";
+    [].forEach.call(bl.children, function(btn, b){
+      btn.classList.toggle("act", b === p.b);
+      var todos = PASOS.every(function(q, j){ return q.b !== b || hechos[j]; });
+      btn.classList.toggle("ok", todos && b !== p.b);
+    });
+    var n = Object.keys(hechos).length;
+    document.getElementById("barra").style.width = (n / PASOS.length * 100) + "%";
+    guardar();
+  }
+  document.getElementById("sig").addEventListener("click", function(){ hechos[i] = 1; ir(i+1); if(i === PASOS.length-1) guardar(); window.scrollTo({top:0, behavior:"smooth"}); });
+  document.getElementById("atras").addEventListener("click", function(){ ir(i-1); });
+  document.addEventListener("keydown", function(e){
+    if(e.target.closest("input,textarea")) return;
+    if(e.key === "ArrowRight"){ hechos[i] = 1; ir(i+1); }
+    if(e.key === "ArrowLeft") ir(i-1);
+  });
+
+  var info = document.getElementById("info");
+  document.getElementById("panel").addEventListener("click", function(e){
+    var k = e.target.closest("[data-k]"); if(!k) return;
+    var d = DT2Panel.info(k.dataset.k); if(!d) return;
+    info.innerHTML = "<b></b><span class='a'></span>" + (d[2] ? "<span class='fn'></span>" : "");
+    info.querySelector("b").textContent = d[0];
+    info.querySelector(".a").textContent = d[1];
+    if(d[2]) info.querySelector(".fn").textContent = "Con FUNC: " + d[2];
+  });
+
+  ir(i);
+})();
+</script>
+</html>
