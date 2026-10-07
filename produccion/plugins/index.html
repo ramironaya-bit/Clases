@@ -3,8 +3,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Ableton Live · Clases de Producción</title>
-<meta name="description" content="Guía de Ableton Live. Clases de producción con NAYA.">
+<title>Plugins · Clases de Producción</title>
+<meta name="description" content="Fichas de plugins: cómo configurarlos y cómo combinarlos con los aparatos. Clases de producción con NAYA.">
 <meta name="theme-color" content="#0b0a0a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,12 +30,6 @@
   a{ color: var(--gold); text-underline-offset: 3px; }
   a:focus-visible{ outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
   .wrap{ max-width: 760px; margin: 0 auto; padding: 3.5rem 1.4rem 5rem; }
-  .brand{
-    font-family: var(--font-mono); font-size:.7rem; letter-spacing:.2em;
-    text-transform:uppercase; color: var(--text-faint);
-    border-bottom:1px solid var(--line); padding-bottom:.85rem; margin-bottom:2.6rem;
-  }
-  .brand .n{ color: var(--gold); font-weight:600; letter-spacing:.24em; }
   h1{
     font-family: var(--font-poster); font-weight:400;
     font-size: clamp(3.2rem, 13vw, 6rem); line-height:.86;
@@ -81,6 +75,10 @@
     color: var(--text-muted); font-size:.95rem; max-width:58ch;
   }
   .como b{ color: var(--text); font-weight:600; }
+  .entradas{ display:flex; gap:.6rem; flex-wrap:wrap; margin-top:1rem; }
+  .entradas a{ font-family: var(--font-mono); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; font-weight:600;
+    border:1px solid var(--gold-soft); border-radius:3px; padding:.5rem .8rem; text-decoration:none; }
+  .entradas a:hover{ border-color: var(--gold); }
   footer{
     border-top:1px solid var(--line); padding-top:1.2rem;
     font-family: var(--font-mono); font-size:.66rem; letter-spacing:.1em;
@@ -89,7 +87,8 @@
 
   /* barra superior fija con botón de volver */
   .brand{ position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: .9rem; flex-wrap: wrap;
-    background: rgba(11,10,10,.94); backdrop-filter: blur(8px); padding: .7rem 0 .75rem; margin-bottom: 2.2rem; }
+    background: rgba(11,10,10,.94); backdrop-filter: blur(8px); padding: .7rem 0 .75rem; margin-bottom: 2.2rem;
+    border-bottom:1px solid var(--line); }
   .brand .ctx{ font-family: var(--font-mono); font-size: .66rem; letter-spacing: .16em; text-transform: uppercase; color: var(--text-faint); text-align: right; }
   .brand .n{ color: var(--gold); font-weight: 600; letter-spacing: .22em; }
   .brand a.back{ font-family: var(--font-mono); font-size: .74rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
@@ -99,28 +98,50 @@
 
 <div class="wrap">
 
-  <div class="brand"><a class="back" href="../">← Producción</a><span class="ctx"><span class="n">NAYA</span> · Clases de Producción</span></div>
+  <div class="brand"><a class="back" id="back" href="../ableton/">← Ableton Live</a><span class="ctx"><span class="n">NAYA</span> · Clases de Producción · Plugins</span></div>
 
-  <h1>Ableton<br>Live</h1>
-  <p class="bajada">La compu como estudio. La guía se está armando: mientras tanto, el Digitakt II ya tiene la suya, con una sección para trabajarlo junto a Ableton.</p>
+  <h1>Plugins</h1>
+  <p class="bajada">Fichas para dejar cada plugin sonando como queremos, y cómo combinarlo con los aparatos.</p>
 
   <section>
+    <h2>Fichas</h2>
+    <p class="nota">Cada ficha: el ajuste listo, por qué funciona y cómo engancharlo con el resto</p>
     <div class="herr">
-      <a class="h" href="../digitakt-ii/#m9">
-        <div class="h-top"><span class="h-num">→</span><span class="h-nombre">Digitakt II con Ableton</span></div>
-        <p>Sincronizar, grabar el audio y usar el Digitakt para tocar los instrumentos de Ableton.</p>
-        <span class="abrir">Ir a la sección →</span>
+      <a class="h" href="autotune-7/">
+        <div class="h-top"><span class="h-num">01</span><span class="h-nombre">Antares Auto-Tune 7</span><span class="estado ok">abierta</span></div>
+        <p>Voz bien autotuneada estilo reggaetón, a juego con el dembow del Digitakt II (88 BPM, F# menor). Y cómo hacer que el Digitakt le diga a qué notas ir.</p>
+        <span class="abrir">Abrir ficha →</span>
       </a>
-      <a class="h" href="../plugins/">
-        <div class="h-top"><span class="h-num">→</span><span class="h-nombre">Plugins</span></div>
-        <p>Fichas de plugins listas para usar. La primera: Auto-Tune 7 estilo reggaetón, a juego con el dembow del Digitakt.</p>
-        <span class="abrir">Ver las fichas →</span>
-      </a>
+    </div>
+  </section>
+
+  <section>
+    <h2>Dos entradas</h2>
+    <p class="nota">El mismo lugar, desde la compu o desde el aparato</p>
+    <p class="como">Los plugins viven en <b>Ableton</b>, pero muchas fichas se arman para sonar junto a un aparato. Por eso esta sección se abre desde la guía de Ableton Live y también desde la del <b>Digitakt II</b>.</p>
+    <div class="entradas">
+      <a href="../ableton/">Ableton Live</a>
+      <a href="../digitakt-ii/#m9">Digitakt II · Con Ableton</a>
     </div>
   </section>
 
   <footer>NAYA · Clases de Producción · Buenos Aires</footer>
 
 </div>
+
+<script>
+  // El botón de volver recuerda desde dónde entraste (?desde=digitakt)
+  (function(){
+    var desde = new URLSearchParams(location.search).get("desde");
+    try{
+      if(desde) sessionStorage.setItem("plugins-desde", desde);
+      else desde = sessionStorage.getItem("plugins-desde");
+    }catch(e){}
+    if(desde === "digitakt"){
+      var b = document.getElementById("back");
+      b.href = "../digitakt-ii/#m9"; b.textContent = "← Digitakt II";
+    }
+  })();
+</script>
 
 </html>

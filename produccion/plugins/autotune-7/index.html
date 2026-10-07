@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Auto-Tune 7 · Plugins · Clases de Producción</title>
+<meta name="description" content="Ficha de Auto-Tune 7: voz autotuneada estilo reggaetón, a juego con el dembow del Digitakt II.">
+<meta name="theme-color" content="#0b0a0a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg: #0b0a0a; --bg-raised: #15120f; --bg-feature: #17130e; --line: #2e2620; --line-soft: #241e19;
+    --text: #f2ede4; --text-muted: #a89d8e; --text-faint: #6f665c;
+    --gold: #e8b04a; --gold-soft: #8a6c2f; --terra: #e0653a; --sand: #cbb389;
+    --font-display: "Fraunces", ui-serif, Georgia, serif;
+    --font-poster: "Anton", ui-sans-serif, sans-serif;
+    --font-body: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+  }
+  *,*::before,*::after{ box-sizing: border-box; }
+  @media (prefers-reduced-motion: reduce){ *{ transition-duration:.001ms !important; } }
+  body{
+    margin:0; background: var(--bg); color: var(--text);
+    font-family: var(--font-body); font-size:16px; line-height:1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a{ color: var(--gold); text-underline-offset: 3px; }
+  a:focus-visible, button:focus-visible{ outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
+  .wrap{ max-width: 760px; margin: 0 auto; padding: 3.5rem 1.4rem 5rem; }
+  h1{
+    font-family: var(--font-poster); font-weight:400;
+    font-size: clamp(3.2rem, 13vw, 6rem); line-height:.86;
+    text-transform:uppercase; margin:0 0 1.1rem;
+  }
+  .bajada{
+    font-family: var(--font-display); font-weight:300;
+    font-size: clamp(1.1rem, 2.6vw, 1.4rem); line-height:1.45;
+    color: var(--sand); max-width:42ch; margin:0 0 1.6rem;
+  }
+  .chips{ display:flex; gap:.5rem; flex-wrap:wrap; margin:0 0 2.6rem; }
+  .chip{ font-family: var(--font-mono); font-size:.68rem; letter-spacing:.12em; text-transform:uppercase;
+    border:1px solid var(--gold-soft); color: var(--gold); padding:.3rem .6rem; border-radius:2px; }
+  section{ margin-bottom:3.2rem; }
+  .mod-head{ display:flex; align-items:baseline; gap:.8rem; flex-wrap:wrap; margin-bottom:.4rem; }
+  .mod-num{ font-family: var(--font-mono); font-size:.8rem; font-weight:600; color: var(--gold); }
+  h2{ font-family: var(--font-poster); font-weight:400; font-size:1.7rem; text-transform:uppercase; margin:0; line-height:1.05; }
+  .sec-nota{ font-family: var(--font-mono); font-size:.73rem; color: var(--text-faint); margin:0 0 1.4rem; letter-spacing:.04em; }
+  h3{ font-family: var(--font-body); font-weight:600; font-size:1.05rem; margin: 2rem 0 .5rem; color: var(--text); }
+  p{ margin: 0 0 1rem; color: var(--text-muted); }
+  b{ color: var(--text); font-weight:600; }
+  ul, ol{ color: var(--text-muted); padding-left: 1.3rem; margin: 0 0 1rem; }
+  li{ margin-bottom:.35rem; }
+  kbd{ font-family: var(--font-mono); font-size:.78em; border:1px solid var(--line); border-bottom-width:2px; border-radius:3px; padding:.05rem .4rem; color: var(--text); background: var(--bg-raised); white-space:nowrap; }
+  .idea{ border-left:2px solid var(--gold); padding:.2rem 0 .2rem 1.1rem; margin: 1.4rem 0; }
+  .idea .t, .ojo .t{ font-family: var(--font-mono); font-size:.68rem; letter-spacing:.14em; text-transform:uppercase; color: var(--gold); display:block; margin-bottom:.3rem; }
+  .idea p:last-child, .ojo p:last-child{ margin-bottom:0; }
+  .ojo{ border-left:2px solid var(--terra); padding:.2rem 0 .2rem 1.1rem; margin: 1.4rem 0; }
+  .ojo .t{ color: var(--terra); }
+  .hacelo{ background: var(--bg-feature); border:1px solid var(--gold-soft); border-radius:3px; padding:1.2rem 1.3rem; margin: 1.6rem 0 0; }
+  .hacelo .t{ font-family: var(--font-poster); text-transform:uppercase; font-size:1.15rem; letter-spacing:.02em; color: var(--gold); margin-bottom:.6rem; display:block; }
+  .hacelo ol{ margin-bottom:0; }
+  .tabla{ width:100%; border-collapse: collapse; font-size:.9rem; margin: .4rem 0 1.2rem; }
+  .tabla th{ text-align:left; font-family: var(--font-mono); font-size:.62rem; letter-spacing:.14em; text-transform:uppercase; color: var(--text-faint); font-weight:500; border-bottom:1px solid var(--line); padding:.5rem .6rem .5rem 0; }
+  .tabla td{ border-bottom:1px solid var(--line-soft); padding:.6rem .6rem .6rem 0; vertical-align:top; color: var(--text-muted); }
+  .tabla td:first-child{ color: var(--text); font-weight:600; white-space:nowrap; }
+  .tabla td.v{ font-family: var(--font-mono); color: var(--gold); font-weight:600; white-space:nowrap; }
+  .tabla td.antes{ font-family: var(--font-mono); color: var(--text-faint); white-space:nowrap; }
+  .tabla tr.clave td{ background: rgba(232,176,74,.06); }
+  .scroll-x{ overflow-x:auto; }
+
+  /* teclado de la escala */
+  .escala-modo{ display:flex; gap:.5rem; flex-wrap:wrap; margin: .2rem 0 1rem; }
+  .escala-modo button{ font-family: var(--font-mono); font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; font-weight:600;
+    background:none; color: var(--text-muted); border:1px solid var(--line); border-radius:3px; padding:.5rem .8rem; cursor:pointer; }
+  .escala-modo button[aria-pressed="true"]{ background: var(--gold); border-color: var(--gold); color: var(--bg); }
+  .notas{ display:grid; grid-template-columns: repeat(12, minmax(0,1fr)); gap:4px; margin-bottom:.6rem; }
+  .nt{ border:1px solid var(--line); border-radius:3px; padding:.55rem 0 .45rem; text-align:center; font-family: var(--font-mono); font-size:.8rem; font-weight:600; }
+  .nt small{ display:block; font-size:.5rem; letter-spacing:.08em; text-transform:uppercase; font-weight:500; margin-top:.15rem; }
+  .nt.si{ background: var(--gold); border-color: var(--gold); color: var(--bg); }
+  .nt.no{ color: var(--text-faint); background: repeating-linear-gradient(135deg, transparent 0 5px, rgba(255,255,255,.03) 5px 10px); }
+  .nt.raiz{ box-shadow: inset 0 -3px 0 var(--terra); }
+  .leyenda{ font-family: var(--font-mono); font-size:.68rem; color: var(--text-faint); }
+  @media (max-width: 520px){ .nt{ font-size:.66rem; } .nt small{ display:none; } }
+
+  footer{
+    border-top:1px solid var(--line); padding-top:1.2rem;
+    font-family: var(--font-mono); font-size:.66rem; letter-spacing:.1em;
+    text-transform:uppercase; color: var(--text-faint);
+  }
+  footer a{ text-decoration:none; }
+
+  .brand{ position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: .9rem; flex-wrap: wrap;
+    background: rgba(11,10,10,.94); backdrop-filter: blur(8px); padding: .7rem 0 .75rem; margin-bottom: 2.2rem;
+    border-bottom:1px solid var(--line); }
+  .brand .ctx{ font-family: var(--font-mono); font-size: .66rem; letter-spacing: .16em; text-transform: uppercase; color: var(--text-faint); text-align: right; }
+  .brand .n{ color: var(--gold); font-weight: 600; letter-spacing: .22em; }
+  .brand a.back{ font-family: var(--font-mono); font-size: .74rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+    color: #0b0a0a; background: var(--gold); padding: .55rem .95rem; border-radius: 3px; text-decoration: none; white-space: nowrap; transition: background .15s; }
+  .brand a.back:hover, .brand a.back:focus-visible{ background: #f4c46a; }
+</style>
+
+<div class="wrap">
+
+  <div class="brand"><a class="back" href="../">← Plugins</a><span class="ctx"><span class="n">NAYA</span> · Plugins · Auto-Tune 7</span></div>
+
+  <h1>Auto-Tune 7<br>reggaetón</h1>
+  <p class="bajada">La voz que salta de nota en nota como un robot. Armada para sonar sobre el dembow del Digitakt II.</p>
+  <div class="chips">
+    <span class="chip">88 BPM</span>
+    <span class="chip">F# menor (eólico)</span>
+    <span class="chip">Digitakt · banco B</span>
+  </div>
+
+  <!-- ============ 01 ============ -->
+  <section id="a1">
+    <div class="mod-head"><span class="mod-num">01</span><h2>Por qué suena así</h2></div>
+    <p class="sec-nota">Una perilla hace casi todo</p>
+    <p>Auto-Tune escucha la nota que cantás y la empuja hacia la nota de la escala más cercana. <b>Retune Speed</b> dice qué tan rápido la empuja:</p>
+    <ul>
+      <li><b>Lento (20 a 50)</b>: corrige sin que se note. Es como venía tu plugin (en 20).</li>
+      <li><b>En 0</b>: la nota cae de golpe y salta a la siguiente sin pasar por el medio. Ese salto es el sonido del reggaetón y del trap.</li>
+    </ul>
+    <p>Lo otro que importa es la <b>escala</b>. Con <b>Chromatic</b> acepta las 12 notas y corrige poco. Con la escala del tema tiene menos lugares donde caer, y por eso cada salto se escucha.</p>
+  </section>
+
+  <!-- ============ 02 ============ -->
+  <section id="a2">
+    <div class="mod-head"><span class="mod-num">02</span><h2>El ajuste</h2></div>
+    <p class="sec-nota">Zona por zona, como está en la pantalla del plugin</p>
+
+    <h3>Fila de arriba</h3>
+    <div class="scroll-x"><table class="tabla">
+      <tr><th>Parámetro</th><th>Venía</th><th>Poné</th><th>Por qué</th></tr>
+      <tr><td>Input Type</td><td class="antes">Soprano</td><td class="v">según la voz</td><td><b>Soprano</b> para voz aguda (casi todas las mujeres), <b>Alto/Tenor</b> para voz media (casi todos los hombres), <b>Low Male</b> para voz muy grave.</td></tr>
+      <tr><td>Tracking</td><td class="antes">50</td><td class="v">50</td><td>Si la voz tiene aire o ruido y el efecto se corta, subilo a 60–70.</td></tr>
+      <tr class="clave"><td>Key</td><td class="antes">C</td><td class="v">F#</td><td>La tónica del dembow.</td></tr>
+      <tr class="clave"><td>Scale</td><td class="antes">Chromatic</td><td class="v">Minor</td><td>Menor natural = eólico. Es la misma escala que pusiste en el Digitakt (KB SCALE).</td></tr>
+      <tr><td>Scale Detune</td><td class="antes">0 · 440</td><td class="v">0 · 440</td><td>No tocar.</td></tr>
+      <tr><td>Transpose · Throat · Formant</td><td class="antes">0 · 100 · off</td><td class="v">0 · 100 · off</td><td>Para efectos de cambio de voz. Hoy no.</td></tr>
+      <tr><td>Correction Mode</td><td class="antes">Auto</td><td class="v">Auto</td><td>Graph es para dibujar la afinación a mano.</td></tr>
+    </table></div>
+
+    <h3>Pitch Correction Control</h3>
+    <div class="scroll-x"><table class="tabla">
+      <tr><th>Parámetro</th><th>Venía</th><th>Poné</th><th>Por qué</th></tr>
+      <tr class="clave"><td>Retune Speed</td><td class="antes">20</td><td class="v">0</td><td>El salto instantáneo. Llevá la perilla todo a la izquierda (Fast).</td></tr>
+      <tr><td>Humanize</td><td class="antes">0</td><td class="v">0</td><td>Si lo subís, deja más naturales las notas largas. Para este efecto, en 0.</td></tr>
+      <tr><td>Natural Vibrato</td><td class="antes">0.0</td><td class="v">0.0</td><td>Que no le agregue ni le saque vibrato a la voz.</td></tr>
+      <tr><td>Targeting · Ignores Vibrato</td><td class="antes">apagado</td><td class="v">apagado</td><td>Prendido, suaviza. No lo queremos.</td></tr>
+    </table></div>
+
+    <h3>Create Vibrato</h3>
+    <p>Shape en <b>(No Vibrato)</b>, como lo tenías. Con eso, Rate, Variation, Onset y las tres perillas de Amount no hacen nada: no hace falta tocarlas.</p>
+  </section>
+
+  <!-- ============ 03 ============ -->
+  <section id="a3">
+    <div class="mod-head"><span class="mod-num">03</span><h2>La escala</h2></div>
+    <p class="sec-nota">La tabla del medio: Bypass · Remove · Cents</p>
+    <p>Cuando ponés Key <b>F#</b> y Scale <b>Minor</b>, la tabla del medio cambia sola y muestra las notas de F# menor. Las que no son de la escala quedan afuera. Elegí cuántas notas dejar:</p>
+
+    <div class="escala-modo" role="group" aria-label="Escala">
+      <button type="button" data-modo="menor" aria-pressed="true">Menor · 7 notas</button>
+      <button type="button" data-modo="penta" aria-pressed="false">Pentatónica · 5 notas</button>
+    </div>
+    <div class="notas" id="notas" aria-live="polite"></div>
+    <p class="leyenda">Dorado = la voz puede caer ahí · Rayado = Remove · Línea naranja = tónica</p>
+    <p id="escala-txt"></p>
+  </section>
+
+  <!-- ============ 04 ============ -->
+  <section id="a4">
+    <div class="mod-head"><span class="mod-num">04</span><h2>En Ableton</h2></div>
+    <p class="sec-nota">De la pista vacía a la voz tuneada</p>
+
+    <div class="hacelo"><span class="t">Hacelo</span>
+      <ol>
+        <li>Poné el tempo de Ableton en <b>88</b>. Si sincronizás con el Digitakt, ver <a href="../../digitakt-ii/#m9">Digitakt II · Con Ableton</a>.</li>
+        <li>Creá una pista de <b>audio</b> para la voz (<kbd>⌘</kbd> + <kbd>T</kbd>) y llamala “Voz”.</li>
+        <li>En el navegador de la izquierda: <b>Plug-Ins</b> → <b>Antares</b> → <b>Auto-Tune 7</b>. Arrastralo a la pista. Tiene que ser el <b>primer</b> efecto de la cadena.</li>
+        <li>Abrí el plugin (la llavecita del dispositivo) y copiá el ajuste de la <a href="#a2">sección 02</a>.</li>
+        <li>Para escucharte mientras grabás: Monitor en <b>In</b> y usá auriculares. Si se escucha con retraso, bajá el <b>Buffer Size</b> en Preferencias → Audio (128 o 64).</li>
+        <li>Cuando te guste, guardalo como preset: en el título del dispositivo en Ableton, el ícono del disquete. Nombre: <b>Reggaeton F#m</b>.</li>
+      </ol>
+    </div>
+
+    <div class="ojo"><span class="t">Ojo</span>
+      <p>La voz tiene que entrar <b>seca</b>: sin reverb ni delay antes del Auto-Tune. Si le llega con eco, no encuentra la nota y el efecto se rompe.</p>
+    </div>
+  </section>
+
+  <!-- ============ 05 ============ -->
+  <section id="a5">
+    <div class="mod-head"><span class="mod-num">05</span><h2>La cadena</h2></div>
+    <p class="sec-nota">Lo que va después del Auto-Tune</p>
+    <ol>
+      <li><b>Auto-Tune 7</b> con este ajuste.</li>
+      <li><b>EQ Eight</b>: cortá por debajo de ~100 Hz (filtro low cut) y subí un poco arriba de 10 kHz para darle aire.</li>
+      <li><b>Compressor</b> bastante apretado: ratio 4:1, que baje 6 a 8 dB en las partes fuertes. La voz tiene que quedar siempre adelante.</li>
+      <li>En dos <b>pistas de retorno</b> (envíos A y B): un <b>delay</b> y una <b>reverb</b>.</li>
+    </ol>
+
+    <h3>Delay a 88 BPM</h3>
+    <div class="scroll-x"><table class="tabla">
+      <tr><th>Figura</th><th>Tiempo</th><th>Uso</th></tr>
+      <tr><td>1/4</td><td class="v">682 ms</td><td>Eco largo, para finales de frase.</td></tr>
+      <tr class="clave"><td>1/8 con punto</td><td class="v">511 ms</td><td>El clásico del reggaetón: rebota a contratiempo del dembow.</td></tr>
+      <tr><td>1/8</td><td class="v">341 ms</td><td>Más rítmico y pegado.</td></tr>
+      <tr><td>1/16</td><td class="v">170 ms</td><td>Casi un doblaje: engorda la voz.</td></tr>
+    </table></div>
+    <p>En el Delay de Ableton dejá <b>Sync</b> prendido y elegí la figura: los milisegundos son por si tu delay no sincroniza.</p>
+
+    <h3>Reverb</h3>
+    <p>Tipo plate, corta: decay de <b>1,2 s</b>, pre-delay de <b>30 ms</b> (o <b>85 ms</b>, un 1/32, si la querés más separada de la voz). Poca cantidad: que se note cuando la sacás, no cuando está.</p>
+  </section>
+
+  <!-- ============ 06 ============ -->
+  <section id="a6">
+    <div class="mod-head"><span class="mod-num">06</span><h2>Combo con el Digitakt</h2></div>
+    <p class="sec-nota">Que el Digitakt le diga al Auto-Tune a qué notas ir</p>
+    <p>Abajo a la izquierda del plugin está la zona <b>MIDI</b>, con dos botones para conectarlo con el Digitakt:</p>
+    <div class="scroll-x"><table class="tabla">
+      <tr><th>Botón</th><th>Qué hace</th></tr>
+      <tr><td>Learn Scale · From MIDI</td><td>Mientras está prendido, el Auto-Tune arma la escala con las notas que le mandes. Tocás F# G# A B C# D E en el Digitakt, lo apagás, y la escala queda.</td></tr>
+      <tr><td>Target Notes · Via MIDI</td><td>La voz va a la nota que está sonando por MIDI en ese momento, no a cualquiera de la escala. El Digitakt toca la melodía y la voz la sigue.</td></tr>
+    </table></div>
+
+    <h3>Armado en Ableton</h3>
+    <ol>
+      <li>En el Digitakt, una pista libre como <b>MIDI</b> (la 16, como en la guía): <kbd>FUNC</kbd> + <kbd>SRC</kbd> → máquina MIDI. En SRC, canal <b>CHAN 16</b>.</li>
+      <li>Programá ahí la melodía que querés que siga la voz. Hacé las notas <b>largas</b> (LEN), que cubran todo lo que se canta: si no hay nota sonando, el Auto-Tune no tiene adónde ir.</li>
+      <li>En Ableton, creá una pista <b>MIDI</b>. <b>MIDI From</b>: Digitakt II, canal 16. Monitor en <b>In</b>.</li>
+      <li>En esa misma pista, <b>MIDI To</b>: la pista “Voz”. Abajo aparece otro menú: elegí <b>Auto-Tune 7</b>.</li>
+      <li>En el plugin, prendé <b>Target Notes Via MIDI</b>. Play en el Digitakt y cantá.</li>
+    </ol>
+    <div class="ojo"><span class="t">Si Auto-Tune 7 no aparece en MIDI To</span>
+      <p>Algunas versiones AU no reciben MIDI en Ableton. Cargá la versión <b>VST</b> del plugin (Plug-Ins → VST → Antares) y repetí el paso 4.</p>
+    </div>
+    <div class="idea"><span class="t">Para el combo en vivo</span>
+      <p>Con Target Notes, cambiar la melodía en el Digitakt cambia la melodía de la voz. Podés hacer variaciones de la pista 16 en distintos patrones del banco B y la voz las sigue sola.</p>
+    </div>
+  </section>
+
+  <!-- ============ 07 ============ -->
+  <section id="a7">
+    <div class="mod-head"><span class="mod-num">07</span><h2>Si algo suena mal</h2></div>
+    <p class="sec-nota">Los problemas de siempre</p>
+    <div class="scroll-x"><table class="tabla">
+      <tr><th>Pasa esto</th><th>Probá</th></tr>
+      <tr><td>Glitchea, hace “gárgaras”</td><td>Subí Tracking a 60–70. Revisá que la voz llegue seca y sin ruido de fondo.</td></tr>
+      <tr><td>Salta a una nota fea</td><td>Pasá a la pentatónica (sección 03), o sacá esa nota con Remove.</td></tr>
+      <tr><td>No suena robótico</td><td>Retune Speed tiene que estar en 0 y Scale no en Chromatic.</td></tr>
+      <tr><td>Va a una octava rara</td><td>Cambiá Input Type (Soprano ↔ Alto/Tenor).</td></tr>
+      <tr><td>Se escucha con retraso</td><td>Bajá el Buffer Size en Preferencias → Audio.</td></tr>
+    </table></div>
+  </section>
+
+  <footer>NAYA · Plugins · <a href="../">Todas las fichas</a> · <a href="../../ableton/">Ableton</a> · <a href="../../digitakt-ii/">Digitakt II</a></footer>
+
+</div>
+
+<script>
+  (function(){
+    var NOTAS = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
+    var ESCALAS = {
+      menor: { n:["F#","G#","A","B","C#","D","E"], txt:"<b>F# menor (eólico)</b>: F# G# A B C# D E. Es lo que pone el plugin solo cuando elegís Minor. Arrancá por acá." },
+      penta: { n:["F#","A","B","C#","E"], txt:"<b>Pentatónica menor</b>: sacás también <b>G#</b> y <b>D</b> (en la tabla, Remove en esas dos). Con menos notas los saltos son más grandes y más “robot melódico”, y casi no hay notas que choquen." }
+    };
+    var cont = document.getElementById("notas"), txt = document.getElementById("escala-txt");
+    function pintar(modo){
+      var e = ESCALAS[modo];
+      cont.innerHTML = NOTAS.map(function(n){
+        var si = e.n.indexOf(n) >= 0;
+        return '<div class="nt ' + (si ? "si" : "no") + (n === "F#" ? " raiz" : "") + '">' + n + '<small>' + (si ? "sí" : "remove") + '</small></div>';
+      }).join("");
+      txt.innerHTML = e.txt;
+      [].forEach.call(document.querySelectorAll("[data-modo]"), function(b){ b.setAttribute("aria-pressed", b.dataset.modo === modo); });
+    }
+    document.querySelector(".escala-modo").addEventListener("click", function(ev){
+      var b = ev.target.closest("[data-modo]"); if(b) pintar(b.dataset.modo);
+    });
+    pintar("menor");
+  })();
+</script>
+
+</html>
