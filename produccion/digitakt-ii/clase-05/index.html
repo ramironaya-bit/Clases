@@ -3,8 +3,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Práctica 5 · Afro house · Digitakt II</title>
-<meta name="description" content="Practicar afro house en el Digitakt II: velocities, congas, polirritmo y sample locks.">
+<title>Clase 05 · Transiciones · Digitakt II</title>
+<meta name="description" content="Clase interactiva: transiciones en el Digitakt II. Redobles, subidas, crash al revés, delay, huecos e impactos.">
 <meta name="theme-color" content="#0b0a0a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -94,8 +94,8 @@
   <div class="brand"><a class="back" href="../">← Guía Digitakt II</a><span class="ctx"><span class="n">NAYA</span> · Clases de Producción · Digitakt II</span></div>
 
   <div class="cab">
-    <h1><small>Práctica 5 · por género</small>Afro house</h1>
-    <span class="meta" id="meta">122 BPM · banco F · 3 contra 4</span>
+    <h1><small>Clase 05 · Interactiva</small>Transiciones</h1>
+    <span class="meta" id="meta">Banco A · canción 1 · 1ST y LST</span>
   </div>
 
   <div class="bloques" id="bloques"></div>
@@ -133,25 +133,30 @@
   function K(t){ return '<kbd>'+t+'</kbd>'; }
   var GUARDAR = "Guardá: mantené "+F+" y tocá "+K("⚙ SETTINGS")+" (abajo dice Save Proj). Acostumbrate a hacerlo cada vez que algo te gusta.";
 
-  var BLOQUES = ["Arrancar","El kit","Base","Shaker con velocities","Congas","Polirritmo","Melodía y voz"];
+  var BLOQUES = ["La idea","Sonidos de FX","1ST y LST","El redoble","La subida","Crash al revés","Tirar el delay","El hueco","El impacto","Probar y tocar"];
   var PASOS = [
-    {b:0, t:"Afro house, en una línea", k:[], p:"<p>Bombo de house, pero lo que manda son las <b>percusiones</b>: shakers, congas, toms que se cruzan en ritmos de 3 contra 4. Arriba, una melodía de percusión afinada y un canto.</p><p>Técnicas nuevas: modo de teclas <b>VELOCITIES</b>, <b>velocidad 3/4</b> por pista y <b>sample locks</b>.</p>"},
-    {b:0, t:"Patrón F01, 122 BPM", k:["ptn","right","t1","tempo","knobA","knobD"], p:"<p>Banco <b>F</b>, patrón 1. <b>122</b> BPM, swing <b>52</b>.</p>"},
-    {b:1, t:"El kit", k:[["trk","h"],"t1","preset"], p:"<ul><li><b>1</b>: bombo</li><li><b>2</b>: rim o clap</li><li><b>3</b>: shaker</li><li><b>4</b>: conga grave</li><li><b>5</b>: conga aguda o bongó</li><li><b>6</b>: tom o djembe</li><li><b>7</b>: percusión afinada (kalimba, marimba, log)</li><li><b>8</b>: voz o canto</li></ul>"},
-    {b:2, t:"Base", k:["rec",["trk","h"],"t1"], p:"<p>Bombo 1, 5, 9, 13 · rim 5, 13 (o en 4 y 12, más suelto).</p>"},
-    {b:3, t:"El modo VELOCITIES", k:[["trk","h"],"t3",["func","h"],"up"], p:"<p>"+K("TRK")+" + "+K("3")+" (shaker). "+F+" + "+K("▲")+" o "+K("▼")+" hasta el modo <b>VELOCITIES</b> (arriba en la pantalla dice el modo).</p><p>Ahora cada tecla dispara el shaker a una intensidad distinta: la 1 suavecito, la 16 a fondo.</p>"},
-    {b:3, t:"Grabarlo tocando", k:["rec","play"], p:"<p>Grabación en vivo: "+K("○")+" + "+K("▷")+". Tocá el shaker en semicorcheas, <b>fuerte en los contratiempos</b> (teclas altas) y suave en el resto (teclas bajas). Un par de vueltas y "+K("▷")+" para salir.</p>", v:"Un shaker que “camina”, con dinámica humana.", a:"Activá la cuantización (REC + PLAY dos veces) para que caiga en la grilla. Volvé al modo TRACKS con FUNC + ▲/▼ cuando termines."},
-    {b:4, t:"Congas en 3 + 3 + 2", k:["rec",["trk","h"],"t4","t1","t4","t7"], p:"<p>Conga grave: pasos <b>1, 4, 7</b> (el mismo 3 + 3 + 2 del dembow, en la otra mitad del compás). Conga aguda: <b>11, 12, 15</b>.</p>"},
-    {b:4, t:"Afinarlas", k:["src",["t4","h"],"knobA"], p:"<p>Locks de <b>TUNE</b> (A, en SRC) en cada golpe: que no suenen todas igual. Las congas reales tienen golpe abierto, tapado y slap.</p>", rec:1},
-    {b:5, t:"El tom de 3 contra 4", k:[["trk","h"],"t6",["func","h"],"page"], p:"<p>Pista 6. "+F+" + "+K("PAGE")+", modo PER TRACK. En la columna TRACK: <b>SPEED 3/4X</b>, LENGTH <b>12</b>. "+K("NO")+".</p><p>A tres cuartos de velocidad, 12 pasos ocupan un compás entero, y cada paso es un tresillo.</p>"},
-    {b:5, t:"Golpes del tom", k:["rec","t1","t4","t7","t10"], p:"<p>Con REC, pasos <b>1, 4, 7, 10</b> en el tom: tresillos de negra contra el bombo. Es el cruce de 3 contra 4 que hace girar al afro.</p>"},
-    {b:6, t:"Melodía de percusión", k:[["trk","h"],"t7",["func","h"],"kb"], p:"<p>Pista 7: escala menor pentatónica, KB FOLD ON. Con REC, 5 o 6 pasos sueltos con locks de NOTE. Mandale delay corto.</p>"},
-    {b:6, t:"Sample locks en la voz", k:[["trk","h"],"t8","src",["t9","h"],"knobD"], p:"<p>Cargá 2 o 3 frases de canto al proyecto (clase 3). En la pista 8, poné pasos en 1 y 9. Mantené el paso "+K("9")+" y girá <b>SAMP</b> (D, en SRC): ese paso toca <b>otro sample</b>.</p><p>Una sola pista, varias frases.</p>", rec:1},
-    {b:6, t:"Tarea", k:[["func","h"],"settings"], p:"<p>Probá cambiar SPEED del tom a 3/2X o el largo a 5 o 7: buscá el cruce que más te mueva. Guardá.</p>"}
+    {b:0, t:"Tensión y descarga", k:[], p:"<p>Una transición es <b>tensión</b> (algo que crece, se corta o se va) seguida de una <b>descarga</b> (el golpe del drop). Vamos a armar las clásicas: redoble que acelera, subida de ruido, crash al revés, delay tirado, un hueco de silencio y un impacto al entrar.</p><p>Usamos tu canción de la <b>clase 1</b> (banco A, canción 1). Las pistas 9 a 12 están libres: ahí van los FX.</p>"},
+    {b:0, t:"Ir a la canción", k:["ptn","t4"], p:"<p>"+K("PTN")+", banco A, "+K("4")+": el <b>A04</b>, el break. La mayoría de las transiciones van al final del break, justo antes de que vuelva el pico (A03).</p>"},
+    {b:1, t:"Cargar los FX", k:[["trk","h"],"t9","preset"], p:"<p>Como siempre ("+K("TRK")+" + número → "+K("☰")+" → LOAD, con ◀ → FILTER):</p><ul><li><b>9</b>: un crash o un platillo largo</li><li><b>10</b>: ruido (noise, hiss, viento) o un platillo muy largo</li><li><b>11</b>: un impacto (boom, golpe grave) o un bombo con mucha cola</li><li><b>12</b>: una caja para el redoble</li></ul>", a:"Si no encontrás ruido en los presets, buscá en los samples de fábrica (FUNC + ▥ → +DRIVE → FACTORY) o sampleá vos el ruido de una radio o de la calle (clase 3)."},
+    {b:2, t:"Dos condiciones para transiciones", k:["trigp",["t1","h"],"knobH"], p:"<p>En la página "+K("TRIG")+", <b>COND</b> (perilla H, con un paso apretado) tiene dos condiciones hechas para esto:</p><ul><li><b>LST</b>: el paso suena solo la <b>última vez</b> que suena el patrón antes de cambiar a otro. Perfecto para lo que va <b>antes</b> del drop.</li><li><b>1ST</b>: suena solo la <b>primera vez</b>. Perfecto para el golpe <b>de entrada</b>.</li></ul><p>Las dos tienen versión <b>tachada</b> (con una raya arriba): hacen lo contrario.</p><p>En la canción, cada fila repite su patrón varias veces: con LST, la transición aparece solo en la última repetición.</p>"},
+    {b:3, t:"Los golpes del redoble", k:["rec",["trk","h"],"t12","t9","t11","t13","t14","t15","t16"], p:"<p>En A04, con REC, pista 12: pasos <b>9, 11, 13, 14, 15, 16</b>.</p>"},
+    {b:3, t:"Que acelere", k:["trigp","trigp",["t13","h"],"knobA"], p:"<p>"+K("TRIG")+" dos veces (retrigs). Mantené cada paso y prendé <b>RTRG</b>, con <b>RATE</b> cada vez más rápido:</p><ul><li>9 y 11: 1/16</li><li>13 y 14: 1/32</li><li>15 y 16: 1/64</li></ul><p>Y <b>VFAD</b> positivo, para que crezca de volumen dentro de cada redoble.</p>", rec:1, v:"Un redoble que acelera hacia el final del compás."},
+    {b:3, t:"Solo en la última vuelta", k:["trigp",["t9","h"],"knobH"], p:"<p>Página 1 de "+K("TRIG")+": en los 6 pasos, <b>COND</b> en <b>LST</b>. (Mantené varios pasos juntos y girá H: se lockean todos a la vez.)</p>", rec:1, a:"Para probarlo sin la canción: dejá A04 sonando, encolá A03 (PTN + 3) y escuchá cómo en esa última vuelta aparece el redoble."},
+    {b:4, t:"Un ruido que dura todo el compás", k:[["trk","h"],"t10","t1","trigp","knobC"], p:"<p>Pista 10 (ruido), paso <b>1</b>, con <b>LEN</b> (C, página TRIG) en 16 o más, y COND <b>LST</b>. En "+K("AMP")+", que sostenga (HOLD alto o NOTE).</p>", rec:1},
+    {b:4, t:"Que suba", k:["mod"], p:"<p>"+K("MOD")+", LFO 1:</p><ul><li><b>DEST</b>: el corte del filtro (FREQ).</li><li><b>WAVE</b>: rampa (RAMP) o exponencial (EXPO).</li><li><b>MODE</b>: <b>ONE</b> (corre una sola vez, como una envolvente).</li><li><b>SPD</b> 8 y <b>MULT</b> BPM 16: un ciclo dura justo 16 pasos.</li><li><b>DEP</b> alto.</li></ul><p>Bajá la FREQ del filtro: el LFO la va a abrir durante todo el compás.</p>", v:"El ruido arranca opaco y se abre hasta brillar justo antes del drop.", a:"Si sube al revés (de brillante a opaco), invertí DEP a negativo o probá otra onda."},
+    {b:4, t:"Y que suba de tono", k:["mod","up"], p:"<p>LFO 2 ("+K("MOD")+" otra vez): mismo modo ONE y misma velocidad, <b>DEST</b> en <b>TUNE</b>, DEP moderado. Ahora además sube de altura. Esa es la subida clásica.</p>"},
+    {b:5, t:"El crash al revés", k:[["trk","h"],"t9","src","knobB"], p:"<p>Pista 9 (crash). En "+K("SRC")+", <b>PLAY</b> (B) en <b>REVERSE</b>: suena al revés, crece en vez de apagarse.</p>"},
+    {b:5, t:"Que termine justo en el 1", k:["rec","t9","trigp",["t9","h"],"knobH"], p:"<p>El truco es que <b>termine</b> justo cuando empieza el drop. Poné el paso en el <b>9</b>, COND <b>LST</b>, y escuchá: si termina antes del 1, movelo para atrás (paso 7, 5…); si se corta, movelo para adelante.</p><p>Para ajustar fino: mantené el paso y "+K("◀")+K("▶")+" (micro timing), o mové <b>STRT</b>/<b>LEN</b> en SRC.</p>", rec:1, v:"El crash al revés crece y se corta exactamente en el primer golpe del drop."},
+    {b:6, t:"Tirar el delay", k:[["trk","h"],"t7","fx",["t13","h"],"knobE"], p:"<p>Un clásico: el último golpe antes del drop se va en <b>ecos</b>. Elegí el stab (pista 7) o la voz. En "+K("FX")+", mantené su último paso y subí <b>DEL</b> al máximo (lock). Ponele COND <b>LST</b> (en TRIG).</p><p>En "+F+" + "+K("FX")+", subí un poco <b>FDBK</b> para que los ecos sigan sonando sobre el drop.</p>", rec:1, a:"DEL es el envío al delay, en la página FX. Mirá en qué lugar de la pantalla está y usá esa perilla."},
+    {b:7, t:"El hueco antes del drop", k:["ptn","t2",["trk","h"],"t1","trigp",["t13","h"],"knobH"], p:"<p>El silencio antes del golpe pega más que cualquier efecto. En <b>A02</b> (antes del pico), bombo: mantené los pasos <b>13</b> y <b>9</b>, y poné COND en <b>LST tachado</b> (el que tiene una raya arriba).</p><p>Esos bombos suenan siempre, <b>menos</b> en la última vuelta: medio compás sin bombo, y entra A03.</p>", rec:1},
+    {b:8, t:"El impacto de entrada", k:["ptn","t3",["trk","h"],"t11","t1","trigp",["t1","h"],"knobH"], p:"<p>En <b>A03</b> (el pico), pista 11 (impacto): paso <b>1</b> con COND <b>1ST</b>. Suena solo la primera vez que entra el pico. Mandale mucha reverb (FX → REV).</p><p>Hacé lo mismo con un crash normal (pista 9 al derecho, en otro paso 1 con 1ST) si querés más golpe.</p>", rec:1},
+    {b:9, t:"Probarlo en la canción", k:["stop","stop","song","t1","play"], p:"<p>"+K("□")+" dos veces, "+K("SONG")+" + "+K("1")+", "+K("▷")+". Escuchá cada cambio de fila: redoble, subida, crash al revés, delay, el hueco y el impacto.</p>", a:"Si alguna transición no aparece en la canción, fijate que la fila tenga más de una repetición y que la condición sea LST (no LST tachado)."},
+    {b:9, t:"Tocadas a mano", k:[["page","h"]], p:"<p>Para el vivo, otra opción: en vez de LST, poné esos pasos con <b>FILL ON</b> y disparalos manteniendo "+K("PAGE")+" en el compás que elijas (clase 4).</p><p>Y un recurso más: antes del drop, mantené "+K("TRK")+" y subí <b>BASE</b> (FLTR, segunda página) para sacarle los graves a todo; en el 1, soltalo de golpe.</p>"},
+    {b:9, t:"Tarea", k:[["func","h"],"settings"], p:"<p>Llevá estas transiciones a una práctica que te guste (dembow, techno…). Elegí <b>dos</b>, no todas: la transición tiene que servir al tema, no taparlo. Guardá.</p>"}
   ];
 
   /* ---------- motor ---------- */
-  var KEY = "naya-dt2-practica-afro";
+  var KEY = "naya-dt2-clase05-trans";
   var i = 0, hechos = {};
   try{ var s = JSON.parse(localStorage.getItem(KEY)) || {}; i = Math.min(s.i||0, PASOS.length-1); hechos = s.h || {}; }catch(e){}
   function guardar(){ try{ localStorage.setItem(KEY, JSON.stringify({i:i, h:hechos})); }catch(e){} }

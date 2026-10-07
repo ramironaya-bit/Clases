@@ -166,6 +166,7 @@
   });
 
   function ir(n){
+    if(typeof terminado !== "undefined") terminado = false;
     i = Math.max(0, Math.min(PASOS.length-1, n));
     var p = PASOS[i];
     document.getElementById("num").textContent = "Bloque "+p.b+" · "+BLOQUES[p.b]+" · paso "+(i+1)+" de "+PASOS.length;
@@ -187,11 +188,31 @@
     document.getElementById("barra").style.width = (n / PASOS.length * 100) + "%";
     guardar();
   }
-  document.getElementById("sig").addEventListener("click", function(){ hechos[i] = 1; ir(i+1); if(i === PASOS.length-1) guardar(); window.scrollTo({top:0, behavior:"smooth"}); });
+  var terminado = false;
+  function fin(){
+    hechos[i] = 1; guardar(); terminado = true;
+    DT2Panel.marcar([]);
+    document.getElementById("barra").style.width = "100%";
+    document.getElementById("num").textContent = "Terminado";
+    document.getElementById("titulo").textContent = "¡Listo! 🎛️";
+    document.getElementById("combo").textContent = "";
+    var an = document.getElementById("antes"); if(an) an.style.display = "none";
+    document.getElementById("ver").style.display = "none";
+    document.getElementById("ayuda").style.display = "none";
+    document.getElementById("txt").innerHTML = "<p>Terminaste. Guardá el proyecto (mantené FUNC y tocá ⚙) y, si podés, grabalo.</p><p>Tu avance queda marcado. Volvé a la guía para elegir lo próximo, o tocá cualquier bloque de arriba para repasar.</p>";
+    document.getElementById("sig").textContent = "Volver a la guía →";
+  }
+  function avanzar(){
+    if(terminado){ location.href = "../"; return; }
+    if(i === PASOS.length-1){ fin(); }
+    else { hechos[i] = 1; ir(i+1); }
+    window.scrollTo({top:0, behavior:"smooth"});
+  }
+  document.getElementById("sig").addEventListener("click", avanzar);
   document.getElementById("atras").addEventListener("click", function(){ ir(i-1); });
   document.addEventListener("keydown", function(e){
     if(e.target.closest("input,textarea")) return;
-    if(e.key === "ArrowRight"){ hechos[i] = 1; ir(i+1); }
+    if(e.key === "ArrowRight") avanzar();
     if(e.key === "ArrowLeft") ir(i-1);
   });
 
