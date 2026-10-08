@@ -1,0 +1,822 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Live set · Clases de Producción</title>
+<meta name="description" content="Armar y practicar un live set con guitarra, Digitakt II, BeatStep Pro, APC40, microKORG y Ableton. Conexiones, rutina y bitácora. Clases de producción con NAYA.">
+<meta name="theme-color" content="#0b0a0a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================================
+     LIVE SET — mismo mundo que Digitakt II, BeatStep Pro y microKORG.
+     Oro = lo importante / audio. Terracota = ojo / MIDI. Arena = USB.
+     Ajustes de cada aparato: los mismos que sus guías (reloj desde
+     Ableton, SEQ1 canal 1, SEQ2 canal 2, DRUM canal 10).
+     ============================================================ */
+  :root{
+    --bg: #0b0a0a; --bg-raised: #15120f; --bg-feature: #1a1108;
+    --line: #2e2620; --line-soft: #241e19;
+    --text: #f2ede4; --text-muted: #a89d8e; --text-faint: #6f665c;
+    --gold: #e8b04a; --gold-soft: #8a6c2f; --terra: #e0653a; --sand: #cbb389;
+    --panel-key: #2a2826; --panel-line: #3a3633;
+    --max: 900px;
+    --font-display: "Fraunces", ui-serif, Georgia, serif;
+    --font-poster: "Anton", ui-sans-serif, sans-serif;
+    --font-body: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+  }
+  *,*::before,*::after{ box-sizing: border-box; }
+  @media (prefers-reduced-motion: reduce){ *{ transition-duration:.001ms !important; scroll-behavior:auto !important; } }
+  html{ scroll-behavior: smooth; scroll-padding-top: 4rem; }
+  body{ margin:0; background: var(--bg); color: var(--text); font-family: var(--font-body); font-size:16px; line-height:1.65; -webkit-font-smoothing: antialiased; }
+  a{ color: var(--gold); text-underline-offset: 3px; }
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible{ outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
+  .wrap{ max-width: var(--max); margin: 0 auto; padding: 3rem 1.4rem 5rem; }
+
+  .brand{ display:flex; justify-content:space-between; gap:.75rem; flex-wrap:wrap; font-family: var(--font-mono); font-size:.7rem; letter-spacing:.18em; text-transform:uppercase; color: var(--text-faint); border-bottom:1px solid var(--line); padding-bottom:.85rem; margin-bottom:2.4rem; }
+  .brand .n{ color: var(--gold); font-weight:600; letter-spacing:.22em; }
+  .brand a{ color: var(--text-faint); text-decoration:none; } .brand a:hover{ color: var(--gold); }
+  .kicker{ font-family: var(--font-mono); font-size:.76rem; font-weight:600; letter-spacing:.28em; text-transform:uppercase; color: var(--terra); margin:0 0 .5rem; }
+  h1{ font-family: var(--font-poster); font-weight:400; font-size: clamp(3.6rem, 16vw, 7.2rem); line-height:.84; text-transform:uppercase; margin:0 0 1rem; }
+  .bajada{ font-family: var(--font-display); font-weight:300; font-size: clamp(1.05rem, 2.6vw, 1.35rem); line-height:1.45; color: var(--sand); max-width:44ch; margin:0 0 2rem; }
+  .meta{ display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem 1.2rem; border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:1.1rem 0; margin:0 0 2.6rem; }
+  .meta dt{ font-family: var(--font-mono); font-size:.6rem; letter-spacing:.16em; text-transform:uppercase; color: var(--text-faint); margin-bottom:.25rem; }
+  .meta dd{ margin:0; font-weight:600; font-size:.95rem; } .meta dd.hi{ color: var(--gold); }
+
+  .toc{ position: sticky; top:0; z-index:5; background: rgba(11,10,10,.94); backdrop-filter: blur(6px); border-bottom:1px solid var(--line); margin: 0 -1.4rem 2.6rem; padding:.55rem 1.4rem; display:flex; gap:.4rem; overflow-x:auto; scrollbar-width:none; }
+  .toc::-webkit-scrollbar{ display:none; }
+  .toc a{ flex:0 0 auto; text-decoration:none; color: var(--text-muted); font-family: var(--font-mono); font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; border:1px solid var(--line); border-radius:2px; padding:.3rem .55rem; white-space:nowrap; }
+  .toc a:hover{ color: var(--gold); border-color: var(--gold-soft); }
+
+  section.mod{ margin-bottom: 4.2rem; }
+  .mod-head{ display:flex; align-items:baseline; gap:.8rem; flex-wrap:wrap; margin-bottom:.4rem; }
+  .mod-num{ font-family: var(--font-mono); font-size:.8rem; font-weight:600; color: var(--gold); }
+  h2{ font-family: var(--font-poster); font-weight:400; font-size: clamp(1.7rem, 5vw, 2.4rem); line-height:1; text-transform:uppercase; margin:0; }
+  .sec-nota{ font-family: var(--font-mono); font-size:.73rem; color: var(--text-faint); margin:0 0 1.4rem; letter-spacing:.04em; }
+  h3{ font-family: var(--font-body); font-weight:600; font-size:1.05rem; margin: 2rem 0 .5rem; color: var(--text); }
+  p{ margin: 0 0 1rem; color: var(--text-muted); }
+  p b, li b, td b{ color: var(--text); font-weight:600; }
+  ul, ol{ color: var(--text-muted); padding-left: 1.3rem; margin: 0 0 1rem; }
+  li{ margin-bottom: .35rem; }
+  kbd{ display:inline-block; font-family: var(--font-mono); font-size:.72em; font-weight:600; letter-spacing:.04em; color: var(--text); background: var(--panel-key); border:1px solid var(--panel-line); border-bottom-width:2px; border-radius:3px; padding:.05em .4em; line-height:1.5; white-space:nowrap; vertical-align: .08em; }
+
+  .idea{ border-left:2px solid var(--gold); padding:.2rem 0 .2rem 1.1rem; margin: 1.4rem 0; }
+  .ojo{ border-left:2px solid var(--terra); padding:.2rem 0 .2rem 1.1rem; margin: 1.4rem 0; }
+  .ojo .t, .idea .t{ font-family: var(--font-mono); font-size:.65rem; letter-spacing:.18em; text-transform:uppercase; display:block; margin-bottom:.3rem; }
+  .ojo .t{ color: var(--terra); } .idea .t{ color: var(--gold); }
+  .ojo p:last-child, .idea p:last-child{ margin-bottom:0; }
+
+  .hacelo{ background: var(--bg-feature); border:1px solid var(--gold-soft); border-radius:3px; padding:1.2rem 1.3rem; margin: 1.6rem 0 0; }
+  .hacelo .t{ font-family: var(--font-poster); text-transform:uppercase; font-size:1.15rem; letter-spacing:.02em; color: var(--gold); margin-bottom:.6rem; display:block; }
+  .hacelo ol, .hacelo ul{ margin-bottom:.4rem; }
+
+  .tabla{ width:100%; border-collapse: collapse; font-size:.9rem; margin: .4rem 0 1.2rem; }
+  .tabla th{ text-align:left; font-family: var(--font-mono); font-size:.62rem; letter-spacing:.14em; text-transform:uppercase; color: var(--text-faint); font-weight:500; border-bottom:1px solid var(--line); padding:.5rem .6rem .5rem 0; }
+  .tabla td{ border-bottom:1px solid var(--line-soft); padding:.6rem .6rem .6rem 0; vertical-align:top; color: var(--text-muted); }
+  .tabla td:first-child{ color: var(--text); font-weight:600; }
+  .scroll-x{ overflow-x:auto; }
+
+  /* equipo */
+  .equipo{ display:grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap:.7rem; margin: 1rem 0 1.4rem; }
+  .eq{ background: var(--bg-raised); border:1px solid var(--line-soft); border-top:2px solid var(--gold); border-radius:3px; padding:1rem 1.1rem; }
+  .eq.opc{ border-top-color: var(--line); border-style: dashed; border-top-style: solid; }
+  .eq .tag{ font-family: var(--font-mono); font-size:.58rem; letter-spacing:.16em; text-transform:uppercase; color: var(--gold); }
+  .eq.opc .tag{ color: var(--text-faint); }
+  .eq h4{ font-family: var(--font-poster); font-weight:400; text-transform:uppercase; font-size:1.35rem; line-height:1; margin:.25rem 0 .5rem; }
+  .eq p{ font-size:.9rem; line-height:1.5; margin:0 0 .5rem; }
+  .eq .rol{ font-family: var(--font-mono); font-size:.7rem; color: var(--sand); margin:0; }
+  .eq a{ font-family: var(--font-mono); font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; }
+
+  /* escenarios */
+  .tabs{ display:flex; gap:.4rem; flex-wrap:wrap; margin: 1rem 0 1rem; }
+  .tabs button{ font-family: var(--font-mono); font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color: var(--text-muted); background: transparent; border:1px solid var(--line); border-radius:2px; padding:.5rem .8rem; cursor:pointer; }
+  .tabs button:hover{ color: var(--gold); border-color: var(--gold-soft); }
+  .tabs button[aria-selected="true"]{ background: var(--gold); border-color: var(--gold); color: var(--bg); font-weight:600; }
+  .esc-intro{ color: var(--sand); font-family: var(--font-display); font-size:1.05rem; }
+  .diagrama{ background: var(--bg-raised); border:1px solid var(--line); border-radius:3px; padding:.6rem; margin: .8rem 0 .6rem; }
+  .diagrama svg{ display:block; width:100%; height:auto; }
+  .leyenda{ display:flex; gap:1.2rem; flex-wrap:wrap; font-family: var(--font-mono); font-size:.68rem; color: var(--text-muted); margin-bottom:1.4rem; }
+  .leyenda i{ display:inline-block; width:26px; height:0; border-top:3px solid; vertical-align:middle; margin-right:.4rem; }
+  .cables{ display:grid; gap:.4rem; margin:.6rem 0 1.2rem; counter-reset: c; }
+  .cable{ display:grid; grid-template-columns: 2rem 1fr; gap:.6rem; background: var(--bg-raised); border:1px solid var(--line-soft); border-radius:3px; padding:.7rem .9rem; }
+  .cable::before{ counter-increment: c; content: counter(c, decimal-leading-zero); font-family: var(--font-mono); font-size:.75rem; font-weight:600; color: var(--gold); }
+  .cable .de{ color: var(--text); font-weight:600; }
+  .cable .ti{ font-family: var(--font-mono); font-size:.62rem; letter-spacing:.12em; text-transform:uppercase; padding:.05rem .4rem; border-radius:2px; margin-left:.3rem; white-space:nowrap; }
+  .ti.audio{ background: rgba(232,176,74,.15); color: var(--gold); }
+  .ti.midi{ background: rgba(224,101,58,.15); color: var(--terra); }
+  .ti.usb{ background: rgba(203,179,137,.13); color: var(--sand); }
+  .cable small{ display:block; color: var(--text-faint); font-size:.82rem; line-height:1.45; margin-top:.15rem; }
+
+  /* ajustes por aparato */
+  .ajustes{ display:grid; gap:.7rem; }
+  details.aj{ background: var(--bg-raised); border:1px solid var(--line-soft); border-left:2px solid var(--gold); border-radius:3px; }
+  details.aj summary{ cursor:pointer; list-style:none; padding:.9rem 1.1rem; display:flex; justify-content:space-between; gap:1rem; align-items:baseline; }
+  details.aj summary::-webkit-details-marker{ display:none; }
+  details.aj summary b{ font-family: var(--font-poster); font-weight:400; text-transform:uppercase; font-size:1.2rem; color: var(--text); }
+  details.aj summary span{ font-family: var(--font-mono); font-size:.68rem; color: var(--text-faint); }
+  details.aj[open] summary span{ color: var(--gold); }
+  details.aj .in{ padding: 0 1.1rem 1rem; }
+
+  /* canales */
+  .canales{ display:grid; grid-template-columns: repeat(auto-fit, minmax(190px,1fr)); gap:.5rem; margin: .8rem 0 1.4rem; }
+  .canal{ border:1px solid var(--line); border-radius:3px; padding:.75rem .9rem; }
+  .canal .n{ font-family: var(--font-poster); font-size:1.7rem; color: var(--terra); line-height:1; }
+  .canal .q{ font-family: var(--font-mono); font-size:.66rem; letter-spacing:.12em; text-transform:uppercase; color: var(--text-faint); }
+  .canal p{ margin:.3rem 0 0; font-size:.88rem; line-height:1.45; }
+
+  /* APC */
+  .apc{ background:#141414; border:1px solid #2c2c2c; border-radius:6px; padding:14px; display:grid; grid-template-columns: minmax(0,1fr) auto; gap:12px; margin: 1rem 0 .6rem; }
+  .apc .grid{ grid-column: 1; grid-row: 2; display:grid; grid-template-columns: repeat(8, minmax(0,1fr)); gap:5px; }
+  .apc .pad{ aspect-ratio: 1.5; border-radius:3px; background:#262626; border:1px solid #333; cursor:pointer; }
+  .apc .pad.on{ background: var(--gold); border-color: var(--gold); box-shadow: 0 0 10px rgba(232,176,74,.5); }
+  .apc .pad.rec{ background: var(--terra); border-color: var(--terra); }
+  .apc .scenes{ grid-column: 2; grid-row: 2; display:grid; grid-template-rows: repeat(5, 1fr); gap:5px; }
+  .apc .sc{ width:34px; border-radius:50%; aspect-ratio:1; background:#2b2b2b; border:1px solid #3a3a3a; cursor:pointer; }
+  .apc .sc.on{ background: #7fc46b; border-color:#7fc46b; }
+  .apc .heads{ grid-column: 1; grid-row: 1; display:grid; grid-template-columns: repeat(8,minmax(0,1fr)); gap:5px; font-family: var(--font-mono); font-size:.6rem; color: var(--text-muted); text-align:center; text-transform:uppercase; letter-spacing:.04em; }
+  .apc .heads span{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .apc .faders{ grid-column: 1; grid-row: 3; display:grid; grid-template-columns: repeat(8,minmax(0,1fr)); gap:5px; }
+  .apc .fd{ height:54px; border-radius:3px; background: linear-gradient(#1e1e1e,#1e1e1e) center/3px 100% no-repeat; position:relative; }
+  .apc .fd::after{ content:""; position:absolute; left:50%; transform:translateX(-50%); width:70%; height:10px; border-radius:2px; background:#bbb; top: var(--y, 40%); }
+  @media (max-width:560px){ .apc{ padding:8px; gap:6px; } .apc .sc{ width:20px; } .apc .heads{ font-size:.48rem; } }
+  .apc-info{ font-size:.88rem; color: var(--text-muted); min-height:2.6rem; margin: 0 0 1.2rem; font-family: var(--font-mono); }
+  .apc-info b{ color: var(--gold); }
+
+  /* set */
+  .set{ display:grid; gap:.5rem; margin: 1rem 0 1.2rem; }
+  .parte{ display:grid; grid-template-columns: 5.6rem 1fr; gap:1rem; background: var(--bg-raised); border:1px solid var(--line-soft); border-radius:3px; padding:.9rem 1rem; }
+  .parte .min{ font-family: var(--font-mono); font-size:.72rem; color: var(--text-faint); }
+  .parte .nom{ font-family: var(--font-poster); text-transform:uppercase; font-size:1.25rem; line-height:1; color: var(--gold); display:block; margin-bottom:.2rem; }
+  .parte .energia{ display:flex; gap:2px; margin-top:.5rem; }
+  .parte .energia i{ width:9px; height:9px; background: var(--line); border-radius:1px; }
+  .parte .energia i.f{ background: var(--terra); }
+  .parte ul{ margin:.2rem 0 0; font-size:.88rem; padding-left:1.1rem; }
+  .parte li{ margin-bottom:.15rem; }
+  @media (max-width:560px){ .parte{ grid-template-columns:1fr; gap:.3rem; } }
+
+  /* rutina: cronómetro */
+  .crono{ background: var(--bg-feature); border:1px solid var(--gold-soft); border-radius:3px; padding:1.3rem; margin: 1rem 0 1.4rem; }
+  .crono .fase{ font-family: var(--font-mono); font-size:.7rem; letter-spacing:.16em; text-transform:uppercase; color: var(--terra); }
+  .crono .nom{ font-family: var(--font-poster); text-transform:uppercase; font-size: clamp(1.6rem, 5vw, 2.2rem); line-height:1; margin:.2rem 0 .3rem; }
+  .crono .reloj{ font-family: var(--font-mono); font-size: clamp(2.6rem, 10vw, 4rem); font-weight:600; color: var(--gold); line-height:1; margin:.4rem 0 .5rem; font-variant-numeric: tabular-nums; }
+  .crono .que{ color: var(--text-muted); margin:0 0 1rem; max-width:60ch; }
+  .crono .fases{ display:flex; gap:3px; margin-bottom:1rem; }
+  .crono .fases i{ flex: var(--m) 1 0; height:5px; background: var(--line); border-radius:1px; position:relative; overflow:hidden; }
+  .crono .fases i b{ position:absolute; inset:0 auto 0 0; width:0; background: var(--gold); }
+  .btns{ display:flex; gap:.5rem; flex-wrap:wrap; }
+  .btn{ font-family: var(--font-mono); font-size:.74rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; background: var(--gold); color: var(--bg); border:1px solid var(--gold); border-radius:3px; padding:.6rem 1rem; cursor:pointer; }
+  .btn.sec{ background: transparent; color: var(--text-muted); border-color: var(--line); }
+  .btn.sec:hover{ color: var(--gold); border-color: var(--gold-soft); }
+
+  /* etapas */
+  .etapas{ display:grid; gap:.5rem; margin: 1rem 0 1rem; }
+  .etapa{ display:grid; grid-template-columns: auto 1fr; gap: .9rem; background: var(--bg-raised); border:1px solid var(--line-soft); border-radius:3px; padding:.9rem 1rem; }
+  .etapa input{ appearance:none; width:20px; height:20px; border:1px solid var(--gold-soft); border-radius:2px; margin:.15rem 0 0; display:grid; place-content:center; cursor:pointer; }
+  .etapa input:checked{ background: var(--gold); border-color: var(--gold); }
+  .etapa input:checked::after{ content:""; width:10px; height:5px; border-left:2px solid var(--bg); border-bottom:2px solid var(--bg); transform: rotate(-45deg) translate(1px,-1px); }
+  .etapa .s{ font-family: var(--font-mono); font-size:.64rem; letter-spacing:.14em; text-transform:uppercase; color: var(--text-faint); }
+  .etapa .t{ font-weight:600; color: var(--text); display:block; }
+  .etapa p{ margin:.2rem 0 0; font-size:.9rem; line-height:1.5; }
+  .etapa .listo{ font-size:.82rem; color: var(--sand); margin-top:.3rem; }
+  .etapa:has(input:checked){ border-color: var(--gold-soft); }
+  .etapa:has(input:checked) .t{ color: var(--gold); }
+  .progreso{ display:flex; align-items:center; gap:1rem; margin: .4rem 0 1rem; font-family: var(--font-mono); font-size:.72rem; color: var(--text-faint); }
+  .barra{ flex:1; height:4px; background: var(--line); border-radius:2px; overflow:hidden; }
+  .barra i{ display:block; height:100%; width:0; background: var(--gold); transition: width .3s; }
+
+  /* bitácora */
+  .stats{ display:grid; grid-template-columns: repeat(3, 1fr); gap:.5rem; margin: 1rem 0; }
+  .stat{ border:1px solid var(--line); border-radius:3px; padding:.8rem .9rem; }
+  .stat b{ display:block; font-family: var(--font-poster); font-weight:400; font-size:2rem; color: var(--gold); line-height:1; }
+  .stat span{ font-family: var(--font-mono); font-size:.62rem; letter-spacing:.12em; text-transform:uppercase; color: var(--text-faint); }
+  .semanas{ display:flex; gap:3px; margin: .2rem 0 1.4rem; flex-wrap:wrap; }
+  .semanas i{ width:14px; height:14px; border-radius:2px; background: var(--line-soft); border:1px solid var(--line); }
+  .semanas i.s1{ background: var(--gold-soft); border-color: var(--gold-soft); }
+  .semanas i.s2{ background: var(--gold); border-color: var(--gold); }
+  form.log{ display:grid; grid-template-columns: repeat(2, 1fr); gap:.7rem; background: var(--bg-raised); border:1px solid var(--line); border-radius:3px; padding:1.1rem; }
+  form.log label{ display:grid; gap:.3rem; font-family: var(--font-mono); font-size:.62rem; letter-spacing:.12em; text-transform:uppercase; color: var(--text-faint); }
+  form.log .full{ grid-column: 1 / -1; }
+  form.log input, form.log select, form.log textarea{ font: inherit; font-family: var(--font-body); font-size:.95rem; text-transform:none; letter-spacing:0; color: var(--text); background: var(--bg); border:1px solid var(--line); border-radius:3px; padding:.55rem .65rem; width:100%; }
+  form.log textarea{ min-height:3.2rem; resize: vertical; }
+  @media (max-width:560px){ form.log{ grid-template-columns:1fr; } }
+  .entradas{ display:grid; gap:.5rem; margin-top:1rem; }
+  .entrada{ border:1px solid var(--line-soft); border-left:2px solid var(--gold-soft); border-radius:3px; padding:.8rem 1rem; font-size:.9rem; }
+  .entrada .top{ display:flex; justify-content:space-between; gap:1rem; font-family: var(--font-mono); font-size:.7rem; color: var(--text-faint); }
+  .entrada .top b{ color: var(--gold); }
+  .entrada p{ margin:.35rem 0 0; font-size:.9rem; }
+  .entrada button{ background:none; border:none; color: var(--text-faint); font-family: var(--font-mono); font-size:.66rem; cursor:pointer; padding:0; text-decoration: underline; }
+  .vacio{ color: var(--text-faint); font-family: var(--font-mono); font-size:.8rem; }
+
+  /* checklist */
+  .check{ display:grid; gap:.35rem; margin: .6rem 0 1rem; }
+  .check label{ display:flex; gap:.7rem; align-items:flex-start; cursor:pointer; color: var(--text-muted); font-size:.93rem; padding:.4rem .2rem; border-bottom:1px solid var(--line-soft); }
+  .check input{ appearance:none; flex:0 0 auto; width:16px; height:16px; border:1px solid var(--gold-soft); border-radius:2px; margin:.25rem 0 0; display:grid; place-content:center; cursor:pointer; }
+  .check input:checked{ background: var(--gold); border-color: var(--gold); }
+  .check input:checked::after{ content:""; width:8px; height:4px; border-left:2px solid var(--bg); border-bottom:2px solid var(--bg); transform: rotate(-45deg) translate(1px,-1px); }
+  .check label:has(input:checked){ color: var(--text-faint); text-decoration: line-through; }
+  .check .g{ font-family: var(--font-mono); font-size:.64rem; letter-spacing:.16em; text-transform:uppercase; color: var(--terra); margin-top:.8rem; }
+
+  footer{ border-top:1px solid var(--line); padding-top:1.2rem; display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; font-family: var(--font-mono); font-size:.66rem; letter-spacing:.1em; text-transform:uppercase; color: var(--text-faint); }
+</style>
+
+<div class="wrap">
+
+  <div class="brand"><span><span class="n">NAYA</span> · Clases de Producción</span><a href="../">← Producción</a></div>
+
+  <p class="kicker">Tocar en vivo · rutina</p>
+  <h1>Live<br>set</h1>
+  <p class="bajada">Agarrar la costumbre de tocar. Un setup fijo, un set que crece de a poco y una bitácora para ver cuánto venís tocando.</p>
+
+  <dl class="meta">
+    <div><dt>Tempo base</dt><dd class="hi">124 BPM</dd></div>
+    <div><dt>Duración meta</dt><dd>30 minutos</dd></div>
+    <div><dt>Frecuencia</dt><dd>2 sesiones por semana</dd></div>
+    <div><dt>Quién manda el reloj</dt><dd>Ableton</dd></div>
+  </dl>
+
+  <nav class="toc" aria-label="Secciones">
+    <a href="#equipo">01 Equipo</a>
+    <a href="#conexiones">02 Conexiones</a>
+    <a href="#reloj">03 Reloj y MIDI</a>
+    <a href="#ableton">04 Ableton + APC40</a>
+    <a href="#set">05 El set</a>
+    <a href="#rutina">06 Rutina</a>
+    <a href="#bitacora">07 Bitácora</a>
+    <a href="#antes">08 Antes de tocar</a>
+    <a href="#falla">09 Si algo falla</a>
+  </nav>
+
+  <!-- ===================== 01 EQUIPO ===================== -->
+  <section class="mod" id="equipo">
+    <div class="mod-head"><span class="mod-num">01</span><h2>El equipo y qué hace cada uno</h2></div>
+    <p class="sec-nota">Cada aparato tiene un solo trabajo. Así no te perdés en el medio del set.</p>
+    <p>El error más común en un live es que todo haga de todo. Acá cada máquina tiene <b>un rol fijo</b>: si algo suena mal, sabés dónde mirar.</p>
+
+    <div class="equipo">
+      <div class="eq"><span class="tag">Sí o sí · el corazón</span><h4>Digitakt II</h4><p>Batería y samples: bombo, hats, percusión, voces cortadas. Cada parte del set es un patrón (A01 a A05). Además recibe la guitarra y el microKORG por sus entradas.</p><p class="rol">Rol: ritmo + mezcla de entradas</p><a href="../digitakt-ii/">Ver guía →</a></div>
+      <div class="eq"><span class="tag">Sí o sí · el director</span><h4>Ableton Live</h4><p>Manda el reloj a todos, graba cada sesión, suma un lead, percusión extra, atmósferas y efectos. Es lo que ve el APC40.</p><p class="rol">Rol: reloj + clips + grabación</p><a href="../ableton/">Ver guía →</a></div>
+      <div class="eq"><span class="tag">Sí o sí · las manos</span><h4>APC40 (MK1)</h4><p>Lanzar clips y escenas, volumen de cada pista con los faders, filtros y envíos de efecto con las perillas. Te saca del mouse.</p><p class="rol">Rol: controlar Ableton sin mirar la pantalla</p></div>
+      <div class="eq"><span class="tag">Sí o sí · las secuencias</span><h4>BeatStep Pro</h4><p><b>SEQ1</b> toca el bajo en el microKORG. <b>SEQ2</b> toca un lead en Ableton. <b>DRUM</b> toca percusión extra en Ableton. La tira táctil hace los redobles.</p><p class="rol">Rol: bajo, lead y fills en vivo</p><a href="../beatstep-pro/">Ver guía →</a></div>
+      <div class="eq"><span class="tag">Sí o sí · el sinte</span><h4>microKORG</h4><p>El bajo (lo toca SEQ1 del BeatStep). En los breaks, cambiás de programa y tocás acordes o un arpegio con el teclado.</p><p class="rol">Rol: bajo + momentos tocados a mano</p><a href="../microkorg/">Ver guía →</a></div>
+      <div class="eq"><span class="tag">Sí o sí · lo humano</span><h4>Guitarra eléctrica</h4><p>Riffs cortos con delay, acordes rasgados en el pico, texturas en la intro. Lo que grabás en vivo se vuelve loop. Es lo que hace que sea <i>tu</i> live.</p><p class="rol">Rol: textura, riff y loops grabados en el momento</p></div>
+      <div class="eq opc"><span class="tag">Opcional</span><h4>Bajo eléctrico</h4><p>Reemplaza al microKORG en una parte (ideal en el pico o en un tema más indie). Entra por el mismo lugar que la guitarra: una a la vez.</p><p class="rol">Rol: bajo tocado en algún tramo</p></div>
+      <div class="eq opc"><span class="tag">Opcional · ya lo tenés</span><h4>Overbridge</h4><p>Lo instalaste en la clase 02 del Digitakt. Con él, cada pista del Digitakt y cada entrada (guitarra, microKORG) llegan <b>separadas</b> a Ableton, y cada una tiene su fader en el APC40.</p><p class="rol">Rol: nivel 2 del setup de casa</p><a href="../digitakt-ii/clase-02/">Clase 02 →</a></div>
+      <div class="eq opc"><span class="tag">Opcional · más adelante</span><h4>Voz + Auto-Tune 7</h4><p>El combo que veníamos armando: si sumás un micrófono, una voz tuneada encima del live. No lo metas hasta la etapa 7 de la rutina.</p><p class="rol">Rol: el plus del final</p><a href="../plugins/autotune-7/">Ficha →</a></div>
+    </div>
+
+    <div class="ojo"><span class="t">Ojo · lo que vas a necesitar además</span><p><b>Auriculares</b>, una <b>zapatilla</b> (el APC40 MK1 necesita su fuente enchufada, por USB solo no prende bien), un <b>hub USB con fuente</b> si tu Mac tiene pocos puertos (van 3 cables USB: Digitakt, BeatStep, APC40) y los cables de la sección 02.</p></div>
+  </section>
+
+  <!-- ===================== 02 CONEXIONES ===================== -->
+  <section class="mod" id="conexiones">
+    <div class="mod-head"><span class="mod-num">02</span><h2>Cómo se conecta al sonido</h2></div>
+    <p class="sec-nota">Elegí dónde vas a tocar. El diagrama y la lista de cables cambian.</p>
+
+    <div class="tabs" role="tablist" id="esc-tabs">
+      <button role="tab" data-esc="casa" aria-selected="true">En casa · sin placa</button>
+      <button role="tab" data-esc="placa" aria-selected="false">Con placa de audio</button>
+      <button role="tab" data-esc="fiesta" aria-selected="false">En una fiesta · consola</button>
+    </div>
+
+    <p class="esc-intro" id="esc-intro"></p>
+    <div class="diagrama" id="esc-svg"></div>
+    <div class="leyenda">
+      <span><i style="border-color:var(--gold)"></i>Audio (plug 6,3 mm)</span>
+      <span><i style="border-color:var(--terra);border-top-style:dashed"></i>MIDI (cable de 5 pines)</span>
+      <span><i style="border-color:var(--sand);border-top-style:dotted"></i>USB</span>
+    </div>
+
+    <h3>Cable por cable</h3>
+    <div class="cables" id="esc-cables"></div>
+    <div id="esc-extra"></div>
+  </section>
+
+  <!-- ===================== 03 RELOJ Y MIDI ===================== -->
+  <section class="mod" id="reloj">
+    <div class="mod-head"><span class="mod-num">03</span><h2>Reloj y MIDI</h2></div>
+    <p class="sec-nota">Una sola regla: Ableton manda, todos los demás siguen.</p>
+    <p>Apretás <b>Play en Ableton</b> (o en el APC40) y arrancan juntos Ableton, el Digitakt y el BeatStep. El BeatStep, a su vez, le pasa el reloj al microKORG por el cable MIDI. Cambiás el tempo en Ableton y cambian todos.</p>
+
+    <h3>Quién toca a quién</h3>
+    <div class="canales">
+      <div class="canal"><span class="q">Canal</span><div class="n">1</div><p><b>SEQ1</b> del BeatStep → <b>microKORG</b> (por el cable MIDI). El bajo.</p></div>
+      <div class="canal"><span class="q">Canal</span><div class="n">2</div><p><b>SEQ2</b> del BeatStep → pista <b>LEAD</b> de Ableton (por USB).</p></div>
+      <div class="canal"><span class="q">Canal</span><div class="n">10</div><p><b>DRUM</b> del BeatStep → pista <b>PERC</b> de Ableton, con un Drum Rack.</p></div>
+      <div class="canal"><span class="q">Solo reloj</span><div class="n">⏱</div><p>Ableton → <b>Digitakt</b> y <b>BeatStep</b>. Notas no, solo tempo, play y stop.</p></div>
+    </div>
+    <p>Son los mismos canales que usaste en la clase 01 del BeatStep, así que si ya guardaste ese proyecto, te sirve de base.</p>
+
+    <h3>Qué tocar en cada aparato</h3>
+    <div class="ajustes">
+      <details class="aj" open><summary><b>Ableton</b><span>5 minutos · una vez</span></summary><div class="in">
+        <ol>
+          <li>Abrí <b>Settings</b> (<kbd>Cmd</kbd> + <kbd>,</kbd>) → pestaña <b>Link, Tempo &amp; MIDI</b>.</li>
+          <li>Arriba, en <b>Control Surface</b>, la primera fila: elegí <b>APC40</b> (no “APC40 mkII”). En <b>Input</b> y <b>Output</b> de esa fila: <b>Akai APC40</b>. Las luces del APC40 se prenden: ya está.</li>
+          <li>Abajo, en <b>MIDI Ports</b>:
+            <ul>
+              <li><b>Out: Digitakt II</b> → <b>Sync</b> prendido. Track apagado.</li>
+              <li><b>Out: Arturia BeatStep Pro</b> → <b>Sync</b> prendido. Track apagado.</li>
+              <li><b>In: Arturia BeatStep Pro</b> → <b>Track</b> prendido (así entran las notas de SEQ2 y DRUM).</li>
+              <li><b>In: Digitakt II</b> → todo apagado (no queremos que él mande nada).</li>
+            </ul></li>
+          <li>Pestaña <b>Audio</b>: el dispositivo según tu escenario (sección 02), <b>Sample Rate 48000</b> y <b>Buffer Size 128</b>. Si se escuchan clics, subí a 256.</li>
+        </ol>
+      </div></details>
+
+      <details class="aj"><summary><b>Digitakt II</b><span>como en la clase 02</span></summary><div class="in">
+        <ol>
+          <li><kbd>⚙</kbd> → <b>MIDI CONFIG</b> → <b>SYNC</b>: <b>CLOCK RECEIVE</b> y <b>TRANSPORT RECEIVE</b> tildados. <b>CLOCK SEND</b> y <b>TRANSPORT SEND</b> sin tildar.</li>
+          <li><kbd>⚙</kbd> → <b>MIDI CONFIG</b> → <b>PORT CONFIG</b> → <b>INPUT FROM</b>: <b>USB</b>.</li>
+          <li><kbd>⚙</kbd> → <b>USB CONFIG</b>: <b>USB AUDIO/MIDI</b> (o <b>OVERBRIDGE</b> si vas por el nivel 2).</li>
+          <li><kbd>⚙</kbd> → <b>AUDIO ROUTING</b> → <b>INT TO MAIN</b> → <b>ON</b>, así no se te apagan los auriculares del Digitakt.</li>
+          <li><b>Entradas</b> (guitarra y microKORG): el nivel se sube en el mezclador externo del Digitakt (<b>EXTERNAL MIXER</b>), que se abre con <kbd>FUNC</kbd> + <kbd>MOD</kbd> en la última página. Si en tu sistema no aparece ahí, buscá “External mixer” en el manual: tiene nivel, paneo y envío a delay/reverb para <b>IN L</b> e <b>IN R</b> por separado.</li>
+        </ol>
+      </div></details>
+
+      <details class="aj"><summary><b>BeatStep Pro</b><span>10 segundos</span></summary><div class="in">
+        <ol>
+          <li>Con todo parado, tocá <kbd>SYNC</kbd> hasta que quede en <b>USB</b>. Ahora sigue a Ableton.</li>
+          <li>Canales: SEQ1 en <b>1</b>, SEQ2 en <b>2</b>, DRUM en <b>10</b> (los de fábrica; si los cambiaste, volvé a estos).</li>
+          <li>Del BeatStep salen las notas <b>por USB y por el MIDI OUT a la vez</b>. Por eso el microKORG escucha SEQ1 por el cable, y Ableton escucha SEQ2 y DRUM por USB.</li>
+        </ol>
+      </div></details>
+
+      <details class="aj"><summary><b>microKORG</b><span>una vez y guardás</span></summary><div class="in">
+        <ol>
+          <li><kbd>EDIT SELECT 2</kbd> en <b>MIDI</b>, perilla <b>1</b> (MIDI CH): <b>1</b>.</li>
+          <li>Misma fila, perilla <b>3</b> (CLOCK): <b>Aut</b>, para que el arpegio y el delay vayan al tempo del BeatStep. Si el arpegio no lo sigue, dejalo en <b>Int</b> con el mismo BPM.</li>
+          <li><kbd>WRITE</kbd> y otra vez <kbd>WRITE</kbd> para guardar.</li>
+          <li>Prepará tus programas para el set en tu zona propia (<b>b.71 a b.78</b>): uno de bajo, uno de pad, uno de arpegio.</li>
+        </ol>
+      </div></details>
+    </div>
+
+    <div class="hacelo"><span class="t">Hacelo · prueba de reloj</span>
+      <ol>
+        <li>Prendé todo y abrí Ableton a <b>124 BPM</b>.</li>
+        <li>Poné un patrón cualquiera en el Digitakt y otro en el BeatStep, sin darles play.</li>
+        <li>Play en Ableton: tienen que arrancar los tres a la vez y el microKORG tocar el bajo de SEQ1.</li>
+        <li>Cambiá el tempo a 128 en Ableton: el Digitakt y el BeatStep se aceleran solos.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ===================== 04 ABLETON + APC40 ===================== -->
+  <section class="mod" id="ableton">
+    <div class="mod-head"><span class="mod-num">04</span><h2>Ableton + APC40</h2></div>
+    <p class="sec-nota">Un set base que abrís siempre igual. Las 8 columnas del APC40 = 8 pistas.</p>
+    <p>Armá una vez el set <b>“LIVE base”</b> y guardalo como plantilla (<b>File → Save Live Set As Template</b>). Cada sesión arranca de ahí. Tocá en la vista <b>Session</b> (<kbd>Tab</kbd> cambia de vista).</p>
+
+    <div class="scroll-x"><table class="tabla">
+      <tr><th>#</th><th>Pista</th><th>Qué entra</th><th>Qué le ponés</th></tr>
+      <tr><td>1</td><td>BATERÍA</td><td>Audio del Digitakt (USB o placa). Monitor <b>In</b>.</td><td>Nada. El Digitakt ya trae sus efectos.</td></tr>
+      <tr><td>2</td><td>GUITARRA</td><td>Entrada de la guitarra (con Overbridge o placa). Monitor <b>Auto</b>.</td><td>Amp o Pedal, Echo, Reverb. Grabás loops acá.</td></tr>
+      <tr><td>3</td><td>MICROKORG</td><td>Entrada del microKORG. Monitor <b>In</b>.</td><td>Un EQ Eight para sacarle graves si choca con el bombo.</td></tr>
+      <tr><td>4</td><td>LEAD</td><td>MIDI From: BeatStep Pro, <b>Ch. 2</b>. Monitor <b>In</b>.</td><td>Drift o Wavetable.</td></tr>
+      <tr><td>5</td><td>PERC</td><td>MIDI From: BeatStep Pro, <b>Ch. 10</b>. Monitor <b>In</b>.</td><td>Drum Rack con shakers, congas, claps.</td></tr>
+      <tr><td>6</td><td>ATMÓSFERAS</td><td>Clips de audio: pads, ruido, grabaciones de calle.</td><td>Auto Filter.</td></tr>
+      <tr><td>7</td><td>VOCES</td><td>Clips de audio: frases, chops, acapellas.</td><td>Echo. Más adelante, Auto-Tune.</td></tr>
+      <tr><td>8</td><td>LOOPS</td><td>Pista de audio vacía para grabar lo que pase (guitarra o bajo).</td><td>Lo mismo que la 2.</td></tr>
+      <tr><td>A / B</td><td>Retornos</td><td>Envíos desde cualquier pista.</td><td>A: Reverb larga. B: Echo a 3/16.</td></tr>
+      <tr><td>Master</td><td>Master</td><td>Todo.</td><td>Auto Filter (el “filtro de DJ”) y un Limiter al final.</td></tr>
+    </table></div>
+    <p>Si estás en casa <b>sin Overbridge ni placa</b>, la guitarra y el microKORG entran mezclados dentro de la pista 1 (el Digitakt los mezcla). Las pistas 2 y 3 quedan vacías y el balance lo hacés en el mezclador externo del Digitakt. Funciona igual para practicar.</p>
+
+    <h3>Qué hace cada parte del APC40</h3>
+    <p>Tocá el dibujo: te dice qué hace cada zona con el script de Ableton (sin mapear nada a mano).</p>
+    <div class="apc" id="apc" aria-label="APC40 simplificado">
+      <div class="heads" id="apc-heads"></div>
+      <div class="grid" id="apc-grid"></div>
+      <div class="scenes" id="apc-scenes"></div>
+      <div class="faders" id="apc-faders"></div>
+    </div>
+    <p class="apc-info" id="apc-info">Tocá una zona del APC40.</p>
+
+    <div class="scroll-x"><table class="tabla">
+      <tr><th>Zona</th><th>Qué hace</th></tr>
+      <tr><td>Grilla 8 × 5</td><td>Lanza o frena un clip. Cuadrado vacío en pista armada = <b>graba</b> un clip nuevo.</td></tr>
+      <tr><td>Botones de escena (derecha)</td><td>Lanza la fila entera: una escena = una parte del set.</td></tr>
+      <tr><td>Faders</td><td>Volumen de cada pista. El de la derecha es el Master.</td></tr>
+      <tr><td>Botones de cada columna</td><td><b>Clip Stop</b>, <b>Track Selection</b>, <b>Activator</b> (mute), <b>Solo/Cue</b> y <b>Record Arm</b>.</td></tr>
+      <tr><td>Perillas de arriba</td><td>Elegís con <b>PAN</b>, <b>SEND A</b>, <b>SEND B</b> o <b>SEND C</b>: con SEND A le das reverb a cada pista.</td></tr>
+      <tr><td>Perillas de la derecha</td><td>Controlan el efecto de la pista seleccionada (por ejemplo el Auto Filter del Master).</td></tr>
+      <tr><td>Transporte</td><td><b>PLAY</b>, <b>STOP</b>, <b>REC</b> y <b>TAP TEMPO</b>.</td></tr>
+    </table></div>
+
+    <div class="idea"><span class="t">Idea · grabar loops de guitarra sin mapear nada</span><p>En Settings → <b>Record, Warp &amp; Launch</b>, poné <b>Start Recording on Scene Launch</b> apagado y la cuantización global (arriba a la izquierda) en <b>1 Bar</b>. Después: <b>Record Arm</b> en la pista 2, tocás un cuadrado vacío de esa columna, tocás 4 compases, y tocás el mismo cuadrado otra vez. Queda un loop justo, a tempo, que podés relanzar cuando quieras.</p></div>
+
+    <div class="hacelo"><span class="t">Hacelo · el set base</span>
+      <ol>
+        <li>Creá las 8 pistas de la tabla con sus nombres y colores.</li>
+        <li>Poné el Auto Filter en el Master, tocá su título y movés las perillas de la derecha del APC40: tiene que moverse el filtro.</li>
+        <li>Armá 5 escenas vacías y nombralas: INTRO, GROOVE, SUBIDA, PICO, CIERRE.</li>
+        <li>Guardalo como plantilla.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ===================== 05 EL SET ===================== -->
+  <section class="mod" id="set">
+    <div class="mod-head"><span class="mod-num">05</span><h2>El set: 5 partes, 30 minutos</h2></div>
+    <p class="sec-nota">5 partes = 5 escenas del APC40 = 5 patrones del Digitakt. Todo coincide.</p>
+    <p>Arrancá en <b>124 BPM</b>, en el terreno de tus fiestas: indie dance que va subiendo a indie tech. Elegí una tonalidad para todo el set y no la cambies hasta que el set esté firme (si querés seguir la línea del combo con Auto-Tune, <b>F# menor</b>).</p>
+    <div class="set" id="set-lista"></div>
+    <div class="ojo"><span class="t">Ojo · la regla de los 16 compases</span><p>Cada 16 compases cambia algo: entra o sale un elemento, se abre un filtro, cambia un patrón. Si pasaron 32 compases y no tocaste nada, el set se está muriendo.</p></div>
+    <div class="idea"><span class="t">Idea · cambiar de parte sin perderte</span><p>En el Digitakt, mientras suena A02, tocá la tecla del patrón A03: queda en espera y entra cuando termina el compás. Hacelo junto con la escena del APC40 y en el BeatStep el patrón siguiente. Practicá solo ese movimiento hasta que te salga sin mirar.</p></div>
+  </section>
+
+  <!-- ===================== 06 RUTINA ===================== -->
+  <section class="mod" id="rutina">
+    <div class="mod-head"><span class="mod-num">06</span><h2>La rutina</h2></div>
+    <p class="sec-nota">La costumbre es más importante que la sesión perfecta. Mejor 45 minutos dos veces por semana que 4 horas una vez al mes.</p>
+    <p>Elegí <b>dos días fijos</b> (por ejemplo martes y jueves) y dejá el setup armado, o lo más armado posible. Si cada vez tenés que conectar todo desde cero, vas a tocar menos. Cada sesión dura 45 minutos y tiene 4 partes. Usá el cronómetro:</p>
+
+    <div class="crono" id="crono">
+      <div class="fases" id="cr-fases"></div>
+      <div class="fase" id="cr-n">Fase 1 de 4</div>
+      <div class="nom" id="cr-nom"></div>
+      <div class="reloj" id="cr-reloj">00:00</div>
+      <p class="que" id="cr-que"></p>
+      <div class="btns">
+        <button class="btn" id="cr-play">Empezar</button>
+        <button class="btn sec" id="cr-sig">Siguiente fase</button>
+        <button class="btn sec" id="cr-reset">Reiniciar</button>
+      </div>
+    </div>
+
+    <h3>Las 8 etapas</h3>
+    <p>Una etapa por semana, más o menos. No pases a la siguiente hasta que se cumpla el “listo cuando”. Tildá a medida que avanzás (se guarda en este navegador).</p>
+    <div class="progreso"><span id="et-txt">0 de 8 etapas</span><span class="barra"><i id="et-bar"></i></span></div>
+    <div class="etapas" id="etapas"></div>
+  </section>
+
+  <!-- ===================== 07 BITÁCORA ===================== -->
+  <section class="mod" id="bitacora">
+    <div class="mod-head"><span class="mod-num">07</span><h2>Bitácora</h2></div>
+    <p class="sec-nota">Anotá cada sesión al terminar. Dos líneas alcanzan. Se guarda solo en este navegador.</p>
+
+    <div class="stats">
+      <div class="stat"><b id="st-ses">0</b><span>Sesiones</span></div>
+      <div class="stat"><b id="st-hs">0</b><span>Horas tocando</span></div>
+      <div class="stat"><b id="st-racha">0</b><span>Semanas seguidas</span></div>
+    </div>
+    <p class="sec-nota" style="margin-bottom:.4rem">Últimas 16 semanas (dorado fuerte = 2 sesiones o más)</p>
+    <div class="semanas" id="semanas"></div>
+
+    <form class="log" id="log">
+      <label>Fecha<input type="date" name="fecha" required></label>
+      <label>Minutos<input type="number" name="min" min="5" max="600" step="5" value="45" required></label>
+      <label class="full">Etapa<select name="etapa" id="log-etapa"></select></label>
+      <label class="full">Qué salió bien<textarea name="bien" placeholder="Ej: el paso de GROOVE a SUBIDA salió sin mirar"></textarea></label>
+      <label class="full">Qué mejorar la próxima<textarea name="mejorar" placeholder="Ej: el bajo del microKORG tapa el bombo"></textarea></label>
+      <div class="full"><button class="btn" type="submit">Guardar sesión</button></div>
+    </form>
+    <div class="entradas" id="entradas"></div>
+  </section>
+
+  <!-- ===================== 08 ANTES DE TOCAR ===================== -->
+  <section class="mod" id="antes">
+    <div class="mod-head"><span class="mod-num">08</span><h2>Antes de tocar</h2></div>
+    <p class="sec-nota">Para cuando toques para alguien. En casa hacé la mitad de arriba.</p>
+    <div class="check" id="check"></div>
+    <button class="btn sec" id="check-reset" type="button">Destildar todo</button>
+  </section>
+
+  <!-- ===================== 09 SI ALGO FALLA ===================== -->
+  <section class="mod" id="falla">
+    <div class="mod-head"><span class="mod-num">09</span><h2>Si algo falla</h2></div>
+    <p class="sec-nota">Los problemas que más aparecen con este setup.</p>
+    <div class="scroll-x"><table class="tabla">
+      <tr><th>Pasa esto</th><th>Probá esto</th></tr>
+      <tr><td>El Digitakt no arranca con Ableton</td><td>⚙ → MIDI CONFIG → SYNC: TRANSPORT RECEIVE. PORT CONFIG → INPUT FROM: USB. En Ableton, Sync prendido en <b>Out: Digitakt II</b>.</td></tr>
+      <tr><td>Arranca pero se desfasa</td><td>CLOCK RECEIVE en el Digitakt. En el BeatStep, SYNC en USB. Que nadie más mande reloj: en Ableton, Sync <b>apagado</b> en todas las entradas (In).</td></tr>
+      <tr><td>El microKORG no toca</td><td>Cable de <b>MIDI OUT</b> del BeatStep a <b>MIDI IN</b> del microKORG (no al revés). MIDI CH del microKORG en 1. SEQ1 del BeatStep en canal 1.</td></tr>
+      <tr><td>El lead de Ableton suena dos veces o toca notas de más</td><td>En la pista LEAD, MIDI From: <b>BeatStep Pro, Ch. 2</b>, no “All Channels”.</td></tr>
+      <tr><td>La guitarra suena bajita y opaca en el Digitakt</td><td>Las entradas del Digitakt son de línea. Poné cualquier pedal antes (aunque esté apagado, si tiene buffer) o una caja directa. Subí el nivel en el mezclador externo.</td></tr>
+      <tr><td>Zumbido cuando conectás la guitarra</td><td>Es masa: desenchufá el cargador de la Mac y probá a batería. Si se va, conseguí una caja directa con <b>ground lift</b>.</td></tr>
+      <tr><td>Siento la guitarra atrasada</td><td>Latencia de la compu. Bajá el Buffer Size a 128 o 64. En la fiesta, la guitarra va directo al Digitakt y no pasa por la Mac.</td></tr>
+      <tr><td>Se escuchan clics o cortes</td><td>Al revés: subí el Buffer Size a 256. Cerrá el navegador y todo lo que no uses.</td></tr>
+      <tr><td>Las luces del APC40 están apagadas o débiles</td><td>Su fuente enchufada. En Settings, Control Surface: <b>APC40</b> con Input y Output en Akai APC40.</td></tr>
+      <tr><td>El Digitakt se escucha doble</td><td>Lo estás escuchando por sus salidas y por Ableton a la vez. En casa, todo por Ableton; en la fiesta, la pista 1 de Ableton en Monitor <b>Off</b>.</td></tr>
+    </table></div>
+  </section>
+
+  <footer><span>NAYA · Clases de Producción · Live set</span><span>Ajustes: guías de Digitakt II, BeatStep Pro y microKORG</span></footer>
+</div>
+
+<script>
+(function(){
+  function $(s){ return document.querySelector(s); }
+  function store(k, v){ try{ if(v === undefined) return JSON.parse(localStorage.getItem(k)); localStorage.setItem(k, JSON.stringify(v)); }catch(e){ return null; } }
+
+  /* ---------- 02 escenarios ---------- */
+  var W = 170, H = 52;
+  var NOMBRES = { gtr:"GUITARRA", bajo:"BAJO (opc.)", mk:"microKORG", bsp:"BEATSTEP PRO", dt:"DIGITAKT II", mac:"MAC · ABLETON", apc:"APC40", placa:"PLACA DE AUDIO", out:"PARLANTES / AURIS", consola:"CONSOLA", pa:"SONIDO DE LA FIESTA" };
+  var ESC = {
+    casa: {
+      intro: "Ableton es el centro: todo llega a la Mac por el USB del Digitakt y sale por la salida de la Mac. No necesitás comprar nada.",
+      nodos: { gtr:[30,30], bajo:[30,112], mk:[30,222], bsp:[30,370], dt:[320,60], mac:[320,250], out:[580,250], apc:[580,370] },
+      cables: [
+        ["gtr","dt","audio","IN L"], ["bajo","dt","audio","o IN L",1], ["mk","dt","audio","IN R"],
+        ["bsp","mk","midi","MIDI"], ["bsp","mac","usb",""], ["dt","mac","usb","audio + reloj"],
+        ["apc","mac","usb",""], ["mac","out","audio","salida"]
+      ],
+      lista: [
+        ["Guitarra → Digitakt II, entrada <b>IN L</b>","audio","Cable de guitarra común (plug 6,3 a plug 6,3). Mejor con un pedal en el medio: ver “Si algo falla”."],
+        ["microKORG, salida <b>L/MONO</b> → Digitakt II, entrada <b>IN R</b>","audio","Un solo cable alcanza: el microKORG manda todo por L/MONO."],
+        ["Bajo (opcional) → Digitakt II, <b>IN L</b>","audio","En lugar de la guitarra. Cambiás el cable entre partes, o mejor: uno por sesión."],
+        ["BeatStep Pro <b>MIDI OUT</b> → microKORG <b>MIDI IN</b>","midi","Cable MIDI de 5 pines."],
+        ["Digitakt II → Mac por <b>USB</b>","usb","Lleva el audio (guitarra + microKORG + batería) y el reloj."],
+        ["BeatStep Pro → Mac por <b>USB</b>","usb","Lleva el reloj y las notas de SEQ2 y DRUM."],
+        ["APC40 → Mac por <b>USB</b> + su fuente a la pared","usb",""],
+        ["Salida de la Mac → parlantes o auriculares","audio","En Ableton: Audio Input Device <b>Digitakt II</b>, Audio Output Device <b>la salida de la Mac</b> (o tus parlantes). La pista 1 en Monitor <b>In</b>."]
+      ],
+      extra: '<div class="idea"><span class="t">Nivel 2 · con Overbridge</span><p>Pasá el Digitakt a <b>OVERBRIDGE</b> (⚙ → USB CONFIG) y cargá el plugin en la pista 1. Así la guitarra y el microKORG llegan como canales separados y van a las pistas 2 y 3, con su fader en el APC40 y la guitarra lista para grabar loops.</p></div>'
+    },
+    placa: {
+      intro: "Si sumás una placa de audio con entrada de instrumento (INST o Hi-Z), la guitarra entra directo a Ableton con menos ruido y menos latencia.",
+      nodos: { gtr:[30,30], bajo:[30,112], mk:[30,222], bsp:[30,370], placa:[320,60], dt:[580,160], mac:[320,270], out:[580,30], apc:[580,370] },
+      cables: [
+        ["gtr","placa","audio","IN 1 · INST"], ["bajo","placa","audio","o IN 1",1], ["mk","placa","audio","IN 2"],
+        ["placa","out","audio","OUT"], ["placa","mac","usb",""], ["dt","mac","usb","audio + reloj"],
+        ["bsp","mk","midi","MIDI"], ["bsp","mac","usb",""], ["apc","mac","usb",""]
+      ],
+      lista: [
+        ["Guitarra → placa, <b>IN 1</b> con el botón <b>INST / Hi-Z</b> prendido","audio","Subí la ganancia hasta que, tocando fuerte, la luz se ponga apenas amarilla, nunca roja."],
+        ["microKORG <b>L/MONO</b> → placa, <b>IN 2</b> (modo línea)","audio",""],
+        ["Bajo (opcional) → placa, <b>IN 1</b>","audio","En lugar de la guitarra. Si la placa tiene 2 entradas de instrumento, dejá cada uno en la suya."],
+        ["Placa → Mac por <b>USB</b>","usb",""],
+        ["Salidas de la placa → parlantes; auriculares en la placa","audio",""],
+        ["Digitakt II → Mac por <b>USB</b>","usb","Para tener el audio del Digitakt y de la placa a la vez, en la Mac abrí <b>Configuración de Audio MIDI</b>, creá un <b>dispositivo agregado</b> con la placa y el Digitakt, y elegilo en Ableton. Si la placa tiene 4 entradas, más simple: MAIN OUT del Digitakt a las entradas 3 y 4, y el USB del Digitakt solo para reloj."],
+        ["BeatStep Pro <b>MIDI OUT</b> → microKORG <b>MIDI IN</b>","midi",""],
+        ["BeatStep Pro → Mac por <b>USB</b>","usb",""],
+        ["APC40 → Mac por <b>USB</b> + su fuente","usb",""]
+      ],
+      extra: '<div class="ojo"><span class="t">Ojo · antes de comprar</span><p>Para este setup alcanza una placa de <b>2 entradas con una de instrumento</b>. Con 4 entradas te sobra y no necesitás el dispositivo agregado.</p></div>'
+    },
+    fiesta: {
+      intro: "En una fiesta hay una consola con varios canales. Usás dos: uno para el Digitakt (que ya trae la guitarra y el microKORG mezclados) y otro para la Mac. La guitarra no pasa por la compu: cero latencia.",
+      nodos: { gtr:[30,30], bajo:[30,112], mk:[30,222], bsp:[30,370], dt:[320,60], mac:[320,270], consola:[580,160], pa:[580,30], apc:[580,370] },
+      cables: [
+        ["gtr","dt","audio","IN L"], ["bajo","dt","audio","o IN L",1], ["mk","dt","audio","IN R"],
+        ["dt","consola","audio","CANAL 1"], ["mac","consola","audio","CANAL 2"], ["consola","pa","audio",""],
+        ["bsp","mk","midi","MIDI"], ["bsp","mac","usb",""], ["dt","mac","usb","solo reloj"], ["apc","mac","usb",""]
+      ],
+      lista: [
+        ["Guitarra → Digitakt II, <b>IN L</b>","audio","Con pedal o caja directa en el medio."],
+        ["microKORG <b>L/MONO</b> → Digitakt II, <b>IN R</b>","audio",""],
+        ["Digitakt II <b>MAIN OUT L y R</b> → consola, <b>canal 1</b> (entrada LINE)","audio","Dos cables plug 6,3 a RCA (o a lo que tenga la consola: preguntá antes)."],
+        ["Mac, salida de auriculares → consola, <b>canal 2</b>","audio","Cable minijack a 2 RCA. Si llevás placa, desde sus salidas."],
+        ["Digitakt II → Mac por <b>USB</b>","usb","Solo para el reloj: USB CONFIG en <b>USB MIDI</b>. Así el audio del Digitakt no se duplica por la Mac."],
+        ["BeatStep Pro <b>MIDI OUT</b> → microKORG <b>MIDI IN</b>","midi",""],
+        ["BeatStep Pro → Mac por <b>USB</b>","usb",""],
+        ["APC40 → Mac por <b>USB</b> + su fuente","usb",""]
+      ],
+      extra: '<div class="ojo"><span class="t">Ojo · cambia una cosa en Ableton</span><p>La pista 1 (BATERÍA) queda en Monitor <b>Off</b> o directamente borrada: el Digitakt ya va solo a la consola. Los loops de guitarra en la fiesta los hacés <b>sampleando con el Digitakt</b> (como en la clase 04) en vez de grabarlos en Ableton. Auriculares: en la consola, con CUE.</p></div>'
+    }
+  };
+  var COL = { audio:"#e8b04a", midi:"#e0653a", usb:"#cbb389" };
+  var DASH = { audio:"", midi:"8 6", usb:"2 5" };
+
+  function dibujar(k){
+    var e = ESC[k], s = '<svg viewBox="0 0 780 450" role="img" aria-label="Diagrama de conexiones">';
+    e.cables.forEach(function(c){
+      var a = e.nodos[c[0]], b = e.nodos[c[1]];
+      var x1 = a[0]+W/2, y1 = a[1]+H/2, x2 = b[0]+W/2, y2 = b[1]+H/2;
+      s += '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="'+COL[c[2]]+'" stroke-width="3" stroke-dasharray="'+DASH[c[2]]+'" opacity="'+(c[4]?.35:.9)+'" stroke-linecap="round"/>';
+    });
+    Object.keys(e.nodos).forEach(function(n){
+      var p = e.nodos[n], opc = n === "bajo", centro = n === "mac" || n === "dt";
+      s += '<rect x="'+p[0]+'" y="'+p[1]+'" width="'+W+'" height="'+H+'" rx="4" fill="#15120f" stroke="'+(centro?"#e8b04a":"#3a3633")+'" stroke-width="'+(centro?2:1.5)+'"'+(opc?' stroke-dasharray="5 4"':'')+'/>';
+      s += '<text x="'+(p[0]+W/2)+'" y="'+(p[1]+H/2+6)+'" text-anchor="middle" font-family="Anton, sans-serif" font-size="18" letter-spacing=".5" fill="'+(opc?"#6f665c":"#f2ede4")+'">'+NOMBRES[n]+'</text>';
+    });
+    e.cables.forEach(function(c){
+      if(!c[3]) return;
+      var a = e.nodos[c[0]], b = e.nodos[c[1]];
+      var mx = (a[0]+b[0])/2 + W/2, my = (a[1]+b[1])/2 + H/2;
+      var w = c[3].length*7.6 + 12;
+      s += '<rect x="'+(mx-w/2)+'" y="'+(my-11)+'" width="'+w+'" height="20" rx="3" fill="#0b0a0a" stroke="'+COL[c[2]]+'" stroke-width="1" opacity="'+(c[4]?.6:1)+'"/>';
+      s += '<text x="'+mx+'" y="'+(my+4)+'" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="12" font-weight="600" fill="'+COL[c[2]]+'">'+c[3]+'</text>';
+    });
+    $("#esc-svg").innerHTML = s + '</svg>';
+    $("#esc-intro").textContent = e.intro;
+    $("#esc-cables").innerHTML = e.lista.map(function(l){
+      return '<div class="cable"><div><span class="de">'+l[0]+'</span><span class="ti '+l[1]+'">'+l[1]+'</span>'+(l[2]?'<small>'+l[2]+'</small>':'')+'</div></div>';
+    }).join("");
+    $("#esc-extra").innerHTML = e.extra;
+    document.querySelectorAll("#esc-tabs button").forEach(function(b){ b.setAttribute("aria-selected", b.dataset.esc === k); });
+    store("naya-live-esc", k);
+  }
+  document.querySelectorAll("#esc-tabs button").forEach(function(b){ b.addEventListener("click", function(){ dibujar(b.dataset.esc); }); });
+  var escGuardado = store("naya-live-esc");
+  dibujar(ESC[escGuardado] ? escGuardado : "casa");
+
+  /* ---------- 04 APC40 ---------- */
+  var PISTAS = ["Batería","Guitarra","microKORG","Lead","Perc","Atmós.","Voces","Loops"];
+  var ESCENAS = ["INTRO","GROOVE","SUBIDA","PICO","CIERRE"];
+  $("#apc-heads").innerHTML = PISTAS.map(function(p){ return "<span>"+p+"</span>"; }).join("");
+  var g = "";
+  for(var r=0;r<5;r++) for(var c=0;c<8;c++) g += '<button class="pad" data-r="'+r+'" data-c="'+c+'" aria-label="Clip '+PISTAS[c]+' '+ESCENAS[r]+'"></button>';
+  $("#apc-grid").innerHTML = g;
+  $("#apc-scenes").innerHTML = ESCENAS.map(function(e,i){ return '<button class="sc" data-r="'+i+'" aria-label="Escena '+e+'"></button>'; }).join("");
+  $("#apc-faders").innerHTML = PISTAS.map(function(p,i){ return '<div class="fd" data-c="'+i+'" style="--y:'+(20+((i*37)%50))+'%"></div>'; }).join("");
+  var info = $("#apc-info");
+  $("#apc-grid").addEventListener("click", function(ev){
+    var p = ev.target.closest(".pad"); if(!p) return;
+    var col = p.dataset.c;
+    document.querySelectorAll('.pad[data-c="'+col+'"]').forEach(function(o){ if(o !== p) o.classList.remove("on"); });
+    p.classList.toggle("on");
+    info.innerHTML = p.classList.contains("on")
+      ? "Clip de <b>"+PISTAS[col]+"</b> en "+ESCENAS[p.dataset.r]+": arranca en el próximo compás. Una pista toca un solo clip a la vez."
+      : "Clip frenado. También podés frenar con <b>Clip Stop</b>, abajo de la columna.";
+  });
+  $("#apc-scenes").addEventListener("click", function(ev){
+    var s = ev.target.closest(".sc"); if(!s) return;
+    var r = s.dataset.r;
+    document.querySelectorAll(".sc").forEach(function(o){ o.classList.toggle("on", o === s); });
+    document.querySelectorAll(".pad").forEach(function(o){ o.classList.toggle("on", o.dataset.r === r); });
+    info.innerHTML = "Escena <b>"+ESCENAS[r]+"</b>: lanza la fila entera. Es el cambio de parte del set.";
+  });
+  $("#apc-faders").addEventListener("click", function(ev){
+    var f = ev.target.closest(".fd"); if(!f) return;
+    info.innerHTML = "Fader de <b>"+PISTAS[f.dataset.c]+"</b>: el volumen de esa pista. Bajalo a cero para sacarla sin frenar el clip.";
+  });
+
+  /* ---------- 05 el set ---------- */
+  var PARTES = [
+    { n:"Intro", m:"0–5 min", e:1, l:["Digitakt <b>A01</b>: solo hats y percusión, sin bombo.","Guitarra: notas largas con mucho delay. Grabá un loop.","Atmósfera de Ableton con el filtro del Master cerrado, abriéndose."] },
+    { n:"Groove", m:"5–12 min", e:2, l:["Digitakt <b>A02</b>: entra el bombo.","BeatStep: SEQ1 arranca, el bajo en el microKORG.","Perc de Ableton (DRUM) muy bajita."] },
+    { n:"Subida", m:"12–18 min", e:3, l:["Digitakt <b>A03</b>: más hats, clap.","SEQ2: entra el lead, con el filtro abriendo de a poco.","Un loop de voz o un chop."] },
+    { n:"Pico", m:"18–25 min", e:4, l:["Digitakt <b>A04</b>: todo junto.","Guitarra: el riff o acordes rasgados, en vivo.","Tira táctil del BeatStep para los redobles antes de cada cambio."] },
+    { n:"Break y cierre", m:"25–30 min", e:2, l:["Digitakt <b>A05</b>: sale el bombo. microKORG en un pad, tocado a mano.","Vuelve el loop de guitarra de la intro.","Bajá faders de a uno hasta dejar la atmósfera sola."] }
+  ];
+  $("#set-lista").innerHTML = PARTES.map(function(p, i){
+    var en = ""; for(var k=1;k<=4;k++) en += '<i class="'+(k<=p.e?"f":"")+'"></i>';
+    return '<div class="parte"><div><span class="min">Escena '+(i+1)+'<br>'+p.m+'</span><div class="energia" aria-label="Energía '+p.e+' de 4">'+en+'</div></div><div><span class="nom">'+p.n+'</span><ul>'+p.l.map(function(x){ return "<li>"+x+"</li>"; }).join("")+'</ul></div></div>';
+  }).join("");
+
+  /* ---------- 06 cronómetro ---------- */
+  var FASES = [
+    { n:"Prender y chequear", m:5, q:"Prendé todo en orden (aparatos primero, parlantes al final). Abrí la plantilla. Hacé la prueba de reloj: Play en Ableton y arrancan todos." },
+    { n:"Una sola máquina", m:10, q:"Elegí UNA (Digitakt, BeatStep, microKORG o guitarra) y armá o mejorá una sola cosa del set: un patrón, un sonido, un riff. Rotá la máquina cada sesión." },
+    { n:"Tocar el set grabando", m:20, q:"Apretá REC en Ableton (Arrangement) y tocá de corrido, sin frenar aunque te equivoques. Si todavía no tenés 30 minutos de set, tocá lo que tengas y repetí." },
+    { n:"Escuchar y anotar", m:10, q:"Escuchá la grabación un rato (no toda). Anotá en la bitácora una cosa que salió bien y una para mejorar. Guardá el set de Ableton y los proyectos de cada aparato." }
+  ];
+  var fi = 0, restante = FASES[0].m*60, corriendo = false, finEn = 0, tick = null, total = 0;
+  $("#cr-fases").innerHTML = FASES.map(function(f){ return '<i style="--m:'+f.m+'"><b></b></i>'; }).join("");
+  function fmt(s){ s = Math.max(0, Math.ceil(s)); return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0"); }
+  function pintarCrono(){
+    var f = FASES[fi];
+    $("#cr-n").textContent = "Fase "+(fi+1)+" de "+FASES.length+" · "+f.m+" min";
+    $("#cr-nom").textContent = f.n;
+    $("#cr-que").textContent = f.q;
+    $("#cr-reloj").textContent = fmt(restante);
+    $("#cr-play").textContent = corriendo ? "Pausa" : (restante < f.m*60 ? "Seguir" : "Empezar");
+    document.querySelectorAll("#cr-fases i b").forEach(function(b, i){
+      b.style.width = i < fi ? "100%" : i > fi ? "0" : ((1 - restante/(f.m*60))*100)+"%";
+    });
+  }
+  function avanzar(){
+    if(fi < FASES.length-1){ fi++; restante = FASES[fi].m*60; if(corriendo) finEn = Date.now() + restante*1000; }
+    else { corriendo = false; clearInterval(tick); restante = 0;
+      $("#cr-que").textContent = "Terminaste la sesión. Anotala en la bitácora.";
+      var m = document.querySelector('#log [name=min]'); if(m) m.value = Math.max(5, Math.round(total/60/5)*5 || 45);
+      pintarCrono(); $("#cr-que").textContent = "Sesión terminada. Anotala en la bitácora ↓"; return; }
+    pintarCrono();
+  }
+  $("#cr-play").addEventListener("click", function(){
+    if(fi === FASES.length-1 && restante <= 0) return;
+    corriendo = !corriendo;
+    if(corriendo){
+      finEn = Date.now() + restante*1000;
+      var ult = Date.now();
+      tick = setInterval(function(){
+        var ahora = Date.now(); total += (ahora-ult)/1000; ult = ahora;
+        restante = (finEn - ahora)/1000;
+        if(restante <= 0) avanzar(); else pintarCrono();
+      }, 250);
+    } else clearInterval(tick);
+    pintarCrono();
+  });
+  $("#cr-sig").addEventListener("click", avanzar);
+  $("#cr-reset").addEventListener("click", function(){ clearInterval(tick); corriendo = false; fi = 0; total = 0; restante = FASES[0].m*60; pintarCrono(); });
+  pintarCrono();
+
+  /* ---------- 06 etapas ---------- */
+  var ETAPAS = [
+    { t:"Todo conectado y sonando", d:"Armá el escenario de casa, hacé los ajustes de la sección 03 y la prueba de reloj.", l:"Play en Ableton arranca todo, y escuchás guitarra, microKORG y Digitakt juntos." },
+    { t:"Digitakt + guitarra", d:"Armá los 5 patrones del Digitakt (A01 a A05) en una tonalidad. Tocá la guitarra encima, nada más.", l:"Pasás de A01 a A05 sin cortar y la guitarra suena en el tono." },
+    { t:"Entra el BeatStep y el microKORG", d:"Bajo en SEQ1 para cada parte, lead en SEQ2, guardado en un proyecto del BeatStep.", l:"Los patrones del BeatStep cambian junto con los del Digitakt." },
+    { t:"El APC40 y las escenas", d:"Armá la plantilla de Ableton, cargá clips en las 5 escenas, practicá lanzar escenas y usar faders y filtro.", l:"Tocás 10 minutos sin tocar el mouse." },
+    { t:"Primer set de 15 minutos", d:"Intro, groove y subida, de corrido, grabado.", l:"Tenés una grabación de 15 minutos sin frenar, aunque tenga errores." },
+    { t:"Loops en vivo", d:"Grabá loops de guitarra (o bajo) en el momento con el APC40 y usalos en otra parte del set.", l:"Grabás un loop en la intro y lo volvés a lanzar en el cierre." },
+    { t:"Set completo de 30 minutos", d:"Las 5 partes, con la regla de los 16 compases. Si querés, sumá la voz con Auto-Tune.", l:"Dos grabaciones de 30 minutos en dos sesiones distintas." },
+    { t:"Tocar para alguien", d:"Hacé el checklist de la sección 08 y tocalo para alguien, en vivo o en un stream. Después, a una fiesta.", l:"Alguien escuchó el set entero." }
+  ];
+  var KEY_ET = "naya-live-etapas", estEt = store(KEY_ET) || {};
+  $("#etapas").innerHTML = ETAPAS.map(function(e, i){
+    return '<label class="etapa"><input type="checkbox" data-et="'+i+'"><div><span class="s">Etapa '+(i+1)+'</span><span class="t">'+e.t+'</span><p>'+e.d+'</p><div class="listo">Listo cuando: '+e.l+'</div></div></label>';
+  }).join("");
+  $("#log-etapa").innerHTML = ETAPAS.map(function(e,i){ return '<option value="'+(i+1)+'">'+(i+1)+' · '+e.t+'</option>'; }).join("");
+  function pintarEt(){
+    var n = 0, primera = -1;
+    document.querySelectorAll("[data-et]").forEach(function(c){ if(c.checked) n++; else if(primera < 0) primera = +c.dataset.et; });
+    $("#et-txt").textContent = n+" de "+ETAPAS.length+" etapas";
+    $("#et-bar").style.width = (n/ETAPAS.length*100)+"%";
+    if(primera >= 0) $("#log-etapa").value = String(primera+1);
+  }
+  document.querySelectorAll("[data-et]").forEach(function(c){
+    c.checked = !!estEt[c.dataset.et];
+    c.addEventListener("change", function(){ estEt[c.dataset.et] = c.checked; store(KEY_ET, estEt); pintarEt(); });
+  });
+  pintarEt();
+
+  /* ---------- 07 bitácora ---------- */
+  var KEY_LOG = "naya-live-bitacora", log = store(KEY_LOG) || [];
+  function hoy(){ var d = new Date(); d.setMinutes(d.getMinutes()-d.getTimezoneOffset()); return d.toISOString().slice(0,10); }
+  function lunes(iso){ var d = new Date(iso+"T12:00:00"); var w = (d.getDay()+6)%7; d.setDate(d.getDate()-w); return d.toISOString().slice(0,10); }
+  function esc(t){ return String(t||"").replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+  function pintarLog(){
+    var porSemana = {}, min = 0;
+    log.forEach(function(s){ min += +s.min || 0; var k = lunes(s.fecha); porSemana[k] = (porSemana[k]||0)+1; });
+    $("#st-ses").textContent = log.length;
+    $("#st-hs").textContent = (Math.round(min/6)/10).toString().replace(".", ",");
+    // racha: semanas seguidas con al menos una sesión (cuenta la actual o la anterior)
+    var racha = 0, k = lunes(hoy());
+    var d = new Date(k+"T12:00:00");
+    if(!porSemana[k]){ d.setDate(d.getDate()-7); }
+    while(porSemana[d.toISOString().slice(0,10)]){ racha++; d.setDate(d.getDate()-7); }
+    $("#st-racha").textContent = racha;
+    var sem = "", base = new Date(lunes(hoy())+"T12:00:00"); base.setDate(base.getDate()-7*15);
+    for(var i=0;i<16;i++){ var kk = base.toISOString().slice(0,10), n = porSemana[kk]||0; sem += '<i class="'+(n>=2?"s2":n?"s1":"")+'" title="Semana del '+kk.split("-").reverse().join("/")+': '+n+' sesión(es)"></i>'; base.setDate(base.getDate()+7); }
+    $("#semanas").innerHTML = sem;
+    var orden = log.map(function(s,i){ return [s,i]; }).sort(function(a,b){ return a[0].fecha < b[0].fecha ? 1 : -1; });
+    $("#entradas").innerHTML = orden.length ? orden.map(function(p){
+      var s = p[0];
+      return '<div class="entrada"><div class="top"><span><b>'+s.fecha.split("-").reverse().join("/")+'</b> · '+s.min+' min · etapa '+s.etapa+'</span><button data-del="'+p[1]+'">borrar</button></div>'+
+        (s.bien?'<p>✓ '+esc(s.bien)+'</p>':'')+(s.mejorar?'<p>→ '+esc(s.mejorar)+'</p>':'')+'</div>';
+    }).join("") : '<p class="vacio">Todavía no hay sesiones. La primera es la más difícil.</p>';
+  }
+  var form = $("#log");
+  form.fecha.value = hoy();
+  form.addEventListener("submit", function(ev){
+    ev.preventDefault();
+    log.push({ fecha: form.fecha.value, min: +form.min.value, etapa: form.etapa.value, bien: form.bien.value.trim(), mejorar: form.mejorar.value.trim() });
+    store(KEY_LOG, log);
+    form.bien.value = ""; form.mejorar.value = "";
+    pintarLog();
+  });
+  $("#entradas").addEventListener("click", function(ev){
+    var b = ev.target.closest("[data-del]"); if(!b) return;
+    if(!confirm("¿Borrar esta sesión de la bitácora?")) return;
+    log.splice(+b.dataset.del, 1); store(KEY_LOG, log); pintarLog();
+  });
+  pintarLog();
+
+  /* ---------- 08 checklist ---------- */
+  var CHECK = [
+    ["En casa, antes de salir", [
+      "Proyecto del Digitakt guardado (FUNC + ☰ Save Proj) y en el patrón A01.",
+      "Proyecto del BeatStep Pro guardado y en el patrón 1.",
+      "Programas del microKORG en b.71 a b.78, y el de bajo elegido.",
+      "Set de Ableton guardado, con una copia en un pendrive.",
+      "Tocaste el set entero una vez esta semana."
+    ]],
+    ["Cables y energía", [
+      "Cable de guitarra (y uno de repuesto).",
+      "2 cables para el Digitakt a la consola + minijack a 2 RCA para la Mac.",
+      "Cable MIDI de 5 pines (y uno de repuesto).",
+      "3 cables USB + hub con fuente.",
+      "Fuentes: Digitakt, BeatStep, microKORG, APC40, cargador de la Mac. Zapatilla.",
+      "Auriculares."
+    ]],
+    ["En el lugar", [
+      "Todo prendido con los volúmenes de la consola abajo.",
+      "Prueba de reloj: Play en Ableton arranca todo.",
+      "Nivel de cada canal en la consola sin llegar al rojo (tocá la parte del pico).",
+      "La guitarra sin zumbido. Si zumba: Mac a batería.",
+      "Mac en No molestar, Wi-Fi apagado, sin otras apps abiertas.",
+      "Agua. Respirar."
+    ]]
+  ];
+  var ci = 0;
+  $("#check").innerHTML = CHECK.map(function(gr){
+    return '<div class="g">'+gr[0]+'</div>' + gr[1].map(function(t){ return '<label><input type="checkbox" data-ck="'+(ci++)+'"><span>'+t+'</span></label>'; }).join("");
+  }).join("");
+  var KEY_CK = "naya-live-check", estCk = store(KEY_CK) || {};
+  document.querySelectorAll("[data-ck]").forEach(function(c){
+    c.checked = !!estCk[c.dataset.ck];
+    c.addEventListener("change", function(){ estCk[c.dataset.ck] = c.checked; store(KEY_CK, estCk); });
+  });
+  $("#check-reset").addEventListener("click", function(){
+    document.querySelectorAll("[data-ck]").forEach(function(c){ c.checked = false; });
+    estCk = {}; store(KEY_CK, estCk);
+  });
+})();
+</script>
+
+</html>
