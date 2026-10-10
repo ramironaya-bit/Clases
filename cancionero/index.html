@@ -114,6 +114,33 @@
   .ruta .o{ font-family: var(--font-mono); font-size:.72rem; color: var(--gold); font-weight:600; padding-top:.15rem; }
   .ruta b{ font-family: var(--font-poster); font-weight:400; text-transform:uppercase; font-size:1.15rem; }
   .ruta span.d{ grid-column:2; color: var(--text-muted); font-size:.88rem; }
+
+  .wrap{ max-width: 900px; }
+  .tools{ display:flex; flex-wrap:wrap; gap:.6rem 1.2rem; align-items:center; margin:0 0 1.6rem; }
+  .seg{ display:inline-flex; border:1px solid var(--line); border-radius:3px; overflow:hidden; }
+  .seg button{ font-family: var(--font-mono); font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; background:transparent; color: var(--text-muted); border:0; padding:.55rem .85rem; cursor:pointer; }
+  .seg button[aria-pressed="true"]{ background: var(--gold); color:#0b0a0a; font-weight:600; }
+  .tl{ font-family: var(--font-mono); font-size:.64rem; letter-spacing:.14em; text-transform:uppercase; color: var(--text-faint); }
+  .indice{ display:flex; flex-wrap:wrap; gap:.5rem; margin-bottom:2.2rem; }
+  .indice a{ text-decoration:none; font-family: var(--font-mono); font-size:.74rem; letter-spacing:.06em; text-transform:uppercase; color: var(--gold); border:1px solid var(--gold-soft); padding:.5rem .85rem; border-radius:3px; }
+  .indice a:hover{ background: var(--gold); color:#0b0a0a; }
+  .song{ border-top:1px solid var(--line); padding-top:1.6rem; margin-bottom:3rem; scroll-margin-top:5rem; }
+  .song h2{ font-family: var(--font-poster); font-weight:400; text-transform:uppercase; font-size:clamp(1.8rem,5vw,2.8rem); line-height:1; margin:0 0 .3rem; }
+  .song .art{ color: var(--text-muted); margin:0 0 .9rem; }
+  .chips{ display:flex; flex-wrap:wrap; gap:.4rem; margin-bottom:1.4rem; }
+  .chip{ font-family: var(--font-mono); font-size:.66rem; letter-spacing:.1em; text-transform:uppercase; border:1px solid var(--line); color: var(--text-muted); padding:.2rem .55rem; border-radius:2px; }
+  .chip b{ color: var(--gold); font-weight:600; }
+  .sec{ margin:0 0 1.5rem; }
+  .sec .sn{ font-family: var(--font-mono); font-size:.66rem; letter-spacing:.16em; text-transform:uppercase; color: var(--terra); margin-bottom:.45rem; display:flex; align-items:center; gap:.7rem; }
+  .sec .sn::after{ content:""; flex:1; height:1px; background: var(--line-soft); }
+  .sec .x{ color: var(--text-faint); }
+  .cl{ font-family: var(--font-mono); font-size:var(--cs,1.25rem); line-height:1.9; font-weight:500; display:flex; flex-wrap:wrap; gap:0 1.1rem; border-left:2px solid var(--line-soft); padding-left:.9rem; margin-bottom:.15rem; }
+  .cl .ch{ color: var(--gold); white-space:nowrap; }
+  .cl .rf{ color: var(--sand); font-style:italic; font-weight:400; }
+  .nota-s{ font-size:.85rem; color: var(--text-muted); margin:.3rem 0 0; }
+  .src{ font-family: var(--font-mono); font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; }
+  .src a{ color: var(--text-faint); text-decoration:none; border-bottom:1px solid var(--line); }
+  .src a:hover{ color: var(--gold); }
 </style>
 
 <div class="wrap">
@@ -121,26 +148,54 @@
 <div class="brand"><a class="back" href="../todas/">← Todas las clases</a><span class="ctx"><span class="n">NAYA</span> · Cancionero</span></div>
 
   <h1>Cancionero</h1>
-  <p class="bajada">Los temas que me gusta tocar, a un toque de distancia.</p>
+  <p class="bajada">Los temas que me gusta tocar, con sus acordes a mano.</p>
 
-  <section>
-    <div class="herr">
-      <a class="tema" href="https://acordes.lacuerda.net/andres_calamaro/no_son_horas-3.shtml" target="_blank" rel="noopener">
-        <span class="num">01</span><span class="nombre">No son horas</span>
-        <span class="art">Andrés Calamaro · <span class="tono">Mi menor</span></span>
-        <span class="ver">Acordes ↗</span>
-      </a>
-      <a class="tema" href="https://acordes.lacuerda.net/fito_paez/lo_que_el_viento_nunca_se_llevo-3.shtml" target="_blank" rel="noopener">
-        <span class="num">02</span><span class="nombre">Lo que el viento nunca se llevó</span>
-        <span class="art">Fito Páez y Joaquín Sabina · <span class="tono">Sol mayor</span></span>
-        <span class="ver">Acordes ↗</span>
-      </a>
-    </div>
-    <p class="nota" style="margin-top:1.2rem">Los acordes se abren en La Cuerda, en otra pestaña.</p>
-  </section>
+  <div class="tools">
+    <span class="tl">Cifrado</span>
+    <span class="seg" role="group" aria-label="Cifrado"><button type="button" data-mode="abc" aria-pressed="true">C D E</button><button type="button" data-mode="lat" aria-pressed="false">Do Re Mi</button></span>
+    <span class="tl">Tamaño</span>
+    <span class="seg" role="group" aria-label="Tamaño"><button type="button" id="menos" aria-pressed="false">A−</button><button type="button" id="mas" aria-pressed="false">A+</button></span>
+  </div>
+
+  <nav class="indice" aria-label="Temas"><a href="#no-son-horas">01 · No son horas</a><a href="#lo-que-el-viento">02 · Lo que el viento nunca se llevó</a></nav>
+
+    <article class="song" id="no-son-horas">
+      <h2>No son horas</h2>
+      <p class="art">Andrés Calamaro</p>
+      <div class="chips"><span class="chip">Tono <b>Em</b></span><span class="chip">Mi menor</span></div>
+<div class="sec"><div class="sn">Intro · riff</div><div class="cl"><span class="ch" data-c="Em">Em</span><span class="ch" data-c="D7">D7</span><span class="ch" data-c="B7">B7</span><span class="ch" data-c="C7">C7</span></div></div><div class="sec"><div class="sn">Estrofa 1</div><div class="cl"><span class="rf">riff</span><span class="ch" data-c="B7">B7</span><span class="ch" data-c="Em">Em</span><span class="rf">riff</span><span class="ch" data-c="B7">B7</span><span class="ch" data-c="Em">Em</span><span class="ch" data-c="E7">E7</span></div><div class="cl"><span class="ch" data-c="Am7">Am7</span><span class="ch" data-c="D7">D7</span><span class="ch" data-c="G">G</span><span class="ch" data-c="C">C</span><span class="ch" data-c="Em">Em</span><span class="ch" data-c="B7">B7</span><span class="ch" data-c="Em">Em</span></div><div class="cl"><span class="ch" data-c="E7">E7</span><span class="ch" data-c="Am7">Am7</span><span class="ch" data-c="D7">D7</span><span class="ch" data-c="G">G</span><span class="ch" data-c="C">C</span></div><div class="cl"><span class="ch" data-c="Em">Em</span><span class="ch" data-c="B7">B7</span><span class="ch" data-c="Em">Em</span></div></div><div class="sec"><div class="sn">Estrofa 2</div><div class="cl"><span class="ch" data-c="C7">C7</span><span class="ch" data-c="B7">B7</span><span class="ch" data-c="Em">Em</span><span class="ch" data-c="C7">C7</span><span class="ch" data-c="B7">B7</span><span class="ch" data-c="Em">Em</span><span class="ch" data-c="E7">E7</span></div><div class="cl"><span class="ch" data-c="Am7">Am7</span><span class="ch" data-c="D7">D7</span><span class="ch" data-c="G">G</span><span class="ch" data-c="C">C</span><span class="ch" data-c="Em">Em</span><span class="ch" data-c="B7">B7</span><span class="ch" data-c="Em">Em</span><span class="ch" data-c="E7">E7</span></div><div class="cl"><span class="ch" data-c="Am7">Am7</span><span class="ch" data-c="D7">D7</span><span class="ch" data-c="G">G</span><span class="ch" data-c="C">C</span><span class="ch" data-c="Em">Em</span><span class="ch" data-c="B7">B7</span><span class="ch" data-c="Em">Em</span><span class="ch" data-c="E7">E7</span></div></div><div class="sec"><div class="sn">Puente</div><div class="cl"><span class="ch" data-c="Am7">Am7</span><span class="ch" data-c="D7">D7</span><span class="ch" data-c="G">G</span><span class="ch" data-c="Em">Em</span></div><div class="cl"><span class="ch" data-c="Am7">Am7</span><span class="ch" data-c="D7">D7</span><span class="ch" data-c="G">G</span><span class="ch" data-c="Em">Em</span></div></div><div class="sec"><div class="sn">Estrofa 3</div><div class="cl"><span class="ch" data-c="Am7">Am7</span><span class="ch" data-c="D7">D7</span><span class="ch" data-c="G">G</span><span class="ch" data-c="C">C</span><span class="ch" data-c="Em">Em</span><span class="ch" data-c="B7">B7</span><span class="ch" data-c="Em">Em</span><span class="ch" data-c="E7">E7</span></div><div class="cl"><span class="ch" data-c="Am7">Am7</span><span class="ch" data-c="D7">D7</span><span class="ch" data-c="G">G</span><span class="ch" data-c="C">C</span><span class="ch" data-c="Em">Em</span><span class="ch" data-c="B7">B7</span><span class="ch" data-c="Em">Em</span></div><div class="cl"><span class="ch" data-c="B7">B7</span><span class="ch" data-c="Em">Em</span><span class="ch" data-c="B7">B7</span><span class="ch" data-c="Em">Em</span></div><div class="cl"><span class="ch" data-c="B7">B7</span><span class="ch" data-c="Em">Em</span><span class="ch" data-c="E7">E7</span></div></div><div class="sec"><div class="sn">Cierre</div><div class="cl"><span class="ch" data-c="Am7">Am7</span><span class="ch" data-c="D7">D7</span><span class="ch" data-c="G">G</span><span class="ch" data-c="C">C</span><span class="ch" data-c="Em">Em</span><span class="ch" data-c="B7">B7</span><span class="ch" data-c="Em">Em</span></div><div class="cl"><span class="ch" data-c="E7">E7</span><span class="ch" data-c="Am7">Am7</span><span class="ch" data-c="D7">D7</span><span class="ch" data-c="G">G</span><span class="ch" data-c="C">C</span></div><div class="cl"><span class="ch" data-c="Em">Em</span><span class="ch" data-c="B7">B7</span><span class="ch" data-c="Em">Em</span></div><div class="cl"><span class="ch" data-c="B7">B7</span><span class="ch" data-c="Em">Em</span></div></div>
+      <p class="nota-s">Riff de entrada; cejilla para ligar del B7 al C7.</p>
+      <p class="src"><a href="https://acordes.lacuerda.net/andres_calamaro/no_son_horas-3.shtml" target="_blank" rel="noopener">Letra completa en La Cuerda ↗</a></p>
+    </article>
+    <article class="song" id="lo-que-el-viento">
+      <h2>Lo que el viento nunca se llevó</h2>
+      <p class="art">Fito Páez y Joaquín Sabina</p>
+      <div class="chips"><span class="chip">Tono <b>G</b></span><span class="chip">Sol mayor</span></div>
+<div class="sec"><div class="sn">Estrofa <span class="x">· x2 con la 2.ª terminando en Am7 C D G</span></div><div class="cl"><span class="ch" data-c="Em">Em</span><span class="ch" data-c="B7">B7</span><span class="ch" data-c="C">C</span><span class="ch" data-c="G">G</span></div><div class="cl"><span class="ch" data-c="Em">Em</span><span class="ch" data-c="B7">B7</span><span class="ch" data-c="C">C</span><span class="ch" data-c="G">G</span></div><div class="cl"><span class="ch" data-c="Am7">Am7</span><span class="ch" data-c="C">C</span><span class="ch" data-c="D">D</span><span class="ch" data-c="G">G</span><span class="ch" data-c="C7">C7</span><span class="ch" data-c="G">G</span></div><div class="cl"><span class="ch" data-c="Am7">Am7</span><span class="ch" data-c="C">C</span><span class="ch" data-c="D">D</span><span class="ch" data-c="G">G</span><span class="ch" data-c="C7">C7</span><span class="ch" data-c="G">G</span><span class="ch" data-c="D7">D7</span></div></div><div class="sec"><div class="sn">Parte B</div><div class="cl"><span class="ch" data-c="G">G</span><span class="ch" data-c="D/F#">D/F#</span><span class="ch" data-c="Em">Em</span><span class="ch" data-c="E/G#">E/G#</span><span class="ch" data-c="Am7">Am7</span></div><div class="cl"><span class="ch" data-c="Am/G">Am/G</span><span class="ch" data-c="F#m7b5">F#m7b5</span><span class="ch" data-c="D">D</span><span class="ch" data-c="G">G</span></div><div class="cl"><span class="ch" data-c="D/F#">D/F#</span><span class="ch" data-c="Em">Em</span><span class="ch" data-c="G/D">G/D</span><span class="ch" data-c="Am7">Am7</span></div><div class="cl"><span class="ch" data-c="Am/G">Am/G</span><span class="ch" data-c="F#">F#</span><span class="ch" data-c="F#7">F#7</span><span class="ch" data-c="Bm7">Bm7</span></div><div class="cl"><span class="ch" data-c="Bm/A">Bm/A</span><span class="ch" data-c="G">G</span><span class="ch" data-c="G7">G7</span><span class="ch" data-c="C">C</span></div><div class="cl"><span class="ch" data-c="G/B">G/B</span><span class="ch" data-c="Am7">Am7</span><span class="ch" data-c="Dsus4">Dsus4</span></div></div><div class="sec"><div class="sn">Estribillo <span class="x">· después vuelve la estrofa y la parte B</span></div><div class="cl"><span class="ch" data-c="G">G</span><span class="ch" data-c="Am7">Am7</span><span class="ch" data-c="Bm7">Bm7</span></div><div class="cl"><span class="ch" data-c="G">G</span><span class="ch" data-c="Am7">Am7</span><span class="ch" data-c="Dsus4">Dsus4</span><span class="ch" data-c="D">D</span></div><div class="cl"><span class="ch" data-c="G">G</span><span class="ch" data-c="Am7">Am7</span><span class="ch" data-c="Bm7">Bm7</span></div><div class="cl"><span class="ch" data-c="G">G</span><span class="ch" data-c="Am7">Am7</span><span class="ch" data-c="Dsus4">Dsus4</span><span class="ch" data-c="D">D</span></div><div class="cl"><span class="ch" data-c="C7">C7</span><span class="ch" data-c="B7">B7</span><span class="ch" data-c="Em7">Em7</span></div><div class="cl"><span class="ch" data-c="A7">A7</span><span class="ch" data-c="Am7">Am7</span><span class="ch" data-c="D">D</span></div></div><div class="sec"><div class="sn">Final <span class="x">· sale de la parte B repetida</span></div><div class="cl"><span class="ch" data-c="G/B">G/B</span><span class="ch" data-c="Am7">Am7</span><span class="ch" data-c="D">D</span><span class="ch" data-c="G">G</span><span class="ch" data-c="Em">Em</span></div><div class="cl"><span class="ch" data-c="Am">Am</span><span class="ch" data-c="D">D</span><span class="ch" data-c="G">G</span><span class="ch" data-c="Em">Em</span></div><div class="cl"><span class="ch" data-c="Am">Am</span><span class="ch" data-c="D">D</span><span class="ch" data-c="C">C</span></div></div>
+      
+      <p class="src"><a href="https://acordes.lacuerda.net/fito_paez/lo_que_el_viento_nunca_se_llevo-3.shtml" target="_blank" rel="noopener">Letra completa en La Cuerda ↗</a></p>
+    </article>
 
   <footer>NAYA · Cancionero · Buenos Aires</footer>
 
 </div>
+<script>
+(function(){
+  var LAT={C:'Do',D:'Re',E:'Mi',F:'Fa',G:'Sol',A:'La',B:'Si'};
+  function conv(c,m){ if(m!=='lat') return c; return c.replace(/[A-G]/g,function(x){return LAT[x];}); }
+  var mode='abc', size=1.25;
+  try{ mode=localStorage.getItem('canc_mode')||'abc'; size=parseFloat(localStorage.getItem('canc_size'))||1.25; }catch(e){}
+  function render(){
+    document.querySelectorAll('.ch').forEach(function(el){ el.textContent=conv(el.getAttribute('data-c'),mode); });
+    document.querySelectorAll('[data-mode]').forEach(function(b){ b.setAttribute('aria-pressed', b.getAttribute('data-mode')===mode); });
+    document.documentElement.style.setProperty('--cs', size+'rem');
+    try{ localStorage.setItem('canc_mode',mode); localStorage.setItem('canc_size',size); }catch(e){}
+  }
+  document.querySelectorAll('[data-mode]').forEach(function(b){ b.onclick=function(){ mode=b.getAttribute('data-mode'); render(); }; });
+  document.getElementById('mas').onclick=function(){ size=Math.min(2.2,size+.15); render(); };
+  document.getElementById('menos').onclick=function(){ size=Math.max(.9,size-.15); render(); };
+  render();
+})();
+</script>
 
 </html>
