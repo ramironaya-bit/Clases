@@ -184,6 +184,19 @@
   .acc .conletra[open] summary{ background:transparent; border:0; border-bottom:1px solid var(--gold-soft); color: var(--text); }
   .acc .conletra[open]{ flex-basis:100%; }
   .acc .conletra .frame{ margin-top:.8rem; }
+
+  .ct{ grid-template-columns:1fr !important; }
+  .ct .art{ grid-column:1 !important; }
+  .acc, .an{ margin-left:0 !important; }
+  .artista{ margin-bottom:2.4rem; scroll-margin-top:5rem; }
+  .artista h2{ font-family: var(--font-poster); font-weight:400; text-transform:uppercase; font-size:1.6rem; line-height:1.05; margin:0 0 .9rem; padding-bottom:.5rem; border-bottom:1px solid var(--line); display:flex; align-items:baseline; gap:.7rem; }
+  .artista h2 .cnt{ font-family: var(--font-mono); font-size:.7rem; letter-spacing:.1em; color: var(--text-faint); }
+  .artista .cancion + .cancion{ margin-top:.8rem; }
+  .indice{ display:flex; flex-wrap:wrap; gap:.5rem; margin:0 0 1.8rem; }
+  .indice a{ text-decoration:none; font-family: var(--font-mono); font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; color: var(--gold); border:1px solid var(--gold-soft); padding:.45rem .8rem; border-radius:3px; }
+  .indice a:hover{ background: var(--gold); color:#0b0a0a; }
+  .grupo-t{ font-family: var(--font-poster); font-weight:400; text-transform:uppercase; font-size:1.4rem; margin:2rem 0 .8rem; padding-bottom:.4rem; border-bottom:1px solid var(--line); }
+  [hidden]{ display:none !important; }
 </style>
 
 <div class="wrap">
@@ -194,32 +207,19 @@
   <p class="bajada">Los temas que me gusta tocar, a un toque de distancia.</p>
 
   <div class="tools" style="display:flex;flex-wrap:wrap;gap:.6rem 1.2rem;align-items:center;margin:0 0 1.2rem">
+    <span class="tl">Ordenar</span>
+    <span class="seg" role="group" aria-label="Orden"><button type="button" data-vista="artista" aria-pressed="true">Por artista</button><button type="button" data-vista="tono" aria-pressed="false">Por tono</button></span>
     <span class="tl">Cifrado</span>
     <span class="seg" role="group" aria-label="Cifrado"><button type="button" data-mode="abc" aria-pressed="true">C D E</button><button type="button" data-mode="lat" aria-pressed="false">Do Re Mi</button></span>
   </div>
-  <p class="oden">Orden sugerido: agrupado por tono para no cambiar de posición. Primero los de Sol, después los de La, y cierra Do.</p>
 
-  <div class="lista">
-    <article class="cancion">
-      <div class="ct"><span class="num">01</span><span class="nombre">Lunita de Tucumán</span><span class="art">Tan Biónica<span class="tono">Sol mayor</span></span></div>
-      <div class="acc"><a href="https://acordes.lacuerda.net/tan_bionica/lunita_de_tucuman.shtml" target="_blank" rel="noopener">Acordes ↗</a>
-        <details class="conletra"><summary>Ver con letra</summary>
-          <div class="frame"><iframe data-src="https://acordes.lacuerda.net/tan_bionica/lunita_de_tucuman.shtml" title="Hoja completa en La Cuerda" loading="lazy" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe></div>
-        </details>
-      </div>
-      <div class="an"><ul><li><b>Ocho acordes:</b> <span class="ch" data-c="G">G</span>, <span class="ch" data-c="Bm">Bm</span>, <span class="ch" data-c="Am">Am</span>, <span class="ch" data-c="D">D</span>, <span class="ch" data-c="Em">Em</span>, <span class="ch" data-c="C">C</span>, <span class="ch" data-c="B">B</span> y <span class="ch" data-c="D7">D7</span>.</li><li><b>Estrofa:</b> <span class="ch" data-c="G">G</span> <span class="ch" data-c="Bm">Bm</span> / <span class="ch" data-c="Am">Am</span> <span class="ch" data-c="D">D</span>, dos veces; cierra <span class="ch" data-c="Bm">Bm</span> <span class="ch" data-c="Em">Em</span> / <span class="ch" data-c="Am">Am</span> <span class="ch" data-c="D">D</span> y vuelve a <span class="ch" data-c="G">G</span>.</li><li><b>Estribillo:</b> <span class="ch" data-c="G">G</span> <span class="ch" data-c="Em">Em</span> dos veces, <span class="ch" data-c="Am">Am</span> <span class="ch" data-c="D">D</span> dos veces, <span class="ch" data-c="Bm">Bm</span> <span class="ch" data-c="B">B</span> <span class="ch" data-c="Em">Em</span>, y baja <span class="ch" data-c="C">C</span> → <span class="ch" data-c="D">D</span> → <span class="ch" data-c="G">G</span>. El <span class="ch" data-c="B">B</span> mayor es la bisagra hacia el <span class="ch" data-c="Em">Em</span>.</li><li><b>Final:</b> <span class="ch" data-c="G">G</span> <span class="ch" data-c="D">D</span> <span class="ch" data-c="Em">Em</span> / <span class="ch" data-c="Am">Am</span> <span class="ch" data-c="D">D</span> / <span class="ch" data-c="C">C</span> <span class="ch" data-c="D">D</span>, y cierra <span class="ch" data-c="C">C</span> <span class="ch" data-c="D7">D7</span> → <span class="ch" data-c="G">G</span>.</li></ul></div>
-    </article>
-    <article class="cancion">
-      <div class="ct"><span class="num">02</span><span class="nombre">Lo que el viento nunca se llevó</span><span class="art">Fito Páez y Joaquín Sabina<span class="tono">Sol mayor</span></span></div>
-      <div class="acc"><a href="https://acordes.lacuerda.net/fito_paez/lo_que_el_viento_nunca_se_llevo-3.shtml" target="_blank" rel="noopener">Acordes ↗</a>
-        <details class="conletra"><summary>Ver con letra</summary>
-          <div class="frame"><iframe data-src="https://acordes.lacuerda.net/fito_paez/lo_que_el_viento_nunca_se_llevo-3.shtml" title="Hoja completa en La Cuerda" loading="lazy" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe></div>
-        </details>
-      </div>
-      <div class="an"><ul><li><b>Estrofa:</b> <span class="ch" data-c="Em">Em</span> <span class="ch" data-c="B7">B7</span> <span class="ch" data-c="C">C</span> <span class="ch" data-c="G">G</span>, dos veces, y después <span class="ch" data-c="Am7">Am7</span> <span class="ch" data-c="C">C</span> <span class="ch" data-c="D">D</span> <span class="ch" data-c="G">G</span> (con <span class="ch" data-c="C7">C7</span> al final). El <span class="ch" data-c="B7">B7</span> te lleva al <span class="ch" data-c="Em">Em</span> y el <span class="ch" data-c="C">C</span> al <span class="ch" data-c="G">G</span>.</li><li><b>Parte B, el bajo baja de a un paso:</b> G → F# → E (<span class="ch" data-c="G">G</span>, <span class="ch" data-c="D/F#">D/F#</span>, <span class="ch" data-c="Em">Em</span>), sube al G# y cae en <span class="ch" data-c="Am7">Am7</span>. La segunda fila repite la idea: G, F#, D, G.</li><li><b>Estribillo, escalera que sube:</b> <span class="ch" data-c="G">G</span> <span class="ch" data-c="Am7">Am7</span> <span class="ch" data-c="Bm7">Bm7</span>, y vuelve con <span class="ch" data-c="Dsus4">Dsus4</span> → <span class="ch" data-c="D">D</span>. Cierra con <span class="ch" data-c="C7">C7</span> <span class="ch" data-c="B7">B7</span> <span class="ch" data-c="Em7">Em7</span> / <span class="ch" data-c="A7">A7</span> <span class="ch" data-c="Am7">Am7</span> <span class="ch" data-c="D">D</span>.</li><li><b>Orden:</b> estrofa, parte B, estribillo; estrofa, parte B, estribillo; parte B dos veces y final (<span class="ch" data-c="Am">Am</span> <span class="ch" data-c="D">D</span> <span class="ch" data-c="G">G</span> <span class="ch" data-c="Em">Em</span> / <span class="ch" data-c="Am">Am</span> <span class="ch" data-c="D">D</span> <span class="ch" data-c="C">C</span>).</li></ul></div>
-    </article>
-    <article class="cancion">
-      <div class="ct"><span class="num">03</span><span class="nombre">No son horas</span><span class="art">Andrés Calamaro<span class="tono">Mi menor</span></span></div>
+  <nav class="indice" id="indice" aria-label="Artistas"><a href="#a-andres-calamaro">Andrés Calamaro · 1</a><a href="#a-el-mato-a-un-policia-motorizado">El Mató a un Policía Motorizado · 4</a><a href="#a-fito-paez">Fito Páez · 1</a><a href="#a-nino-bravo">Nino Bravo · 1</a><a href="#a-tan-bionica">Tan Biónica · 4</a></nav>
+
+  <div id="vistaArtista">
+    <section class="artista" id="a-andres-calamaro">
+      <h2>Andrés Calamaro <span class="cnt">1</span></h2>
+<article class="cancion" data-tono="G" data-titulo="No son horas">
+      <div class="ct"><span class="nombre">No son horas</span><span class="art">Andrés Calamaro<span class="tono">Mi menor</span></span></div>
       <div class="acc"><a href="https://acordes.lacuerda.net/andres_calamaro/no_son_horas-3.shtml" target="_blank" rel="noopener">Acordes ↗</a>
         <details class="conletra"><summary>Ver con letra</summary>
           <div class="frame"><iframe data-src="https://acordes.lacuerda.net/andres_calamaro/no_son_horas-3.shtml" title="Hoja completa en La Cuerda" loading="lazy" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe></div>
@@ -227,26 +227,62 @@
       </div>
       <div class="an"><ul><li><b>Siete acordes:</b> <span class="ch" data-c="Em">Em</span>, <span class="ch" data-c="B7">B7</span>, <span class="ch" data-c="Am7">Am7</span>, <span class="ch" data-c="D7">D7</span>, <span class="ch" data-c="G">G</span>, <span class="ch" data-c="C">C</span> y <span class="ch" data-c="E7">E7</span>.</li><li><b>Dos movimientos:</b> la cadena <span class="ch" data-c="Am7">Am7</span> → <span class="ch" data-c="D7">D7</span> → <span class="ch" data-c="G">G</span> → <span class="ch" data-c="C">C</span> (cada uno cae una quinta) y la vuelta a casa <span class="ch" data-c="Em">Em</span> → <span class="ch" data-c="B7">B7</span> → <span class="ch" data-c="Em">Em</span>.</li><li><b>Frase A</b>, la que más se repite: <span class="ch" data-c="Am7">Am7</span> <span class="ch" data-c="D7">D7</span> <span class="ch" data-c="G">G</span> <span class="ch" data-c="C">C</span> / <span class="ch" data-c="Em">Em</span> <span class="ch" data-c="B7">B7</span> <span class="ch" data-c="Em">Em</span>. El <span class="ch" data-c="E7">E7</span> es la bisagra que te devuelve a <span class="ch" data-c="Am7">Am7</span>.</li><li><b>Lo que cambia:</b> el gancho <span class="ch" data-c="Am7">Am7</span> <span class="ch" data-c="B7">B7</span> <span class="ch" data-c="Em">Em</span>; el puente que se acorta (<span class="ch" data-c="Am7">Am7</span> <span class="ch" data-c="D7">D7</span> <span class="ch" data-c="G">G</span> <span class="ch" data-c="Em">Em</span>, sin <span class="ch" data-c="C">C</span> ni <span class="ch" data-c="B7">B7</span>); y el final, que para en el <span class="ch" data-c="C">C</span>.</li></ul></div>
     </article>
-    <article class="cancion">
-      <div class="ct"><span class="num">04</span><span class="nombre">Arruinarse</span><span class="art">Tan Biónica<span class="tono">La mayor · empieza en F#m</span></span></div>
-      <div class="acc"><a href="https://acordes.lacuerda.net/tan_bionica/arruinarse.shtml" target="_blank" rel="noopener">Acordes ↗</a>
+    </section>
+    <section class="artista" id="a-el-mato-a-un-policia-motorizado">
+      <h2>El Mató a un Policía Motorizado <span class="cnt">4</span></h2>
+    <article class="cancion" data-tono="A" data-titulo="El mundo extraño">
+      <div class="ct"><span class="nombre">El mundo extraño</span><span class="art">El Mató a un Policía Motorizado<span class="tono">La mayor</span></span></div>
+      <div class="acc"><a href="https://acordes.lacuerda.net/mato_a_un_policia_motorizado/el_mundo_extranio" target="_blank" rel="noopener">Acordes ↗</a>
         <details class="conletra"><summary>Ver con letra</summary>
-          <div class="frame"><iframe data-src="https://acordes.lacuerda.net/tan_bionica/arruinarse.shtml" title="Hoja completa en La Cuerda" loading="lazy" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe></div>
+          <div class="frame"><iframe data-src="https://acordes.lacuerda.net/mato_a_un_policia_motorizado/el_mundo_extranio" title="Hoja completa en La Cuerda" loading="lazy" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe></div>
         </details>
       </div>
-      <div class="an"><ul><li><b>Seis acordes:</b> <span class="ch" data-c="F#m">F#m</span>, <span class="ch" data-c="A">A</span>, <span class="ch" data-c="E">E</span>, <span class="ch" data-c="B">B</span>, <span class="ch" data-c="D">D</span> y <span class="ch" data-c="C#">C#</span>.</li><li><b>Estrofa:</b> un lazo de cuatro, <span class="ch" data-c="F#m">F#m</span> <span class="ch" data-c="A">A</span> <span class="ch" data-c="E">E</span> <span class="ch" data-c="B">B</span>, que se repite.</li><li><b>Pre:</b> <span class="ch" data-c="D">D</span> <span class="ch" data-c="A">A</span> <span class="ch" data-c="E">E</span> <span class="ch" data-c="B">B</span> y <span class="ch" data-c="D">D</span> <span class="ch" data-c="A">A</span> <span class="ch" data-c="C#">C#</span> <span class="ch" data-c="A">A</span>. El <span class="ch" data-c="C#">C#</span> te devuelve al <span class="ch" data-c="F#m">F#m</span> o al <span class="ch" data-c="A">A</span>.</li><li><b>Estribillo en <span class="ch" data-c="A">A</span>:</b> <span class="ch" data-c="A">A</span> <span class="ch" data-c="E">E</span> <span class="ch" data-c="F#m">F#m</span> <span class="ch" data-c="D">D</span> <span class="ch" data-c="A">A</span> / <span class="ch" data-c="E">E</span> <span class="ch" data-c="F#m">F#m</span> <span class="ch" data-c="D">D</span> (<span class="ch" data-c="E">E</span>) <span class="ch" data-c="F#m">F#m</span> / <span class="ch" data-c="E">E</span> <span class="ch" data-c="D">D</span> <span class="ch" data-c="A">A</span> / <span class="ch" data-c="E">E</span> <span class="ch" data-c="D">D</span> <span class="ch" data-c="E">E</span>. Es la progresión pop de siempre (<span class="ch" data-c="A">A</span> <span class="ch" data-c="E">E</span> <span class="ch" data-c="F#m">F#m</span> <span class="ch" data-c="D">D</span>).</li></ul></div>
+      <div class="an"><ul><li><b>Cinco acordes:</b> <span class="ch" data-c="A">A</span>, <span class="ch" data-c="D">D</span>, <span class="ch" data-c="F#m">F#m</span>, <span class="ch" data-c="Bm">Bm</span> y <span class="ch" data-c="E">E</span>.</li><li><b>Base:</b> <span class="ch" data-c="A">A</span> ↔ <span class="ch" data-c="D">D</span>, ida y vuelta, casi todo el tema.</li><li><b>El cambio:</b> <span class="ch" data-c="F#m">F#m</span> <span class="ch" data-c="Bm">Bm</span> <span class="ch" data-c="E">E</span>, y la vuelta cierra <span class="ch" data-c="A">A</span> <span class="ch" data-c="D">D</span> <span class="ch" data-c="Bm">Bm</span> <span class="ch" data-c="E">E</span>.</li></ul></div>
     </article>
-    <article class="cancion">
-      <div class="ct"><span class="num">05</span><span class="nombre">Obsesionario en La mayor</span><span class="art">Tan Biónica<span class="tono">La mayor</span></span></div>
-      <div class="acc"><a href="https://acordes.lacuerda.net/tan_bionica/obsesionario_en_la_mayor-3.shtml" target="_blank" rel="noopener">Acordes ↗</a>
+    <article class="cancion" data-tono="E" data-titulo="El tesoro">
+      <div class="ct"><span class="nombre">El tesoro</span><span class="art">El Mató a un Policía Motorizado<span class="tono">Mi mayor · baja de tono</span></span></div>
+      <div class="acc"><a href="https://acordes.lacuerda.net/mato_a_un_policia_motorizado/el_tesoro" target="_blank" rel="noopener">Acordes ↗</a>
         <details class="conletra"><summary>Ver con letra</summary>
-          <div class="frame"><iframe data-src="https://acordes.lacuerda.net/tan_bionica/obsesionario_en_la_mayor-3.shtml" title="Hoja completa en La Cuerda" loading="lazy" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe></div>
+          <div class="frame"><iframe data-src="https://acordes.lacuerda.net/mato_a_un_policia_motorizado/el_tesoro" title="Hoja completa en La Cuerda" loading="lazy" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe></div>
         </details>
       </div>
-      <div class="an"><ul><li><b>Siete acordes:</b> <span class="ch" data-c="A">A</span>, <span class="ch" data-c="A/F#">A/F#</span>, <span class="ch" data-c="D">D</span>, <span class="ch" data-c="E">E</span>, <span class="ch" data-c="F#m">F#m</span>, <span class="ch" data-c="C#m">C#m</span> y <span class="ch" data-c="C#">C#</span>.</li><li><b>Arranque:</b> <span class="ch" data-c="A">A</span> <span class="ch" data-c="A/F#">A/F#</span> dos veces (el bajo baja de A a F#), y después <span class="ch" data-c="D">D</span> <span class="ch" data-c="E">E</span> <span class="ch" data-c="F#m">F#m</span> / <span class="ch" data-c="A">A</span> <span class="ch" data-c="D">D</span> / <span class="ch" data-c="E">E</span> <span class="ch" data-c="A">A</span>.</li><li><b>Parte de subida:</b> <span class="ch" data-c="C#m">C#m</span> <span class="ch" data-c="F#m">F#m</span> <span class="ch" data-c="D">D</span> <span class="ch" data-c="E">E</span> dos veces, <span class="ch" data-c="A">A</span> <span class="ch" data-c="E">E</span> <span class="ch" data-c="D">D</span> <span class="ch" data-c="E">E</span> <span class="ch" data-c="A">A</span> y <span class="ch" data-c="E">E</span> <span class="ch" data-c="D">D</span> <span class="ch" data-c="C#">C#</span> <span class="ch" data-c="F#m">F#m</span>.</li><li><b>Cierre:</b> <span class="ch" data-c="A">A</span> <span class="ch" data-c="D">D</span> <span class="ch" data-c="E">E</span> <span class="ch" data-c="F#m">F#m</span> / <span class="ch" data-c="E">E</span> <span class="ch" data-c="D">D</span> / <span class="ch" data-c="E">E</span> <span class="ch" data-c="F#m">F#m</span> / <span class="ch" data-c="E">E</span> <span class="ch" data-c="D">D</span> <span class="ch" data-c="E">E</span> <span class="ch" data-c="A">A</span>. La hoja agrega una coda con power chords un tono arriba (B5 F#5 E5).</li></ul></div>
+      <div class="an"><ul><li><b>Molde:</b> <span class="ch" data-c="E">E</span> <span class="ch" data-c="C#m">C#m</span> en lazo (cuatro vueltas) y después <span class="ch" data-c="A">A</span> <span class="ch" data-c="B">B</span> <span class="ch" data-c="E">E</span> / <span class="ch" data-c="G#m">G#m</span> <span class="ch" data-c="A">A</span> / <span class="ch" data-c="B">B</span> <span class="ch" data-c="E">E</span>.</li><li><b>Baja de tono:</b> la hoja repite el mismo molde en <span class="ch" data-c="D">D</span> (<span class="ch" data-c="D">D</span> <span class="ch" data-c="Bm">Bm</span>… <span class="ch" data-c="G">G</span> <span class="ch" data-c="A">A</span> <span class="ch" data-c="D">D</span> / <span class="ch" data-c="F#m">F#m</span> <span class="ch" data-c="G">G</span> / <span class="ch" data-c="A">A</span> <span class="ch" data-c="D">D</span>) y al final en <span class="ch" data-c="C">C</span> (<span class="ch" data-c="C">C</span> <span class="ch" data-c="Am">Am</span>… <span class="ch" data-c="F">F</span> <span class="ch" data-c="Gm">Gm</span> <span class="ch" data-c="C">C</span> / <span class="ch" data-c="Em">Em</span> <span class="ch" data-c="F">F</span> / <span class="ch" data-c="Gm">Gm</span> <span class="ch" data-c="C">C</span>): tres bloques, cada uno un tono abajo.</li><li><b>Puente:</b> <span class="ch" data-c="A">A</span> <span class="ch" data-c="B">B</span> <span class="ch" data-c="E">E</span> / <span class="ch" data-c="E/D#">E/D#</span> <span class="ch" data-c="E/C#">E/C#</span> <span class="ch" data-c="E/B">E/B</span> <span class="ch" data-c="A">A</span> / <span class="ch" data-c="B">B</span> <span class="ch" data-c="E">E</span>. El bajo baja E → D# → C# → B.</li><li><b>Para acordarte:</b> aprendé el molde una vez y movelo; lo único que cambia es el tono.</li></ul></div>
     </article>
-        <article class="cancion">
-      <div class="ct"><span class="num">06</span><span class="nombre">Un beso y una flor</span><span class="art">Nino Bravo<span class="tono">La mayor · relativo F#m</span></span></div>
+    <article class="cancion" data-tono="E" data-titulo="La noche eterna">
+      <div class="ct"><span class="nombre">La noche eterna</span><span class="art">El Mató a un Policía Motorizado<span class="tono">Mi mayor</span></span></div>
+      <div class="acc"><a href="https://acordes.lacuerda.net/mato_a_un_policia_motorizado/la_noche_eterna" target="_blank" rel="noopener">Acordes ↗</a>
+        <details class="conletra"><summary>Ver con letra</summary>
+          <div class="frame"><iframe data-src="https://acordes.lacuerda.net/mato_a_un_policia_motorizado/la_noche_eterna" title="Hoja completa en La Cuerda" loading="lazy" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe></div>
+        </details>
+      </div>
+      <div class="an"><ul><li><b>Cuatro acordes:</b> <span class="ch" data-c="E">E</span>, <span class="ch" data-c="C#m">C#m</span>, <span class="ch" data-c="A">A</span> y <span class="ch" data-c="B">B</span>.</li><li><b>Vuelta principal:</b> <span class="ch" data-c="E">E</span> <span class="ch" data-c="C#m">C#m</span> <span class="ch" data-c="A">A</span> <span class="ch" data-c="B">B</span> <span class="ch" data-c="E">E</span> (la clásica I–vi–IV–V–I), cuatro veces.</li><li><b>Puente:</b> <span class="ch" data-c="E">E</span> <span class="ch" data-c="A">A</span> <span class="ch" data-c="E">E</span> <span class="ch" data-c="A">A</span>, cuatro veces, y vuelve la vuelta principal.</li><li><b>Parte del medio:</b> <span class="ch" data-c="A">A</span> <span class="ch" data-c="C#m">C#m</span> alternando, y de nuevo <span class="ch" data-c="E">E</span> <span class="ch" data-c="A">A</span>. <b>Coda:</b> <span class="ch" data-c="C#m">C#m</span> / <span class="ch" data-c="A">A</span> / <span class="ch" data-c="B">B</span> <span class="ch" data-c="C#m">C#m</span> / <span class="ch" data-c="A">A</span> / <span class="ch" data-c="B">B</span> <span class="ch" data-c="C#m">C#m</span> / <span class="ch" data-c="E">E</span> <span class="ch" data-c="A">A</span>.</li></ul></div>
+    </article>
+    <article class="cancion" data-tono="G" data-titulo="Más o menos bien">
+      <div class="ct"><span class="nombre">Más o menos bien</span><span class="art">El Mató a un Policía Motorizado<span class="tono">Sol mayor</span></span></div>
+      <div class="acc"><a href="https://acordes.lacuerda.net/mato_a_un_policia_motorizado/mas_o_menos_bien" target="_blank" rel="noopener">Acordes ↗</a>
+        <details class="conletra"><summary>Ver con letra</summary>
+          <div class="frame"><iframe data-src="https://acordes.lacuerda.net/mato_a_un_policia_motorizado/mas_o_menos_bien" title="Hoja completa en La Cuerda" loading="lazy" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe></div>
+        </details>
+      </div>
+      <div class="an"><ul><li><b>Dos acordes:</b> <span class="ch" data-c="G">G</span> y <span class="ch" data-c="C">C</span>.</li><li><b>Todo el tema:</b> <span class="ch" data-c="G">G</span> <span class="ch" data-c="C">C</span> <span class="ch" data-c="G">G</span> / <span class="ch" data-c="C">C</span>, repetido, y cierra <span class="ch" data-c="G">G</span> <span class="ch" data-c="C">C</span>.</li></ul></div>
+    </article>
+    </section>
+    <section class="artista" id="a-fito-paez">
+      <h2>Fito Páez <span class="cnt">1</span></h2>
+<article class="cancion" data-tono="G" data-titulo="Lo que el viento nunca se llevó">
+      <div class="ct"><span class="nombre">Lo que el viento nunca se llevó</span><span class="art">Fito Páez y Joaquín Sabina<span class="tono">Sol mayor</span></span></div>
+      <div class="acc"><a href="https://acordes.lacuerda.net/fito_paez/lo_que_el_viento_nunca_se_llevo-3.shtml" target="_blank" rel="noopener">Acordes ↗</a>
+        <details class="conletra"><summary>Ver con letra</summary>
+          <div class="frame"><iframe data-src="https://acordes.lacuerda.net/fito_paez/lo_que_el_viento_nunca_se_llevo-3.shtml" title="Hoja completa en La Cuerda" loading="lazy" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe></div>
+        </details>
+      </div>
+      <div class="an"><ul><li><b>Estrofa:</b> <span class="ch" data-c="Em">Em</span> <span class="ch" data-c="B7">B7</span> <span class="ch" data-c="C">C</span> <span class="ch" data-c="G">G</span>, dos veces, y después <span class="ch" data-c="Am7">Am7</span> <span class="ch" data-c="C">C</span> <span class="ch" data-c="D">D</span> <span class="ch" data-c="G">G</span> (con <span class="ch" data-c="C7">C7</span> al final). El <span class="ch" data-c="B7">B7</span> te lleva al <span class="ch" data-c="Em">Em</span> y el <span class="ch" data-c="C">C</span> al <span class="ch" data-c="G">G</span>.</li><li><b>Parte B, el bajo baja de a un paso:</b> G → F# → E (<span class="ch" data-c="G">G</span>, <span class="ch" data-c="D/F#">D/F#</span>, <span class="ch" data-c="Em">Em</span>), sube al G# y cae en <span class="ch" data-c="Am7">Am7</span>. La segunda fila repite la idea: G, F#, D, G.</li><li><b>Estribillo, escalera que sube:</b> <span class="ch" data-c="G">G</span> <span class="ch" data-c="Am7">Am7</span> <span class="ch" data-c="Bm7">Bm7</span>, y vuelve con <span class="ch" data-c="Dsus4">Dsus4</span> → <span class="ch" data-c="D">D</span>. Cierra con <span class="ch" data-c="C7">C7</span> <span class="ch" data-c="B7">B7</span> <span class="ch" data-c="Em7">Em7</span> / <span class="ch" data-c="A7">A7</span> <span class="ch" data-c="Am7">Am7</span> <span class="ch" data-c="D">D</span>.</li><li><b>Orden:</b> estrofa, parte B, estribillo; estrofa, parte B, estribillo; parte B dos veces y final (<span class="ch" data-c="Am">Am</span> <span class="ch" data-c="D">D</span> <span class="ch" data-c="G">G</span> <span class="ch" data-c="Em">Em</span> / <span class="ch" data-c="Am">Am</span> <span class="ch" data-c="D">D</span> <span class="ch" data-c="C">C</span>).</li></ul></div>
+    </article>
+    </section>
+    <section class="artista" id="a-nino-bravo">
+      <h2>Nino Bravo <span class="cnt">1</span></h2>
+<article class="cancion" data-tono="A" data-titulo="Un beso y una flor">
+      <div class="ct"><span class="nombre">Un beso y una flor</span><span class="art">Nino Bravo<span class="tono">La mayor · relativo F#m</span></span></div>
       <div class="acc"><a href="https://acordes.lacuerda.net/nino_bravo/un_beso_y_una_flor.shtml" target="_blank" rel="noopener">Acordes ↗</a>
         <details class="conletra"><summary>Ver con letra</summary>
           <div class="frame"><iframe data-src="https://acordes.lacuerda.net/nino_bravo/un_beso_y_una_flor.shtml" title="Hoja completa en La Cuerda" loading="lazy" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe></div>
@@ -254,8 +290,20 @@
       </div>
       <div class="an"><ul><li><b>Cinco acordes:</b> <span class="ch" data-c="A">A</span>, <span class="ch" data-c="D">D</span>, <span class="ch" data-c="E">E</span>, <span class="ch" data-c="F#m">F#m</span> y <span class="ch" data-c="C#m">C#m</span>.</li><li><b>Intro:</b> <span class="ch" data-c="D">D</span> <span class="ch" data-c="A">A</span> <span class="ch" data-c="E">E</span> <span class="ch" data-c="F#m">F#m</span> <span class="ch" data-c="E">E</span>.</li><li><b>Estrofa:</b> arranca en <span class="ch" data-c="A">A</span>, cae a <span class="ch" data-c="F#m">F#m</span> y baja por <span class="ch" data-c="D">D</span> → <span class="ch" data-c="C#m">C#m</span> → <span class="ch" data-c="F#m">F#m</span>. Esa bajada se repite.</li><li><b>Estribillo:</b> <span class="ch" data-c="A">A</span> <span class="ch" data-c="E">E</span> <span class="ch" data-c="F#m">F#m</span> / <span class="ch" data-c="A">A</span> <span class="ch" data-c="D">D</span> <span class="ch" data-c="A">A</span> / <span class="ch" data-c="D">D</span> <span class="ch" data-c="C#m">C#m</span> / <span class="ch" data-c="D">D</span> <span class="ch" data-c="E">E</span> / <span class="ch" data-c="A">A</span> <span class="ch" data-c="D">D</span> <span class="ch" data-c="E">E</span>. Vuelve a <span class="ch" data-c="A">A</span> <span class="ch" data-c="E">E</span> <span class="ch" data-c="F#m">F#m</span> y cierra <span class="ch" data-c="A">A</span> <span class="ch" data-c="D">D</span> <span class="ch" data-c="E">E</span> <span class="ch" data-c="A">A</span>.</li><li><b>Idea general:</b> todo sale de <span class="ch" data-c="A">A</span>, <span class="ch" data-c="D">D</span> y <span class="ch" data-c="E">E</span> más sus relativos <span class="ch" data-c="F#m">F#m</span> y <span class="ch" data-c="C#m">C#m</span>.</li></ul></div>
     </article>
-    <article class="cancion">
-      <div class="ct"><span class="num">07</span><span class="nombre">Boquitas pintadas</span><span class="art">Tan Biónica<span class="tono">Do mayor</span></span></div>
+    </section>
+    <section class="artista" id="a-tan-bionica">
+      <h2>Tan Biónica <span class="cnt">4</span></h2>
+<article class="cancion" data-tono="A" data-titulo="Arruinarse">
+      <div class="ct"><span class="nombre">Arruinarse</span><span class="art">Tan Biónica<span class="tono">La mayor · empieza en F#m</span></span></div>
+      <div class="acc"><a href="https://acordes.lacuerda.net/tan_bionica/arruinarse.shtml" target="_blank" rel="noopener">Acordes ↗</a>
+        <details class="conletra"><summary>Ver con letra</summary>
+          <div class="frame"><iframe data-src="https://acordes.lacuerda.net/tan_bionica/arruinarse.shtml" title="Hoja completa en La Cuerda" loading="lazy" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe></div>
+        </details>
+      </div>
+      <div class="an"><ul><li><b>Seis acordes:</b> <span class="ch" data-c="F#m">F#m</span>, <span class="ch" data-c="A">A</span>, <span class="ch" data-c="E">E</span>, <span class="ch" data-c="B">B</span>, <span class="ch" data-c="D">D</span> y <span class="ch" data-c="C#">C#</span>.</li><li><b>Estrofa:</b> un lazo de cuatro, <span class="ch" data-c="F#m">F#m</span> <span class="ch" data-c="A">A</span> <span class="ch" data-c="E">E</span> <span class="ch" data-c="B">B</span>, que se repite.</li><li><b>Pre:</b> <span class="ch" data-c="D">D</span> <span class="ch" data-c="A">A</span> <span class="ch" data-c="E">E</span> <span class="ch" data-c="B">B</span> y <span class="ch" data-c="D">D</span> <span class="ch" data-c="A">A</span> <span class="ch" data-c="C#">C#</span> <span class="ch" data-c="A">A</span>. El <span class="ch" data-c="C#">C#</span> te devuelve al <span class="ch" data-c="F#m">F#m</span> o al <span class="ch" data-c="A">A</span>.</li><li><b>Estribillo en <span class="ch" data-c="A">A</span>:</b> <span class="ch" data-c="A">A</span> <span class="ch" data-c="E">E</span> <span class="ch" data-c="F#m">F#m</span> <span class="ch" data-c="D">D</span> <span class="ch" data-c="A">A</span> / <span class="ch" data-c="E">E</span> <span class="ch" data-c="F#m">F#m</span> <span class="ch" data-c="D">D</span> (<span class="ch" data-c="E">E</span>) <span class="ch" data-c="F#m">F#m</span> / <span class="ch" data-c="E">E</span> <span class="ch" data-c="D">D</span> <span class="ch" data-c="A">A</span> / <span class="ch" data-c="E">E</span> <span class="ch" data-c="D">D</span> <span class="ch" data-c="E">E</span>. Es la progresión pop de siempre (<span class="ch" data-c="A">A</span> <span class="ch" data-c="E">E</span> <span class="ch" data-c="F#m">F#m</span> <span class="ch" data-c="D">D</span>).</li></ul></div>
+    </article>
+<article class="cancion" data-tono="C" data-titulo="Boquitas pintadas">
+      <div class="ct"><span class="nombre">Boquitas pintadas</span><span class="art">Tan Biónica<span class="tono">Do mayor</span></span></div>
       <div class="acc"><a href="https://chords.lacuerda.net/tan_bionica/boquita_pintada.shtml" target="_blank" rel="noopener">Acordes ↗</a><a href="https://acordes.lacuerda.net/tan_bionica/boquitas_pintadas.shtml" target="_blank" rel="noopener">Tablatura (intro y solos) ↗</a>
         <details class="conletra"><summary>Ver con letra</summary>
           <div class="frame"><iframe data-src="https://chords.lacuerda.net/tan_bionica/boquita_pintada.shtml" title="Hoja completa en La Cuerda" loading="lazy" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe></div>
@@ -263,7 +311,27 @@
       </div>
       <div class="an"><ul><li><b>Cinco acordes:</b> <span class="ch" data-c="C">C</span>, <span class="ch" data-c="Em">Em</span>, <span class="ch" data-c="F">F</span>, <span class="ch" data-c="G">G</span> y <span class="ch" data-c="Am">Am</span>.</li><li><b>Una sola vuelta:</b> <span class="ch" data-c="C">C</span> <span class="ch" data-c="Em">Em</span> / <span class="ch" data-c="F">F</span> <span class="ch" data-c="G">G</span> <span class="ch" data-c="C">C</span> <span class="ch" data-c="Em">Em</span> <span class="ch" data-c="Am">Am</span> / <span class="ch" data-c="F">F</span> <span class="ch" data-c="G">G</span> <span class="ch" data-c="C">C</span>. Se repite cuatro veces.</li><li><b>Después:</b> <span class="ch" data-c="F">F</span> <span class="ch" data-c="G">G</span> / <span class="ch" data-c="C">C</span> <span class="ch" data-c="Em">Em</span> <span class="ch" data-c="Am">Am</span> / <span class="ch" data-c="F">F</span> <span class="ch" data-c="G">G</span> <span class="ch" data-c="C">C</span> <span class="ch" data-c="Em">Em</span> <span class="ch" data-c="Am">Am</span>, y vuelve a la vuelta de arriba.</li><li><b>Intro y solos:</b> están en la hoja de tablatura (guitarra eléctrica y acústica).</li></ul></div>
     </article>
+<article class="cancion" data-tono="G" data-titulo="Lunita de Tucumán">
+      <div class="ct"><span class="nombre">Lunita de Tucumán</span><span class="art">Tan Biónica<span class="tono">Sol mayor</span></span></div>
+      <div class="acc"><a href="https://acordes.lacuerda.net/tan_bionica/lunita_de_tucuman.shtml" target="_blank" rel="noopener">Acordes ↗</a>
+        <details class="conletra"><summary>Ver con letra</summary>
+          <div class="frame"><iframe data-src="https://acordes.lacuerda.net/tan_bionica/lunita_de_tucuman.shtml" title="Hoja completa en La Cuerda" loading="lazy" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe></div>
+        </details>
+      </div>
+      <div class="an"><ul><li><b>Ocho acordes:</b> <span class="ch" data-c="G">G</span>, <span class="ch" data-c="Bm">Bm</span>, <span class="ch" data-c="Am">Am</span>, <span class="ch" data-c="D">D</span>, <span class="ch" data-c="Em">Em</span>, <span class="ch" data-c="C">C</span>, <span class="ch" data-c="B">B</span> y <span class="ch" data-c="D7">D7</span>.</li><li><b>Estrofa:</b> <span class="ch" data-c="G">G</span> <span class="ch" data-c="Bm">Bm</span> / <span class="ch" data-c="Am">Am</span> <span class="ch" data-c="D">D</span>, dos veces; cierra <span class="ch" data-c="Bm">Bm</span> <span class="ch" data-c="Em">Em</span> / <span class="ch" data-c="Am">Am</span> <span class="ch" data-c="D">D</span> y vuelve a <span class="ch" data-c="G">G</span>.</li><li><b>Estribillo:</b> <span class="ch" data-c="G">G</span> <span class="ch" data-c="Em">Em</span> dos veces, <span class="ch" data-c="Am">Am</span> <span class="ch" data-c="D">D</span> dos veces, <span class="ch" data-c="Bm">Bm</span> <span class="ch" data-c="B">B</span> <span class="ch" data-c="Em">Em</span>, y baja <span class="ch" data-c="C">C</span> → <span class="ch" data-c="D">D</span> → <span class="ch" data-c="G">G</span>. El <span class="ch" data-c="B">B</span> mayor es la bisagra hacia el <span class="ch" data-c="Em">Em</span>.</li><li><b>Final:</b> <span class="ch" data-c="G">G</span> <span class="ch" data-c="D">D</span> <span class="ch" data-c="Em">Em</span> / <span class="ch" data-c="Am">Am</span> <span class="ch" data-c="D">D</span> / <span class="ch" data-c="C">C</span> <span class="ch" data-c="D">D</span>, y cierra <span class="ch" data-c="C">C</span> <span class="ch" data-c="D7">D7</span> → <span class="ch" data-c="G">G</span>.</li></ul></div>
+    </article>
+<article class="cancion" data-tono="A" data-titulo="Obsesionario en La mayor">
+      <div class="ct"><span class="nombre">Obsesionario en La mayor</span><span class="art">Tan Biónica<span class="tono">La mayor</span></span></div>
+      <div class="acc"><a href="https://acordes.lacuerda.net/tan_bionica/obsesionario_en_la_mayor-3.shtml" target="_blank" rel="noopener">Acordes ↗</a>
+        <details class="conletra"><summary>Ver con letra</summary>
+          <div class="frame"><iframe data-src="https://acordes.lacuerda.net/tan_bionica/obsesionario_en_la_mayor-3.shtml" title="Hoja completa en La Cuerda" loading="lazy" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe></div>
+        </details>
+      </div>
+      <div class="an"><ul><li><b>Siete acordes:</b> <span class="ch" data-c="A">A</span>, <span class="ch" data-c="A/F#">A/F#</span>, <span class="ch" data-c="D">D</span>, <span class="ch" data-c="E">E</span>, <span class="ch" data-c="F#m">F#m</span>, <span class="ch" data-c="C#m">C#m</span> y <span class="ch" data-c="C#">C#</span>.</li><li><b>Arranque:</b> <span class="ch" data-c="A">A</span> <span class="ch" data-c="A/F#">A/F#</span> dos veces (el bajo baja de A a F#), y después <span class="ch" data-c="D">D</span> <span class="ch" data-c="E">E</span> <span class="ch" data-c="F#m">F#m</span> / <span class="ch" data-c="A">A</span> <span class="ch" data-c="D">D</span> / <span class="ch" data-c="E">E</span> <span class="ch" data-c="A">A</span>.</li><li><b>Parte de subida:</b> <span class="ch" data-c="C#m">C#m</span> <span class="ch" data-c="F#m">F#m</span> <span class="ch" data-c="D">D</span> <span class="ch" data-c="E">E</span> dos veces, <span class="ch" data-c="A">A</span> <span class="ch" data-c="E">E</span> <span class="ch" data-c="D">D</span> <span class="ch" data-c="E">E</span> <span class="ch" data-c="A">A</span> y <span class="ch" data-c="E">E</span> <span class="ch" data-c="D">D</span> <span class="ch" data-c="C#">C#</span> <span class="ch" data-c="F#m">F#m</span>.</li><li><b>Cierre:</b> <span class="ch" data-c="A">A</span> <span class="ch" data-c="D">D</span> <span class="ch" data-c="E">E</span> <span class="ch" data-c="F#m">F#m</span> / <span class="ch" data-c="E">E</span> <span class="ch" data-c="D">D</span> / <span class="ch" data-c="E">E</span> <span class="ch" data-c="F#m">F#m</span> / <span class="ch" data-c="E">E</span> <span class="ch" data-c="D">D</span> <span class="ch" data-c="E">E</span> <span class="ch" data-c="A">A</span>. La hoja agrega una coda con power chords un tono arriba (B5 F#5 E5).</li></ul></div>
+    </article>
+    </section>
   </div>
+  <div id="vistaTono" hidden></div>
 
   <footer>NAYA · Cancionero · Buenos Aires</footer>
 
@@ -272,15 +340,32 @@
 (function(){
   var LAT={C:'Do',D:'Re',E:'Mi',F:'Fa',G:'Sol',A:'La',B:'Si'};
   function conv(c,m){ if(m!=='lat') return c; return c.replace(/[A-G]/g,function(x){return LAT[x];}); }
-  var mode='abc';
-  try{ mode=localStorage.getItem('canc_mode')||'abc'; }catch(e){}
+  var mode='abc', vista='artista';
+  try{ mode=localStorage.getItem('canc_mode')||'abc'; vista=localStorage.getItem('canc_vista')||'artista'; }catch(e){}
+  var GRUPOS=[['C','Do mayor'],['E','Mi mayor · Do# menor'],['G','Sol mayor · Mi menor'],['A','La mayor · Fa# menor']];
+  function armarTono(){
+    var c=document.getElementById('vistaTono'); c.innerHTML='';
+    GRUPOS.forEach(function(g){
+      var cs=[].slice.call(document.querySelectorAll('#vistaArtista .cancion')).filter(function(x){return x.getAttribute('data-tono')===g[0];});
+      if(!cs.length) return;
+      cs.sort(function(a,b){return a.getAttribute('data-titulo').localeCompare(b.getAttribute('data-titulo'),'es');});
+      var h=document.createElement('h2'); h.className='grupo-t'; h.textContent=g[1]; c.appendChild(h);
+      cs.forEach(function(x){ var k=x.cloneNode(true); var f=k.querySelector('iframe'); if(f) f.removeAttribute('src'); var d=k.querySelector('details'); if(d) d.removeAttribute('open'); c.appendChild(k); });
+    });
+  }
   function render(){
     document.querySelectorAll('.ch').forEach(function(el){ el.textContent=conv(el.getAttribute('data-c'),mode); });
     document.querySelectorAll('[data-mode]').forEach(function(b){ b.setAttribute('aria-pressed', b.getAttribute('data-mode')===mode); });
-    try{ localStorage.setItem('canc_mode',mode); }catch(e){}
+    document.querySelectorAll('[data-vista]').forEach(function(b){ b.setAttribute('aria-pressed', b.getAttribute('data-vista')===vista); });
+    document.getElementById('vistaArtista').hidden = vista!=='artista';
+    document.getElementById('indice').hidden = vista!=='artista';
+    document.getElementById('vistaTono').hidden = vista!=='tono';
+    try{ localStorage.setItem('canc_mode',mode); localStorage.setItem('canc_vista',vista); }catch(e){}
   }
+  armarTono();
   document.querySelectorAll('[data-mode]').forEach(function(b){ b.onclick=function(){ mode=b.getAttribute('data-mode'); render(); }; });
-  document.querySelectorAll('.conletra').forEach(function(d){ d.addEventListener('toggle',function(){ var f=d.querySelector('iframe'); if(d.open && f && !f.src){ f.src=f.getAttribute('data-src'); } }); });
+  document.querySelectorAll('[data-vista]').forEach(function(b){ b.onclick=function(){ vista=b.getAttribute('data-vista'); render(); }; });
+  document.addEventListener('toggle',function(e){ var d=e.target; if(d && d.classList && d.classList.contains('conletra')){ var f=d.querySelector('iframe'); if(d.open && f && !f.src){ f.src=f.getAttribute('data-src'); } } },true);
   render();
 })();
 </script>
