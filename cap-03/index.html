@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cap 03 · La biblioteca</title>
+<meta name="description" content="Clases de DJ con NAYA. Capítulo 03 para Galgo: dónde conseguir música, qué calidad sirve, bajar los primeros temas y ordenarlos para que duren.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;1,9..144,300;1,9..144,450&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================================
+     CLASES DE DJ — NAYA. Capítulo 03, material del alumno.
+     Mismo mundo que el dossier y que el capítulo 01: negro,
+     amarillo de escena, terracota. Dark-committed.
+     ============================================================ */
+
+  :root{
+    --bg: #0b0a0a;
+    --bg-raised: #15120f;
+    --bg-feature: #1a1108;
+    --line: #2e2620;
+    --line-soft: #241e19;
+    --text: #f2ede4;
+    --text-muted: #a89d8e;
+    --text-faint: #6f665c;
+    --gold: #e8b04a;
+    --gold-soft: #8a6c2f;
+    --terra: #e0653a;
+    --terra-deep: #b23f1c;
+    --sand: #cbb389;
+    --max: 860px;
+    --font-display: "Fraunces", ui-serif, Georgia, serif;
+    --font-poster: "Anton", ui-sans-serif, sans-serif;
+    --font-body: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+  }
+
+  *,*::before,*::after{ box-sizing: border-box; }
+  @media (prefers-reduced-motion: reduce){ *{ animation-duration:.001ms !important; transition-duration:.001ms !important; } }
+
+  body{
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a{ color: var(--gold); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+  a:focus-visible{ outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
+
+  .wrap{ max-width: var(--max); margin: 0 auto; padding: 3rem 1.4rem 4.5rem; }
+
+  .brand{
+    display: flex; align-items: baseline; gap: .75rem; flex-wrap: wrap;
+    font-family: var(--font-mono); font-size: .7rem;
+    letter-spacing: .18em; text-transform: uppercase;
+    color: var(--text-faint);
+    border-bottom: 1px solid var(--line); padding-bottom: .85rem; margin-bottom: 2.4rem;
+  }
+  .brand .n{ color: var(--gold); font-weight: 600; letter-spacing: .22em; }
+
+  .kicker{
+    font-family: var(--font-mono); font-size: .78rem; font-weight: 600;
+    letter-spacing: .3em; text-transform: uppercase; color: var(--terra);
+    margin: 0 0 .5rem;
+  }
+  h1{
+    font-family: var(--font-poster); font-weight: 400;
+    font-size: clamp(2.8rem, 11vw, 5.6rem);
+    line-height: .86; letter-spacing: .01em; text-transform: uppercase;
+    margin: 0 0 1rem; text-wrap: balance;
+  }
+  .bajada{
+    font-family: var(--font-display); font-weight: 300;
+    font-size: clamp(1.1rem, 2.6vw, 1.45rem);
+    line-height: 1.45; color: var(--sand);
+    max-width: 34ch; margin: 0 0 2rem;
+  }
+
+  .meta{
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 1rem 1.2rem;
+    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    padding: 1.1rem 0; margin-bottom: 3rem;
+  }
+  .meta dt{
+    font-family: var(--font-mono); font-size: .6rem; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--text-faint); margin-bottom: .25rem;
+  }
+  .meta dd{ margin: 0; font-weight: 600; font-size: .95rem; }
+  .meta dd.hi{ color: var(--gold); }
+
+  section{ margin-bottom: 3.2rem; }
+  h2{
+    font-family: var(--font-poster); font-weight: 400;
+    font-size: clamp(1.5rem, 4.5vw, 2.2rem);
+    line-height: 1; text-transform: uppercase;
+    margin: 0 0 .35rem;
+  }
+  .sec-nota{
+    font-family: var(--font-mono); font-size: .73rem; letter-spacing: .05em;
+    color: var(--text-faint); margin: 0 0 1.4rem;
+  }
+
+  .previo{
+    background: var(--bg-feature);
+    border: 1px solid var(--terra-deep);
+    border-radius: 3px;
+    padding: 1.4rem 1.5rem;
+  }
+  .previo ul{ list-style: none; margin: 0; padding: 0; display: grid; gap: .9rem; }
+  .previo li{ display: grid; grid-template-columns: 1.6rem 1fr; gap: .6rem; align-items: start; }
+  .previo .box{
+    width: 15px; height: 15px; margin-top: .32rem;
+    border: 1px solid var(--terra); border-radius: 2px;
+  }
+  .previo b{ font-weight: 600; }
+  .previo small{ display: block; color: var(--text-muted); font-size: .87rem; line-height: 1.45; }
+
+  .bloques{ display: grid; gap: .55rem; }
+  .bloque{
+    display: grid; grid-template-columns: 3.4rem 1fr; gap: 1.1rem;
+    background: var(--bg-raised); border: 1px solid var(--line-soft);
+    border-radius: 3px; padding: .95rem 1.1rem;
+  }
+  .marca{ display: flex; flex-direction: column; gap: .1rem; align-items: flex-start; }
+  .marca .letra{
+    font-family: var(--font-poster); font-size: 1.85rem; line-height: .85; color: var(--gold);
+  }
+  .marca .dur{
+    font-family: var(--font-mono); font-size: .63rem; letter-spacing: .07em;
+    color: var(--text-muted); font-variant-numeric: tabular-nums; white-space: nowrap;
+  }
+  .marca .rango{
+    font-family: var(--font-mono); font-size: .56rem; letter-spacing: .06em;
+    color: var(--text-faint); font-variant-numeric: tabular-nums; white-space: nowrap;
+  }
+  .bloque .n{ display: block; font-weight: 600; font-size: .98rem; margin-bottom: .25rem; }
+  .bloque .d{ margin: 0; color: var(--text-muted); font-size: .89rem; line-height: 1.5; }
+
+  figure{ margin: 0; }
+  .fig-scroll{ overflow-x: auto; border: 1px solid var(--line-soft); border-radius: 3px; background: var(--bg-raised); padding: 1.1rem .9rem .6rem; }
+  .fig-scroll svg{ display: block; width: 100%; min-width: 660px; max-width: 980px; height: auto; margin: 0 auto; }
+  figcaption{
+    color: var(--text-muted); font-size: .88rem; line-height: 1.5;
+    margin-top: .9rem; max-width: 62ch;
+  }
+  figcaption b{ color: var(--text); font-weight: 600; }
+
+  .conceptos{ display: grid; gap: .9rem; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .concepto{ border-top: 2px solid var(--gold-soft); padding-top: .8rem; }
+  .concepto h3{
+    font-family: var(--font-display); font-weight: 600; font-size: 1.02rem;
+    margin: 0 0 .3rem; line-height: 1.25;
+  }
+  .concepto p{ margin: 0; color: var(--text-muted); font-size: .9rem; line-height: 1.5; }
+
+  .tareas{ display: grid; gap: 1rem; counter-reset: t; }
+  .tarea{
+    display: grid; grid-template-columns: auto 1fr; gap: 1rem;
+    background: var(--bg-raised); border: 1px solid var(--line);
+    border-left: 2px solid var(--gold);
+    border-radius: 3px; padding: 1.1rem 1.2rem;
+  }
+  .tarea::before{
+    counter-increment: t; content: counter(t, decimal-leading-zero);
+    font-family: var(--font-poster); font-size: 1.7rem; line-height: 1;
+    color: var(--gold-soft); font-variant-numeric: tabular-nums;
+  }
+  .tarea h3{ font-family: var(--font-body); font-size: 1rem; font-weight: 600; margin: 0 0 .3rem; }
+  .tarea p{ margin: 0; color: var(--text-muted); font-size: .91rem; line-height: 1.55; }
+  .tarea em{ color: var(--sand); font-style: normal; }
+
+  .links{ list-style: none; margin: 0; padding: 0; display: grid; gap: .7rem; }
+  .links li{ border-bottom: 1px solid var(--line-soft); padding-bottom: .7rem; }
+  .links a{ font-weight: 600; font-size: .95rem; }
+  .links small{ display: block; color: var(--text-faint); font-size: .82rem; margin-top: .15rem; }
+
+  .proximo{
+    background: var(--bg-feature); border: 1px solid var(--line);
+    border-radius: 3px; padding: 1.3rem 1.4rem; margin-bottom: 2.4rem;
+  }
+  .proximo .lbl{
+    font-family: var(--font-mono); font-size: .62rem; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--terra); display: block; margin-bottom: .4rem;
+  }
+  .proximo h3{ font-family: var(--font-poster); font-weight: 400; text-transform: uppercase; font-size: 1.4rem; margin: 0 0 .3rem; }
+  .proximo p{ margin: 0; color: var(--text-muted); font-size: .92rem; }
+
+  footer{
+    border-top: 1px solid var(--line); padding-top: 1.2rem;
+    font-family: var(--font-mono); font-size: .66rem;
+    letter-spacing: .1em; text-transform: uppercase; color: var(--text-faint);
+    display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+  }
+
+  @media (max-width: 520px){
+    .bloque{ grid-template-columns: 2.8rem 1fr; gap: .8rem; }
+    .marca .letra{ font-size: 1.5rem; }
+    .arbol{ font-size: .7rem; padding: .9rem 1rem; }
+  }
+
+  /* tabla de formatos */
+  .tabla-scroll{ overflow-x: auto; border: 1px solid var(--line-soft); border-radius: 3px; background: var(--bg-raised); }
+  table.formatos{ width: 100%; min-width: 560px; border-collapse: collapse; font-size: .9rem; }
+  .formatos th{
+    font-family: var(--font-mono); font-size: .62rem; font-weight: 600; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--text-faint); text-align: left;
+    padding: .8rem 1rem; border-bottom: 1px solid var(--line);
+  }
+  .formatos td{ padding: .75rem 1rem; border-bottom: 1px solid var(--line-soft); color: var(--text-muted); vertical-align: top; line-height: 1.45; }
+  .formatos tr:last-child td{ border-bottom: none; }
+  .formatos td:first-child{ font-family: var(--font-mono); font-weight: 600; color: var(--text); white-space: nowrap; }
+  .veredicto{ font-family: var(--font-mono); font-size: .68rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
+  .v-si{ color: var(--gold); }
+  .v-ok{ color: var(--sand); }
+  .v-no{ color: var(--terra); }
+
+  .arbol{
+    font-family: var(--font-mono); font-size: .86rem; line-height: 1.75;
+    background: var(--bg-raised); border: 1px solid var(--line-soft); border-radius: 3px;
+    padding: 1.1rem 1.3rem; margin: 0 0 .9rem; overflow-x: auto; color: var(--text-muted); white-space: pre;
+  }
+  .arbol b{ color: var(--gold); font-weight: 600; }
+  .arbol i{ color: var(--text-faint); font-style: normal; }
+
+  /* barra superior fija con botón de volver */
+  .brand{ position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: .9rem; flex-wrap: wrap;
+    background: rgba(11,10,10,.94); backdrop-filter: blur(8px); padding: .7rem 0 .75rem; margin-bottom: 2.2rem; }
+  .brand .ctx{ font-family: var(--font-mono); font-size: .66rem; letter-spacing: .16em; text-transform: uppercase; color: var(--text-faint); text-align: right; }
+  .brand .n{ color: var(--gold); font-weight: 600; letter-spacing: .22em; }
+  .brand a.back{ font-family: var(--font-mono); font-size: .74rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+    color: #0b0a0a; background: var(--gold); padding: .55rem .95rem; border-radius: 3px; text-decoration: none; white-space: nowrap; transition: background .15s; }
+  .brand a.back:hover, .brand a.back:focus-visible{ background: #f4c46a; }
+</style>
+
+<div class="wrap">
+
+  <div class="brand"><a class="back" href="../galgo/">← Recorrido</a><span class="ctx"><span class="n">NAYA</span> · Clases de DJ · Módulo 01</span></div>
+
+  <p class="kicker">Capítulo 03</p>
+  <h1>La<br>biblioteca</h1>
+  <p class="bajada">Tu música, conseguida bien y ordenada de una forma que te sobreviva los próximos diez años.</p>
+
+  <dl class="meta">
+    <div><dt>Para</dt><dd class="hi">Galgo</dd></div>
+    <div><dt>Fecha</dt><dd>A definir</dd></div>
+    <div><dt>Duración</dt><dd>90 — 120 min</dd></div>
+    <div><dt>Equipo</dt><dd>Compu + rekordbox</dd></div>
+  </dl>
+
+  <section>
+    <h2>Antes de venir</h2>
+    <p class="sec-nota">Elementos preparados para el Capítulo 03</p>
+    <div class="previo">
+      <ul>
+        <li><span class="box"></span><span><b>Una lista de 10 a 15 temas que quieras tener</b><small>Artista y nombre, nada más. Pueden salir de Spotify, de un set que escuchaste, de lo que sea. Son los que vamos a salir a buscar y bajar juntos.</small></span></li>
+        <li><span class="box"></span><span><b>Cuentas creadas en Bandcamp y Beatport</b><small>Con eso alcanza para empezar. Crealas antes así no perdemos tiempo de clase en mails de confirmación.</small></span></li>
+        <li><span class="box"></span><span><b>Tarjeta que acepte compras en dólares</b><small>Las tiendas cobran en USD. Un tema sale un par de dólares; con un presupuesto chico para 5 a 10 temas alcanza para la clase.</small></span></li>
+        <li><span class="box"></span><span><b>Los 5 temas marcados del Capítulo 02</b><small>Arrancamos por ahí. Si no llegaste, los marcamos en el arranque.</small></span></li>
+        <li><span class="box"></span><span><b>Un pendrive o disco externo</b><small>Para hacer el primer backup antes de irte. Cualquiera sirve.</small></span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Qué vamos a ver</h2>
+    <p class="sec-nota">90 a 120 minutos aproximadamente, seis bloques — el D se estira o se achica según cuánto bajemos</p>
+    <div class="bloques">
+
+      <article class="bloque">
+        <div class="marca"><span class="letra">A</span><span class="dur">10 min</span><span class="rango">0 a 10</span></div>
+        <div>
+          <span class="n">Lo que quedó del 02</span>
+          <p class="d">Miramos tus cinco temas marcados y cómo te fue contando a ciegas. Corregimos alguna marca si hace falta. Es el último contacto con las frases antes de meternos con los archivos.</p>
+        </div>
+      </article>
+
+      <article class="bloque">
+        <div class="marca"><span class="letra">B</span><span class="dur">15 min</span><span class="rango">10 a 25</span></div>
+        <div>
+          <span class="n">De dónde sale la música</span>
+          <p class="d">Streaming, tiendas y descargas gratis que son legales. Qué diferencia hay entre tener un tema y tener acceso a un tema. Por qué en la cabina no conviene depender de internet. Y por qué bajar de YouTube te sale caro aunque no pagues.</p>
+        </div>
+      </article>
+
+      <article class="bloque">
+        <div class="marca"><span class="letra">C</span><span class="dur">15 min</span><span class="rango">25 a 40</span></div>
+        <div>
+          <span class="n">Calidad de archivo</span>
+          <p class="d">MP3, WAV, AIFF, FLAC: qué es cada uno y cuál pedir. Abrimos el mismo tema en 128 y en 320 y lo <em>miramos</em> en un espectrograma: la diferencia se ve antes de escucharla. Y cómo detectar un archivo que dice ser bueno y no lo es.</p>
+        </div>
+      </article>
+
+      <article class="bloque">
+        <div class="marca"><span class="letra">D</span><span class="dur">30—45 min</span><span class="rango">40 a 85</span></div>
+        <div>
+          <span class="n">Bajar música <span style="color:var(--terra)">(práctica)</span></span>
+          <p class="d">Con tu lista en la mano, salimos a buscar los temas. Buscamos en Bandcamp y Beatport, elegimos formato, compramos, descargamos y descomprimimos. Si alguno tiene descarga gratis en SoundCloud, también. La idea es que te vayas sabiendo hacerlo solo y con 5 a 10 temas nuevos bien conseguidos.</p>
+        </div>
+      </article>
+
+      <article class="bloque">
+        <div class="marca"><span class="letra">E</span><span class="dur">15 min</span><span class="rango">85 a 100</span></div>
+        <div>
+          <span class="n">La carpeta</span>
+          <p class="d">Dónde viven los archivos, cómo se llaman y por qué nunca en Descargas. La regla que más dolores de cabeza ahorra: <em>primero ordenás, después importás, y después no movés nada</em>.</p>
+        </div>
+      </article>
+
+      <article class="bloque">
+        <div class="marca"><span class="letra">F</span><span class="dur">20 min</span><span class="rango">100 a 120</span></div>
+        <div>
+          <span class="n">Adentro de rekordbox</span>
+          <p class="d">Importamos lo que bajamos y lo analizamos. Después lo dejamos encontrable: datos bien cargados, color, estrellas y My Tag. Colección y playlist no son lo mismo. Al final, el primer backup de la biblioteca al pendrive.</p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>El camino de un tema</h2>
+    <p class="sec-nota">Bloques D, E y F — desde la tienda hasta la playlist</p>
+    <figure>
+      <div class="fig-scroll">
+        <svg viewBox="0 0 980 230" role="img" aria-label="Recorrido de un archivo en cinco pasos: tienda, Descargas, carpeta Entrada donde se revisa y renombra, carpeta final por mes, y rekordbox con colección y playlists. A partir de la carpeta final el archivo no se mueve más.">
+
+          <text x="30" y="20" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="#a89d8e">rekordbox entra al final — cuando el archivo ya está en su lugar definitivo</text>
+
+          <!-- zona fija -->
+          <rect x="560" y="36" width="400" height="128" rx="3" fill="none" stroke="#e8b04a" stroke-width="1" stroke-dasharray="4 4"></rect>
+          <text x="760" y="184" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="#e8b04a" text-anchor="middle">de acá en adelante, el archivo no se mueve</text>
+
+          <!-- cajas -->
+          <g>
+            <rect x="30" y="58" width="150" height="84" rx="2" fill="#15120f" stroke="#2e2620"></rect>
+            <rect x="215" y="58" width="150" height="84" rx="2" fill="#15120f" stroke="#2e2620"></rect>
+            <rect x="400" y="58" width="150" height="84" rx="2" fill="#2a1e0c" stroke="#e0653a" stroke-width="1.4"></rect>
+            <rect x="585" y="58" width="160" height="84" rx="2" fill="#2a1e0c" stroke="#e8b04a" stroke-width="1.4"></rect>
+            <rect x="780" y="58" width="160" height="84" rx="2" fill="#2a1e0c" stroke="#e8b04a" stroke-width="1.4"></rect>
+          </g>
+
+          <!-- números -->
+          <g font-family="Anton, sans-serif" font-size="16" fill="#8a6c2f">
+            <text x="42" y="80">1</text><text x="227" y="80">2</text><text x="412" y="80">3</text><text x="597" y="80">4</text><text x="792" y="80">5</text>
+          </g>
+
+          <!-- títulos -->
+          <g font-family="IBM Plex Sans, sans-serif" font-size="14" font-weight="600" text-anchor="middle">
+            <text x="105" y="102" fill="#f2ede4">Tienda</text>
+            <text x="290" y="102" fill="#f2ede4">Descargas</text>
+            <text x="475" y="102" fill="#e0653a">_Entrada</text>
+            <text x="665" y="102" fill="#e8b04a">Música DJ</text>
+            <text x="860" y="102" fill="#e8b04a">rekordbox</text>
+          </g>
+
+          <!-- detalles -->
+          <g font-family="IBM Plex Mono, monospace" font-size="11" fill="#a89d8e" text-anchor="middle">
+            <text x="105" y="122">elegís formato</text>
+            <text x="290" y="122">.zip, de paso</text>
+            <text x="475" y="122">revisás y renombrás</text>
+            <text x="665" y="122">carpeta del mes</text>
+            <text x="860" y="122">importás y analizás</text>
+          </g>
+
+          <!-- flechas -->
+          <g stroke="#a89d8e" stroke-width="1.4" fill="none">
+            <line x1="182" y1="100" x2="209" y2="100"></line><polyline points="203,95 210,100 203,105"></polyline>
+            <line x1="367" y1="100" x2="394" y2="100"></line><polyline points="388,95 395,100 388,105"></polyline>
+            <line x1="552" y1="100" x2="579" y2="100"></line><polyline points="573,95 580,100 573,105"></polyline>
+            <line x1="747" y1="100" x2="774" y2="100"></line><polyline points="768,95 775,100 768,105"></polyline>
+          </g>
+
+          <text x="30" y="214" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="#6f665c">si movés o renombrás un archivo después de importarlo, rekordbox lo pierde y te muestra un signo de admiración</text>
+        </svg>
+      </div>
+      <figcaption><b>El paso 3 es el que casi nadie hace y el que más sirve.</b> Es una carpeta de paso donde escuchás que el archivo esté bien, le corregís el nombre y recién ahí lo pasás a su lugar fijo. Así a rekordbox sólo le llega música revisada.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>Qué formato pedir</h2>
+    <p class="sec-nota">Bloque C — cuando la tienda te deja elegir</p>
+    <div class="tabla-scroll">
+      <table class="formatos">
+        <thead><tr><th>Formato</th><th>Qué es</th><th>Ojo con</th><th>¿Va?</th></tr></thead>
+        <tbody>
+          <tr><td>AIFF</td><td>Sin pérdida, sin comprimir. La calidad completa del máster.</td><td>Pesa unos 10 MB por minuto.</td><td><span class="veredicto v-si">Primera opción</span></td></tr>
+          <tr><td>WAV</td><td>Lo mismo que el AIFF en sonido.</td><td>Guarda mal los datos del tema (artista, tapa). Si podés elegir, AIFF.</td><td><span class="veredicto v-si">Sí</span></td></tr>
+          <tr><td>FLAC</td><td>Sin pérdida, pero comprimido: pesa la mitad.</td><td>rekordbox lo lee, pero algunas CDJ viejas no. Si vas a tocar en club, mejor AIFF.</td><td><span class="veredicto v-ok">En casa sí</span></td></tr>
+          <tr><td>MP3 320</td><td>Con pérdida, pero en una pista casi no se nota.</td><td>Es el piso. Para la mayoría de los temas alcanza y sobra.</td><td><span class="veredicto v-ok">Sí, como mínimo</span></td></tr>
+          <tr><td>MP3 128–256</td><td>Con pérdida, y ahora sí se nota: se va el brillo de arriba.</td><td>En un equipo grande suena chato y opaco al lado de otro tema.</td><td><span class="veredicto v-no">No</span></td></tr>
+          <tr><td>De YouTube</td><td>Audio ya comprimido, vuelto a comprimir.</td><td>Aunque diga 320, adentro tiene calidad de 128 o menos. Y el artista no cobra nada.</td><td><span class="veredicto v-no">No</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>La carpeta</h2>
+    <p class="sec-nota">Bloque E — un orden simple, que no dependa del programa</p>
+    <div class="arbol"><b>Música DJ/</b>
+├── <b>_Entrada/</b>            <i>lo recién bajado, todavía sin revisar</i>
+├── <b>2026/</b>
+│   ├── 2026-09/          <i>lo que armó BASE 01</i>
+│   └── 2026-10/          <i>lo de esta clase</i>
+│       ├── Artista - Título (Original Mix).aiff
+│       └── Artista - Título (Extended Mix).mp3
+└── <b>_Backups rekordbox/</b></div>
+    <p class="sec-nota" style="margin-top:.9rem">Las carpetas ordenan por <em>cuándo entró</em>; el género, la energía y el momento del set se ordenan adentro de rekordbox, que para eso está.</p>
+  </section>
+
+  <section>
+    <h2>Para tener claro</h2>
+    <p class="sec-nota">Seis cosas que conviene no confundir</p>
+    <div class="conceptos">
+      <div class="concepto">
+        <h3>Tener un tema no es tener acceso a un tema</h3>
+        <p>El streaming te presta la música mientras pagues y tengas internet. Lo que comprás y bajás es tuyo para siempre, aunque la tienda cierre o el tema desaparezca del catálogo.</p>
+      </div>
+      <div class="concepto">
+        <h3>Un archivo malo no se arregla convirtiéndolo</h3>
+        <p>Pasar un MP3 de 128 a WAV o a 320 no le devuelve lo que perdió: sólo lo hace pesar más. La calidad se decide cuando lo conseguís, no después.</p>
+      </div>
+      <div class="concepto">
+        <h3>Original, extended y radio edit</h3>
+        <p>Para pinchar casi siempre querés la versión larga: <em>Original Mix</em> o <em>Extended Mix</em>. El <em>Radio Edit</em> viene sin intro ni salida, que es justo lo que usás para mezclar.</p>
+      </div>
+      <div class="concepto">
+        <h3>Colección y playlist no son lo mismo</h3>
+        <p>La colección es todo lo que rekordbox conoce. Una playlist es una lista que apunta a esos temas. Si sacás un tema de una playlist, sigue en la colección y en el disco.</p>
+      </div>
+      <div class="concepto">
+        <h3>Primero se ordena, después se importa</h3>
+        <p>rekordbox recuerda dónde está cada archivo. Si lo movés o le cambiás el nombre después, lo pierde, junto con tus cues. Se puede recuperar, pero es mucho más fácil no tener que hacerlo.</p>
+      </div>
+      <div class="concepto">
+        <h3>Gratis y legal existe</h3>
+        <p>En Bandcamp muchos artistas te dejan poner el precio, incluso cero. En SoundCloud hay temas con botón de descarga, a veces a cambio de seguir al artista. Eso es legal. Bajar de YouTube no.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Tareas</h2>
+    <p class="sec-nota">Para cerrar el Módulo 01 con una biblioteca en serio</p>
+    <div class="tareas">
+      <article class="tarea">
+        <div>
+          <h3>Sumar diez temas por el camino nuevo</h3>
+          <p>Diez temas más, conseguidos como en clase: buena calidad, por la <em>_Entrada</em>, renombrados, a la carpeta del mes y recién ahí a rekordbox. Lo que importa no es cuántos sino que el recorrido te salga solo.</p>
+        </div>
+      </article>
+      <article class="tarea">
+        <div>
+          <h3>Revisar BASE 01</h3>
+          <p>Fijate de dónde salió cada tema de la playlist. Abrí en Spek los tres que te den más desconfianza. Los que no pasen la prueba van con <em>color rojo</em> en rekordbox, y buscales reemplazo de verdad cuando puedas.</p>
+        </div>
+      </article>
+      <article class="tarea">
+        <div>
+          <h3>My Tag a veinte temas</h3>
+          <p>Con dos categorías y nada más: <em>Energía</em> (baja, media, alta) y <em>Momento</em> (abrir, pico, cerrar). Va a parecer poco. Es a propósito: un sistema chico que usás siempre sirve más que uno grande que abandonás.</p>
+        </div>
+      </article>
+      <article class="tarea">
+        <div>
+          <h3>Backup una vez por semana</h3>
+          <p>En rekordbox, menú <em>Archivo → Biblioteca</em> y la opción de copia de seguridad (si lo tenés en inglés: <em>File → Library → Backup Library</em>). Guardala en la carpeta de backups y copiá la carpeta de música al pendrive. Cinco minutos que algún día te salvan el set.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <h2>Links</h2>
+    <p class="sec-nota">Lo mínimo, no una biblioteca</p>
+    <ul class="links">
+      <li><a href="https://bandcamp.com">Bandcamp</a><small>El artista se lleva la mayor parte. Elegís el formato al bajar. Muy fuerte en música independiente y ediciones raras.</small></li>
+      <li><a href="https://www.beatport.com">Beatport</a><small>La tienda de referencia para música de pista. Los géneros y los charts sirven también para descubrir.</small></li>
+      <li><a href="https://www.traxsource.com">Traxsource</a><small>Lo mismo pero especializada en house, soulful, afro y disco.</small></li>
+      <li><a href="https://www.junodownload.com">Juno Download</a><small>Catálogo enorme y de todos los palos, incluido mucho que no está en Beatport.</small></li>
+      <li><a href="https://www.spek.cc">Spek</a><small>Gratis. Arrastrás un archivo y te muestra su espectro: la forma más rápida de detectar un MP3 trucho.</small></li>
+      <li><a href="https://cdn.rekordbox.com/files/20250115173455/rekordbox7.0.7_introduction_ES.pdf">Introducción a rekordbox (PDF, español)</a><small>Ahora te interesan las partes de importar, colección, playlists y My Tag.</small></li>
+    </ul>
+  </section>
+
+  <div class="proximo">
+    <span class="lbl">Próximo · Módulo 02</span>
+    <h3>La mezcla</h3>
+    <p>Cerramos el módulo de equipo y material. Lo que sigue es tempo y beatmatching: empezar a mezclar de oído y, de a poco, soltar el sync.</p>
+  </div>
+
+  <footer>
+    <span>NAYA · Clases de DJ</span>
+    <span>Capítulo 03 · para Galgo</span>
+  </footer>
+
+</div>
+
+</html>
