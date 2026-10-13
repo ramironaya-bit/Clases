@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Clase 05 · Transiciones · Digitakt II</title>
+<title>Clase 06 · Transiciones · Digitakt II</title>
 <meta name="description" content="Clase interactiva: transiciones en el Digitakt II. Redobles, subidas, crash al revés, delay, huecos e impactos.">
 <meta name="theme-color" content="#0b0a0a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -94,7 +94,7 @@
   <div class="brand"><a class="back" href="../">← Guía Digitakt II</a><span class="ctx"><span class="n">NAYA</span> · Clases de Producción · Digitakt II</span></div>
 
   <div class="cab">
-    <h1><small>Clase 05 · Interactiva</small>Transiciones</h1>
+    <h1><small>Clase 06 · Interactiva</small>Transiciones</h1>
     <span class="meta" id="meta">Banco A · canción 1 · 1ST y LST</span>
   </div>
 
@@ -137,7 +137,7 @@
   var PASOS = [
     {b:0, t:"Tensión y descarga", k:[], p:"<p>Una transición es <b>tensión</b> (algo que crece, se corta o se va) seguida de una <b>descarga</b> (el golpe del drop). Vamos a armar las clásicas: redoble que acelera, subida de ruido, crash al revés, delay tirado, un hueco de silencio y un impacto al entrar.</p><p>Usamos tu canción de la <b>clase 1</b> (banco A, canción 1). Las pistas 9 a 12 están libres: ahí van los FX.</p>"},
     {b:0, t:"Ir a la canción", k:["ptn","t4"], p:"<p>"+K("PTN")+", banco A, "+K("4")+": el <b>A04</b>, el break. La mayoría de las transiciones van al final del break, justo antes de que vuelva el pico (A03).</p>"},
-    {b:1, t:"Cargar los FX", k:[["trk","h"],"t9","preset"], p:"<p>Como siempre ("+K("TRK")+" + número → "+K("☰")+" → LOAD, con ◀ → FILTER):</p><ul><li><b>9</b>: un crash o un platillo largo</li><li><b>10</b>: ruido (noise, hiss, viento) o un platillo muy largo</li><li><b>11</b>: un impacto (boom, golpe grave) o un bombo con mucha cola</li><li><b>12</b>: una caja para el redoble</li></ul>", a:"Si no encontrás ruido en los presets, buscá en los samples de fábrica (FUNC + ▥ → +DRIVE → FACTORY) o sampleá vos el ruido de una radio o de la calle (clase 3)."},
+    {b:1, t:"Cargar los FX", k:[["trk","h"],"t9","preset"], p:"<p>Como siempre ("+K("TRK")+" + número → "+K("☰")+" → LOAD, con ◀ → FILTER):</p><ul><li><b>9</b>: un crash o un platillo largo</li><li><b>10</b>: ruido (noise, hiss, viento) o un platillo muy largo</li><li><b>11</b>: un impacto (boom, golpe grave) o un bombo con mucha cola</li><li><b>12</b>: una caja para el redoble</li></ul>", a:"Si no encontrás ruido en los presets, buscá en los samples de fábrica (FUNC + ▥ → +DRIVE → FACTORY) o sampleá vos el ruido de una radio o de la calle (clase 4)."},
     {b:2, t:"Dos condiciones para transiciones", k:["trigp",["t1","h"],"knobH"], p:"<p>En la página "+K("TRIG")+", <b>COND</b> (perilla H, con un paso apretado) tiene dos condiciones hechas para esto:</p><ul><li><b>LST</b>: el paso suena solo la <b>última vez</b> que suena el patrón antes de cambiar a otro. Perfecto para lo que va <b>antes</b> del drop.</li><li><b>1ST</b>: suena solo la <b>primera vez</b>. Perfecto para el golpe <b>de entrada</b>.</li></ul><p>Las dos tienen versión <b>tachada</b> (con una raya arriba): hacen lo contrario.</p><p>En la canción, cada fila repite su patrón varias veces: con LST, la transición aparece solo en la última repetición.</p>"},
     {b:3, t:"Los golpes del redoble", k:["rec",["trk","h"],"t12","t9","t11","t13","t14","t15","t16"], p:"<p>En A04, con REC, pista 12: pasos <b>9, 11, 13, 14, 15, 16</b>.</p>"},
     {b:3, t:"Que acelere", k:["trigp","trigp",["t13","h"],"knobA"], p:"<p>"+K("TRIG")+" dos veces (retrigs). Mantené cada paso y prendé <b>RTRG</b>, con <b>RATE</b> cada vez más rápido:</p><ul><li>9 y 11: 1/16</li><li>13 y 14: 1/32</li><li>15 y 16: 1/64</li></ul><p>Y <b>VFAD</b> positivo, para que crezca de volumen dentro de cada redoble.</p>", rec:1, v:"Un redoble que acelera hacia el final del compás."},
@@ -151,7 +151,7 @@
     {b:7, t:"El hueco antes del drop", k:["ptn","t2",["trk","h"],"t1","trigp",["t13","h"],"knobH"], p:"<p>El silencio antes del golpe pega más que cualquier efecto. En <b>A02</b> (antes del pico), bombo: mantené los pasos <b>13</b> y <b>9</b>, y poné COND en <b>LST tachado</b> (el que tiene una raya arriba).</p><p>Esos bombos suenan siempre, <b>menos</b> en la última vuelta: medio compás sin bombo, y entra A03.</p>", rec:1},
     {b:8, t:"El impacto de entrada", k:["ptn","t3",["trk","h"],"t11","t1","trigp",["t1","h"],"knobH"], p:"<p>En <b>A03</b> (el pico), pista 11 (impacto): paso <b>1</b> con COND <b>1ST</b>. Suena solo la primera vez que entra el pico. Mandale mucha reverb (FX → REV).</p><p>Hacé lo mismo con un crash normal (pista 9 al derecho, en otro paso 1 con 1ST) si querés más golpe.</p>", rec:1},
     {b:9, t:"Probarlo en la canción", k:["stop","stop","song","t1","play"], p:"<p>"+K("□")+" dos veces, "+K("SONG")+" + "+K("1")+", "+K("▷")+". Escuchá cada cambio de fila: redoble, subida, crash al revés, delay, el hueco y el impacto.</p>", a:"Si alguna transición no aparece en la canción, fijate que la fila tenga más de una repetición y que la condición sea LST (no LST tachado)."},
-    {b:9, t:"Tocadas a mano", k:[["page","h"]], p:"<p>Para el vivo, otra opción: en vez de LST, poné esos pasos con <b>FILL ON</b> y disparalos manteniendo "+K("PAGE")+" en el compás que elijas (clase 4).</p><p>Y un recurso más: antes del drop, mantené "+K("TRK")+" y subí <b>BASE</b> (FLTR, segunda página) para sacarle los graves a todo; en el 1, soltalo de golpe.</p>"},
+    {b:9, t:"Tocadas a mano", k:[["page","h"]], p:"<p>Para el vivo, otra opción: en vez de LST, poné esos pasos con <b>FILL ON</b> y disparalos manteniendo "+K("PAGE")+" en el compás que elijas (clase 5).</p><p>Y un recurso más: antes del drop, mantené "+K("TRK")+" y subí <b>BASE</b> (FLTR, segunda página) para sacarle los graves a todo; en el 1, soltalo de golpe.</p>"},
     {b:9, t:"Tarea", k:[["func","h"],"settings"], p:"<p>Llevá estas transiciones a una práctica que te guste (dembow, techno…). Elegí <b>dos</b>, no todas: la transición tiene que servir al tema, no taparlo. Guardá.</p>"}
   ];
 

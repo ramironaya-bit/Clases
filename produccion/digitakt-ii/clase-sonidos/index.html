@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Clase 03 · Presets, kits y pool · Digitakt II</title>
+<meta name="description" content="Clase interactiva: mezclar sonidos de distintos bancos y kits en el Digitakt II, con presets, kits y pool.">
+<meta name="theme-color" content="#0b0a0a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#0b0a0a; --bg-raised:#15120f; --bg-feature:#1a1108; --line:#2e2620; --line-soft:#241e19;
+    --text:#f2ede4; --text-muted:#a89d8e; --text-faint:#6f665c;
+    --gold:#e8b04a; --gold-soft:#8a6c2f; --terra:#e0653a; --sand:#cbb389;
+    --font-display:"Fraunces", ui-serif, Georgia, serif;
+    --font-poster:"Anton", ui-sans-serif, sans-serif;
+    --font-body:"IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+    --font-mono:"IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+  }
+  *,*::before,*::after{ box-sizing:border-box; }
+  body{ margin:0; background:var(--bg); color:var(--text); font-family:var(--font-body); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+  a{ color:var(--gold); text-underline-offset:3px; }
+  button:focus-visible, a:focus-visible{ outline:2px solid var(--gold); outline-offset:3px; }
+  .wrap{ max-width:1080px; margin:0 auto; padding:1.6rem 1.4rem 4rem; }
+
+  .brand{ display:flex; justify-content:space-between; gap:.75rem; flex-wrap:wrap; font-family:var(--font-mono); font-size:.68rem; letter-spacing:.18em; text-transform:uppercase; color:var(--text-faint); border-bottom:1px solid var(--line); padding-bottom:.8rem; margin-bottom:1.4rem; }
+  .brand .n{ color:var(--gold); font-weight:600; }
+  .brand a{ color:var(--text-faint); text-decoration:none; } .brand a:hover{ color:var(--gold); }
+  .cab{ display:flex; align-items:baseline; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:1rem; }
+  h1{ font-family:var(--font-poster); font-weight:400; text-transform:uppercase; font-size:clamp(1.8rem,5vw,2.8rem); line-height:.95; margin:0; }
+  h1 small{ display:block; font-family:var(--font-mono); font-size:.7rem; letter-spacing:.22em; color:var(--terra); margin-bottom:.4rem; }
+  .meta{ font-family:var(--font-mono); font-size:.72rem; color:var(--text-faint); }
+
+  .bloques{ display:flex; gap:.35rem; overflow-x:auto; scrollbar-width:none; margin:0 0 1.2rem; padding-bottom:.2rem; }
+  .bloques::-webkit-scrollbar{ display:none; }
+  .bloques button{ flex:0 0 auto; font-family:var(--font-mono); font-size:.66rem; letter-spacing:.06em; text-transform:uppercase; color:var(--text-muted); background:transparent; border:1px solid var(--line); border-radius:2px; padding:.35rem .6rem; cursor:pointer; }
+  .bloques button.act{ color:var(--bg); background:var(--gold); border-color:var(--gold); }
+  .bloques button.ok{ border-color:var(--gold-soft); color:var(--gold); }
+  .barra{ height:3px; background:var(--line); margin:-.6rem 0 1.4rem; }
+  .barra i{ display:block; height:100%; width:0; background:var(--gold); transition:width .25s; }
+
+  .escena{ display:grid; grid-template-columns: minmax(0,1fr) minmax(0,1.25fr); gap:1.6rem; align-items:start; }
+  @media (max-width: 860px){ .escena{ grid-template-columns:1fr; } }
+
+  .paso{ background:var(--bg-raised); border:1px solid var(--line-soft); border-left:2px solid var(--gold); border-radius:3px; padding:1.3rem 1.4rem 1.2rem; }
+  .num{ font-family:var(--font-mono); font-size:.7rem; letter-spacing:.16em; text-transform:uppercase; color:var(--gold); margin-bottom:.35rem; }
+  .paso h2{ font-family:var(--font-poster); font-weight:400; text-transform:uppercase; font-size:clamp(1.5rem,4vw,2rem); line-height:1; margin:0 0 .9rem; }
+  .combo{ font-family:var(--font-mono); font-size:.82rem; color:var(--sand); background:#0f0d0b; border:1px solid var(--line); border-radius:3px; padding:.55rem .75rem; margin:0 0 1rem; }
+  .combo:empty{ display:none; }
+  .txt p{ margin:0 0 .8rem; color:var(--text-muted); }
+  .txt ol, .txt ul{ color:var(--text-muted); padding-left:1.2rem; margin:0 0 .8rem; }
+  .txt li{ margin-bottom:.3rem; }
+  .txt b{ color:var(--text); }
+  kbd{ font-family:var(--font-mono); font-size:.78em; font-weight:600; color:var(--text); background:#2a2826; border:1px solid #3a3633; border-bottom-width:2px; border-radius:3px; padding:.02em .38em; white-space:nowrap; }
+  kbd.f{ background:#d9a03a; color:#1a1408; border-color:#b8862e; }
+  .ver{ border-left:2px solid var(--gold-soft); padding:.1rem 0 .1rem .9rem; margin:.4rem 0 .8rem; font-size:.92rem; color:var(--text-muted); }
+  .ver b{ font-family:var(--font-mono); font-size:.62rem; letter-spacing:.16em; text-transform:uppercase; color:var(--gold); display:block; font-weight:500; }
+  .antes{ border:1px solid var(--terra); background:#1d0f0a; border-radius:3px; padding:.6rem .8rem; margin:0 0 1rem; font-size:.9rem; color:var(--text-muted); }
+  .antes b{ color:var(--terra); }
+  details{ margin:.4rem 0 0; border-top:1px solid var(--line); padding-top:.7rem; }
+  summary{ cursor:pointer; font-family:var(--font-mono); font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--terra); }
+  details p{ color:var(--text-muted); font-size:.92rem; margin:.6rem 0 0; }
+
+  .nav{ display:flex; gap:.6rem; margin-top:1.1rem; }
+  .nav button{ font-family:var(--font-mono); font-size:.74rem; letter-spacing:.12em; text-transform:uppercase; padding:.85rem 1.1rem; cursor:pointer; border-radius:2px; }
+  .nav .atras{ background:transparent; color:var(--text-muted); border:1px solid var(--line); }
+  .nav .sig{ flex:1; background:var(--gold); color:var(--bg); border:1px solid var(--gold); font-weight:600; }
+  .nav .sig:hover{ background:#f0bb55; }
+  .nav button:disabled{ opacity:.35; cursor:default; }
+  .tip{ font-family:var(--font-mono); font-size:.64rem; color:var(--text-faint); margin-top:.6rem; }
+
+  .lado{ position:sticky; top:1rem; }
+  @media (max-width: 860px){ .lado{ position:static; order:-1; } .regla{ display:none; } .info{ min-height:0; } }
+  .info{ margin-top:.8rem; font-size:.86rem; color:var(--text-muted); background:var(--bg-raised); border:1px solid var(--line); border-radius:3px; padding:.75rem .9rem; min-height:3.4rem; }
+  .info b{ color:var(--text); font-family:var(--font-poster); font-weight:400; text-transform:uppercase; letter-spacing:.02em; font-size:1rem; display:block; }
+  .info .fn{ color:var(--sand); display:block; margin-top:.25rem; }
+  .regla{ margin-top:.8rem; font-size:.84rem; color:var(--text-faint); border-left:2px solid var(--terra); padding-left:.8rem; }
+  .regla b{ color:var(--terra); font-weight:600; }
+
+  /* barra superior fija con botón de volver */
+  .brand{ position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: .9rem; flex-wrap: wrap;
+    background: rgba(11,10,10,.94); backdrop-filter: blur(8px); padding: .7rem 0 .75rem; margin-bottom: 2.2rem; }
+  .brand .ctx{ font-family: var(--font-mono); font-size: .66rem; letter-spacing: .16em; text-transform: uppercase; color: var(--text-faint); text-align: right; }
+  .brand .n{ color: var(--gold); font-weight: 600; letter-spacing: .22em; }
+  .brand a.back{ font-family: var(--font-mono); font-size: .74rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+    color: #0b0a0a; background: var(--gold); padding: .55rem .95rem; border-radius: 3px; text-decoration: none; white-space: nowrap; transition: background .15s; }
+  .brand a.back:hover, .brand a.back:focus-visible{ background: #f4c46a; }
+</style>
+
+<div class="wrap">
+  <div class="brand"><a class="back" href="../">← Guía Digitakt II</a><span class="ctx"><span class="n">NAYA</span> · Clases de Producción · Digitakt II</span></div>
+
+  <div class="cab">
+    <h1><small>Clase 03 · Interactiva</small>Presets, kits y pool</h1>
+    <span class="meta" id="meta">Patrones A13–A15 · tu kit propio</span>
+  </div>
+
+  <div class="bloques" id="bloques"></div>
+  <div class="barra"><i id="barra"></i></div>
+
+  <div class="escena">
+    <div>
+      <article class="paso" aria-live="polite">
+        <div class="num" id="num"></div>
+        <h2 id="titulo"></h2>
+        <div class="antes" id="antes"><b>Antes:</b> REC (○) tiene que estar <b>roja</b>. Si está apagada, las teclas son pistas y no pasos: la perilla cambia toda la pista.</div>
+        <div class="combo" id="combo"></div>
+        <div class="txt" id="txt"></div>
+        <div class="ver" id="ver"><b>Tenés que ver</b><span></span></div>
+        <details id="ayuda"><summary>No me sale</summary><p></p></details>
+      </article>
+      <div class="nav">
+        <button class="atras" id="atras">← Atrás</button>
+        <button class="sig" id="sig">Listo, siguiente →</button>
+      </div>
+      <p class="tip">También con las flechas del teclado. Tu avance queda guardado en este navegador.</p>
+    </div>
+    <div class="lado">
+      <div id="panel"></div>
+      <div class="info" id="info">Lo que brilla es lo que tenés que tocar. <span class="fn">Tocá cualquier tecla del dibujo para ver qué hace.</span></div>
+      <p class="regla"><b>La regla de oro:</b> las perillas A–H mueven lo que muestra la pantalla en ese momento. Si girás A y cambia otra cosa, es porque tenés abierta otra página: fijate qué dice la pantalla.</p>
+    </div>
+  </div>
+</div>
+
+<script src="../panel.js"></script>
+<script>
+(function(){
+  var F = '<kbd class="f">FUNC</kbd>';
+  function K(t){ return '<kbd>'+t+'</kbd>'; }
+  var GUARDAR = "Guardá: mantené "+F+" y tocá "+K("⚙ SETTINGS")+" (abajo dice Save Proj). Acostumbrate a hacerlo cada vez que algo te gusta.";
+
+  var BLOQUES = ["El mapa","Laboratorio","Pista por pista","Kits","Traer un sonido","El pool","Solo el sample","Lo tuyo","Si algo salió mal"];
+  var PASOS = [
+    {b:0, t:"El mapa de los sonidos", k:[], p:"<p>Pensalo como una biblioteca:</p><ul><li><b>+Drive</b>: la biblioteca entera.</li><li><b>Bancos A–H</b>: los estantes. Cada uno tiene hasta 256 presets. Por eso, al cambiar de banco, ves “otros cien y pico”.</li><li><b>Preset</b>: un libro. Un sonido para <b>una</b> pista.</li><li><b>Kit</b>: una caja con <b>16</b> sonidos, uno por pista. Cargarla cambia <b>todas</b> las pistas.</li><li><b>Pool</b>: la mesa del proyecto. Hasta 128 presets a mano, de cualquier estante.</li></ul><p>La idea de esta clase: <b>no tenés que elegir entre un kit y otro</b>. Armás tu combinación sonido por sonido, de donde quieras.</p>"},
+    {b:1, t:"Un patrón para probar", k:["ptn","t13"], p:"<p>Vamos a probar en un patrón vacío, así no tocás nada de lo tuyo: "+K("PTN")+", banco <b>A</b>, "+K("13")+".</p>", v:"A13 arriba a la izquierda."},
+    {b:1, t:"Guardar antes de probar", k:[["func","h"],"settings"], p:"<p>"+F+" + "+K("⚙")+". Con el proyecto guardado, cualquier cosa que rompas se puede volver atrás.</p>"},
+    {b:2, t:"Bombo del banco A", k:[["trk","h"],"t1","preset","yes"], p:"<p>"+K("TRK")+" + "+K("1")+". "+K("☰")+" → PRESET → <b>LOAD</b> → "+K("YES")+".</p><p>Esta lista carga <b>solo en la pista activa</b>. Las otras 15 no se tocan.</p>"},
+    {b:2, t:"Cambiar de estante", k:["left","yes"], p:"<p>Dentro de la lista, "+K("◀")+" → <b>SELECT BANK</b> → elegí otro banco (B, C…). La lista cambia: otros presets.</p><p>Recorré los bancos hasta encontrar un bombo que te guste, escuchándolo con la tecla "+K("1")+", y "+K("YES")+".</p>"},
+    {b:2, t:"Filtrar para encontrar rápido", k:["left","yes"], p:"<p>"+K("◀")+" → <b>FILTER</b> → marcá la etiqueta del tipo de sonido (por ejemplo, la de clap o caja) con "+K("YES")+" → "+K("NO")+". La lista muestra solo esos, del banco elegido.</p><p>Si en un banco no hay clap, cambiá de banco con el filtro puesto.</p>"},
+    {b:2, t:"Cuatro pistas, cuatro bancos", k:[["trk","h"],"t2","preset"], p:"<p>Repetí: pista <b>2</b> un clap, pista <b>3</b> un hat, pista <b>4</b> un bajo. <b>Cada uno de un banco distinto.</b></p><p>Ya estás mezclando sonidos de varios lugares en un mismo patrón.</p>", v:"Las teclas 1 a 4 suenan, cada una de un banco diferente."},
+    {b:3, t:"Un punto de retorno", k:[["func","h"],"yes"], p:"<p>Antes de probar kits: "+F+" + "+K("YES")+" (guardado temporal). Si un kit te pisa todo, volvés acá.</p>"},
+    {b:3, t:"Cargar un kit", k:["preset","yes"], p:"<p>"+K("☰")+" → KIT → <b>LOAD</b> → elegí uno → "+K("YES")+".</p><p>Mirá lo que pasa: <b>cambian las 16 pistas</b>. Eso es lo que te había pasado.</p>", v:"Todas las teclas suenan distinto que antes."},
+    {b:3, t:"Volver", k:[["func","h"],"no"], p:"<p>"+F+" + "+K("NO")+": vuelve al punto de retorno. Tus 4 sonidos están de nuevo.</p><p>Moraleja: los kits sirven para <b>arrancar rápido</b> con algo armado. Para elegir sonido por sonido, presets.</p>"},
+    {b:4, t:"El kit que tiene el clap", k:["ptn","t14","preset","yes"], p:"<p>Si un kit tiene un sonido que querés: cargalo en <b>otro patrón vacío</b>. "+K("PTN")+" + "+K("14")+" (A14), "+K("☰")+" → KIT → LOAD → ese kit → "+K("YES")+".</p>"},
+    {b:4, t:"Copiar ese sonido", k:[["trk","h"],"t2",["trk","h"],"rec"], p:"<p>Encontrá en qué pista está el clap (tocá las teclas). Elegila ("+K("TRK")+" + número) y mantené "+K("TRK")+" + "+K("○")+": se copia <b>ese sonido</b>.</p>"},
+    {b:4, t:"Pegarlo en tu patrón", k:["ptn","t13",["trk","h"],"t2",["trk","h"],"stop"], p:"<p>"+K("PTN")+" + "+K("13")+" (volvés a A13). "+K("TRK")+" + "+K("2")+", y mantené "+K("TRK")+" + "+K("□")+": el clap del otro kit queda en tu pista 2.</p>", v:"La tecla 2 suena con el clap que trajiste."},
+    {b:5, t:"Traer un kit entero al pool", k:["preset","yes","left"], p:"<p>Otra forma, sin cargar el kit en ningún patrón: "+K("☰")+" → KIT → LOAD, marcá un kit, "+K("◀")+" → <b>ADD TO POOL</b> → "+K("YES")+".</p><p>Sus 16 sonidos quedan en el pool del proyecto, <b>sin cambiar nada de lo que suena</b>.</p>"},
+    {b:5, t:"Cargar desde el pool", k:[["trk","h"],"t5","preset","yes","right"], p:"<p>"+K("TRK")+" + "+K("5")+". "+K("☰")+" → <b>POOL</b> → elegí un sonido → "+K("▶")+" → <b>LOAD TO TRACK</b>.</p><p>El pool es tu “mesa de trabajo”: juntás ahí los sonidos de varios kits y los usás donde quieras.</p>"},
+    {b:5, t:"Bonus: un sonido distinto por paso", k:["rec",["t9","h"],"level"], p:"<p>Con los sonidos en el pool: en REC, mantené un paso y girá <b>LEVEL/DATA</b>: aparece la lista del pool. Elegí otro sonido y soltá. Ese paso toca <b>otro preset entero</b> (preset lock).</p><p>Una pista puede tocar tres claps distintos, uno en cada golpe.</p>", rec:1},
+    {b:6, t:"Solo el sample", k:[["trk","h"],"t6","src","knobD",["func","h"],"yes"], p:"<p>A veces no querés un preset sino un <b>sample</b>, como un clap pelado. "+K("TRK")+" + "+K("6")+", "+K("SRC")+", girá la perilla <b>D</b> (SAMP) y, con la lista abierta, "+F+" + "+K("YES")+": vas a las carpetas de fábrica. Marcá un sample y "+K("YES")+": queda en la pista.</p>"},
+    {b:7, t:"Guardar un sonido tuyo", k:["preset","yes"], p:"<p>Cuando ajustes un sonido y te guste: "+K("☰")+" → PRESET → <b>SAVE</b>. "+K("◀")+" → SELECT BANK → tu banco (por ejemplo <b>B</b>), lugar vacío, nombre, etiquetas, SAVE.</p>"},
+    {b:7, t:"Guardar tu kit", k:["preset","yes"], p:"<p>Con tus 16 pistas como te gustan: "+K("☰")+" → KIT → <b>SAVE</b>, lugar vacío, nombre (por ejemplo <b>NAYA 1</b>), "+K("YES")+".</p><p>Esa es tu caja propia, armada de muchos lugares.</p>"},
+    {b:7, t:"Usarlo en otros patrones", k:["ptn","t15","preset","yes"], p:"<p>En un patrón nuevo, "+K("☰")+" → KIT → LOAD → <b>NAYA 1</b>: arrancás con todos tus sonidos.</p><p>Atajo: en KIT → <b>MANAGE</b>, marcá tu kit, "+K("▶")+" → <b>LOAD TO EMPTY</b>: lo carga en <b>todos los patrones vacíos</b> del proyecto de una vez.</p>", a:"Recordá: cada patrón tiene su propio kit. Cambiar un sonido en A13 no lo cambia en A14. Si querés el cambio en todos, guardalo en tu kit y volvé a cargarlo."},
+    {b:8, t:"Si algo salió mal", k:[["func","h"],"no"], p:"<ul><li><b>Volver el patrón al último guardado</b>: "+F+" + "+K("NO")+".</li><li><b>Volver un solo sonido</b>: mantené "+K("TRK")+" + la tecla de la pista + "+K("NO")+".</li><li><b>Volver solo los sonidos del patrón</b> (sin tocar los pasos): "+K("⚙")+" → PATTERN → RELOAD FROM PROJ → <b>KIT DATA</b>.</li></ul>"},
+    {b:8, t:"Tarea", k:[["func","h"],"settings"], p:"<p>Armá tu kit <b>NAYA 1</b> con 16 sonidos favoritos de <b>al menos tres bancos</b>, guardalo, cargalo en un patrón vacío y hacé un ritmo con él. Guardá el proyecto.</p>"}
+  ];
+
+  /* ---------- motor ---------- */
+  var KEY = "naya-dt2-clase-sonidos";
+  var i = 0, hechos = {};
+  try{ var s = JSON.parse(localStorage.getItem(KEY)) || {}; i = Math.min(s.i||0, PASOS.length-1); hechos = s.h || {}; }catch(e){}
+  function guardar(){ try{ localStorage.setItem(KEY, JSON.stringify({i:i, h:hechos})); }catch(e){} }
+
+  DT2Panel.render(document.getElementById("panel"));
+  var bl = document.getElementById("bloques");
+  BLOQUES.forEach(function(n, b){
+    var btn = document.createElement("button"); btn.textContent = (b)+" · "+n;
+    btn.addEventListener("click", function(){ for(var j=0;j<PASOS.length;j++){ if(PASOS[j].b===b){ ir(j); break; } } });
+    bl.appendChild(btn);
+  });
+
+  function ir(n){
+    if(typeof terminado !== "undefined") terminado = false;
+    i = Math.max(0, Math.min(PASOS.length-1, n));
+    var p = PASOS[i];
+    document.getElementById("num").textContent = "Bloque "+p.b+" · "+BLOQUES[p.b]+" · paso "+(i+1)+" de "+PASOS.length;
+    document.getElementById("titulo").textContent = p.t;
+    document.getElementById("combo").textContent = p.ab ? "En Ableton · " + p.ab : p.k.length ? DT2Panel.texto(p.k).replace(/^./, function(c){ return c.toUpperCase(); }) : "";
+    document.getElementById("antes").style.display = p.rec ? "" : "none";
+    document.getElementById("txt").innerHTML = p.p;
+    var v = document.getElementById("ver"); v.style.display = p.v ? "" : "none"; v.querySelector("span").textContent = p.v || "";
+    var a = document.getElementById("ayuda"); a.style.display = p.a ? "" : "none"; a.open = false; a.querySelector("p").textContent = p.a || "";
+    DT2Panel.marcar(p.k);
+    document.getElementById("atras").disabled = i === 0;
+    document.getElementById("sig").textContent = i === PASOS.length-1 ? "Terminé la clase ✓" : "Listo, siguiente →";
+    [].forEach.call(bl.children, function(btn, b){
+      btn.classList.toggle("act", b === p.b);
+      var todos = PASOS.every(function(q, j){ return q.b !== b || hechos[j]; });
+      btn.classList.toggle("ok", todos && b !== p.b);
+    });
+    var n = Object.keys(hechos).length;
+    document.getElementById("barra").style.width = (n / PASOS.length * 100) + "%";
+    guardar();
+  }
+  var terminado = false;
+  function fin(){
+    hechos[i] = 1; guardar(); terminado = true;
+    DT2Panel.marcar([]);
+    document.getElementById("barra").style.width = "100%";
+    document.getElementById("num").textContent = "Terminado";
+    document.getElementById("titulo").textContent = "¡Listo! 🎛️";
+    document.getElementById("combo").textContent = "";
+    var an = document.getElementById("antes"); if(an) an.style.display = "none";
+    document.getElementById("ver").style.display = "none";
+    document.getElementById("ayuda").style.display = "none";
+    document.getElementById("txt").innerHTML = "<p>Terminaste. Guardá el proyecto (mantené FUNC y tocá ⚙) y, si podés, grabalo.</p><p>Tu avance queda marcado. Volvé a la guía para elegir lo próximo, o tocá cualquier bloque de arriba para repasar.</p>";
+    document.getElementById("sig").textContent = "Volver a la guía →";
+  }
+  function avanzar(){
+    if(terminado){ location.href = "../"; return; }
+    if(i === PASOS.length-1){ fin(); }
+    else { hechos[i] = 1; ir(i+1); }
+    window.scrollTo({top:0, behavior:"smooth"});
+  }
+  document.getElementById("sig").addEventListener("click", avanzar);
+  document.getElementById("atras").addEventListener("click", function(){ ir(i-1); });
+  document.addEventListener("keydown", function(e){
+    if(e.target.closest("input,textarea")) return;
+    if(e.key === "ArrowRight") avanzar();
+    if(e.key === "ArrowLeft") ir(i-1);
+  });
+
+  var info = document.getElementById("info");
+  document.getElementById("panel").addEventListener("click", function(e){
+    var k = e.target.closest("[data-k]"); if(!k) return;
+    var d = DT2Panel.info(k.dataset.k); if(!d) return;
+    info.innerHTML = "<b></b><span class='a'></span>" + (d[2] ? "<span class='fn'></span>" : "");
+    info.querySelector("b").textContent = d[0];
+    info.querySelector(".a").textContent = d[1];
+    if(d[2]) info.querySelector(".fn").textContent = "Con FUNC: " + d[2];
+  });
+
+  ir(i);
+})();
+</script>
+</html>
