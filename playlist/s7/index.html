@@ -143,6 +143,15 @@
   .drop:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
   .why{ font-size:.75rem; color: var(--text-faint); margin-top:.15rem; }
   .why b{ color: var(--acc); font-weight:600; }
+  .fbcell{ white-space:nowrap; }
+  .fb{ all:unset; cursor:pointer; width:28px; height:28px; display:inline-grid; place-items:center; border-radius:6px; border:1px solid var(--line); color:var(--text-muted); font-size:14px; font-weight:700; margin-right:4px; }
+  .fb:focus-visible{ outline:2px solid var(--acc); outline-offset:1px; }
+  .fb.si[aria-pressed="true"]{ background:#3f9d5a; border-color:#3f9d5a; color:#fff; }
+  .fb.no[aria-pressed="true"]{ background:#b8443a; border-color:#b8443a; color:#fff; }
+  tr.is-no td:not(.fbcell){ opacity:.4; }
+  tr.is-si td:first-child{ box-shadow: inset 3px 0 0 #3f9d5a; }
+  .fbsum{ font-family: var(--font-mono); font-size:12px; color:var(--text-muted); }
+  .fbnote{ font-size:12px; color:var(--text-muted); margin-top:6px; }
 </style>
 
 <div class="wrap">
@@ -166,11 +175,11 @@
           <h3 id="pname"></h3>
           <p id="ptone"></p>
         </div>
-        <button class="copy" id="copy" type="button">Copiar lista (Artista – Tema)</button>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap"><button class="copy" id="copyfb" type="button" style="background:transparent;color:var(--acc);border:1px solid var(--acc)">Copiar mi feedback</button><button class="copy" id="copy" type="button">Copiar lista (Artista – Tema)</button></div>
       </div>
       <div class="tablewrap">
         <table>
-          <thead><tr><th>BPM</th><th>Key</th><th>Tema</th><th>Sello</th><th>Género BP</th><th>Salió</th><th>Escuchar</th></tr></thead>
+          <thead><tr><th>BPM</th><th>Key</th><th>Tema</th><th>Sello</th><th>Género BP</th><th>Salió</th><th>Escuchar</th><th>¿Te va?</th></tr></thead>
           <tbody id="rows"></tbody>
         </table>
       </div>
@@ -189,6 +198,10 @@
           <li><b>Indie Tech</b>: bombo más seco, más percusivo y más cerca del tech. Es el puente hacia la hora de tech house.</li>
           <li>Arriba elegís la tanda: la <b>Base S7</b> o cada tanda de <b>Novedades</b>, que no repite temas de las anteriores.</li>
         </ul>
+      </div>
+      <div>
+        <h3>¿Te va?</h3>
+        <p>Marcá ✓ o ✕ en cada tema. Se guarda en este navegador. Cuando quieras, tocá "Copiar mi feedback" y pegámelo en el chat: lo uso para la próxima tanda.</p>
       </div>
       <div>
         <h3>Para pasar a Spotify</h3>
@@ -214,6 +227,10 @@ const dropsEl=document.getElementById('drops'), tabs=document.getElementById('ta
 DROPS.forEach(d=>{const b=document.createElement('button');b.className='drop';b.type='button';b.dataset.id=d.id;
   const n=Object.values(d.lists).reduce((a,l)=>a+l.tracks.length,0);
   b.innerHTML=`${esc(d.label)}<span class="dt">${n}</span>`;b.onclick=()=>{drop=d.id;save();render()};dropsEl.appendChild(b);});
+const findT=id=>{for(const d of DROPS)for(const l of Object.values(d.lists))for(const t of l.tracks)if(t.id==id)return t;return null};
+let FB={};
+try{FB=JSON.parse(localStorage.getItem('seki7fb')||'{}')}catch(e){}
+function setFB(id,v){const nv=FB[id]===v?null:v;if(nv)FB[id]=nv;else delete FB[id];try{localStorage.setItem('seki7fb',JSON.stringify(FB))}catch(e){};render();}
 function render(){
   const D=DROPS.find(d=>d.id==drop);
   dropsEl.querySelectorAll('.drop').forEach(b=>b.setAttribute('aria-pressed',b.dataset.id==drop));
@@ -227,12 +244,12 @@ function render(){
     b.onclick=()=>{cur=k;save();render()};tabs.appendChild(b);});
   const L=D.lists[cur];document.querySelector('.s7').style.setProperty('--acc',`var(${COL[cur]})`);
   document.getElementById('pname').textContent=L.name;
-  document.getElementById('ptone').textContent=`${D.label} · ${L.hour}`;
-  document.getElementById('rows').innerHTML=L.tracks.map(t=>{const q=encodeURIComponent(t.a.split(',')[0]+' '+t.n);
-    return `<tr><td class="num">${t.bpm}</td><td class="num"><span class="key">${esc(t.k)}</span></td>
+  document.getElementById('ptone').textContent=`${D.label} · ${L.hour}`+(()=>{const si=L.tracks.filter(t=>FB[t.id]=='si').length,no=L.tracks.filter(t=>FB[t.id]=='no').length;return si||no?` · ✓ ${si} · ✕ ${no}`:''})();
+  document.getElementById('rows').innerHTML=L.tracks.map(t=>{const _c=FB[t.id]?` class="is-${FB[t.id]}"`:'';const q=encodeURIComponent(t.a.split(',')[0]+' '+t.n);
+    return `<tr${_c}><td class="num">${t.bpm}</td><td class="num"><span class="key">${esc(t.k)}</span></td>
     <td><div class="ttl">${esc(t.n)} <span class="mix">(${esc(t.m)})</span></div><div class="artist">${esc(t.a)}</div>${t.why?`<div class="why">${t.why}</div>`:''}</td>
     <td>${esc(t.lab)}</td><td class="genre">${esc(t.g)}</td><td class="num">${fmt(t.d)}</td>
-    <td><div class="links"><a href="https://www.beatport.com/track/x/${t.id}" target="_blank" rel="noopener">Beatport</a><a href="https://open.spotify.com/search/${q}" target="_blank" rel="noopener">Spotify</a></div></td></tr>`}).join('');
+    <td><div class="links"><a href="https://www.beatport.com/track/x/${t.id}" target="_blank" rel="noopener">Beatport</a><a href="https://open.spotify.com/search/${q}" target="_blank" rel="noopener">Spotify</a></div></td><td class="fbcell"><button class="fb si" type="button" data-id="${t.id}" data-v="si" aria-pressed="${FB[t.id]=='si'}" title="Me interesa" aria-label="Me interesa">✓</button><button class="fb no" type="button" data-id="${t.id}" data-v="no" aria-pressed="${FB[t.id]=='no'}" title="No me interesa" aria-label="No me interesa">✕</button></td></tr>`}).join('');
 }
 document.getElementById('copy').onclick=async e=>{
   const L=DROPS.find(d=>d.id==drop).lists[cur];const b=e.currentTarget;
@@ -241,6 +258,13 @@ document.getElementById('copy').onclick=async e=>{
     const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');b.textContent='Copiado ✓'}catch(_){b.textContent='Seleccioná y copiá'};ta.remove();}
   setTimeout(()=>b.textContent='Copiar lista (Artista – Tema)',1800);
 };
+
+document.getElementById('rows').addEventListener('click',e=>{const b=e.target.closest('.fb');if(!b)return;setFB(b.dataset.id,b.dataset.v);});
+document.getElementById('copyfb').onclick=async e=>{const b=e.currentTarget;const lines=[];
+  for(const d of DROPS)for(const l of Object.values(d.lists))for(const t of l.tracks)if(FB[t.id])lines.push(`${FB[t.id]=='si'?'✓':'✕'} ${t.a} - ${t.n} [${d.label} · ${l.name}]`);
+  const txt=lines.length?'Feedback SEKI 7:\n'+lines.join('\n'):'Todavía no marcaste ningún tema.';
+  try{await navigator.clipboard.writeText(txt);b.textContent='Copiado ✓'}catch(err){const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');b.textContent='Copiado ✓'}catch(_){};ta.remove()}
+  setTimeout(()=>b.textContent='Copiar mi feedback',1800)};
 render();
 </script>
 </html>
