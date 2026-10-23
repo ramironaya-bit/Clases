@@ -154,6 +154,16 @@
   tr.is-si td:first-child{ box-shadow: inset 3px 0 0 #3f9d5a; }
   .fbsum{ font-family: var(--font-mono); font-size:12px; color:var(--text-muted); }
   .fbnote{ font-size:12px; color:var(--text-muted); margin-top:6px; }
+  .fbc{ all:unset; cursor:pointer; width:28px; height:28px; display:inline-grid; place-items:center; border-radius:6px; border:1px dashed var(--line); color:var(--text-muted); font-size:13px; margin-left:4px; }
+  .fbc[aria-pressed="true"]{ border-style:solid; color:var(--acc); border-color:var(--acc); }
+  .fbc:focus-visible,.cmt:focus-visible{ outline:2px solid var(--acc); outline-offset:1px; }
+  .cmt{ all:unset; cursor:pointer; display:block; margin-top:4px; font-size:12.5px; font-style:italic; color:var(--sand); max-width:46ch; }
+  .cmt:hover{ text-decoration:underline; }
+  .cmtwrap{ margin-top:6px; display:flex; flex-direction:column; gap:6px; max-width:46ch; }
+  .cmtbox{ font:inherit; font-size:13px; padding:6px 8px; border-radius:6px; border:1px solid var(--acc); background:#0b0a0a; color:var(--sand); resize:vertical; width:100%; }
+  .cmtbtns{ display:flex; gap:6px; }
+  .cmtbtns button{ font:600 12px var(--font-mono); padding:5px 10px; border-radius:6px; cursor:pointer; border:1px solid var(--acc); background:transparent; color:var(--acc); }
+  .cmtbtns .cmtsave{ background:var(--acc); color:#0b0a0a; }
 </style>
 
 <div class="wrap">
@@ -181,7 +191,7 @@
       </div>
       <div class="tablewrap">
         <table>
-          <thead><tr><th>BPM</th><th>Key</th><th>Tema</th><th>Sello</th><th>Género BP</th><th>Salió</th><th>Escuchar</th><th>¿Te va?</th></tr></thead>
+          <thead><tr><th>BPM</th><th>Key</th><th>Tema</th><th>Sello</th><th>Género BP</th><th>Salió</th><th>Escuchar</th><th>¿Te va? · nota</th></tr></thead>
           <tbody id="rows"></tbody>
         </table>
       </div>
@@ -203,7 +213,7 @@
       </div>
       <div>
         <h3>¿Te va?</h3>
-        <p>Marcá ✓ (va), ? (lo escuché, no decidí) o ✕ (no va) en cada tema. Se guarda en este navegador. Cuando quieras, tocá "Copiar mi feedback" y pegámelo en el chat: lo uso para la próxima tanda.</p>
+        <p>Marcá ✓ (va), ? (lo escuché, no decidí) o ✕ (no va) en cada tema, y con ✎ dejá una nota de lo que te pasa. Se guarda en este navegador. Cuando quieras, tocá "Copiar mi feedback" y pegámelo en el chat: lo uso para la próxima tanda.</p>
       </div>
       <div>
         <h3>Para pasar a Spotify</h3>
@@ -230,9 +240,11 @@ DROPS.forEach(d=>{const b=document.createElement('button');b.className='drop';b.
   const n=Object.values(d.lists).reduce((a,l)=>a+l.tracks.length,0);
   b.innerHTML=`${esc(d.label)}<span class="dt">${n}</span>`;b.onclick=()=>{drop=d.id;save();render()};dropsEl.appendChild(b);});
 const findT=id=>{for(const d of DROPS)for(const l of Object.values(d.lists))for(const t of l.tracks)if(t.id==id)return t;return null};
-let FB={};
-try{FB=JSON.parse(localStorage.getItem('seki7fb')||'{}')}catch(e){}
-function setFB(id,v){const nv=FB[id]===v?null:v;if(nv)FB[id]=nv;else delete FB[id];try{localStorage.setItem('seki7fb',JSON.stringify(FB))}catch(e){};render();}
+let FB={}, CM={}, EDIT=null;
+try{FB=JSON.parse(localStorage.getItem('seki7fb')||'{}');CM=JSON.parse(localStorage.getItem('seki7cm')||'{}')}catch(e){}
+function persist(){try{localStorage.setItem('seki7fb',JSON.stringify(FB));localStorage.setItem('seki7cm',JSON.stringify(CM))}catch(e){}}
+function setFB(id,v){const nv=FB[id]===v?null:v;if(nv)FB[id]=nv;else delete FB[id];persist();render();}
+function setCM(id,txt){txt=(txt||'').trim();if(txt)CM[id]=txt;else delete CM[id];EDIT=null;persist();render();}
 function render(){
   const D=DROPS.find(d=>d.id==drop);
   dropsEl.querySelectorAll('.drop').forEach(b=>b.setAttribute('aria-pressed',b.dataset.id==drop));
@@ -249,9 +261,9 @@ function render(){
   document.getElementById('ptone').textContent=`${D.label} · ${L.hour}`+(()=>{const si=L.tracks.filter(t=>FB[t.id]=='si').length,no=L.tracks.filter(t=>FB[t.id]=='no').length,ns=L.tracks.filter(t=>FB[t.id]=='ns').length;return si||no||ns?` · ✓ ${si} · ? ${ns} · ✕ ${no}`:''})();
   document.getElementById('rows').innerHTML=L.tracks.map(t=>{const _c=FB[t.id]?` class="is-${FB[t.id]}"`:'';const q=encodeURIComponent(t.a.split(',')[0]+' '+t.n);
     return `<tr${_c}><td class="num">${t.bpm}</td><td class="num"><span class="key">${esc(t.k)}</span></td>
-    <td><div class="ttl">${esc(t.n)} <span class="mix">(${esc(t.m)})</span></div><div class="artist">${esc(t.a)}</div>${t.why?`<div class="why">${t.why}</div>`:''}</td>
+    <td><div class="ttl">${esc(t.n)} <span class="mix">(${esc(t.m)})</span></div><div class="artist">${esc(t.a)}</div>${t.why?`<div class="why">${t.why}</div>`:''}${EDIT==t.id?`<div class="cmtwrap"><textarea class="cmtbox" id="cmt-${t.id}" data-id="${t.id}" rows="2" placeholder="¿Qué te pasa con este tema?">${esc(CM[t.id]||'')}</textarea><div class="cmtbtns"><button class="cmtsave" type="button" data-id="${t.id}">Guardar</button><button class="cmtcancel" type="button">Cancelar</button></div></div>`:(CM[t.id]?`<button class="cmt" type="button" data-id="${t.id}" title="Editar comentario">“${esc(CM[t.id])}”</button>`:'')}</td>
     <td>${esc(t.lab)}</td><td class="genre">${esc(t.g)}</td><td class="num">${fmt(t.d)}</td>
-    <td><div class="links"><a href="https://www.beatport.com/track/x/${t.id}" target="_blank" rel="noopener">Beatport</a><a href="https://open.spotify.com/search/${q}" target="_blank" rel="noopener">Spotify</a></div></td><td class="fbcell"><button class="fb si" type="button" data-id="${t.id}" data-v="si" aria-pressed="${FB[t.id]=='si'}" title="Me interesa" aria-label="Me interesa">✓</button><button class="fb ns" type="button" data-id="${t.id}" data-v="ns" aria-pressed="${FB[t.id]=='ns'}" title="Lo escuché, todavía no decidí" aria-label="Lo escuché, todavía no decidí">?</button><button class="fb no" type="button" data-id="${t.id}" data-v="no" aria-pressed="${FB[t.id]=='no'}" title="No me interesa" aria-label="No me interesa">✕</button></td></tr>`}).join('');
+    <td><div class="links"><a href="https://www.beatport.com/track/x/${t.id}" target="_blank" rel="noopener">Beatport</a><a href="https://open.spotify.com/search/${q}" target="_blank" rel="noopener">Spotify</a></div></td><td class="fbcell"><button class="fb si" type="button" data-id="${t.id}" data-v="si" aria-pressed="${FB[t.id]=='si'}" title="Me interesa" aria-label="Me interesa">✓</button><button class="fb ns" type="button" data-id="${t.id}" data-v="ns" aria-pressed="${FB[t.id]=='ns'}" title="Lo escuché, todavía no decidí" aria-label="Lo escuché, todavía no decidí">?</button><button class="fb no" type="button" data-id="${t.id}" data-v="no" aria-pressed="${FB[t.id]=='no'}" title="No me interesa" aria-label="No me interesa">✕</button><button class="fbc" type="button" data-id="${t.id}" aria-pressed="${!!CM[t.id]}" title="Comentar" aria-label="Comentar">✎</button></td></tr>`}).join('');
 }
 document.getElementById('copy').onclick=async e=>{
   const L=DROPS.find(d=>d.id==drop).lists[cur];const b=e.currentTarget;
@@ -262,8 +274,15 @@ document.getElementById('copy').onclick=async e=>{
 };
 
 document.getElementById('rows').addEventListener('click',e=>{const b=e.target.closest('.fb');if(!b)return;setFB(b.dataset.id,b.dataset.v);});
+document.getElementById('rows').addEventListener('click',e=>{
+  const c=e.target.closest('.fbc,.cmt');if(c){EDIT=EDIT==c.dataset.id?null:c.dataset.id;render();const tb=EDIT&&document.getElementById('cmt-'+EDIT);if(tb){tb.focus();tb.setSelectionRange(tb.value.length,tb.value.length);}return;}
+  const s=e.target.closest('.cmtsave');if(s){setCM(s.dataset.id,document.getElementById('cmt-'+s.dataset.id).value);return;}
+  if(e.target.closest('.cmtcancel')){EDIT=null;render();}});
+document.getElementById('rows').addEventListener('keydown',e=>{const tb=e.target.closest('.cmtbox');if(!tb)return;
+  if(e.key==='Escape'){EDIT=null;render();}else if(e.key==='Enter'&&(e.metaKey||e.ctrlKey)){e.preventDefault();setCM(tb.dataset.id,tb.value);}});
+
 document.getElementById('copyfb').onclick=async e=>{const b=e.currentTarget;const lines=[];
-  for(const d of DROPS)for(const l of Object.values(d.lists))for(const t of l.tracks)if(FB[t.id])lines.push(`${({si:'✓',ns:'?',no:'✕'})[FB[t.id]]} ${t.a} - ${t.n} [${d.label} · ${l.name}]`);
+  for(const d of DROPS)for(const l of Object.values(d.lists))for(const t of l.tracks)if(FB[t.id]||CM[t.id])lines.push(`${({si:'✓',ns:'?',no:'✕'})[FB[t.id]]||'·'} ${t.a} - ${t.n} [${d.label} · ${l.name}]`+(CM[t.id]?`\n   → ${CM[t.id]}`:''));
   const txt=lines.length?'Feedback SEKI 7:\n'+lines.join('\n'):'Todavía no marcaste ningún tema.';
   try{await navigator.clipboard.writeText(txt);b.textContent='Copiado ✓'}catch(err){const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');b.textContent='Copiado ✓'}catch(_){};ta.remove()}
   setTimeout(()=>b.textContent='Copiar mi feedback',1800)};
