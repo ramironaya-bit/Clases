@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cap 04 · Tempo y beatmatching</title>
+<meta name="description" content="Clases de DJ con NAYA. Capítulo 04 para Galgo: tempo, qué hace el sync y beatmatching a mano y de oído.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;1,9..144,300;1,9..144,450&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================================
+     CLASES DE DJ — NAYA. Capítulo 04, material del alumno.
+     Mismo mundo que el dossier y que el capítulo 01: negro,
+     amarillo de escena, terracota. Dark-committed.
+     ============================================================ */
+
+  :root{
+    --bg: #0b0a0a;
+    --bg-raised: #15120f;
+    --bg-feature: #1a1108;
+    --line: #2e2620;
+    --line-soft: #241e19;
+    --text: #f2ede4;
+    --text-muted: #a89d8e;
+    --text-faint: #6f665c;
+    --gold: #e8b04a;
+    --gold-soft: #8a6c2f;
+    --terra: #e0653a;
+    --terra-deep: #b23f1c;
+    --sand: #cbb389;
+    --max: 860px;
+    --font-display: "Fraunces", ui-serif, Georgia, serif;
+    --font-poster: "Anton", ui-sans-serif, sans-serif;
+    --font-body: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+  }
+
+  *,*::before,*::after{ box-sizing: border-box; }
+  @media (prefers-reduced-motion: reduce){ *{ animation-duration:.001ms !important; transition-duration:.001ms !important; } }
+
+  body{
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a{ color: var(--gold); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+  a:focus-visible{ outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
+
+  .wrap{ max-width: var(--max); margin: 0 auto; padding: 3rem 1.4rem 4.5rem; }
+
+  .brand{
+    display: flex; align-items: baseline; gap: .75rem; flex-wrap: wrap;
+    font-family: var(--font-mono); font-size: .7rem;
+    letter-spacing: .18em; text-transform: uppercase;
+    color: var(--text-faint);
+    border-bottom: 1px solid var(--line); padding-bottom: .85rem; margin-bottom: 2.4rem;
+  }
+  .brand .n{ color: var(--gold); font-weight: 600; letter-spacing: .22em; }
+
+  .kicker{
+    font-family: var(--font-mono); font-size: .78rem; font-weight: 600;
+    letter-spacing: .3em; text-transform: uppercase; color: var(--terra);
+    margin: 0 0 .5rem;
+  }
+  h1{
+    font-family: var(--font-poster); font-weight: 400;
+    font-size: clamp(2.8rem, 11vw, 5.6rem);
+    line-height: .86; letter-spacing: .01em; text-transform: uppercase;
+    margin: 0 0 1rem; text-wrap: balance;
+  }
+  .bajada{
+    font-family: var(--font-display); font-weight: 300;
+    font-size: clamp(1.1rem, 2.6vw, 1.45rem);
+    line-height: 1.45; color: var(--sand);
+    max-width: 34ch; margin: 0 0 2rem;
+  }
+
+  .meta{
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 1rem 1.2rem;
+    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    padding: 1.1rem 0; margin-bottom: 3rem;
+  }
+  .meta dt{
+    font-family: var(--font-mono); font-size: .6rem; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--text-faint); margin-bottom: .25rem;
+  }
+  .meta dd{ margin: 0; font-weight: 600; font-size: .95rem; }
+  .meta dd.hi{ color: var(--gold); }
+
+  section{ margin-bottom: 3.2rem; }
+  h2{
+    font-family: var(--font-poster); font-weight: 400;
+    font-size: clamp(1.5rem, 4.5vw, 2.2rem);
+    line-height: 1; text-transform: uppercase;
+    margin: 0 0 .35rem;
+  }
+  .sec-nota{
+    font-family: var(--font-mono); font-size: .73rem; letter-spacing: .05em;
+    color: var(--text-faint); margin: 0 0 1.4rem;
+  }
+
+  .previo{
+    background: var(--bg-feature);
+    border: 1px solid var(--terra-deep);
+    border-radius: 3px;
+    padding: 1.4rem 1.5rem;
+  }
+  .previo ul{ list-style: none; margin: 0; padding: 0; display: grid; gap: .9rem; }
+  .previo li{ display: grid; grid-template-columns: 1.6rem 1fr; gap: .6rem; align-items: start; }
+  .previo .box{
+    width: 15px; height: 15px; margin-top: .32rem;
+    border: 1px solid var(--terra); border-radius: 2px;
+  }
+  .previo b{ font-weight: 600; }
+  .previo small{ display: block; color: var(--text-muted); font-size: .87rem; line-height: 1.45; }
+
+  .bloques{ display: grid; gap: .55rem; }
+  .bloque{
+    display: grid; grid-template-columns: 3.4rem 1fr; gap: 1.1rem;
+    background: var(--bg-raised); border: 1px solid var(--line-soft);
+    border-radius: 3px; padding: .95rem 1.1rem;
+  }
+  .marca{ display: flex; flex-direction: column; gap: .1rem; align-items: flex-start; }
+  .marca .letra{
+    font-family: var(--font-poster); font-size: 1.85rem; line-height: .85; color: var(--gold);
+  }
+  .marca .dur{
+    font-family: var(--font-mono); font-size: .63rem; letter-spacing: .07em;
+    color: var(--text-muted); font-variant-numeric: tabular-nums; white-space: nowrap;
+  }
+  .marca .rango{
+    font-family: var(--font-mono); font-size: .56rem; letter-spacing: .06em;
+    color: var(--text-faint); font-variant-numeric: tabular-nums; white-space: nowrap;
+  }
+  .bloque .n{ display: block; font-weight: 600; font-size: .98rem; margin-bottom: .25rem; }
+  .bloque .d{ margin: 0; color: var(--text-muted); font-size: .89rem; line-height: 1.5; }
+
+  figure{ margin: 0; }
+  .fig-scroll{ overflow-x: auto; border: 1px solid var(--line-soft); border-radius: 3px; background: var(--bg-raised); padding: 1.1rem .9rem .6rem; }
+  .fig-scroll svg{ display: block; width: 100%; min-width: 660px; max-width: 980px; height: auto; margin: 0 auto; }
+  figcaption{
+    color: var(--text-muted); font-size: .88rem; line-height: 1.5;
+    margin-top: .9rem; max-width: 62ch;
+  }
+  figcaption b{ color: var(--text); font-weight: 600; }
+
+  .conceptos{ display: grid; gap: .9rem; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .concepto{ border-top: 2px solid var(--gold-soft); padding-top: .8rem; }
+  .concepto h3{
+    font-family: var(--font-display); font-weight: 600; font-size: 1.02rem;
+    margin: 0 0 .3rem; line-height: 1.25;
+  }
+  .concepto p{ margin: 0; color: var(--text-muted); font-size: .9rem; line-height: 1.5; }
+
+  .tareas{ display: grid; gap: 1rem; counter-reset: t; }
+  .tarea{
+    display: grid; grid-template-columns: auto 1fr; gap: 1rem;
+    background: var(--bg-raised); border: 1px solid var(--line);
+    border-left: 2px solid var(--gold);
+    border-radius: 3px; padding: 1.1rem 1.2rem;
+  }
+  .tarea::before{
+    counter-increment: t; content: counter(t, decimal-leading-zero);
+    font-family: var(--font-poster); font-size: 1.7rem; line-height: 1;
+    color: var(--gold-soft); font-variant-numeric: tabular-nums;
+  }
+  .tarea h3{ font-family: var(--font-body); font-size: 1rem; font-weight: 600; margin: 0 0 .3rem; }
+  .tarea p{ margin: 0; color: var(--text-muted); font-size: .91rem; line-height: 1.55; }
+  .tarea em{ color: var(--sand); font-style: normal; }
+
+  .links{ list-style: none; margin: 0; padding: 0; display: grid; gap: .7rem; }
+  .links li{ border-bottom: 1px solid var(--line-soft); padding-bottom: .7rem; }
+  .links a{ font-weight: 600; font-size: .95rem; }
+  .links small{ display: block; color: var(--text-faint); font-size: .82rem; margin-top: .15rem; }
+
+  .proximo{
+    background: var(--bg-feature); border: 1px solid var(--line);
+    border-radius: 3px; padding: 1.3rem 1.4rem; margin-bottom: 2.4rem;
+  }
+  .proximo .lbl{
+    font-family: var(--font-mono); font-size: .62rem; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--terra); display: block; margin-bottom: .4rem;
+  }
+  .proximo h3{ font-family: var(--font-poster); font-weight: 400; text-transform: uppercase; font-size: 1.4rem; margin: 0 0 .3rem; }
+  .proximo p{ margin: 0; color: var(--text-muted); font-size: .92rem; }
+
+  footer{
+    border-top: 1px solid var(--line); padding-top: 1.2rem;
+    font-family: var(--font-mono); font-size: .66rem;
+    letter-spacing: .1em; text-transform: uppercase; color: var(--text-faint);
+    display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+  }
+
+  @media (max-width: 520px){
+    .bloque{ grid-template-columns: 2.8rem 1fr; gap: .8rem; }
+    .marca .letra{ font-size: 1.5rem; }
+    .arbol{ font-size: .7rem; padding: .9rem 1rem; }
+  }
+
+  /* tabla de formatos */
+  .tabla-scroll{ overflow-x: auto; border: 1px solid var(--line-soft); border-radius: 3px; background: var(--bg-raised); }
+  table.formatos{ width: 100%; min-width: 560px; border-collapse: collapse; font-size: .9rem; }
+  .formatos th{
+    font-family: var(--font-mono); font-size: .62rem; font-weight: 600; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--text-faint); text-align: left;
+    padding: .8rem 1rem; border-bottom: 1px solid var(--line);
+  }
+  .formatos td{ padding: .75rem 1rem; border-bottom: 1px solid var(--line-soft); color: var(--text-muted); vertical-align: top; line-height: 1.45; }
+  .formatos tr:last-child td{ border-bottom: none; }
+  .formatos td:first-child{ font-family: var(--font-mono); font-weight: 600; color: var(--text); white-space: nowrap; }
+  .veredicto{ font-family: var(--font-mono); font-size: .68rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
+  .v-si{ color: var(--gold); }
+  .v-ok{ color: var(--sand); }
+  .v-no{ color: var(--terra); }
+
+  .arbol{
+    font-family: var(--font-mono); font-size: .86rem; line-height: 1.75;
+    background: var(--bg-raised); border: 1px solid var(--line-soft); border-radius: 3px;
+    padding: 1.1rem 1.3rem; margin: 0 0 .9rem; overflow-x: auto; color: var(--text-muted); white-space: pre;
+  }
+  .arbol b{ color: var(--gold); font-weight: 600; }
+  .arbol i{ color: var(--text-faint); font-style: normal; }
+
+  /* barra superior fija con botón de volver */
+  .brand{ position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: .9rem; flex-wrap: wrap;
+    background: rgba(11,10,10,.94); backdrop-filter: blur(8px); padding: .7rem 0 .75rem; margin-bottom: 2.2rem; }
+  .brand .ctx{ font-family: var(--font-mono); font-size: .66rem; letter-spacing: .16em; text-transform: uppercase; color: var(--text-faint); text-align: right; }
+  .brand .n{ color: var(--gold); font-weight: 600; letter-spacing: .22em; }
+  .brand a.back{ font-family: var(--font-mono); font-size: .74rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+    color: #0b0a0a; background: var(--gold); padding: .55rem .95rem; border-radius: 3px; text-decoration: none; white-space: nowrap; transition: background .15s; }
+  .brand a.back:hover, .brand a.back:focus-visible{ background: #f4c46a; }
+</style>
+
+<div class="wrap">
+
+  <div class="brand"><a class="back" href="../galgo/">← Recorrido</a><span class="ctx"><span class="n">NAYA</span> · Clases de DJ · Módulo 02</span></div>
+
+  <p class="kicker">Capítulo 04 · Módulo 02 · La mezcla</p>
+  <h1>Tempo<br>y beatmatching</h1>
+  <p class="bajada">Dos temas al mismo paso, a mano y de oído. Después el sync es una elección, no una muleta.</p>
+
+  <dl class="meta">
+    <div><dt>Para</dt><dd class="hi">Galgo</dd></div>
+    <div><dt>Fecha</dt><dd>Jue 12.11.2026</dd></div>
+    <div><dt>Duración</dt><dd>90 — 120 min</dd></div>
+    <div><dt>Equipo</dt><dd>DDJ-400 + rekordbox</dd></div>
+  </dl>
+
+  <section>
+    <h2>Antes de venir</h2>
+    <p class="sec-nota">Elementos preparados para el Capítulo 04</p>
+    <div class="previo">
+      <ul>
+        <li><span class="box"></span><span><b>La biblioteca del Capítulo 03</b><small>Con los temas nuevos importados y analizados. Esos son los que vamos a mezclar.</small></span></li>
+        <li><span class="box"></span><span><b>Cuatro temas parecidos</b><small>Del mismo palo y con BPM cercanos, que no se separen más de 4 o 5. Los parecidos se mezclan más fácil, y hoy queremos que lo difícil sea sólo una cosa.</small></span></li>
+        <li><span class="box"></span><span><b>Auriculares, cable USB y la compu cargada</b><small>Hoy los auriculares son la mitad de la clase.</small></span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Qué vamos a ver</h2>
+    <p class="sec-nota">90 a 120 minutos aproximadamente, seis bloques — arranca el Módulo 02</p>
+    <div class="bloques">
+
+      <article class="bloque">
+        <div class="marca"><span class="letra">A</span><span class="dur">10 min</span><span class="rango">0 a 10</span></div>
+        <div>
+          <span class="n">Cierre del Módulo 01</span>
+          <p class="d">Cómo quedó la biblioteca, y un repaso rápido de loop, beat jump y efecto si quedaron pendientes. A partir de acá ya no hablamos de equipo ni de archivos: hablamos de mezclar.</p>
+        </div>
+      </article>
+
+      <article class="bloque">
+        <div class="marca"><span class="letra">B</span><span class="dur">15 min</span><span class="rango">10 a 25</span></div>
+        <div>
+          <span class="n">Tempo</span>
+          <p class="d">Qué es el BPM y cómo se mueve con el fader de <em>TEMPO</em>. Qué hace <em>MASTER TEMPO</em> (cambiar la velocidad sin que el tema se vuelva más agudo o más grave). Y cuánto se puede estirar un tema antes de que se note.</p>
+        </div>
+      </article>
+
+      <article class="bloque">
+        <div class="marca"><span class="letra">C</span><span class="dur">10 min</span><span class="rango">25 a 35</span></div>
+        <div>
+          <span class="n">Qué hace el sync de verdad</span>
+          <p class="d">Iguala el BPM y acomoda los golpes según la grilla. Si la grilla está bien, anda perfecto. Si está mal, sincroniza mal con total seguridad. Y nunca decide <em>cuándo</em> entrar: eso sigue siendo tuyo.</p>
+        </div>
+      </article>
+
+      <article class="bloque">
+        <div class="marca"><span class="letra">D</span><span class="dur">25 min</span><span class="rango">35 a 60</span></div>
+        <div>
+          <span class="n">A mano, mirando</span>
+          <p class="d">Apagamos el sync. Primero se iguala la <em>velocidad</em> con el fader, y después se acomoda la <em>posición</em> con el borde del jog. Para esto todavía usamos la pantalla.</p>
+        </div>
+      </article>
+
+      <article class="bloque">
+        <div class="marca"><span class="letra">E</span><span class="dur">20 min</span><span class="rango">60 a 80</span></div>
+        <div>
+          <span class="n">A mano, escuchando</span>
+          <p class="d">Ahora tapamos la pantalla. Usamos <em>CUE</em> en el canal y <em>HEADPHONES MIX</em> para escuchar el tema que entra mezclado con el que suena. La pregunta es una sola: ¿va adelante o va atrás?</p>
+        </div>
+      </article>
+
+      <article class="bloque">
+        <div class="marca"><span class="letra">F</span><span class="dur">20—40 min</span><span class="rango">80 a 120</span></div>
+        <div>
+          <span class="n">Mezclar sin sync <span style="color:var(--terra)">(práctica)</span></span>
+          <p class="d">Pares de temas, entrando en el 1 de una frase como en el Capítulo 02, y sosteniendo los dos juntos durante 16 compases. Los temas se van a ir desfasando: corregir de a poquito es parte del trabajo, no un error.</p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>Cómo suena el desfase</h2>
+    <p class="sec-nota">Bloque E — lo que tenés que escuchar en los auriculares</p>
+    <figure>
+      <div class="fig-scroll">
+        <svg viewBox="0 0 980 250" role="img" aria-label="Dos filas de bombos de dos temas. Arriba, en fase: los golpes coinciden y suena un solo bombo. Abajo, desfasados: los golpes del tema B caen un poco después y suena como un caballo galopando.">
+          <text x="30" y="20" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="#a89d8e">cada barrita es un bombo · el 1 de cada compás va más alto</text>
+
+          <g font-family="IBM Plex Sans, sans-serif" font-size="13" font-weight="600">
+            <text x="30" y="52" fill="#e8b04a">EN FASE</text>
+            <text x="30" y="160" fill="#e0653a">DESFASADO</text>
+          </g>
+          <g font-family="IBM Plex Mono, monospace" font-size="11.5" fill="#6f665c">
+            <text x="30" y="80">tema A</text><text x="30" y="110">tema B</text>
+            <text x="30" y="188">tema A</text><text x="30" y="218">tema B</text>
+          </g>
+
+          <!-- en fase -->
+          <g fill="#e8b04a">
+            <rect x="140" y="64" width="6" height="22"/><rect x="230" y="70" width="6" height="16"/><rect x="320" y="70" width="6" height="16"/><rect x="410" y="70" width="6" height="16"/>
+            <rect x="500" y="64" width="6" height="22"/><rect x="590" y="70" width="6" height="16"/><rect x="680" y="70" width="6" height="16"/><rect x="770" y="70" width="6" height="16"/>
+            <rect x="140" y="94" width="6" height="22"/><rect x="230" y="100" width="6" height="16"/><rect x="320" y="100" width="6" height="16"/><rect x="410" y="100" width="6" height="16"/>
+            <rect x="500" y="94" width="6" height="22"/><rect x="590" y="100" width="6" height="16"/><rect x="680" y="100" width="6" height="16"/><rect x="770" y="100" width="6" height="16"/>
+          </g>
+          <text x="820" y="96" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="#e8b04a">“pum · pum”</text>
+
+          <!-- desfasado -->
+          <g fill="#a89d8e">
+            <rect x="140" y="172" width="6" height="22"/><rect x="230" y="178" width="6" height="16"/><rect x="320" y="178" width="6" height="16"/><rect x="410" y="178" width="6" height="16"/>
+            <rect x="500" y="172" width="6" height="22"/><rect x="590" y="178" width="6" height="16"/><rect x="680" y="178" width="6" height="16"/><rect x="770" y="178" width="6" height="16"/>
+          </g>
+          <g fill="#e0653a">
+            <rect x="158" y="202" width="6" height="22"/><rect x="248" y="208" width="6" height="16"/><rect x="338" y="208" width="6" height="16"/><rect x="428" y="208" width="6" height="16"/>
+            <rect x="518" y="202" width="6" height="22"/><rect x="608" y="208" width="6" height="16"/><rect x="698" y="208" width="6" height="16"/><rect x="788" y="208" width="6" height="16"/>
+          </g>
+          <text x="820" y="204" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="#e0653a">“pa-tum · pa-tum”</text>
+          <text x="140" y="244" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="#6f665c">B llega tarde → empujalo un toque con el jog, y si se vuelve a atrasar, subile un poco el tempo</text>
+        </svg>
+      </div>
+      <figcaption><b>Cuando están en fase suena un solo bombo, más gordo.</b> Si están desfasados suena doble, como un caballo galopando. Cuanto más rápido galopa, más diferencia de velocidad hay: eso se corrige con el fader. Si galopa parejo, es sólo la posición: eso se corrige con el jog.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>El método</h2>
+    <p class="sec-nota">Bloques D y E — siempre en este orden</p>
+    <div class="tareas">
+      <article class="tarea"><div><h3>Mismo BPM</h3><p>Con el fader de <em>TEMPO</em> del tema que entra, llevalo al BPM del que suena. Mirando la pantalla al principio. Después, de oído.</p></div></article>
+      <article class="tarea"><div><h3>Soltar en el 1</h3><p>Con el tema que entra en <em>CUE</em> y parado en el primer golpe de una frase, soltalo justo en el 1 del tema que suena. Lo mismo que en el Capítulo 02, pero sin sync.</p></div></article>
+      <article class="tarea"><div><h3>Escuchar quién va adelante</h3><p>En los auriculares, con <em>HEADPHONES MIX</em> a la mitad. Si galopa, decidí: ¿el que entra está adelante o atrás?</p></div></article>
+      <article class="tarea"><div><h3>Corregir posición con el jog</h3><p>Empujá o frená el <em>borde</em> del jog, de a toquecitos y no de un saque. Si tocás arriba, frenás el tema.</p></div></article>
+      <article class="tarea"><div><h3>Corregir velocidad con el fader</h3><p>Si después de acomodarlo se vuelve a ir siempre para el mismo lado, el BPM no está igual. Mové el fader apenas, y volvé al paso 3.</p></div></article>
+    </div>
+  </section>
+
+  <section>
+    <h2>Para tener claro</h2>
+    <p class="sec-nota">Seis cosas que conviene no confundir</p>
+    <div class="conceptos">
+      <div class="concepto">
+        <h3>El fader corrige velocidad, el jog corrige posición</h3>
+        <p>El jog arregla el momento, pero si el BPM no es igual, se vuelve a ir. El fader no arregla un desfase que ya está, sólo evita que se agrande.</p>
+      </div>
+      <div class="concepto">
+        <h3>Master Tempo</h3>
+        <p>Prendido, cambiás la velocidad sin cambiar el tono. Apagado, acelerar sube el tono como en un vinilo. Para mezclar casi siempre lo querés prendido.</p>
+      </div>
+      <div class="concepto">
+        <h3>Cuánto estirar</h3>
+        <p>Hasta un 4 o 5% de diferencia (de 120 a 125, por ejemplo) no se nota. Más que eso, el tema empieza a sonar forzado. Si los BPM están muy lejos, es otra transición, no beatmatching.</p>
+      </div>
+      <div class="concepto">
+        <h3>El sync no es trampa</h3>
+        <p>Lo usan muchísimos DJs. La diferencia es saber qué hace, darte cuenta cuando se equivoca y poder seguir si no está. Aprender a mano es lo que te da esa libertad.</p>
+      </div>
+      <div class="concepto">
+        <h3>Los temas se van, siempre</h3>
+        <p>Aunque marquen el mismo BPM, después de un rato se corren un poco. Corregir mientras mezclás es tocar. No quiere decir que lo hiciste mal.</p>
+      </div>
+      <div class="concepto">
+        <h3>Primero el bombo</h3>
+        <p>Para escuchar el desfase, seguí el bombo y nada más. Las voces y los sintes te van a confundir. El bombo es el metrónomo.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Tareas</h2>
+    <p class="sec-nota">Para llegar al Capítulo 05 con la mano suelta</p>
+    <div class="tareas">
+      <article class="tarea">
+        <div>
+          <h3>Diez minutos por día, sin sync</h3>
+          <p>Dos temas, el método en orden, una y otra vez. No hace falta que la mezcla quede linda: lo que importa es <em>agarrar</em> el beat cada vez más rápido.</p>
+        </div>
+      </article>
+      <article class="tarea">
+        <div>
+          <h3>Pantalla tapada</h3>
+          <p>Cuando te salga mirando, poné un papel sobre los BPM y las ondas, o achicá la ventana de rekordbox. Vale contar cuántos intentos te lleva y anotarlo.</p>
+        </div>
+      </article>
+      <article class="tarea">
+        <div>
+          <h3>Cinco pares distintos</h3>
+          <p>Mezclá cinco pares de tu biblioteca, sosteniéndolos juntos 16 compases. Anotá cuál te costó más y por qué te parece que pasó: puede ser el bombo, el BPM o la grilla.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <h2>Links</h2>
+    <p class="sec-nota">Lo mínimo, no una biblioteca</p>
+    <ul class="links">
+      <li><a href="https://media.djmania.net/manuales/pdf/Manual_Pioneer_DDJ-400.pdf">Manual de la DDJ-400 (PDF, español)</a><small>Ahora te interesan TEMPO, MASTER TEMPO, BEAT SYNC, el jog y la sección de auriculares.</small></li>
+      <li><a href="https://cdn.rekordbox.com/files/20250115173455/rekordbox7.0.7_introduction_ES.pdf">Introducción a rekordbox (PDF, español)</a><small>Para la grilla: si el sync se equivoca, casi siempre es eso.</small></li>
+    </ul>
+  </section>
+
+  <div class="proximo">
+    <span class="lbl">Próximo</span>
+    <h3>Capítulo 05 — Ganancia y volumen</h3>
+    <p>Trim, headroom y el rojo del medidor: lo que hace que dos temas en fase además suenen parejos.</p>
+  </div>
+
+  <footer>
+    <span>NAYA · Clases de DJ</span>
+    <span>Capítulo 04 · para Galgo · 12.11.2026</span>
+  </footer>
+
+</div>
+
+</html>
