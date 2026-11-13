@@ -1,0 +1,104 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Mapa S7 · NAYA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0d0c0c; --raised:#171515; --raised2:#1f1c1b; --line:#2e2a28; --text:#efe8de; --muted:#a39a8f; --faint:#6f675f;
+  --gold:#e3b04b; --sel:#e3b04b; --ok:#4fbf7a; --mix:#7fb2ff;
+  --poster:"Anton",Impact,"Arial Narrow",sans-serif; --body:"IBM Plex Sans",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font:15px/1.45 var(--body);margin:0;padding-inline:16px;padding-block:20px 80px}
+.wrap{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.eyebrow{font:600 11px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+h1{font:400 clamp(44px,10vw,76px)/.95 var(--poster);margin:4px 0 6px;text-transform:uppercase;letter-spacing:.01em}
+.lede{color:var(--muted);margin:0;max-width:62ch}
+.routes{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+@media (max-width:640px){.routes{grid-template-columns:1fr}}
+.route{all:unset;cursor:pointer;background:var(--raised);border:1px solid var(--line);border-radius:6px;padding:12px 14px;display:flex;flex-direction:column;gap:4px}
+.route .k{font:600 11px var(--mono);letter-spacing:.12em;color:var(--gold)}
+.route .t{font:400 20px/1.1 var(--poster);text-transform:uppercase}
+.route .d{font-size:13px;color:var(--muted)}
+.route[aria-pressed="true"]{border-color:var(--gold);box-shadow:inset 0 -3px 0 var(--gold)}
+.route:focus-visible,.trk:focus-visible,.played:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font:600 12px var(--mono);color:var(--muted)}
+.flow a{color:var(--text);text-decoration:none;border:1px solid var(--line);border-radius:4px;padding:3px 8px;background:var(--raised)}
+.flow span.arr{color:var(--faint)}
+.block{display:flex;flex-direction:column;gap:6px;scroll-margin-top:12px}
+.bhead{display:flex;align-items:baseline;justify-content:space-between;gap:10px;border-bottom:2px solid var(--gold);padding-bottom:6px;margin-top:10px}
+.bhead h2{font:400 28px/1 var(--poster);text-transform:uppercase;margin:0}
+.bhead .n{font:600 12px var(--mono);color:var(--muted);white-space:nowrap}
+.bdesc{font-size:13px;color:var(--muted);margin:0}
+.list{display:flex;flex-direction:column;gap:4px}
+.row{display:grid;grid-template-columns:44px 46px 1fr auto;gap:10px;align-items:center;background:var(--raised);border:1px solid transparent;border-radius:6px;padding:8px 10px}
+.row.is-sel{border-color:var(--sel);background:var(--raised2)}
+.row.is-mix{border-color:var(--mix)}
+.row.is-played{opacity:.38}
+.bpm{font:600 15px var(--mono);font-variant-numeric:tabular-nums;color:var(--text)}
+.cam{font:600 13px var(--mono);text-align:center;border:1px solid var(--line);border-radius:4px;padding:2px 0;color:var(--muted)}
+.row.is-mix .cam{border-color:var(--mix);color:var(--mix)}
+.trk{all:unset;cursor:pointer;min-width:0}
+.trk .tt{font-weight:600;display:block;overflow-wrap:anywhere}
+.trk .aa{font-size:13px;color:var(--muted);display:block;overflow-wrap:anywhere}
+.trk .note{font-size:12px;color:var(--faint);display:block;font-style:italic}
+.tag{display:inline-block;font:600 10px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);border-radius:3px;padding:0 4px;margin-left:6px;vertical-align:2px}
+.played{all:unset;cursor:pointer;width:30px;height:30px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:14px;color:var(--faint)}
+.played[aria-pressed="true"]{background:var(--ok);border-color:var(--ok);color:#06140b}
+.mixbar{position:sticky;bottom:0;margin-inline:-16px;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));background:rgba(13,12,12,.94);border-top:1px solid var(--line);font-size:13px;color:var(--muted);backdrop-filter:blur(6px)}
+.mixbar b{color:var(--mix)} .mixbar .x{all:unset;cursor:pointer;color:var(--gold);font-weight:600;margin-left:8px}
+.legend{font-size:12px;color:var(--faint)}
+.reset{all:unset;cursor:pointer;color:var(--gold);font:600 12px var(--mono)}
+</style>
+
+</head><body><div class="wrap">
+  <header>
+    <div class="eyebrow">S7 · 14/11 · Palermo · NAYA</div>
+    <h1>Mapa S7</h1>
+    <p class="lede">Tus bloques de rekordbox, ordenados por BPM, con la tonalidad para mezclar. Elegí un recorrido; si en vivo querés cambiar, tocá un tema y te marco en azul con qué mezcla bien.</p>
+  </header>
+
+  <div class="routes" id="routes"></div>
+  <div class="flow" id="flow"></div>
+  <p class="legend">Tocá un tema: en azul, los que mezclan bien (tonalidad compatible y ±3 BPM, en cualquier bloque). El círculo a la derecha marca lo que ya pasaste (queda guardado en este teléfono). <button class="reset" id="reset" type="button">Borrar pasados</button></p>
+  <div id="blocks"></div>
+  <div class="mixbar" id="mixbar" hidden></div>
+</div>
+
+<script>
+const DATA={"blocks": [{"id": "tranqui", "name": "Plan tranqui", "desc": "Si la pista tarda en llenarse o para un arranque bien de menos a más", "tracks": [{"a": "Space Food", "t": "Umpa", "bpm": 122, "cam": "7A", "cm": "este es un buen inicio, meido lento para lo que venimos manejando va a la 1", "tag": "buen inicio, lento"}, {"a": "A2k", "t": "toujours", "bpm": 123, "cam": "8A", "cm": "", "tag": ""}, {"a": "Alex Medina", "t": "Abaku", "bpm": 123, "cam": "8A", "cm": "", "tag": ""}, {"a": "Mon Qalamari", "t": "Speed Dial", "bpm": 124, "cam": "11A", "cm": "", "tag": ""}, {"a": "Frannz", "t": "Light in the Jungle", "bpm": 124, "cam": "3B", "cm": "", "tag": ""}, {"a": "Clim, Altegro", "t": "Shake the Block", "bpm": 124, "cam": "6A", "cm": "", "tag": ""}, {"a": "Bonafique, Yuvèe", "t": "WHAT!", "bpm": 124, "cam": "8A", "cm": "", "tag": ""}, {"a": "Notre Dame", "t": "After Ego", "bpm": 125, "cam": "1B", "cm": "", "tag": ""}, {"a": "Clim, Max Freeze", "t": "No Brakes", "bpm": 125, "cam": "2A", "cm": "", "tag": ""}, {"a": "Gezin, W.D.L & NOBE", "t": "Your the One", "bpm": 126, "cam": "2A", "cm": "", "tag": ""}, {"a": "Shadowav, Riccardo Talarico", "t": "Body on the Floor", "bpm": 126, "cam": "4A", "cm": "", "tag": ""}, {"a": "Cristian Viviano, DvirNuns", "t": "Tripping The Funk", "bpm": 127, "cam": "9A", "cm": "", "tag": ""}, {"a": "ZEPH (US)", "t": "Suspicious", "bpm": 128, "cam": "2B", "cm": "", "tag": ""}]}, {"id": "I", "name": "I · Indie tech", "desc": "2:30 a 3:30. Arranque con movimiento", "tracks": [{"a": "VEROLILA", "t": "Desobediente", "bpm": 124, "cam": "8A", "cm": "", "tag": ""}, {"a": "Savin", "t": "Step Inside", "bpm": 124, "cam": "9A", "cm": "tiene algo, tal vez medio tranqui", "tag": ""}, {"a": "DvirNuns, DARCO 09", "t": "Saying Hey!", "bpm": 125, "cam": "3A", "cm": "", "tag": ""}, {"a": "Alphadog, MELODIC (IL)", "t": "Boogie Up", "bpm": 125, "cam": "6A", "cm": "", "tag": ""}, {"a": "Vani, No Hopes, KOFA", "t": "Out of Control", "bpm": 126, "cam": "6A", "cm": "", "tag": ""}, {"a": "No Hopes, Dadgar (AE)", "t": "Bad Girl", "bpm": 126, "cam": "9A", "cm": "se oscurece, no pasa mucho", "tag": ""}, {"a": "Ruback, Sarah De Warren, Roddy Lima", "t": "ELEVATION", "bpm": 127, "cam": "2A", "cm": "puede ir en la parte indie tmb", "tag": "puente indie ↔ tech"}, {"a": "Shilla, FRANCO BA", "t": "Audio Flex", "bpm": 127, "cam": "9B", "cm": "es el que dice sweat", "tag": "puente indie ↔ tech"}, {"a": "Vylow", "t": "LIKE ME", "bpm": 128, "cam": "4B", "cm": "", "tag": ""}, {"a": "NO STATIC, WELKER (BR)", "t": "Hot Girl Walk", "bpm": 129, "cam": "4A", "cm": "", "tag": ""}, {"a": "Faminski", "t": "No Cap", "bpm": 130, "cam": "9A", "cm": "", "tag": ""}]}, {"id": "II", "name": "II · Indie", "desc": "3:30 a 4. Indie oscuro y sexy, se puede bajar un cambio", "tracks": [{"a": "Anturage, Alexey Union, Kinky Sound", "t": "Django", "bpm": 122, "cam": "11A", "cm": "tranqui, pero tien alguito que me gusta, seguramente lo saquemos los ultimos día", "tag": ""}, {"a": "Deomid", "t": "Munchin", "bpm": 123, "cam": "5A", "cm": "", "tag": ""}, {"a": "Clim", "t": "Machika", "bpm": 123, "cam": "8A", "cm": "", "tag": ""}, {"a": "Alexey Union, David LeSal, Broken Hill, STAY GOLDEN", "t": "Synth Lines", "bpm": 124, "cam": "11A", "cm": "", "tag": ""}, {"a": "Clim, Dadgar (AE)", "t": "Play Game", "bpm": 124, "cam": "6A", "cm": "", "tag": ""}, {"a": "Music P", "t": "Friday Afters", "bpm": 125, "cam": "2B", "cm": "", "tag": ""}, {"a": "Leo N, No Hopes, KOFA", "t": "Creeps", "bpm": 125, "cam": "4A", "cm": "", "tag": ""}, {"a": "Venzer", "t": "Shake the Block", "bpm": 125, "cam": "9A", "cm": "medio raperito, no es indispensable, pero ba ", "tag": ""}, {"a": "Dox, DvirNuns", "t": "Bad B$tch", "bpm": 126, "cam": "1A", "cm": "voces francesas sexies, tranqui sexy oscurito, va", "tag": ""}, {"a": "", "t": "DASS MOND - COMO TE PASAS", "bpm": 126, "cam": "4A", "cm": "", "tag": ""}, {"a": "REBRN, Ben Lipshitz", "t": "Loco Luck", "bpm": 126, "cam": "5A", "cm": "gatito acomo tu otra version tranqui", "tag": ""}, {"a": "Dodi, Buka", "t": "Shine", "bpm": 126, "cam": "7A", "cm": "", "tag": ""}, {"a": "Max Styler", "t": "Templo Disko", "bpm": 126, "cam": "9A", "cm": "", "tag": ""}, {"a": "BOg", "t": "Push and Pull", "bpm": 126, "cam": "9A", "cm": "", "tag": ""}, {"a": "Ruback, Sarah De Warren, Roddy Lima", "t": "ELEVATION", "bpm": 127, "cam": "2A", "cm": "puede ir en la parte indie tmb", "tag": "puente indie ↔ tech"}, {"a": "Rafael Cerato", "t": "Pink P", "bpm": 128, "cam": "2A", "cm": "", "tag": "indie con bajo de tech"}, {"a": "Humans Musik, Greggio", "t": "Disconnect", "bpm": 129, "cam": "1A", "cm": "", "tag": ""}]}, {"id": "III", "name": "III · Tech", "desc": "4 a 4:30. La parte de subir, bien movida", "tracks": [{"a": "Tech Sheva", "t": "Scarface", "bpm": 125, "cam": "11B", "cm": "", "tag": ""}, {"a": "Glowal", "t": "Robats", "bpm": 126, "cam": "6A", "cm": "", "tag": ""}, {"a": "Shilla", "t": "Resist The System", "bpm": 127, "cam": "11A", "cm": "", "tag": ""}, {"a": "Vylow, Dekho (MX)", "t": "Handle That", "bpm": 127, "cam": "4A", "cm": "", "tag": ""}, {"a": "Wave Wave, Greggio", "t": "Bvlgari", "bpm": 127, "cam": "7A", "cm": "", "tag": ""}, {"a": "Shilla, FRANCO BA", "t": "Audio Flex", "bpm": 127, "cam": "9B", "cm": "es el que dice sweat", "tag": "puente indie ↔ tech"}, {"a": "Space Motion", "t": "Banga Banga", "bpm": 128, "cam": "3A", "cm": "", "tag": ""}, {"a": "Tini Gessler", "t": "In Da Zone", "bpm": 128, "cam": "4B", "cm": "", "tag": ""}, {"a": "Vylow", "t": "Do What I Do", "bpm": 128, "cam": "6A", "cm": "", "tag": ""}, {"a": "GENESI (ITA)", "t": "Drillo", "bpm": 128, "cam": "9A", "cm": "", "tag": ""}, {"a": "Gabe, FatSync", "t": "Let It Drop", "bpm": 129, "cam": "12B", "cm": "", "tag": ""}, {"a": "Hawkeys", "t": "Pop That", "bpm": 129, "cam": "6A", "cm": "", "tag": ""}, {"a": "Shilla", "t": "Rewind", "bpm": 129, "cam": "9A", "cm": "", "tag": ""}, {"a": "Gabss, Balanka", "t": "Bottles", "bpm": 130, "cam": "11A", "cm": "", "tag": ""}, {"a": "San Pacho, TOBEHONEST", "t": "Percolate", "bpm": 130, "cam": "12A", "cm": "se arma", "tag": ""}, {"a": "Deomid", "t": "Put Up Your Hands", "bpm": 130, "cam": "1A", "cm": "", "tag": "muy arriba, muy alegre"}, {"a": "Tini Gessler", "t": "Play Me", "bpm": 130, "cam": "6A", "cm": "nigga le deciamos en un momento", "tag": ""}, {"a": "G-Pol, SIDEPIECE", "t": "Control", "bpm": 130, "cam": "7B", "cm": "", "tag": ""}, {"a": "Marten Horger", "t": "Unf*ck Your Mind", "bpm": 130, "cam": "9A", "cm": "tranuqui pero lindo", "tag": ""}, {"a": "Majestic, Layton Giordani, Jungle 70, HILLS (US)", "t": "Bassline", "bpm": 132, "cam": "12A", "cm": "", "tag": ""}, {"a": "HILLS (US)", "t": "Check It Out", "bpm": 132, "cam": "12B", "cm": "", "tag": ""}]}, {"id": "MEL", "name": "III · Melodic", "desc": "5:30 a 6. Oscuridad", "tracks": [{"a": "Eze Ramirez", "t": "Shape", "bpm": 124, "cam": "4A", "cm": "", "tag": ""}, {"a": "IZRAELL, Fathom (EG)", "t": "Elevacion", "bpm": 125, "cam": "4A", "cm": "este si recontra melodic, ", "tag": ""}, {"a": "IZRAELL, Fathom (EG)", "t": "Motion", "bpm": 126, "cam": "11A", "cm": "", "tag": ""}, {"a": "Anthony Cole, Azhure", "t": "New Phase", "bpm": 126, "cam": "9A", "cm": "este la rome toda cambia el mood", "tag": "cambia el mood"}, {"a": "Stylo, MOii, Amethy", "t": "Papi", "bpm": 126, "cam": "9B", "cm": "re va, rompecoco", "tag": "rompecoco"}, {"a": "Kiko, Olivier Giacomotto", "t": "The Moment", "bpm": 127, "cam": "12B", "cm": "", "tag": ""}, {"a": "Goom Gum", "t": "Pentada", "bpm": 127, "cam": "6A", "cm": "to trabaj pero con menos onda", "tag": ""}, {"a": "Stylo, Kevin de Vries, Eli & Dani", "t": "In The Night", "bpm": 128, "cam": "11A", "cm": "oscurisimo muy melodic Peak", "tag": ""}, {"a": "Cherry (UA), UNDERMOON, Kostyn", "t": "Technorap", "bpm": 128, "cam": "1A", "cm": "rompecoco", "tag": "rompecoco"}, {"a": "Azhure", "t": "Don't Do It", "bpm": 128, "cam": "1B", "cm": "", "tag": ""}, {"a": "TH;EN", "t": "Ice Lips", "bpm": 128, "cam": "4A", "cm": "", "tag": ""}, {"a": "Arude, Hawkeys", "t": "KILLA", "bpm": 128, "cam": "6A", "cm": "", "tag": ""}, {"a": "Space Motion", "t": "Woop Woop", "bpm": 128, "cam": "8A", "cm": "", "tag": ""}, {"a": "DEPARTAMENTO, Linska, Franksy", "t": "Double Time (feat. Franksy)", "bpm": 130, "cam": "12A", "cm": "bien oscuro medio techno, es para esta hora, pero no el que te rompe la cabeza", "tag": "oscuro, casi techno"}, {"a": "Razor, Hawkeys", "t": "Ascendia", "bpm": 130, "cam": "12A", "cm": "oscuro y acelera va con el melodic creo", "tag": "acelera hacia el melodic"}, {"a": "A2k", "t": "Gagito (SXIIO Remix)", "bpm": 130, "cam": "3A", "cm": "gatito me gusta esta versión media melodic", "tag": ""}, {"a": "Joris Voorn, Taylr Renee, Roddy Lima", "t": "Machine", "bpm": 130, "cam": "4A", "cm": "se pone rapido", "tag": "se pone rápido"}]}, {"id": "TEK", "name": "Oscuro techno", "desc": "Si querés ir más duro después del melodic", "tracks": [{"a": "Boris Brejcha, Deniz Bul", "t": "Hey BRO!", "bpm": 125, "cam": "10B", "cm": "", "tag": ""}, {"a": "Kiko, Olivier Giacomotto", "t": "My Darkside", "bpm": 128, "cam": "10B", "cm": "", "tag": ""}, {"a": "Benson, Adapter", "t": "Rhythm", "bpm": 128, "cam": "2B", "cm": "", "tag": "tiene una parte espectacular"}]}, {"id": "IV", "name": "IV · Cierre", "desc": "El final, o el falso final", "tracks": [{"a": "Alexey Union, Luciano Scalioni", "t": "Don't You Know", "bpm": 124, "cam": "9A", "cm": "", "tag": ""}, {"a": "", "t": "DASS MOND - COMO TE PASAS", "bpm": 126, "cam": "4A", "cm": "", "tag": ""}, {"a": "Fathom (EG)", "t": "More", "bpm": 129, "cam": "11A", "cm": "", "tag": "rompe, buena oscuridad"}, {"a": "Faminski", "t": "Running Over", "bpm": 130, "cam": "2A", "cm": "rapido tipo glamour", "tag": ""}]}, {"id": "BIZ", "name": "Bizarrín", "desc": "Para tener a mano", "tracks": [{"a": "Clim, Dani (AE)", "t": "Tu Kiera", "bpm": 124, "cam": "9B", "cm": " /* Castellano vocalMy Comment / techperreo */", "tag": ""}, {"a": "DvirNuns", "t": "Dale Papi", "bpm": 126, "cam": "11A", "cm": "", "tag": "rompecoco"}, {"a": "Space Motion, Luca Belluco", "t": "Baila Conmigo", "bpm": 126, "cam": "4A", "cm": "", "tag": ""}]}], "routes": [{"id": "A", "name": "De menos a más", "seq": ["tranqui", "I", "II", "III", "MEL", "TEK", "IV"], "desc": "Arrancás suave y vas subiendo todo el tiempo. La más segura si la gente llega de a poco."}, {"id": "B", "name": "Arriba, baja, sube", "seq": ["I", "II", "III", "MEL", "IV"], "desc": "Arrancás movido con Indie tech, bajás a un indie más tranqui y sexy, subís fuerte con el tech y cerrás oscuro."}, {"id": "C", "name": "Falso cierre", "seq": ["I", "II", "III", "MEL", "IV", "TEK"], "desc": "Como la B, pero después del cierre (More, Don't You Know) volvés con media hora de oscuro techno."}]};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let route='B', sel=null, played={};
+try{route=localStorage.getItem('mapaS7route')||'B';played=JSON.parse(localStorage.getItem('mapaS7played')||'{}')}catch(e){}
+const key=t=>t.a+'|'+t.t;
+const BY={};DATA.blocks.forEach(b=>BY[b.id]=b);
+function camOk(a,b){const m=/^(\d+)([AB])$/,x=a.match(m),y=b.match(m);if(!x||!y)return false;const n1=+x[1],n2=+y[1];
+  if(x[2]===y[2]){const d=Math.abs(n1-n2);return d===0||d===1||d===11;}return n1===n2;}
+function routesUI(){const r=document.getElementById('routes');r.innerHTML='';
+  DATA.routes.forEach(x=>{const b=document.createElement('button');b.className='route';b.type='button';b.setAttribute('aria-pressed',x.id===route);
+    b.innerHTML=`<span class="k">RECORRIDO ${esc(x.id)}</span><span class="t">${esc(x.name)}</span><span class="d">${esc(x.desc)}</span>`;
+    b.onclick=()=>{route=x.id;try{localStorage.setItem('mapaS7route',route)}catch(e){};render()};r.appendChild(b);});}
+function render(){
+  routesUI();
+  const R=DATA.routes.find(x=>x.id===route);
+  const seq=[...R.seq,...DATA.blocks.map(b=>b.id).filter(id=>!R.seq.includes(id))];
+  document.getElementById('flow').innerHTML=R.seq.map(id=>`<a href="#b-${id}">${esc(BY[id].name)}</a>`).join('<span class="arr">→</span>')+'<span class="arr">· a mano:</span>'+seq.filter(id=>!R.seq.includes(id)).map(id=>`<a href="#b-${id}">${esc(BY[id].name)}</a>`).join(' ');
+  const S=sel&&DATA.blocks.flatMap(b=>b.tracks).find(t=>key(t)===sel);
+  document.getElementById('blocks').innerHTML=seq.map(id=>{const b=BY[id];const inRoute=R.seq.includes(id);
+    return `<section class="block" id="b-${id}"><div class="bhead"><h2>${esc(b.name)}</h2><span class="n">${inRoute?'':'A MANO · '}${b.tracks.length} temas</span></div><p class="bdesc">${esc(b.desc)}</p><div class="list">${
+      b.tracks.map(t=>{const k=key(t);const isSel=sel===k;const isMix=S&&!isSel&&camOk(S.cam,t.cam)&&Math.abs(S.bpm-t.bpm)<=3;
+        return `<div class="row${isSel?' is-sel':''}${isMix?' is-mix':''}${played[k]?' is-played':''}"><span class="bpm">${t.bpm}</span><span class="cam">${esc(t.cam)}</span>
+        <button class="trk" type="button" data-k="${esc(k)}"><span class="tt">${esc(t.t)}${t.tag?`<span class="tag">${esc(t.tag)}</span>`:''}</span><span class="aa">${esc(t.a)}</span>${t.cm?`<span class="note">${esc(t.cm)}</span>`:''}</button>
+        <button class="played" type="button" data-p="${esc(k)}" aria-pressed="${!!played[k]}" aria-label="Ya lo pasé">✓</button></div>`}).join('')}</div></section>`}).join('');
+  const bar=document.getElementById('mixbar');
+  if(S){const n=DATA.blocks.flatMap(b=>b.tracks).filter(t=>key(t)!==sel&&camOk(S.cam,t.cam)&&Math.abs(S.bpm-t.bpm)<=3).length;
+    bar.hidden=false;bar.innerHTML=`Después de <b>${esc(S.t)}</b> (${S.bpm} · ${esc(S.cam)}) mezclan bien <b>${n}</b> temas, en azul. <button class="x" id="clr" type="button">Quitar</button>`;
+    document.getElementById('clr').onclick=()=>{sel=null;render()};}else bar.hidden=true;
+}
+document.getElementById('blocks').addEventListener('click',e=>{
+  const p=e.target.closest('.played');if(p){const k=p.dataset.p;if(played[k])delete played[k];else played[k]=1;try{localStorage.setItem('mapaS7played',JSON.stringify(played))}catch(_){};render();return;}
+  const t=e.target.closest('.trk');if(t){sel=sel===t.dataset.k?null:t.dataset.k;render();}});
+document.getElementById('reset').onclick=()=>{played={};try{localStorage.removeItem('mapaS7played')}catch(_){};render()};
+render();
+</script>
+</body></html>
